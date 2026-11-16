@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("oz", {"oz":["ɑ z","abbr. 盎司（ounce）","","s:ozs","",[["You can recognize Mr. Oz by his red hair.",""],["Am I just dreaming? Am I in the land of Oz?",""]]],"ozone":["ˈoʊ z oʊ n","n. 新鲜的空气；臭氧；使人愉快的影响","","","ky toefl",[["The ozone in the stratosphere absorbs ultraviolet radiation.","平流层的臭氧会吸收紫外线。"],["This chart illustrates the function of ozone layer.",""]]]});

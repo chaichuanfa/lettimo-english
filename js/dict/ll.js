@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("ll", {"llama":["ˈl ɑ m ə","n. 美洲驼","","s:llamas","",[["The guanaco is a wild form of llama.",""],["Llama antibodies could be used to fight the coronavirus.",""]]],"lloyd":["l ɔɪ d","n. 劳埃德（男子名）","","","",[["Mr Yamada, may I introduce Miss Lloyd?",""],["Mr Yamada, may I introduce you to Ms Lloyd?",""]]],"llamas":["ˈl ɑ m ə z","","llama:s"]});

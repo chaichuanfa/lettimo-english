@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("if", {"if":["ɪ f","conj. 如果；是否；无论何时；假设；即使\nn. 条件","","","zk gk",[["If you don't go, I won't, either.","如果你不去，那我也不会去。"],["Correct the errors if there are any.","如有错误，请改正。"]]],"iffy":["ˈɪ f i","adj. 富于偶然性的；可怀疑的；未确定的","","","",[["It's kind of iffy, don't you think?",""],["That seems iffy. That doesn’t seem aboveboard.",""]]]});

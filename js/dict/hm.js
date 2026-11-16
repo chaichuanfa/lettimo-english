@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("hm", {"hmm":["h m","abbr. 隐马尔可夫模型（Hidden Markov Model）；Hardware Maintenance Manual；Hyundai Merchant Marine","","","",[["Hmm. I have a feeling I'm going to get lost whichever road I take.","唔。我有预感我走哪边都会迷路。"],["Hmm, I think something happened. Wait a second, I will try to figure it out.","喔，好像是有这么回事，你稍等，我查一查。"]]]});

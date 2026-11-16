@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("zu", {"zucchini":["z u ˈk iː n i","n. 绿皮密生西葫芦","","","",[["Ziri went to the market and got some zucchini.",""],["Zucchini helps protect your heart from diseases.",""]]],"zulu":["ˈz uː l uː","n. 祖鲁语；祖鲁人","","s:zulus","",[["The Zulu tribe in South Africa has its own language.","南非的祖鲁族人有著自己独特的语言。"],["South Africa is called \"iNingizimu Afrika\" in Zulu.",""]]],"zulus":["ˈz uː l u z","","zulu:s"]});

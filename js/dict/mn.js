@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("mn", {"mnemonic":["n ɪ ˈm ɑ n ɪ k|n i ˈm ɑ n ɪ k","adj. 记忆的；助记的\nn. 助记符","","s:mnemonics","",[["You can use this mnemonic so you won't forget.",""],["The more outrageous a mnemonic is, the easier it is to remember.",""]]],"mnemonics":["n ɪ ˈm ɑ n ɪ k s|n i ˈm ɑ n ɪ k s","n. 记忆术","mnemonic:s","","gre",[["Mnemonics can really help when trying to memorise facts.",""],["I have always relied on mnemonics to remember surnames and historical events.",""]]]});

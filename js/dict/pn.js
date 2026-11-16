@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("pn", {"pneumatic":["n u ˈm æ t ɪ k","adj. 充气的；空气的；有气胎的；气动的；灵魂的\nn. 充气轮胎","","s:pneumatics","cet6"],"pneumonia":["n u ˈm oʊ n j ə|n ə ˈm oʊ n j ə","n. 肺炎","","s:pneumonias","ky",[["He's got pneumonia. No wonder he is coughing nonstop.","他得了肺炎，难怪他在不停的咳嗽。"],["His pneumonia was cured through a divine miracle.",""]]],"pneumatics":["n ʊ ˈm æ t ɪ k s","","pneumatic:s"]});

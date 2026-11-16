@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("az", {"azalea":["ə ˈz eɪ l j ə","n. 杜鹃花","","s:azaleas","",[["Azaleas are beautiful.","杜鹃花很漂亮。"],["Hundreds of azalea bushes have blossomed.",""]]],"azure":["ˈæ ʒ ɚ","n. 天蓝色；碧空\nadj. 蔚蓝的","","","toefl gre",[["There are green rocks in the azure box.",""],["I was mesmerized by the sheer beauty of her azure eyes.",""]]],"azaleas":["ə ˈz eɪ l j ə z","","azalea:s","","",[["Azaleas are beautiful.","杜鹃花很漂亮。"]]]});

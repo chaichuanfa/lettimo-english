@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("ip", {"iphone":["ˈaɪ f oʊ n","n. 苹果手机","","","",[["The iPhone is an extraordinary cell phone.","苹果是非凡的手机。"],["Apple unveiled a new iPhone.","Apple 推出新款 iPhone。"]]],"ipod":["ˈaɪ p ɑ d","n. 苹果公司音乐播放器","","","",[["Sami hid the stolen iPod in his locker.",""],["Sami was so desperate to find his iPod.",""]]]});

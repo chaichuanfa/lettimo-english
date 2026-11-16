@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("ew", {"ewe":["j uː","n. 母羊","","s:ewes","gre",[["Ziri is trying to train his ewe to do that.","齐里正在训练他的母羊做这个动作。"],["The ewe is doing a little bit better.",""]]],"ewer":["ˈj uː ɚ","n. (有柄的)大口水壶；花瓶状水罐","","s:ewers","gre"],"ewing":["ˈj uː ɪ ŋ","n. 尤因（男子名）；尤英（美国新泽西州西部一县属区）；尤文氏肉瘤","","","",[["Larry Ewing is married and the father of two children.",""],["Kristy Anderson is the wife of Larry Ewing.",""]]],"ewes":["j uː z","","ewe:s"],"ewers":["ˈj uː ɚ z","","ewer:s"]});

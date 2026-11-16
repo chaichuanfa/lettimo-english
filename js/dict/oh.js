@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("oh", {"oh":["oʊ","interj. (表示惊讶、恐怖、赞叹)哦","","","gk",[["Oh no, there are more straight ahead!","糟了，前面也有！"],["Oh! two birdlings, died of the cold.","哦！两只小鸟，冻死了。"]]],"ohm":["oʊ m","n. 欧姆","","s:ohms","cet6",[["The ohm is the unit of measure for electrical resistance.",""]]],"ohms":["oʊ m z","","ohm:s"]});

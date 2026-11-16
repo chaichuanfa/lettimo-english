@@ -99,8 +99,9 @@
     } else {
       a.segs.forEach((s, i) => {
         steps.push(() => mark(i));
-        if (s.silent || !s.sid || !SOUNDS[s.sid] || s.sid === 'silent') steps.push({ type: 'wait', v: 450 });
-        else steps.push({ type: 'p', v: s.sid }, { type: 'wait', v: 140 });
+        if (!s.silent && s.sid && SOUNDS[s.sid] && s.sid !== 'silent') steps.push({ type: 'p', v: s.sid }, { type: 'wait', v: 140 });
+        else if (!s.silent && s.seq?.length) { s.seq.forEach((p) => steps.push({ type: 'p', v: p }, { type: 'wait', v: 60 })); steps.push({ type: 'wait', v: 80 }); }
+        else steps.push({ type: 'wait', v: 450 });
       });
     }
     steps.push(() => { tiles.forEach((t) => { t.classList.remove('active'); t.classList.add('done'); }); ips.forEach((p) => { p.classList.remove('active'); p.classList.add('all'); }); });
@@ -114,7 +115,7 @@
 
   /* ---------------- 布局 ---------------- */
   function shell(content, active) {
-    const nav = [['#/', '学习路径', 'home'], ['#/sounds', '音标总表', 'sounds'], ['#/practice', '练习场', 'practice'], ['#/guide', '学习指南', 'guide']];
+    const nav = [['#/', '学习路径', 'home'], ['#/dict', '词典', 'dict'], ['#/sounds', '音标总表', 'sounds'], ['#/practice', '练习场', 'practice'], ['#/guide', '学习指南', 'guide']];
     const done = Object.values(App.progress.lessons).filter((l) => l.done).length;
     return `
     <header class="topbar">
@@ -686,6 +687,14 @@
       </ul>
     </section>
     <section class="block">
+      <h2 class="block-title">词典说明</h2>
+      <ul class="plain">
+        <li><a href="#/dict">词典</a>收录约 4 万个常用词。释义来自开源英汉词典 ECDICT，例句来自 Tatoeba 例句库（CC BY 2.0 FR，繁体译文已转为简体），音标来自 CMU 发音词典（美式）。</li>
+        <li>拼读拆解是根据词典读音自动对齐出来的：先确定这个词实际怎么读，再找出每个音对应哪几个字母。所以弱读（如 pencil 里的 i 读 /ə/）也会如实显示，可能和课程里按规则教的读法略有不同。</li>
+        <li>课程里学过的单词和例句播放预录音频；其他单词和例句由浏览器内置的语音朗读，音色可能和课程不同。</li>
+      </ul>
+    </section>
+    <section class="block">
       <h2 class="block-title">学习数据</h2>
       <p class="hint">学习进度、测验星级和错词本保存在当前浏览器的本地存储中，换设备或清除浏览器数据会丢失。</p>
       <button class="btn ghost" data-action="reset">重置全部学习进度</button>
@@ -705,18 +714,24 @@
     const [name, arg] = path.split('/');
     const params = new URLSearchParams(query || '');
     let html, active = '', title = '拼读之路 · 自然拼读学习';
+    let dictWord = '';
     if (!name) { html = viewHome(); active = 'home'; }
     else if (name === 'stage') { html = viewStage(arg); active = 'home'; const st = STAGES.find((s) => s.id === +arg); if (st) title = `${st.title} · 拼读之路`; }
     else if (name === 'lesson') { html = viewLesson(arg); active = 'home'; const l = lessonById(arg); if (l) title = `${l.title} · 第 ${l.id} 课 · 拼读之路`; }
     else if (name === 'sounds') { html = viewSounds(); active = 'sounds'; title = '音标总表 · 拼读之路'; }
     else if (name === 'practice') { html = viewPractice(); active = 'practice'; title = '练习场 · 拼读之路'; }
     else if (name === 'guide') { html = viewGuide(); active = 'guide'; title = '学习指南 · 拼读之路'; }
+    else if (name === 'dict') {
+      try { dictWord = normWord(decodeURIComponent(arg || '')); } catch { dictWord = normWord(arg); }
+      html = viewDict(dictWord); active = 'dict'; title = dictWord ? `${dictWord} · 词典 · 拼读之路` : '词典 · 拼读之路';
+    }
     else html = viewNotFound();
     document.title = title;
     $('#app').innerHTML = shell(html, active);
     fitWords();
     window.scrollTo(0, 0);
     if (name === 'lesson') revealTarget(params);
+    if (name === 'dict') initDict(dictWord);
   }
 
   // 长单词：逐步缩小字号直到字母块完全放进卡片
@@ -836,6 +851,11 @@
       ['word', '单词', 24],
       ['sent', '例句', 6],
     ].map(([type, label, max]) => [label, scored.filter(([, it]) => it.type === type).slice(0, max).map(([, it]) => it)]).filter(([, list]) => list.length);
+    // 英文单词：加一项"在词典中查"（课程里没有结果时放在最前面）
+    if (/^[a-z]{1,30}$/.test(q)) {
+      const g = ['词典', [{ type: 'dict', w: q }]];
+      if (groups.length) groups.push(g); else groups.unshift(g);
+    }
     sItems = groups.flatMap(([, list]) => list);
     const where = (l) => `第 ${l.id} 课 · ${esc(l.title)}`;
     let n = 0;
@@ -847,6 +867,13 @@
           <span class="sr-badge" style="--lv:${levelOf(it.l.stage).color}">${it.l.id}</span>
           <span class="sr-main"><b>${markText(it.l.title, q)}</b> <span class="sr-sub">${markText(it.l.en, q)}</span></span>
           <span class="sr-where">第 ${it.l.stage.id} 阶段 · ${esc(it.l.stage.title)}</span></div>`;
+      }
+      if (it.type === 'dict') {
+        it.href = `#/dict/${encodeURIComponent(it.w)}`;
+        return `<div role="option" id="${id}" class="sr-item" aria-selected="false" data-i="${n - 1}">
+          <span class="sr-emoji" aria-hidden="true">📖</span>
+          <span class="sr-main"><b class="sr-word">${esc(it.w)}</b> <span class="sr-sub">在词典中查看音标、释义、例句和拼读拆解</span></span>
+          <span class="sr-where">词典</span></div>`;
       }
       if (it.type === 'word') {
         it.href = `#/lesson/${it.l.id}?w=${encodeURIComponent(it.text)}`;
@@ -958,6 +985,314 @@
     });
   }
 
+  /* ---------------- 词典 ---------------- */
+  // 数据按单词前两个字母分片（js/dict/xx.js），用到时才加载；js/dict/index.js 是按词频排序的全部词条
+  const DICT = { shards: {}, loading: {}, words: null, set: null };
+  window.DICT_SHARD = (k, o) => { DICT.shards[k] = o; };
+  const FORM_NAMES = { s: '复数', p: '过去式', d: '过去分词', i: '现在分词', 3: '第三人称单数', r: '比较级', t: '最高级' };
+  const TAG_NAMES = { zk: '中考', gk: '高考', cet4: '四级', cet6: '六级', ky: '考研', toefl: '托福', ielts: '雅思', gre: 'GRE' };
+  const DICT_TRY = ['night', 'knight', 'beautiful', 'enough', 'phone', 'treasure', 'station', 'laugh', 'island', 'cake', 'rabbit', 'chocolate'];
+  const normWord = (s) => String(s || '').trim().toLowerCase().replace(/[^a-z]/g, '');
+
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve(true);
+      s.onerror = () => { s.remove(); resolve(false); };
+      document.head.append(s);
+    });
+  }
+  function dictIndex() {
+    if (DICT.words) return Promise.resolve(DICT.words);
+    return (DICT.loading.index ||= loadScript('js/dict/index.js').then((ok) => {
+      if (!ok) { delete DICT.loading.index; return []; }
+      DICT.words = (window.DICT_INDEX || '').split(' ').filter(Boolean);
+      DICT.set = new Set(DICT.words);
+      return DICT.words;
+    }));
+  }
+  function dictShard(key) {
+    if (DICT.shards[key]) return Promise.resolve(DICT.shards[key]);
+    return (DICT.loading[key] ||= loadScript(`js/dict/${key}.js`).then(() => { delete DICT.loading[key]; return DICT.shards[key] || {}; }));
+  }
+  async function dictLookup(w) {
+    if (!w || (DICT.set && !DICT.set.has(w))) return null;
+    const row = (await dictShard(w.slice(0, 2)))[w];
+    if (!row) return null;
+    const [ipa = '', zh = '', lemma = '', exch = '', tags = '', ex = []] = row;
+    const e = { word: w, ipa: ipa.split('|'), zh, tags, ex, forms: [], lemma: null };
+    if (lemma) { const [lw, type] = lemma.split(':'); e.lemma = { word: lw, type }; }
+    exch.split('/').filter(Boolean).forEach((p) => { const [k, v] = p.split(':'); if (FORM_NAMES[k] && v) e.forms.push([k, v]); });
+    return e;
+  }
+  const isDictWord = (x) => !!(DICT.shards[x.slice(0, 2)]?.[x] || DICT.set?.has(x));
+  const firstSense = (zh) => (zh.split('\n')[0] || '').replace(/^[a-z]+\.\s*/, '').split('；').slice(0, 2).join('；');
+  const formGloss = (row) => {
+    if (!row) return '';
+    if (row[1]) return firstSense(row[1]);
+    if (row[2]) { const [lw, t] = row[2].split(':'); return `${lw} 的${FORM_NAMES[t] || '变形'}`; }
+    return '';
+  };
+
+  // 课程索引：单词 → 所在课；字母组合（+读音）→ 讲它的课
+  let CUR = null;
+  function curIndex() {
+    if (CUR) return CUR;
+    CUR = { words: new Map(), cards: new Map() };
+    LESSONS.forEach((l) => {
+      l.words.forEach((raw) => { const p = Phonics.parseWord(raw); const k = p.text.toLowerCase(); if (!CUR.words.has(k)) CUR.words.set(k, { l, emoji: p.emoji }); });
+      (l.cards || []).forEach((c) => {
+        if (typeof c.s !== 'string') return;
+        const k = `${c.g}|${c.s}`;
+        if (!CUR.cards.has(k)) CUR.cards.set(k, l);
+        if (c.s !== 'silent' && !CUR.cards.has(c.g)) CUR.cards.set(c.g, l);
+      });
+    });
+    return CUR;
+  }
+  function lessonForSeg(sg) {
+    const C = curIndex().cards;
+    if (sg.magicE !== undefined) return C.get(`${sg.t}_e|${sg.sid}`) || C.get(`${sg.t}_e`);
+    if (sg.magic) return null;
+    return C.get(`${sg.t}|${sg.sid}`) || (sg.t.length > 1 && !sg.silent ? C.get(sg.t) : null);
+  }
+
+  // 用词典读音给单词做拼读拆解
+  function dictAnalyze(e) {
+    const tokens = e.ipa[0].split(' ');
+    const r = window.G2P && G2P.align(e.word, tokens);
+    const a = { text: e.word, tokens, segs: null, ipaMap: null, irregular: false, syl: null };
+    // 缩写（etc、hiv）或读法完全对不上的词不做拆解
+    if (r && /[aeiouy]/.test(e.word) && !r.segs.some((s) => s.cost >= 4)) {
+      a.segs = r.segs.map((s) => ({ ...s, display: s.t, hl: s.magic || s.magicE !== undefined })); // 高亮魔法 e 和它影响的元音
+      a.ipaMap = a.segs.map((s) => s.ph);
+      a.irregular = r.irregular;
+      a.syl = G2P.syllables(e.word, tokens, r.segs, isDictWord);
+    }
+    return a;
+  }
+  const tokIPA = (t) => t.replace(/[ˈˌ]/g, '');
+  const ipaSpansTokens = (tokens, cls) => `<span class="${cls}">/${tokens.map((x, i) => `<span class="ip" data-p="${i}">${esc(x)}</span>`).join('')}/</span>`;
+
+  function viewDict(word) {
+    return `
+    <section class="page-head dict-head">
+      <p class="eyebrow">Dictionary</p>
+      <h1>词典</h1>
+      <p class="lead">输入英文单词，查看音标、中文释义和例句，听发音，并按自然拼读规则一块一块拼出来。</p>
+      <form class="dict-form" id="dict-form" role="search" autocomplete="off">
+        <div class="dict-box">
+          ${ICON.search}
+          <input id="dict-input" type="search" role="combobox" aria-expanded="false" aria-controls="dict-suggest" aria-autocomplete="list"
+            aria-label="输入要查的英文单词" placeholder="输入英文单词，如 night" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" value="${esc(word || '')}">
+          <button class="btn primary" type="submit">查询</button>
+        </div>
+        <div id="dict-suggest" class="dict-suggest" role="listbox" aria-label="联想词" hidden></div>
+      </form>
+    </section>
+    <div id="dict-main" aria-live="polite">${word ? '<p class="hint dict-loading">正在查询…</p>' : dictHomeHtml()}</div>
+    <p class="hint dict-credit">收录约 4 万个常用词（含常见变形）。释义来自 ECDICT，例句来自 Tatoeba（CC BY 2.0 FR），音标来自 CMU 发音词典（美式）。课程里学过的单词和例句播放预录音频，其他内容由浏览器朗读。</p>`;
+  }
+
+  function dictHomeHtml() {
+    const recent = load('dictRecent', []);
+    const chips = (list) => `<div class="chip-row">${list.map((w) => `<a class="chip-btn" href="#/dict/${encodeURIComponent(w)}">${esc(w)}</a>`).join('')}</div>`;
+    return `${recent.length ? `<section class="block">
+      <h2 class="block-title">最近查过 <button class="link-btn" data-action="dictclear">清空</button></h2>${chips(recent)}</section>` : ''}
+    <section class="block">
+      <h2 class="block-title">试试这些</h2>${chips(DICT_TRY)}
+      <p class="hint">每个单词都会按自然拼读规则拆成字母组合。点"拼读"逐个听每块的发音，对应的音标会同步高亮。</p>
+    </section>`;
+  }
+
+  function dictNotFound(w) {
+    const near = [];
+    const within1 = (a, b) => {
+      if (Math.abs(a.length - b.length) > 1) return false;
+      let i = 0, j = 0, diff = 0;
+      while (i < a.length && j < b.length) {
+        if (a[i] === b[j]) { i++; j++; continue; }
+        if (++diff > 1) return false;
+        if (a.length > b.length) i++; else if (a.length < b.length) j++; else { i++; j++; }
+      }
+      return diff + (a.length - i) + (b.length - j) <= 1;
+    };
+    for (const x of DICT.words || []) { if (within1(x, w)) { near.push(x); if (near.length >= 8) break; } }
+    if (near.length < 8) for (const x of DICT.words || []) { if (x.startsWith(w) && !near.includes(x)) { near.push(x); if (near.length >= 8) break; } }
+    return `<section class="block dict-miss">
+      <h2 class="block-title">没有找到"${esc(w)}"</h2>
+      ${near.length ? `<p>你是不是要找：</p><div class="chip-row">${near.map((x) => `<a class="chip-btn" href="#/dict/${encodeURIComponent(x)}">${esc(x)}</a>`).join('')}</div>` : ''}
+      <p class="hint">词典收录约 4 万个常用词，暂不支持词组和专有名词。请检查拼写，或换成单词原形再查。</p>
+    </section>`;
+  }
+
+  function dictEntryHtml(e, base) {
+    const a = dictAnalyze(e);
+    const idx = registerWord(a);
+    const C = curIndex();
+    const cur = C.words.get(e.word);
+    const defsSrc = e.zh || base?.zh || '';
+    const defs = defsSrc.split('\n').filter(Boolean).map((line) => {
+      const m = line.match(/^([a-z]+\.)\s*(.*)$/);
+      return `<li>${m ? `<span class="pos">${esc(m[1])}</span><span>${esc(m[2])}</span>` : `<span>${esc(line)}</span>`}</li>`;
+    }).join('');
+    const lemmaNote = e.lemma ? `<p class="de-lemma">${esc(e.word)} 是 <a href="#/dict/${encodeURIComponent(e.lemma.word)}">${esc(e.lemma.word)}</a> 的${FORM_NAMES[e.lemma.type] || '变形'}${base && !e.zh ? '，下面是原形的释义' : ''}</p>` : '';
+    // 变形：同一个词合并（lit：过去式 / 过去分词）
+    const byWord = new Map();
+    const ORDER = 'spdi3rt';
+    [...e.forms].sort((x, y) => ORDER.indexOf(x[0]) - ORDER.indexOf(y[0]))
+      .forEach(([k, v]) => v.split(',').forEach((f) => { if (f && f !== e.word) byWord.set(f, [...(byWord.get(f) || []), FORM_NAMES[k]]); }));
+    const forms = [...byWord].map(([f, names]) => `<span class="de-form"><em>${[...new Set(names)].join(' / ')}</em><a href="#/dict/${encodeURIComponent(f)}">${esc(f)}</a></span>`).join('');
+    const tags = (e.tags || base?.tags || '').split(' ').filter((t) => TAG_NAMES[t]).map((t) => `<span class="de-tag">${TAG_NAMES[t]}</span>`).join('');
+    const syl = a.syl && a.syl.length > 1 ? a.syl.map((st, i) => e.word.slice(st, a.syl[i + 1])).join('·') : '';
+    const alt = e.ipa.slice(1).map((x) => '/' + x.split(' ').join('') + '/').join('　');
+
+    const head = `<article class="block de-card" data-w="${idx}">
+      <div class="de-head">
+        ${cur?.emoji ? `<div class="de-emoji" aria-hidden="true">${cur.emoji}</div>` : ''}
+        <h2 class="de-word"><button class="wc-word" data-say="${esc(e.word)}" aria-label="朗读 ${esc(e.word)}">${a.segs ? wordTiles(a) : `<span class="de-plain">${esc(e.word)}</span>`}</button></h2>
+        <div class="de-ipa">${ipaSpansTokens(a.tokens, 'wc-ipa')}${alt ? `<span class="de-alt">也读 ${esc(alt)}</span>` : ''}</div>
+        <div class="de-actions">
+          <button class="btn primary" data-say="${esc(e.word)}">${ICON.speaker} 发音</button>
+          ${a.segs ? `<button class="btn ghost" data-blend="${idx}">${ICON.blend} 拼读</button>` : ''}
+        </div>
+        ${syl || tags || cur ? `<div class="de-meta">${syl ? `<span class="de-syl">音节 <b>${esc(syl)}</b></span>` : ''}${tags}${cur ? `<a class="de-lesson" href="#/lesson/${cur.l.id}?w=${encodeURIComponent(e.word)}">课程单词 · 第 ${cur.l.id} 课 ${esc(cur.l.title)}</a>` : ''}</div>` : ''}
+      </div>
+      ${lemmaNote}
+      ${defs ? `<h3 class="de-sub">释义</h3><ul class="de-defs">${defs}</ul>` : ''}
+      ${forms ? `<h3 class="de-sub">词形变化</h3><div class="de-forms">${forms}</div>` : ''}
+    </article>`;
+
+    let breakdown = '';
+    if (a.segs) {
+      const segIPA = (sg) => (sg.silent ? '' : '/' + sg.ph.map((k) => tokIPA(a.tokens[k])).join('') + '/');
+      const segName = (sg) => {
+        if (sg.silent) return sg.magic ? '魔法 e · 不发音' : '不发音';
+        if (sg.sid && SOUNDS[sg.sid]) return SOUNDS[sg.sid].zh;
+        return sg.seq.map((x) => SOUNDS[x]?.zh || '').join(' + ');
+      };
+      const card = (sg) => {
+        const l = lessonForSeg(sg);
+        const act = sg.silent ? 'disabled' : sg.sid && SOUNDS[sg.sid] ? `data-ph="${sg.sid}"` : `data-phs="${sg.seq.join(',')}"`;
+        const odd = !sg.silent && sg.cost >= 0.6;
+        return `<div class="ph-seg${sg.silent ? ' silent' : ''}${odd ? ' odd' : ''}">
+          <button class="ph-btn" ${act} aria-label="${esc(sg.t)} ${sg.silent ? '不发音' : '读 ' + esc(segIPA(sg))}">
+            <span class="tile${sg.silent ? ' silent' : ''}${sg.t.length > 1 ? ' multi' : ''}">${esc(sg.t)}</span>
+            <span class="ph-ipa">${sg.silent ? '—' : esc(segIPA(sg))}</span>
+          </button>
+          <span class="ph-name">${esc(segName(sg))}${odd ? '<i title="这个字母组合在这里的读法不常见">特殊</i>' : ''}</span>
+          ${l ? `<a class="ph-lesson" href="#/lesson/${l.id}">第 ${l.id} 课</a>` : ''}
+        </div>`;
+      };
+      const notes = [];
+      const sounding = a.segs.filter((s) => !s.silent);
+      notes.push(`${esc(e.word)} 拆成 ${a.segs.length} 块，读出 ${a.tokens.length} 个音：${sounding.map(segIPA).join(' + ')}。`);
+      a.segs.forEach((sg) => {
+        if (sg.magicE === undefined) return;
+        notes.push(`${esc(sg.t)}…e 是<b>魔法 e</b>：结尾的 e 不发音，让前面的 ${esc(sg.t)} 读长音 ${esc(segIPA(sg))}。`);
+      });
+      const silent = a.segs.filter((s) => s.silent && !s.magic).map((s) => s.t);
+      if (silent.length) notes.push(`不发音的字母：${silent.map(esc).join('、')}。`);
+      breakdown = `<section class="block">
+        <h2 class="block-title">拼读拆解 <small>点任意一块听它的发音</small></h2>
+        ${a.irregular ? '<p class="de-warn">这个词的读法不完全符合常规拼读规则（常见于外来词和高频词），建议结合发音整体记忆。</p>' : ''}
+        <div class="ph-grid">${a.segs.map(card).join('')}</div>
+        <p class="hint ph-notes">${notes.join('<br>')}</p>
+      </section>`;
+    } else {
+      breakdown = `<section class="block"><h2 class="block-title">拼读拆解</h2><p class="hint">这个词是缩写或读法特殊，没有拼读拆解，请直接听发音。</p></section>`;
+    }
+
+    const ex = e.ex.length ? e.ex : base?.ex || [];
+    const hitWords = [e.word, ...(base ? [base.word] : []), ...[...byWord.keys()]];
+    const hasZh = ex.some(([, zh]) => zh);
+    const examples = ex.length ? `<section class="block">
+      <h2 class="block-title">例句 <small>点句中单词可单独听</small>
+        ${hasZh ? `<button class="link-btn" data-action="zh">${App.settings.zh ? '隐藏中文' : '显示中文'}</button>` : ''}</h2>
+      <ol class="sentences ${App.settings.zh ? '' : 'nozh'}">${ex.map(([en, zh]) => `<li><button class="icon-btn play" data-say="${esc(en)}" title="朗读整句">${ICON.play}</button><div><p class="en">${highlightSentence(en, hitWords)}</p>${zh ? `<p class="zh">${esc(zh)}</p>` : ''}</div></li>`).join('')}</ol>
+    </section>` : '';
+    return head + breakdown + examples;
+  }
+
+  // 大号单词：缩小字号直到字母块放得下
+  function fitDictWord() {
+    const btn = $('.de-word .wc-word');
+    if (!btn) return;
+    btn.style.fontSize = '';
+    const box = btn.closest('.de-head');
+    let size = parseFloat(getComputedStyle(btn).fontSize);
+    while (btn.scrollWidth > box.clientWidth - 8 && size > 16) { size -= 2; btn.style.fontSize = size + 'px'; }
+  }
+
+  let dictToken = 0;
+  async function initDict(word) {
+    const my = ++dictToken;
+    setupDictSearch(word);
+    if (!word) { dictIndex(); return; }
+    const main = $('#dict-main');
+    const [e] = await Promise.all([dictLookup(word), dictIndex()]);
+    if (my !== dictToken || !main.isConnected) return;
+    if (!e) { main.innerHTML = dictNotFound(word); return; }
+    const base = e.lemma ? await dictLookup(e.lemma.word) : null;
+    if (my !== dictToken || !main.isConnected) return;
+    main.innerHTML = dictEntryHtml(e, base);
+    fitDictWord();
+    save('dictRecent', [word, ...load('dictRecent', []).filter((x) => x !== word)].slice(0, 12));
+  }
+
+  function setupDictSearch(word) {
+    const form = $('#dict-form'), input = $('#dict-input'), box = $('#dict-suggest');
+    if (!form) return;
+    let items = [], active = -1, timer, seq = 0;
+    const close = () => { box.hidden = true; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); active = -1; };
+    const go = (w) => {
+      w = normWord(w);
+      if (!w) return;
+      close();
+      const h = `#/dict/${encodeURIComponent(w)}`;
+      if (location.hash === h) route(); else location.hash = h;
+    };
+    const setAct = (i) => {
+      $$('.ds-item[aria-selected="true"]', box).forEach((el) => el.setAttribute('aria-selected', 'false'));
+      active = i;
+      const el = $(`#ds-${i}`);
+      if (el) { el.setAttribute('aria-selected', 'true'); el.scrollIntoView({ block: 'nearest' }); input.setAttribute('aria-activedescendant', el.id); }
+      else input.removeAttribute('aria-activedescendant');
+    };
+    async function suggest() {
+      const q = normWord(input.value);
+      const my = ++seq;
+      if (!q) { items = []; close(); return; }
+      const words = await dictIndex();
+      if (my !== seq) return;
+      items = [];
+      for (const w of words) { if (w.startsWith(q)) { items.push(w); if (items.length >= 8) break; } }
+      if (DICT.set.has(q)) items = [q, ...items.filter((x) => x !== q)].slice(0, 8);
+      if (!items.length) { close(); return; }
+      const sh = q.length >= 2 ? await dictShard(q.slice(0, 2)) : null;
+      if (my !== seq) return;
+      box.innerHTML = items.map((w, i) => `<div role="option" id="ds-${i}" class="ds-item" aria-selected="false" data-word="${esc(w)}"><b><mark>${esc(w.slice(0, q.length))}</mark>${esc(w.slice(q.length))}</b><span>${esc(formGloss(sh?.[w]))}</span></div>`).join('');
+      box.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      active = -1;
+      input.removeAttribute('aria-activedescendant');
+    }
+    input.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(suggest, 60); });
+    input.addEventListener('keydown', (e) => {
+      if (box.hidden || !items.length) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); setAct((active + 1) % items.length); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setAct((active - 1 + items.length) % items.length); }
+      else if (e.key === 'Escape') { e.preventDefault(); close(); }
+    });
+    form.addEventListener('submit', (e) => { e.preventDefault(); go(active >= 0 ? items[active] : input.value); });
+    box.addEventListener('pointerdown', (e) => e.preventDefault()); // 点联想词时输入框不失焦
+    box.addEventListener('click', (e) => { const o = e.target.closest('.ds-item'); if (o) go(o.dataset.word); });
+    box.addEventListener('pointermove', (e) => { const o = e.target.closest('.ds-item'); if (o) setAct(+o.id.slice(3)); });
+    input.addEventListener('blur', () => setTimeout(close, 120));
+    if (!word) input.focus({ preventScroll: true });
+  }
+
   /* ---------------- 事件委托 ---------------- */
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-say],[data-ph],[data-phs],[data-phkw],[data-blend],[data-pair],[data-action],[data-mode]');
@@ -978,6 +1313,7 @@
     else if (act === 'quiz') startLessonQuiz($('#quiz'));
     else if (act === 'markdone') { const id = $('#quiz').dataset.lesson; App.progress.lessons[id] = { done: true, stars: App.progress.lessons[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
     else if (act === 'clearwrong') { App.wrong = []; saveAll(); route(); }
+    else if (act === 'dictclear') { save('dictRecent', []); route(); }
     else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级和错词本吗？')) { App.progress = { lessons: {}, last: null }; App.wrong = []; saveAll(); route(); } }
   });
 

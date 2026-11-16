@@ -31,6 +31,8 @@ python3 -m http.server 8765
 
 每节课包含：发音卡片（音素录音 + 口型要领）、规则讲解、短长音对比、示例单词（逐音拼读动画）、例句（可点词朗读）、6 题小测验。顶栏可搜索单词、中文意思、字母组合、音标和课程（快捷键 `/` 或 `Ctrl/⌘+K`），点击结果直接跳到对应课程并高亮该单词或例句。另有音标总表、练习场（听音选词 / 听写 / 闪卡 / 听音辨字母 / 错词本）和学习指南。学习进度保存在浏览器 localStorage 中。
 
+**词典**（`#/dict`）：收录约 4 万个常用词（2.5 万词条 + 1.5 万常见变形，如 went → go）。每个词显示美式音标、中文释义、考试标签、词形变化、例句，可以朗读；还会根据词典读音把单词拆成字母组合（night → n · igh · t），点"拼读"逐个播放音素并同步高亮音标，并标出魔法 e、不发音字母、音节划分和讲这个字母组合的课程。读法不符合常规规则的词（如 colonel）会特别提示。顶栏搜索输入英文单词时也可以直接跳到词典。
+
 ## 目录结构
 
 ```
@@ -39,6 +41,8 @@ css/style.css
 js/data.js        课程数据（音素表 SOUNDS + 阶段与课程 STAGES）—— 改内容只改这里
 js/ipa.js         单词音标（由 CMU 发音词典自动生成）
 js/phonics.js     拼读引擎：切分字母组合、推断每个组合的读音、高亮本课重点
+js/g2p.js         词典拼读：按词典读音把任意单词对齐成字母组合，并划分音节
+js/dict/          词典数据（自动生成）：index.js 为按词频排序的词表，其余按单词前两个字母分片、查词时才加载
 js/audio.js       播放：优先用预生成音频，缺失时退回浏览器语音合成
 js/app.js         路由与页面
 audio/p/          音素音频（45 个，从 Samantha 朗读的单词中截取并经识别模型校验；report.json 为校验记录）
@@ -67,6 +71,17 @@ node scripts/build-ipa.mjs
 ```
 
 新增的单词即使没有生成音频，网站也会用浏览器语音合成朗读。
+
+## 重新生成词典数据
+
+数据来源：[ECDICT](https://github.com/skywind3000/ECDICT)（释义，MIT）、[Tatoeba](https://tatoeba.org)（中英例句，CC BY 2.0 FR）、[CMUdict](https://github.com/cmusphinx/cmudict)（音标，BSD）。首次运行会自动下载到 `scripts/cache/`（约 100MB，不提交到仓库）。
+
+```bash
+uv run --with opencc-python-reimplemented python3 scripts/build-dict-data.py   # 选词、清洗释义、挑例句（繁体例句转简体）
+node scripts/build-dict.mjs                                                    # 生成 js/dict/*.js
+```
+
+收录范围：COCA/BNC 词频前 2.5 万、带考试标签（中考 / 高考 / 四六级 / 考研 / 托福 / 雅思 / GRE）、牛津 3000、柯林斯星级词，以及全部课程单词。例句优先用课程例句，其次是 Tatoeba 的中英对照句，都没有时用 Tatoeba 的英文句子。拼读拆解的对照表在 `js/g2p.js` 顶部的 `TABLE`。
 
 ## 音频来源与校验
 

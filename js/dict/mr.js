@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("mr", {"mri":["ˌɛ ˌm ɑ ˈr aɪ","abbr. 核磁共振成像（Magnatic Resonance Imaging）；机读信息（Machine Readable Information）；中等度肾功能不全（Moderate Renal Insufficiency）","","s:mri","",[["A number of imaging techniques are employed in radiology, such as X-ray, MRI, and ultrasound.","放射学中采用了数种影像技术，比如 X 光、MRI 和超音波。"],["The MRI showed a nodule in the patient's lung.",""]]]});

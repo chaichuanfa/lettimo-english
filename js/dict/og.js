@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("og", {"ogle":["ˈoʊ g ə l","n. 眉目传情\nvt. 挑逗地注视\nvi. 做媚眼","","3:ogles/i:ogling/p:ogled/d:ogled/s:ogles","gre"],"ogre":["ˈoʊ g ɚ","n. 食人魔鬼；怪物；象鬼的人；可怕的东西","","s:ogres","",[["I like onions, though I'm not an ogre.",""],["I'm not the ogre you think I am.",""]]],"ogled":["ˈoʊ g ə l d","","ogle:p"],"ogles":["ˈoʊ g ə l z","","ogle:s"]});

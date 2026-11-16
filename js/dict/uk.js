@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("uk", {"ukraine":["j u ˈk r eɪ n","n. 乌克兰（原苏联一加盟共和国；现已独立）","","","",[["You don't want to go to Ukraine.","你不想去乌克兰。"],["Ukraine is a sovereign country.","乌克兰是一个主权国家。"]]],"ukrainian":["j u ˈk r eɪ n i ə n","adj. 乌克兰的；乌克兰人的","","s:ukrainians","",[["Ukrainian girls are the prettiest in the world.","乌克兰姑娘是全世界最漂亮的姑娘。"],["When in Ukraine, I always speak Ukrainian.","当我在乌克兰时，我总是讲乌克兰语。"]]],"ukrainians":["j u ˈk r eɪ n i ə n z","","ukrainian:s"]});

@@ -1,0 +1,2 @@
+/* 由 scripts/build-dict.mjs 生成，请勿手改。数据来源：ECDICT (MIT)、Tatoeba (CC BY 2.0 FR)、CMUdict (BSD) */
+DICT_SHARD("ts", {"tsar":["z ɑ r|t s ɑ r","n. 沙皇","","s:tsars","",[["The tsar was the ruler of Russia.",""],["Ivan the Terrible was the first Russian tsar.",""]]],"tsunami":["t s u ˈn ɑ m i|s u ˈn ɑ m i","n. 海啸","","s:tsunami","",[["The tsunami alert was cancelled.","海啸的警报解除了。"],["A tsunami is coming, so please be on the alert.","海啸来了，密切注意啊。"]]]});
