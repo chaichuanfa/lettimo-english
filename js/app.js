@@ -41,6 +41,8 @@
   const ICON = {
     search: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>',
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 14.6A8.5 8.5 0 0 1 9.4 3.8a.6.6 0 0 0-.8-.7A9.5 9.5 0 1 0 20.9 15.4a.6.6 0 0 0-.7-.8z"/></svg>',
     stop: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></svg>',
     speaker: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5a1 1 0 0 0 1 1h3l4.3 3.6a.8.8 0 0 0 1.3-.6V5.5a.8.8 0 0 0-1.3-.6L8 8.5H5a1 1 0 0 0-1 1z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     blend: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="5" height="10" rx="1.5"/><rect x="10" y="7" width="5" height="10" rx="1.5"/><path d="M17 12h4m-2-2 2 2-2 2"/></svg>',
@@ -120,12 +122,16 @@
     const done = Object.values(App.progress.lessons).filter((l) => l.done).length;
     return `
     <header class="topbar">
-      <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true">Aa</span><span class="brand-text">拼读之路<small>Phonics Path</small></span></a>
+      <a class="brand" href="#/"><img class="brand-mark" src="assets/phonics-logo.webp" width="38" height="38" alt=""><span class="brand-text">拼读之路<small>Phonics Path</small></span></a>
       <nav class="nav">${nav.map(([h, t, k]) => `<a href="${h}" class="${active === k ? 'on' : ''}">${t}</a>`).join('')}</nav>
       <div class="tools">
         <button class="pill search-btn" data-action="search" aria-label="搜索（快捷键 /）">${ICON.search}<span>搜索</span><kbd>/</kbd></button>
         <span class="pill" title="已完成课程">${ICON.check}<b>${done}</b>/${LESSONS.length}</span>
         <button class="pill toggle ${App.settings.rate < 1 ? 'on' : ''}" data-action="slow" title="切换慢速朗读">🐢 慢速</button>
+        <button class="pill theme-btn" data-action="theme">
+          <span class="when-light" title="切换到深色模式">${ICON.sun}<span class="visually-hidden">切换到深色模式</span></span>
+          <span class="when-dark" title="切换到浅色模式">${ICON.moon}<span class="visually-hidden">切换到浅色模式</span></span>
+        </button>
       </div>
     </header>
     <main id="view">${content}</main>
@@ -140,24 +146,40 @@
     const nu = nextUp();
     const done = LESSONS.filter((l) => isDone(l.id)).length;
     const pct = Math.round((done / LESSONS.length) * 100);
-    let levelSeen = null;
-    const stages = STAGES.map((st, i) => {
+    // 学习路径：每个阶段一张标题卡片，下面是该阶段的课程节点，沿正弦曲线蛇形排列
+    // 课程序号全局连续，蛇形在各阶段之间接着走，不会每个阶段都从中间往同一侧拐
+    const snake = (k) => Math.round(Math.sin((k * Math.PI) / 4) * 2.3 * 1000) / 1000;
+    let gk = 0;
+    const stages = STAGES.map((st) => {
       const lv = levelOf(st);
       const d = stageDone(st);
-      const p = d / st.lessons.length;
-      const head = levelSeen !== st.level ? `<div class="level-band" style="--lv:${lv.color}"><span>${st.level}</span><em>${lv.en}</em></div>` : '';
-      levelSeen = st.level;
-      const current = nu.stage === st && done < LESSONS.length;
-      return `${head}
-      <a class="stage-node ${i % 2 ? 'right' : 'left'} ${p === 1 ? 'complete' : ''} ${current ? 'current' : ''}" href="#/stage/${st.id}" style="--lv:${lv.color};--p:${p}">
-        <span class="node-ring"><span class="node-icon">${st.icon}</span></span>
-        <span class="node-body">
-          <span class="node-kicker">第 ${st.id} 阶段 · 约 ${st.weeks} 周</span>
-          <span class="node-title">${esc(st.title)}</span>
-          <span class="node-en">${esc(st.en)}</span>
-          <span class="node-meta">${d}/${st.lessons.length} 课${current ? ' · <b>进行中</b>' : p === 1 ? ' · 已完成' : ''}</span>
-        </span>
-      </a>`;
+      const n = st.lessons.length;
+      const nodes = st.lessons.map((l, k) => {
+        const pr = App.progress.lessons[l.id];
+        const cur = l === nu && done < LESSONS.length;
+        const x = snake(gk++);
+        const state = pr?.done ? 'done' : cur ? 'current' : 'todo';
+        const label = `第 ${l.id} 课 ${l.title}${pr?.done ? '（已完成）' : cur ? '（当前）' : ''}`;
+        return `<li class="lp-item${x > 0.05 ? ' flip' : ''}" style="--x:${x}">
+          <div class="lp-wrap">
+            ${cur ? `<span class="lp-bubble" aria-hidden="true">${done ? '继续' : '开始'}</span>` : ''}
+            <a class="lp-node ${state}" href="#/lesson/${l.id}" aria-label="${esc(label)}">${pr?.done ? ICON.check : cur ? ICON.play : `<b>${k + 1}</b>`}</a>
+            <a class="lp-label" href="#/lesson/${l.id}" tabindex="-1" aria-hidden="true"><b>${esc(l.title)}</b><small>${pr?.stars ? stars(pr.stars) : esc(l.en)}</small></a>
+          </div>
+        </li>`;
+      }).join('');
+      return `<section class="unit${d === n ? ' complete' : ''}" style="--lv:${lv.color}">
+        <a class="unit-banner" href="#/stage/${st.id}" style="--p:${d / n}">
+          <span class="ub-icon" aria-hidden="true">${st.icon}</span>
+          <span class="ub-text">
+            <span class="ub-kicker">${st.level} · 第 ${st.id} 阶段 · 约 ${st.weeks} 周</span>
+            <span class="ub-title">${esc(st.title)}</span>
+            <span class="ub-en">${esc(st.en)}</span>
+          </span>
+          <span class="ub-ring" aria-label="已完成 ${d} / ${n} 课"><span>${d === n ? ICON.check : `${d}/${n}`}</span></span>
+        </a>
+        <ol class="unit-path">${nodes}</ol>
+      </section>`;
     }).join('');
     return `
     <section class="hero">
@@ -186,7 +208,7 @@
     </section>
     <section class="path">
       <h2 class="section-title">学习路径 <small>入门 → 基础 → 进阶 → 高级 → 精通</small></h2>
-      <div class="path-track">${stages}</div>
+      <div class="units">${stages}</div>
     </section>`;
   }
 
@@ -318,7 +340,7 @@
     <section class="block quiz-block">
       <h2 class="block-title"><span class="num">${n++}</span>小测验</h2>
       <div id="quiz" data-lesson="${l.id}">
-        <p>共 6 题，答对 4 题即可完成本课。${pr?.done ? `你的最好成绩：${stars(pr.stars || 1)}` : ''}</p>
+        <p>共 ${QUIZ_N} 题，答对 ${passMark(QUIZ_N)} 题即可完成本课。${pr?.done ? `你的最好成绩：${stars(pr.stars || 1)}` : ''}</p>
         <button class="btn primary" data-action="quiz">开始测验 ${ICON.arrow}</button>
         ${pr?.done ? '' : '<button class="link-btn" data-action="markdone">我已掌握，直接标记完成</button>'}
       </div>
@@ -330,6 +352,9 @@
   }
 
   /* ---------------- 测验 ---------------- */
+  const QUIZ_N = 15;                                                   // 每节课小测验的题数
+  const passMark = (total) => Math.ceil((total * 2) / 3);              // 答对三分之二即通过
+  const quizStars = (score, total) => (score >= total ? 3 : score >= total - 2 ? 2 : 1);
   const GRAPH_POOL = ['a', 'e', 'i', 'o', 'u', 'sh', 'ch', 'th', 'ck', 'ng', 'ee', 'ea', 'ai', 'ay', 'oa', 'ow', 'ou', 'oi', 'oy', 'oo', 'ar', 'or', 'er', 'ir', 'ur', 'aw', 'au', 'igh', 'ie', 'ue', 'ew', 'bl', 'st', 'tr', 'kn', 'wr'];
 
   function buildQuestions(pool, count, lesson) {
@@ -401,11 +426,11 @@
   function startLessonQuiz(container) {
     const l = lessonById(container.dataset.lesson);
     let pool = l.words;
-    if (pool.length < 6) pool = [...pool, ...l.stage.lessons.flatMap((x) => x.words).filter((w) => !pool.includes(w))];
-    const qs = buildQuestions(pool, 6, l);
+    if (pool.length < QUIZ_N) pool = [...pool, ...l.stage.lessons.flatMap((x) => x.words).filter((w) => !pool.includes(w))];
+    const qs = buildQuestions(pool, QUIZ_N, l);
     runQuiz(container, qs, (score, total, missed) => {
-      const s = score >= total ? 3 : score >= total - 1 ? 2 : 1;
-      const passed = score >= 4;
+      const s = quizStars(score, total);
+      const passed = score >= passMark(total);
       recordWrong(missed);
       if (passed) {
         const old = App.progress.lessons[l.id];
@@ -484,7 +509,7 @@
     <section class="block practice-setup">
       <div class="field">
         <label for="p-range">练习范围</label>
-        <select id="p-range">
+        <select id="p-range" name="range">
           <option value="learned" ${learned.length ? 'selected' : ''}>已完成的课程（${learned.length} 课）</option>
           <option value="wrong">错词本（${App.wrong.length} 个）</option>
           <option value="all" ${learned.length ? '' : 'selected'}>全部课程</option>
@@ -652,7 +677,7 @@
         <li><b>拼</b>：在"示例单词"里点<b>拼读</b>，看每个字母组合依次亮起、听每个音，再听整个单词。自己跟着一起拼。</li>
         <li><b>读</b>：遮住发音，自己先读单词，再点击核对。</li>
         <li><b>用</b>：朗读例句，注意高亮的本课单词；可以隐藏中文挑战自己。</li>
-        <li><b>测</b>：完成小测验，答对 4/6 题即完成本课。答错的词会进入错词本，在练习场复习。</li>
+        <li><b>测</b>：完成 15 题的小测验，答对 10 题即完成本课。答错的词会进入错词本，在练习场复习。</li>
       </ol>
     </section>
     <section class="block two-col">
@@ -735,6 +760,7 @@
     document.title = title;
     $('#app').innerHTML = shell(html, active);
     fitWords();
+    drawPaths();
     window.scrollTo(0, 0);
     if (name === 'lesson') revealTarget(params);
     if (name === 'dict') initDict(dictWord);
@@ -754,7 +780,34 @@
     });
   }
   let fitTimer;
-  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => fitWords(), 120); });
+  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { fitWords(); drawPaths(); }, 120); });
+
+  // 首页学习路径：用平滑曲线（Catmull-Rom 转三次贝塞尔）把课程节点串起来；已学过的一段用等级色
+  function drawPaths() {
+    $$('.unit-path').forEach((ol) => {
+      ol.querySelector('.lp-line')?.remove();
+      const nodes = $$('.lp-node', ol);
+      if (nodes.length < 2) return;
+      const box = ol.getBoundingClientRect();
+      const pts = nodes.map((n) => { const r = n.getBoundingClientRect(); return [r.left + r.width / 2 - box.left, r.top + r.height / 2 - box.top]; });
+      const curve = (p) => {
+        let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+        for (let i = 0; i < p.length - 1; i++) {
+          const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+          const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+          const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+          d += ` C${c1.map((v) => v.toFixed(1)).join(',')} ${c2.map((v) => v.toFixed(1)).join(',')} ${p2.map((v) => v.toFixed(1)).join(',')}`;
+        }
+        return d;
+      };
+      // 已完成到第几个节点（含当前课）
+      let reach = -1;
+      nodes.forEach((n, i) => { if (n.classList.contains('done') || n.classList.contains('current')) reach = i; });
+      const svg = `<svg class="lp-line" aria-hidden="true" width="${box.width}" height="${box.height}" viewBox="0 0 ${box.width.toFixed(1)} ${box.height.toFixed(1)}">
+        <path class="lp-line-base" d="${curve(pts)}"/>${reach > 0 ? `<path class="lp-line-done" d="${curve(pts.slice(0, reach + 1))}"/>` : ''}</svg>`;
+      ol.insertAdjacentHTML('afterbegin', svg);
+    });
+  }
 
   function refreshPills() {
     const done = Object.values(App.progress.lessons).filter((l) => l.done).length;
@@ -1118,7 +1171,7 @@
       ${next ? `<a class="btn ghost" href="#/grammar/${next.id}">${esc(next.title)} ${ICON.arrow}</a>` : '<a class="btn ghost" href="#/grammar">语法目录</a>'}
     </nav>`;
   }
-  const gPassMark = (l) => Math.ceil(l.quiz.length * 2 / 3);
+  const gPassMark = (l) => passMark(l.quiz.length);
 
   // 选择题填空后的完整句子（用于朗读）；"不填"表示空白处不需要词
   function gFilled(q) {
@@ -1204,7 +1257,7 @@
     const finish = () => {
       const total = qs.length;
       const passed = score >= gPassMark(l);
-      const s = score >= total ? 3 : score >= total - 1 ? 2 : 1;
+      const s = quizStars(score, total);
       if (passed) {
         const old = gProgress()[l.id];
         gProgress()[l.id] = { done: true, stars: Math.max(s, old?.stars || 0), at: Date.now() };
@@ -1545,6 +1598,7 @@
     if (d.mode) { startPractice(d.mode); return; }
     const act = d.action;
     if (act === 'search') { openSearch(); return; }
+    if (act === 'theme') { toggleTheme(); return; }
     if (act === 'slow') { App.settings.rate = App.settings.rate < 1 ? 1 : 0.7; saveAll(); t.classList.toggle('on', App.settings.rate < 1); }
     else if (act === 'zh') { App.settings.zh = !App.settings.zh; saveAll(); $('.sentences')?.classList.toggle('nozh', !App.settings.zh); t.textContent = App.settings.zh ? '隐藏中文' : '显示中文'; }
     else if (act === 'quiz') startLessonQuiz($('#quiz'));
@@ -1578,6 +1632,28 @@
     setPlaying(btn);
     Speech.say(btn.dataset.say).then(() => { if (playingBtn === btn) setPlaying(null); });
   }
+
+  /* 浅色 / 深色主题：默认跟随系统；点击切换到与当前显示相反的主题，
+   * 若与系统设置相同则清除覆盖（恢复跟随系统）。首屏由 index.html 里的内联脚本提前应用，避免闪烁。 */
+  const THEME_KEY = 'phonics-path.theme';
+  const sysDark = matchMedia('(prefers-color-scheme: dark)');
+  const THEME_COLOR = { light: '#FFFFFF', dark: '#131F24' };
+  function applyTheme(t) {
+    const root = document.documentElement;
+    if (t === 'light' || t === 'dark') root.dataset.theme = t; else delete root.dataset.theme;
+    $$('meta[name="theme-color"]').forEach((m) => { m.content = THEME_COLOR[t] || THEME_COLOR[m.media.includes('dark') ? 'dark' : 'light']; });
+  }
+  function toggleTheme() {
+    const shown = document.documentElement.dataset.theme || (sysDark.matches ? 'dark' : 'light');
+    const target = shown === 'dark' ? 'light' : 'dark';
+    const followSystem = target === (sysDark.matches ? 'dark' : 'light');
+    try {
+      if (followSystem) localStorage.removeItem(THEME_KEY);
+      else localStorage.setItem(THEME_KEY, target);
+    } catch { /* 无法保存时仍然切换 */ }
+    applyTheme(followSystem ? null : target);
+  }
+  window.addEventListener('storage', (e) => { if (e.key === THEME_KEY) applyTheme(e.newValue); });
 
   function pulse(el) { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
 
