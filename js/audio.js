@@ -17,7 +17,7 @@
 
   function stop() {
     token++;
-    if (current) { current.pause(); current = null; }
+    if (current) { current.pause(); current.done?.(false); current = null; } // 被打断的播放也要结束它的 Promise
     if ('speechSynthesis' in window) speechSynthesis.cancel();
   }
 
@@ -28,7 +28,8 @@
       a.preservesPitch = true;
       a.playbackRate = settings().rate;
       current = a;
-      a.onended = () => resolve(true);
+      a.done = resolve;
+      a.onended = () => { if (current === a) current = null; resolve(true); };
       a.onerror = () => resolve(false);
       a.play().catch(() => resolve(false));
     });

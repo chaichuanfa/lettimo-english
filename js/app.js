@@ -41,6 +41,7 @@
   const ICON = {
     search: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>',
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
+    stop: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></svg>',
     speaker: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5a1 1 0 0 0 1 1h3l4.3 3.6a.8.8 0 0 0 1.3-.6V5.5a.8.8 0 0 0-1.3-.6L8 8.5H5a1 1 0 0 0-1 1z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     blend: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="5" height="10" rx="1.5"/><rect x="10" y="7" width="5" height="10" rx="1.5"/><path d="M17 12h4m-2-2 2 2-2 2"/></svg>',
     check: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
@@ -312,7 +313,7 @@
     <section class="block">
       <h2 class="block-title"><span class="num">${n++}</span>例句 <small>点句子任意单词可单独听</small>
         <button class="link-btn" data-action="zh">${App.settings.zh ? '隐藏中文' : '显示中文'}</button></h2>
-      <ol class="sentences ${App.settings.zh ? '' : 'nozh'}">${l.sentences.map((s, si) => { const [en, zh] = s.split('|'); return `<li data-s="${si}"><button class="icon-btn play" data-say="${esc(en)}" title="朗读整句">${ICON.play}</button><div><p class="en">${highlightSentence(en, lessonWords)}</p><p class="zh">${esc(zh)}</p></div></li>`; }).join('')}</ol>
+      <ol class="sentences ${App.settings.zh ? '' : 'nozh'}">${l.sentences.map((s, si) => { const [en, zh] = s.split('|'); return `<li data-s="${si}"><button class="icon-btn play" data-say="${esc(en)}" data-toggle title="朗读整句" aria-label="朗读整句">${ICON.play}</button><div><p class="en">${highlightSentence(en, lessonWords)}</p><p class="zh">${esc(zh)}</p></div></li>`; }).join('')}</ol>
     </section>
     <section class="block quiz-block">
       <h2 class="block-title"><span class="num">${n++}</span>小测验</h2>
@@ -1210,7 +1211,7 @@
     const examples = ex.length ? `<section class="block">
       <h2 class="block-title">例句 <small>点句中单词可单独听</small>
         ${hasZh ? `<button class="link-btn" data-action="zh">${App.settings.zh ? '隐藏中文' : '显示中文'}</button>` : ''}</h2>
-      <ol class="sentences ${App.settings.zh ? '' : 'nozh'}">${ex.map(([en, zh]) => `<li><button class="icon-btn play" data-say="${esc(en)}" title="朗读整句">${ICON.play}</button><div><p class="en">${highlightSentence(en, hitWords)}</p>${zh ? `<p class="zh">${esc(zh)}</p>` : ''}</div></li>`).join('')}</ol>
+      <ol class="sentences ${App.settings.zh ? '' : 'nozh'}">${ex.map(([en, zh]) => `<li><button class="icon-btn play" data-say="${esc(en)}" data-toggle title="朗读整句" aria-label="朗读整句">${ICON.play}</button><div><p class="en">${highlightSentence(en, hitWords)}</p>${zh ? `<p class="zh">${esc(zh)}</p>` : ''}</div></li>`).join('')}</ol>
     </section>` : '';
     return head + breakdown + examples;
   }
@@ -1300,6 +1301,7 @@
     if (t.matches('.opt')) return;
     const d = t.dataset;
     if (d.blend !== undefined) { e.preventDefault(); blend(+d.blend, t.closest('[data-w]')); return; }
+    if (d.say !== undefined && d.toggle !== undefined) { e.preventDefault(); toggleSay(t); return; }
     if (d.say !== undefined) { e.preventDefault(); Speech.say(d.say); pulse(t); return; }
     if (d.ph) { e.preventDefault(); Speech.phoneme(d.ph); pulse(t); return; }
     if (d.phs) { e.preventDefault(); Speech.sequence(d.phs.split(',').flatMap((p) => [{ type: 'p', v: p }, { type: 'wait', v: 80 }])); pulse(t); return; }
@@ -1316,6 +1318,29 @@
     else if (act === 'dictclear') { save('dictRecent', []); route(); }
     else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级和错词本吗？')) { App.progress = { lessons: {}, last: null }; App.wrong = []; saveAll(); route(); } }
   });
+
+  // 例句播放按钮：点一下开始，再点一下停止；播完、被其他声音打断时恢复成播放图标
+  let playingBtn = null;
+  function setPlaying(btn) {
+    if (playingBtn && playingBtn !== btn) {
+      playingBtn.classList.remove('playing');
+      playingBtn.innerHTML = ICON.play;
+      playingBtn.title = '朗读整句';
+      playingBtn.setAttribute('aria-label', '朗读整句');
+    }
+    playingBtn = btn;
+    if (btn) {
+      btn.classList.add('playing');
+      btn.innerHTML = ICON.stop;
+      btn.title = '停止朗读';
+      btn.setAttribute('aria-label', '停止朗读');
+    }
+  }
+  function toggleSay(btn) {
+    if (playingBtn === btn) { Speech.stop(); setPlaying(null); return; }
+    setPlaying(btn);
+    Speech.say(btn.dataset.say).then(() => { if (playingBtn === btn) setPlaying(null); });
+  }
 
   function pulse(el) { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
 
