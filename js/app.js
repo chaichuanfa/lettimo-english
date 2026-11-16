@@ -163,7 +163,7 @@
     </header>
     <main id="view">${content}</main>
     <footer class="foot">
-      <p>英语之路 · 小学到初中的英语基础：拼读、语法、单词 · 进度保存在本机浏览器</p>
+      <p>英语之路 · 小学到高中的英语基础：拼读、语法、单词 · 进度保存在本机浏览器</p>
       <p><a href="#/guide">学习指南与音频来源说明</a></p>
     </footer>`;
   }
@@ -186,7 +186,7 @@
     <section class="page-head dash-head">
       <p class="eyebrow">English Path</p>
       <h1>今天学点什么？</h1>
-      <p class="lead">拼读、语法、单词——小学到初中的英语基础，一步一步来。</p>
+      <p class="lead">拼读、语法、单词——小学到高中的英语基础，一步一步来。</p>
       <button class="hero-search" data-action="search">${ICON.search}<span>搜单词、语法点、字母组合或中文…</span><kbd>/</kbd></button>
     </section>
     <section class="dash-grid" aria-label="课程">
@@ -1165,7 +1165,8 @@
   (window.GRAMMAR || []).forEach((st, si) => { st.no = si + 1; st.lessons.forEach((l, li) => { l.stage = st; l.no = `${st.no}-${li + 1}`; G_LESSONS.push(l); }); });
   const gLessonById = (id) => G_LESSONS.find((l) => l.id === id);
   const gProgress = () => (App.progress.grammar ||= {});
-  const gGrade = (l) => (l.grade ? `<span class="g-grade ${l.grade === '初中' ? 'junior' : 'primary'}">${l.grade}</span>` : '');
+  const G_GRADES = { 小学: 'primary', 初中: 'junior', 高中: 'senior' };
+  const gGrade = (l) => (G_GRADES[l.grade] ? `<span class="g-grade ${G_GRADES[l.grade]}">${l.grade}</span>` : '');
   const gLevel = (st) => LEVELS.find((x) => x.key === st.level) || LEVELS[0];
   const ROLE = { S: '主语', V: '谓语', O: '宾语', C: '表语', IO: '间接宾语', DO: '直接宾语', OC: '宾补', A: '状语', AT: '定语' };
   const gPlain = (en) => en.replace(/\{[A-Z]+:([^}]*)\}/g, '$1').replace(/[[\]]/g, '').replace(/\s+/g, ' ').trim();
@@ -1184,28 +1185,34 @@
     const all = G_LESSONS.length;
     const done = G_LESSONS.filter((l) => gProgress()[l.id]?.done).length;
     const nextL = G_LESSONS.find((l) => !gProgress()[l.id]?.done) || G_LESSONS[0];
+    // 学段筛选：只看小学 / 初中 / 高中的课；选择记在设置里
+    const gf = G_GRADES[App.settings.gGrade] ? App.settings.gGrade : '';
+    const filterBtn = (g, label) => `<button type="button" class="g-filter-btn${g ? ' ' + G_GRADES[g] : ''}" data-action="gfilter" data-grade="${g}" aria-pressed="${gf === g}">${label}<small>${g ? G_LESSONS.filter((l) => l.grade === g).length : all}</small></button>`;
     return `
     <section class="page-head">
       <p class="eyebrow">Grammar</p>
       <h1>语法</h1>
-      <p class="lead">从词类、基本句子到时态、五大基本句型和复合句，${GRAMMAR.length} 个阶段 ${all} 节课。每课都有规则讲解、句型公式、带发音的例句和小测验，并标明属于小学还是初中内容。</p>
+      <p class="lead">从词类、基本句子、时态，到非谓语动词、复合句和特殊句式，${GRAMMAR.length} 个阶段 ${all} 节课。每课都有规则讲解、句型公式、带发音的例句和小测验，并标明属于小学、初中还是高中内容。</p>
       <div class="g-progress"><div class="bar"><i style="width:${(done / all) * 100}%"></i></div><span>已完成 <b>${done}</b> / ${all}</span>
         <a class="btn primary" href="#/grammar/${nextL.id}">${done ? '继续学习' : '从第一课开始'}：${esc(nextL.title)} ${ICON.arrow}</a></div>
+      <div class="g-filter" role="group" aria-label="按学段筛选课程">${filterBtn('', '全部')}${Object.keys(G_GRADES).map((g) => filterBtn(g, g)).join('')}</div>
     </section>
     ${GRAMMAR.map((st) => {
       const lv = gLevel(st);
-      const n = st.lessons.filter((l) => gProgress()[l.id]?.done).length;
+      const shown = st.lessons.filter((l) => !gf || l.grade === gf);
+      if (!shown.length) return '';
+      const n = shown.filter((l) => gProgress()[l.id]?.done).length;
       return `<section class="g-stage" style="--lv:${lv.color}">
         <div class="sh-row">
           <div class="sh-icon">${st.icon}</div>
-          <div><p class="eyebrow" style="color:var(--lv-ink)">第 ${st.no} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
+          <div><p class="eyebrow" style="color:var(--lv-ink)">第 ${st.no} 阶段 · ${st.level} · ${n}/${shown.length}</p>
             <h2 class="g-stage-title">${esc(st.title)} <small>${esc(st.en)}</small></h2>
             <p class="hint">${esc(st.desc)}</p></div>
         </div>
-        <div class="lesson-list">${st.lessons.map((l, i) => {
+        <div class="lesson-list">${shown.map((l) => {
           const pr = gProgress()[l.id];
           return `<a class="lesson-row ${pr?.done ? 'done' : ''}" href="#/grammar/${l.id}" style="--lv:${lv.color}">
-            <span class="lr-num">${pr?.done ? ICON.check : i + 1}</span>
+            <span class="lr-num">${pr?.done ? ICON.check : st.lessons.indexOf(l) + 1}</span>
             <span class="lr-body"><span class="lr-title">${esc(l.title)}</span><span class="lr-en">${esc(l.en)}</span></span>
             <span class="lr-meta"><span class="lr-stars">${pr?.stars ? stars(pr.stars) : ''}</span>${gGrade(l)}</span>
           </a>`;
@@ -1700,6 +1707,7 @@
     else if (act === 'zh') { App.settings.zh = !App.settings.zh; saveAll(); $('.sentences')?.classList.toggle('nozh', !App.settings.zh); t.textContent = App.settings.zh ? '隐藏中文' : '显示中文'; }
     else if (act === 'quiz') startLessonQuiz($('#quiz'));
     else if (act === 'markdone') { const id = $('#quiz').dataset.lesson; App.progress.lessons[id] = { done: true, stars: App.progress.lessons[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
+    else if (act === 'gfilter') { App.settings.gGrade = d.grade || ''; saveAll(); route(); }
     else if (act === 'clearwrong') { App.wrong = []; saveAll(); route(); }
     else if (act === 'gquiz') startGrammarQuiz($('#gquiz'));
     else if (act === 'gmarkdone') { const id = $('#gquiz').dataset.glesson; gProgress()[id] = { done: true, stars: gProgress()[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }

@@ -1,5 +1,5 @@
 /* 语法课程数据
- * GRAMMAR：7 个阶段的语法学习路径
+ * GRAMMAR：9 个阶段的语法学习路径
  *
  * 阶段 id 和课程 id 只是进度记录用的固定键，页面上的"第 N 阶段""第 N-M 课"按数组顺序计算，
  * 所以调整阶段和课程的顺序不会影响已有进度。
@@ -7,12 +7,15 @@
  * 和附录 4 语法项目表补充的，按主题分散在前三个阶段里。
  * id 为 gj-N 的 9 课是初中阶段的补充（课标附录 4 里原先缺的条目，以及教材和中考常见的
  * 反意疑问句、过去完成时、used to 等），按主题放在相应阶段里。
+ * id 为 gs-N 的 24 课是高中阶段的内容，依据《普通高中英语课程标准（2017 年版 2025 年修订）》
+ * 表 6 和附录 3 语法项目表，另加几项教材和高考常见的内容（情态动词 + have done、
+ * 非谓语的完成式与被动式、独立主格、间接引语）。
  *
  * 例句格式 "English|中文"
  *   [文字]        高亮本课重点
  *   {S:文字}      标出句子成分：S 主语 V 谓语 O 宾语 C 表语 IO 间接宾语 DO 直接宾语 OC 宾语补足语 A 状语 AT 定语
- * grade：'小学' 或 '初中'，显示为课程入口上的学段标签。按课标表 11 划分：一、二级（简单句、一般现在 / 现在进行 /
- *   一般过去 / 一般将来时、描述和比较人与物、时间地点方位）算小学，其余算初中
+ * grade：'小学'、'初中' 或 '高中'，显示为课程入口上的学段标签。按课标表 11 划分：一、二级（简单句、一般现在 / 现在进行 /
+ *   一般过去 / 一般将来时、描述和比较人与物、时间地点方位）算小学；高中课标附录 3 里带星号的项目算高中；其余算初中
  * 句型公式 forms：[{ label, parts: [...] }]，parts 依次用 + 连接
  * 测验 quiz：
  *   { c: '含 ___ 的句子', o: [正确答案, 干扰项…], why: '解析' }   选择题（显示时打乱选项）
@@ -1237,7 +1240,7 @@ window.GRAMMAR = [
   /* ====================================================== */
   {
     id: 3, title: '基本时态', en: 'Basic Tenses', level: '基础', icon: '⏰',
-    desc: '用动词的变化表示动作发生的时间：现在、过去、将来、进行和完成，最后补充过去完成时和过去将来时。',
+    desc: '用动词的变化表示动作发生的时间：现在、过去、将来、进行和完成；后面补充过去完成时、过去将来时、将来进行时和现在完成进行时。',
     lessons: [
       {
         id: 'g3-1', grade: '小学', title: '一般现在时', en: 'Present Simple',
@@ -1545,7 +1548,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'gj-2', grade: '初中', title: '过去完成时与过去将来时', en: 'Past Perfect & Future in the Past',
+        id: 'gj-2', grade: '高中', title: '过去完成时与过去将来时', en: 'Past Perfect & Future in the Past',
         intro: '站在过去的某个时间点：在它之前已经发生的事用过去完成时，在它之后将要发生的事用过去将来时。',
         rule: `<p><b>过去完成时</b> = <b>had + 过去分词</b>，表示"过去的过去"：在过去某个时间或某个动作之前已经完成的事。When I got to the station, the train <b>had left</b>.（我到车站时，火车已经开走了。）</p>
 <p><b>过去将来时</b> = <b>would + 动词原形</b>（或 was / were going to + 动词原形），表示从过去某个时间看，将要发生的事。最常见于宾语从句：He said he <b>would come</b>.</p>
@@ -1596,13 +1599,115 @@ window.GRAMMAR = [
           { s: 'They had finished the work by five.', zh: '到五点他们已经完成了工作。' },
         ],
       },
+      {
+        id: 'gs-1', grade: '高中', title: '将来进行时', en: 'Future Continuous',
+        intro: '将来进行时表示将来某个时间点正在进行的动作，也用来表示按计划、安排将要发生的事。',
+        rule: `<p>将来进行时 = <b>will be + 动词-ing</b>，表示在将来某个时刻或某段时间<b>正在进行</b>的动作：This time tomorrow, I <b>will be flying</b> to Beijing.</p>
+<p>它还可以表示按计划、安排自然会发生的事，语气比 will do 更委婉：Will you <b>be using</b> the car tonight?（只是询问安排，不是提要求。）</p>`,
+        forms: [
+          { label: '肯定句', parts: ['主语', 'will be', '动词-ing'] },
+          { label: '否定句', parts: ['主语', "won't be", '动词-ing'] },
+          { label: '疑问句', parts: ['Will', '主语', 'be', '动词-ing?'] },
+        ],
+        signals: ['at this time tomorrow', 'at 8 tomorrow evening', 'this time next week', 'when you arrive', 'from 9 to 11 tomorrow'],
+        table: {
+          head: ['时态', '构成', '含义', '例子'],
+          rows: [
+            ['一般将来时', 'will do', '将来要做的事（强调动作本身）', 'I will call you tomorrow.'],
+            ['将来进行时', 'will be doing', '将来某一时刻正在做', 'I will be having a meeting at ten tomorrow.'],
+            ['现在进行时', 'am / is / are doing', '此刻正在做', 'I am having a meeting now.'],
+          ],
+        },
+        examples: [
+          'This time tomorrow, I [will be flying] to Beijing.|明天这个时候，我正在飞往北京。',
+          'At eight tonight, she [will be watching] the match.|今晚八点，她会在看比赛。',
+          "Don't call me at nine. I [will be having] a meeting.|九点别给我打电话，那时我正在开会。",
+          'When you arrive, we [will be waiting] for you at the gate.|你到的时候，我们会在门口等你。',
+          '[Will] you [be using] your bike this afternoon?|你今天下午要用自行车吗？',
+          "He [won't be working] next Monday.|下周一他不上班。",
+        ],
+        traps: [
+          'will 后面是 <b>be + 动词-ing</b>，be 不能丢：I will <b>be waiting</b>.（不说 I will waiting）',
+          '有"将来的具体时刻"并强调"那时正在做"，用将来进行时；只说将来会做，用一般将来时。',
+          'know、like、want 等状态动词一般不用进行时，也就不用将来进行时：I will <b>know</b> the result tomorrow.',
+        ],
+        quiz: [
+          { c: 'This time next week, we ___ on the beach.', o: ['will be lying', 'are lying', 'lay', 'have lain'], why: '"下周这个时候正在做"，用将来进行时 will be doing。' },
+          { c: "Don't phone at seven. We ___ dinner then.", o: ['will be having', 'have', 'had', 'were having'], why: '七点那个时刻正在吃晚饭，是将来某一时刻正在进行的动作。' },
+          { c: 'At ten tomorrow morning, he ___ an exam.', o: ['will be taking', 'takes', 'took', 'has taken'], why: '明天上午十点这个时刻正在考试，用将来进行时。' },
+          { c: 'When you get home, the children ___.', o: ['will be sleeping', 'slept', 'have slept', 'were sleeping'], why: '你到家是将来的时间点，那时孩子们正在睡觉。' },
+          { s: 'I will be working at that time.', zh: '那个时候我会在工作。' },
+          { s: 'They will be playing football at four.', zh: '四点钟他们会在踢足球。' },
+          { c: 'I will be ___ for you at the station at six.', o: ['waiting', 'wait', 'waited', 'waits'], why: 'will be 后面接动词-ing。' },
+          { c: '___ you be using the computer this evening?', o: ['Will', 'Do', 'Are', 'Have'], why: '将来进行时的疑问句把 Will 提到句首。' },
+          { c: 'She ___ be coming to the party. She is busy.', o: ["won't", "isn't", "doesn't", "hasn't"], why: "将来进行时的否定是 won't be doing。" },
+          { c: 'From nine to eleven tomorrow, they ___ a meeting.', o: ['will be holding', 'hold', 'held', 'have held'], why: '明天九点到十一点这段时间里正在开会，用将来进行时。' },
+          { c: 'I ___ the answer tomorrow. I will tell you then.', o: ['will know', 'will be knowing', 'am knowing', 'knew'], why: 'know 是状态动词，不用进行时，这里用一般将来时。' },
+          { c: 'What will you ___ at this time tomorrow?', o: ['be doing', 'doing', 'do be', 'did'], why: '问"明天这个时候正在做什么"，用 will be doing。' },
+          { s: 'Will you be staying here tonight?', zh: '你今晚会住在这儿吗？' },
+          { s: 'She will be waiting for us outside.', zh: '她会在外面等我们。' },
+          { s: 'We will not be using this room tomorrow.', zh: '我们明天不用这个房间。' },
+        ],
+      },
+      {
+        id: 'gs-2', grade: '高中', title: '现在完成进行时', en: 'Present Perfect Continuous',
+        intro: '现在完成进行时表示从过去开始、一直持续到现在的动作，强调动作的持续，而且可能还要继续。',
+        rule: `<p>现在完成进行时 = <b>have / has been + 动词-ing</b>，表示动作从过去某时开始，<b>一直持续到现在</b>，可能还在继续：I <b>have been waiting</b> for an hour.</p>
+<p>它也可以表示刚刚结束、但留下了明显痕迹的动作：You are all wet. <b>Have</b> you <b>been running</b>?</p>
+<p>和现在完成时的区别：现在完成时强调<b>结果</b>（做完了、做了多少）；现在完成进行时强调<b>过程</b>（一直在做、做了多久）。</p>`,
+        forms: [
+          { label: '肯定句', parts: ['主语', 'have / has been', '动词-ing'] },
+          { label: '否定句', parts: ['主语', "haven't / hasn't been", '动词-ing'] },
+          { label: '疑问句', parts: ['Have / Has', '主语', 'been', '动词-ing?'] },
+        ],
+        signals: ['for two hours', 'since this morning', 'all day', 'all morning', 'these days', 'How long…?'],
+        table: {
+          head: ['', '现在完成时', '现在完成进行时'],
+          rows: [
+            ['构成', 'have / has done', 'have / has been doing'],
+            ['强调', '结果：做完了什么、做了多少', '过程：一直在做、做了多久'],
+            ['例子', 'I have read three books.', 'I have been reading all morning.'],
+            ['对比', 'She has painted the door.（门漆好了）', 'She has been painting the door.（一直在漆，未必漆完）'],
+          ],
+        },
+        examples: [
+          'I [have been waiting] for you for an hour.|我已经等你一个小时了。',
+          'It [has been raining] since this morning.|从早上起就一直在下雨。',
+          'She [has been learning] the piano for five years.|她学钢琴已经五年了。',
+          'How long [have] you [been living] here?|你在这儿住了多久了？',
+          'Your eyes are red. [Have] you [been crying]?|你眼睛红红的，是不是哭过？',
+          "He [hasn't been feeling] well these days.|他这些天一直不太舒服。",
+        ],
+        traps: [
+          '说"做了多少、几次"用现在完成时，说"做了多久"常用现在完成进行时：I <b>have written</b> three letters. / I <b>have been writing</b> letters all morning.',
+          'know、like、have（拥有）、be 等状态动词不用进行式，只能用现在完成时：I <b>have known</b> him for years.（不说 have been knowing）',
+          '别漏掉 been：She has <b>been</b> working.（不说 She has working）',
+        ],
+        quiz: [
+          { c: 'I ___ for the bus for twenty minutes. It still has not come.', o: ['have been waiting', 'wait', 'will wait', 'waited'], why: '从二十分钟前一直等到现在，还在等，用现在完成进行时。' },
+          { c: 'It ___ all day. The ground is very wet.', o: ['has been raining', 'rains', 'will rain', 'rain'], why: 'all day 表示动作持续了一整天直到现在。' },
+          { c: 'How long ___ you been learning English?', o: ['have', 'are', 'do', 'did'], why: '现在完成进行时的疑问句把 have 提到主语前。' },
+          { c: 'She has ___ working here since 2020.', o: ['been', 'be', 'being', 'was'], why: '结构是 has been + 动词-ing，been 不能丢。' },
+          { s: 'I have been reading this book for a week.', zh: '这本书我已经读了一个星期了。' },
+          { s: 'She has been living here since last year.', zh: '她从去年起就一直住在这儿。' },
+          { c: 'I ___ three emails this morning.', o: ['have written', 'have been writing', 'am writing', 'write'], why: '说"写了三封"强调数量和结果，用现在完成时。' },
+          { c: 'You look tired. ___ you been working all night?', o: ['Have', 'Are', 'Do', 'Did'], why: 'been working 前面用 Have 构成现在完成进行时的疑问句。' },
+          { c: 'We ___ him for ten years.', o: ['have known', 'have been knowing', 'are knowing', 'know'], why: 'know 是状态动词，不用进行式，用现在完成时。' },
+          { c: 'He ___ well recently. He should see a doctor.', o: ["hasn't been sleeping", "isn't slept", "didn't sleeping", "hasn't sleeping"], why: "recently 表示最近一直如此，否定用 hasn't been doing。" },
+          { c: "They have been ___ football since two o'clock.", o: ['playing', 'played', 'play', 'plays'], why: 'have been 后面接动词-ing。' },
+          { c: 'My hands are dirty. I ___ in the garden.', o: ['have been working', 'work', 'will work', 'had work'], why: '手脏是刚才一直在干活留下的痕迹，用现在完成进行时。' },
+          { s: 'How long have you been waiting?', zh: '你等了多久了？' },
+          { s: 'It has been snowing all day.', zh: '雪下了一整天。' },
+          { s: 'He has been learning Chinese for two years.', zh: '他学中文已经两年了。' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
     id: 4, title: '句子结构', en: 'Sentence Structure', level: '进阶', icon: '🧩',
-    desc: '句子成分和五大基本句型——再长的句子，主干也离不开这五种结构；再加上主谓一致和反意疑问句。',
+    desc: '句子成分和基本句型——再长的句子，主干也离不开这几种结构；再加上主谓一致、反意疑问句和短语结构。',
     lessons: [
       {
         id: 'g4-1', grade: '初中', title: '句子成分', en: 'Parts of a Sentence',
@@ -1805,6 +1910,56 @@ window.GRAMMAR = [
         ],
       },
       {
+        id: 'gs-3', grade: '高中', title: '主谓状与主谓宾状', en: 'S + V + A and S + V + O + A',
+        intro: '有些动词后面必须跟一个表示地点、时间或方式的状语，去掉以后句子就不完整，这就是主谓状和主谓宾状句型。',
+        rule: `<p>状语通常是可有可无的修饰成分：He runs (fast). 但有些动词离不开状语——没有它，句子意思就不完整，这种状语是句子主干的一部分。</p>
+<p><b>主谓状（SVA）</b>：主语 + 不及物动词 + 状语。常见动词：live、stay、lie、stand、last。The children stayed <b>in the room</b>.（只说 The children stayed 意思不完整。）</p>
+<p><b>主谓宾状（SVOA）</b>：主语 + 及物动词 + 宾语 + 状语。常见动词：put、place、keep、lay、treat。You can put the dish <b>here</b>.（只说 You can put the dish 不成立。）</p>`,
+        forms: [
+          { label: '主谓状', parts: ['主语', '不及物动词', '状语（地点 / 时间 / 方式）'] },
+          { label: '主谓宾状', parts: ['主语', '及物动词', '宾语', '状语'] },
+        ],
+        table: {
+          head: ['句型', '常见动词', '例子'],
+          rows: [
+            ['主谓状（SVA）', 'live，stay，lie，stand，sit', 'My uncle lives in Shanghai.'],
+            ['主谓状（SVA）', 'last，take place', 'The meeting lasted two hours.'],
+            ['主谓宾状（SVOA）', 'put，place，lay，keep', 'She put the keys on the table.'],
+            ['主谓宾状（SVOA）', 'treat，take，send，lead', 'They treated the guests kindly.'],
+          ],
+        },
+        examples: [
+          '{S:My uncle} {V:lives} {A:in Shanghai}.|我叔叔住在上海。',
+          '{S:The meeting} {V:lasted} {A:two hours}.|会议持续了两个小时。',
+          '{S:The village} {V:lies} {A:at the foot of the mountain}.|村子坐落在山脚下。',
+          '{S:She} {V:put} {O:the keys} {A:on the table}.|她把钥匙放在了桌上。',
+          '{S:They} {V:treated} {O:the old man} {A:kindly}.|他们对那位老人很好。',
+          '{S:He} {V:keeps} {O:his money} {A:in the bank}.|他把钱存在银行里。',
+        ],
+        traps: [
+          '判断方法：把状语去掉，句子还完整吗？He runs fast → He runs（完整，状语可有可无，属于主谓）；He lives in Paris → He lives（不完整，属于主谓状）。',
+          'put、place 等动词后面必须同时有宾语和地点：Put the book <b>on the desk</b>.（不说 Put the book.）',
+          '这类必不可少的状语可以是副词（here）、介词短语（in the room）或名词短语（two hours）。',
+        ],
+        quiz: [
+          { c: 'In "She lives in London", "in London" 是什么成分？', o: ['状语', '宾语', '表语', '定语'], why: 'in London 说明住的地点，是 lives 离不开的地点状语。' },
+          { c: 'Please put the milk ___.', o: ['in the fridge', 'cold', 'quickly it', 'the fridge'], why: 'put 后面除了宾语，还必须有表示地点的状语。' },
+          { c: 'The concert ___ three hours.', o: ['lasted', 'put', 'kept it', 'placed'], why: 'last 表示"持续"，后面接表示时间长度的状语。' },
+          { c: 'In "They treated us kindly", 句型是哪一种？', o: ['主谓宾状', '主谓宾', '主谓双宾', '主系表'], why: 'treated 的宾语是 us，kindly 是不能去掉的方式状语。' },
+          { s: 'My sister lives in a small town.', zh: '我姐姐住在一个小镇上。' },
+          { s: 'He put his bag under the desk.', zh: '他把书包放在了桌子下面。' },
+          { c: 'Which sentence is NOT complete?', o: ['He put the book.', 'He read the book.', 'He likes the book.', 'He bought the book.'], why: 'put 后面必须有地点状语，只说 He put the book 不完整。' },
+          { c: 'Which sentence belongs to 主谓状（SVA）?', o: ['The hotel stands by the lake.', 'The boy kicked the ball.', 'She is a doctor.', 'He gave me a pen.'], why: 'stands 是不及物动词，by the lake 是不能去掉的地点状语。' },
+          { c: 'She keeps her diary ___ a drawer.', o: ['in', 'at', 'of', 'to'], why: 'keep + 宾语 + 地点状语，"在抽屉里"用 in。' },
+          { c: 'In "He runs fast", 去掉 fast 以后句子还完整吗？', o: ['完整，所以是主谓句型', '不完整，所以是主谓状', '不完整，所以是主谓宾', '完整，所以是主系表'], why: 'He runs 意思完整，fast 只是可有可无的修饰，句型是主谓。' },
+          { c: 'The town lies ___ the river.', o: ['on', 'of', 'with', 'for'], why: 'lie on the river 表示"坐落在河边"。' },
+          { c: 'Which sentence belongs to 主谓宾状（SVOA）?', o: ['Mum laid the baby on the bed.', 'The baby is sleeping.', 'The baby looks happy.', 'Mum bought the baby a toy.'], why: 'laid 的宾语是 the baby，on the bed 是不能去掉的地点状语。' },
+          { s: 'The meeting lasted about two hours.', zh: '会议持续了大约两个小时。' },
+          { s: 'She keeps her books on the shelf.', zh: '她把书放在书架上。' },
+          { s: 'They stayed at home all day.', zh: '他们一整天都待在家里。' },
+        ],
+      },
+      {
         id: 'gj-3', grade: '初中', title: '主谓一致', en: 'Subject-Verb Agreement',
         intro: '谓语动词的单复数要和主语保持一致。难点在于判断主语到底算单数还是复数。',
         rule: `<p>基本原则：主语是单数，谓语用单数（is、has、likes）；主语是复数，谓语用复数（are、have、like）。</p>
@@ -1858,7 +2013,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'gj-4', grade: '初中', title: '反意疑问句', en: 'Tag Questions',
+        id: 'gj-4', grade: '高中', title: '反意疑问句', en: 'Tag Questions',
         intro: '在陈述句后面加一个简短的问句，用来确认或征求同意，相当于中文的"……，是吗？""……，对吧？"。',
         rule: `<p>反意疑问句 = <b>陈述句 + 逗号 + 简短问句</b>。简短问句由"助动词（be / do / 情态动词）+ 代词"组成。</p>
 <p>核心规则是<b>前肯后否，前否后肯</b>：前面是肯定句，后面用否定；前面是否定句，后面用肯定。时态和人称要和前面保持一致，后面的主语必须用<b>代词</b>。</p>
@@ -1914,13 +2069,59 @@ window.GRAMMAR = [
           { s: "Let's go home, shall we?", zh: '我们回家吧，好吗？' },
         ],
       },
+      {
+        id: 'gs-4', grade: '高中', title: '短语：按结构给句子成分分类', en: 'Phrases',
+        intro: '句子不是由单个的词直接组成的，而是先由词组成短语，再由短语充当主语、谓语、宾语等成分。',
+        rule: `<p><b>短语</b>是围绕一个中心词组成的一组词，在句子里作为一个整体充当一个成分。按中心词的词性，短语分为五种。</p>
+<p>分析句子时，先把短语当作一个整体，找出它在句子里做什么成分，再看短语内部的结构。这是读懂长句的基础。</p>`,
+        table: {
+          head: ['短语', '中心词', '构成', '例子', '常做的成分'],
+          rows: [
+            ['名词短语', '名词', '(限定词) + (形容词) + 名词 + (后置修饰)', 'the tall boy in red', '主语、宾语、表语'],
+            ['动词短语', '动词', '(助动词 / 情态动词) + 实义动词', 'has been working', '谓语'],
+            ['形容词短语', '形容词', '(副词) + 形容词 + (补充成分)', 'very proud of her son', '表语、定语、补语'],
+            ['副词短语', '副词', '(副词) + 副词', 'very quickly，quite well', '状语'],
+            ['介词短语', '介词', '介词 + 名词短语', 'in the morning，with a smile', '状语、定语、表语'],
+          ],
+        },
+        examples: [
+          '{S:The tall boy in red} {V:is} {C:my cousin}.|那个穿红衣服的高个子男孩是我表弟。',
+          '{S:She} {V:has been working} {A:very hard}.|她一直工作得非常努力。',
+          '{S:He} {V:is} {C:very proud of his daughter}.|他为女儿感到非常自豪。',
+          '{S:We} {V:met} {O:an old friend of mine} {A:in the park}.|我们在公园里遇到了我的一位老朋友。',
+          '{S:The book on the desk} {V:belongs} {A:to me}.|桌上那本书是我的。',
+          '{S:They} {V:finished} {O:the work} {A:quite quickly}.|他们相当快地完成了工作。',
+        ],
+        traps: [
+          '介词短语既可以做状语，也可以做定语，要看它修饰谁：I read the book <b>in the library</b>.（状语，修饰 read）/ The book <b>in the library</b> is old.（定语，修饰 book）',
+          '名词短语的中心词决定谓语的单复数：The <b>students</b> in the room <b>are</b> quiet. / The <b>box</b> of apples <b>is</b> heavy.',
+          '这里的动词短语指"助动词 + 实义动词"这个整体（如 will be doing），不要和"动词 + 介词"的短语动词（look after）混淆。',
+        ],
+        quiz: [
+          { c: '"the red car" 是哪一种短语？', o: ['名词短语', '动词短语', '形容词短语', '介词短语'], why: '中心词是名词 car，前面的 the 和 red 都是修饰它的。' },
+          { c: '"in the classroom" 是哪一种短语？', o: ['介词短语', '名词短语', '副词短语', '动词短语'], why: '由介词 in 加名词短语 the classroom 构成。' },
+          { c: '"very slowly" 是哪一种短语？', o: ['副词短语', '形容词短语', '介词短语', '名词短语'], why: '中心词是副词 slowly，very 修饰它。' },
+          { c: '"will be waiting" 是哪一种短语？', o: ['动词短语', '名词短语', '副词短语', '形容词短语'], why: '助动词 will be 加实义动词 waiting，整体做谓语。' },
+          { s: 'The boy in the blue shirt is my brother.', zh: '穿蓝衬衫的那个男孩是我弟弟。' },
+          { s: 'She speaks English very well.', zh: '她英语说得非常好。' },
+          { c: '"afraid of dogs" 是哪一种短语？', o: ['形容词短语', '动词短语', '名词短语', '副词短语'], why: '中心词是形容词 afraid，of dogs 是它的补充成分。' },
+          { c: 'The box of apples ___ very heavy.', o: ['is', 'are', 'were', 'be'], why: '名词短语的中心词是 box（单数），谓语用 is。' },
+          { c: 'In "The girl with long hair is my sister", 主语是什么？', o: ['The girl with long hair', 'The girl', 'long hair', 'my sister'], why: '整个名词短语 The girl with long hair 做主语，with long hair 是后置定语。' },
+          { c: 'In "The man in the car is my uncle", "in the car" 做什么成分？', o: ['定语', '状语', '表语', '宾语'], why: 'in the car 修饰名词 the man，说明是哪个人，做定语。' },
+          { c: 'In "He did his homework in the car", "in the car" 做什么成分？', o: ['状语', '定语', '表语', '主语'], why: 'in the car 说明做作业的地点，修饰动词，做状语。' },
+          { c: 'The children in the park ___ flying kites.', o: ['are', 'is', 'was', 'be'], why: '中心词是 children（复数），谓语用 are。' },
+          { s: 'The books on the shelf are mine.', zh: '书架上的那些书是我的。' },
+          { s: 'He is good at playing chess.', zh: '他擅长下棋。' },
+          { s: 'We had a picnic by the lake.', zh: '我们在湖边野餐了。' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
     id: 5, title: '动词进阶', en: 'More About Verbs', level: '进阶', icon: '⚙️',
-    desc: '情态动词、不定式与动名词、被动语态、动词的 -ed 形式，以及形容词和副词的比较级、最高级。',
+    desc: '情态动词、被动语态，以及形容词和副词的比较级、最高级。',
     lessons: [
       {
         id: 'g5-1', grade: '初中', title: '情态动词', en: 'Modal Verbs',
@@ -2022,6 +2223,264 @@ window.GRAMMAR = [
           { s: 'They must be waiting for us.', zh: '他们一定在等我们。' },
         ],
       },
+      {
+        id: 'gs-5', grade: '高中', title: '情态动词 + have done', en: 'Modals + Have Done',
+        intro: '"情态动词 + have + 过去分词"用来谈论过去：推测过去发生了什么，或者评价过去该做没做、不该做却做了的事。',
+        rule: `<p><b>推测过去</b>：把握从大到小依次是 <b>must have done</b>（一定做过）、<b>may / might / could have done</b>（可能做过）、<b>can't / couldn't have done</b>（不可能做过）。</p>
+<p><b>评价过去</b>（常带后悔、责备的语气）：<b>should have done</b>（本该做却没做）、<b>shouldn't have done</b>（本不该做却做了）、<b>needn't have done</b>（本不必做却做了）、<b>could have done</b>（本来能做却没做）。</p>`,
+        forms: [
+          { label: '结构', parts: ['主语', '情态动词', 'have', '过去分词'] },
+        ],
+        table: {
+          head: ['结构', '意思', '例子'],
+          rows: [
+            ['must have done', '一定做过（肯定推测）', 'The ground is wet. It must have rained.'],
+            ['may / might have done', '可能做过', 'She may have missed the bus.'],
+            ["can't / couldn't have done", '不可能做过', "He can't have finished so soon."],
+            ['should have done', '本该做却没做', 'You should have told me earlier.'],
+            ["shouldn't have done", '本不该做却做了', "I shouldn't have eaten so much."],
+            ["needn't have done", '本不必做却做了', "You needn't have bought so much food."],
+            ['could have done', '本来能做却没做', 'You could have asked me for help.'],
+          ],
+        },
+        examples: [
+          'The ground is wet. It [must have rained] last night.|地是湿的，昨晚一定下过雨。',
+          'She is late. She [may have missed] the bus.|她迟到了，可能是没赶上公共汽车。',
+          "He [can't have left]. His bag is still here.|他不可能走了，他的包还在这儿。",
+          'You [should have told] me the truth.|你本该告诉我实话的。',
+          "I [shouldn't have shouted] at her.|我本不该冲她大喊大叫的。",
+          "You [needn't have come] so early.|你本来不必来这么早的。",
+        ],
+        traps: [
+          "对过去的肯定推测用 must have done，否定推测用 <b>can't have done</b>，不用 mustn't have done。",
+          '推测现在用"情态动词 + 动词原形"，推测过去用"情态动词 + have done"：He must <b>be</b> ill.（现在）/ He must <b>have been</b> ill.（过去）',
+          "<b>needn't have done</b> 是做了但没必要；<b>didn't need to do</b> 是没必要做（一般也没做）。",
+        ],
+        quiz: [
+          { c: 'The road is wet. It ___ rained last night.', o: ['must have', 'must', 'should', 'can have'], why: '根据路面湿推测昨晚"一定下过雨"，对过去的肯定推测用 must have done。' },
+          { c: 'I failed the test. I ___ studied harder.', o: ['should have', 'must have', 'may have', "can't have"], why: '本该更努力却没有，表示后悔，用 should have done。' },
+          { c: 'He ___ taken your book. He was not here yesterday.', o: ["can't have", 'must have', 'should have', 'needs have'], why: "他昨天不在，\"不可能\"拿了你的书，用 can't have done。" },
+          { c: 'She is not answering. She ___ gone to bed.', o: ['may have', 'should', 'needs to', 'can'], why: '不确定，推测"可能已经睡了"，用 may have done。' },
+          { s: 'You should have called me.', zh: '你本该给我打电话的。' },
+          { s: 'He must have forgotten the meeting.', zh: '他一定是忘了开会。' },
+          { c: 'You ___ bought the milk. We already have a lot.', o: ["needn't have", "can't have", 'must have', 'may'], why: "已经买了，但其实没必要，用 needn't have done。" },
+          { c: 'I am sorry. I ___ said that to you.', o: ["shouldn't have", 'should have', 'must have', "can't have"], why: "说了不该说的话并为此道歉，用 shouldn't have done。" },
+          { c: 'He must have ___ the keys at home.', o: ['left', 'leave', 'leaving', 'leaves'], why: 'must have 后面接过去分词，leave 的过去分词是 left。' },
+          { c: 'You could have ___ me for help. Why did you not?', o: ['asked', 'ask', 'asking', 'asks'], why: 'could have 后面接过去分词，表示本来可以做却没做。' },
+          { c: 'The lights are off. They ___ gone out.', o: ['must have', 'should have', "needn't have", 'must'], why: '灯关着，有把握地推测他们"一定出去了"。' },
+          { c: 'Tom looks tired. He ___ up late last night.', o: ['must have stayed', 'must stay', 'should stay', 'can stay'], why: '根据现在的样子推测昨晚的事，用 must have done。' },
+          { s: 'She may have lost her phone.', zh: '她可能把手机弄丢了。' },
+          { s: "I shouldn't have told him.", zh: '我本不该告诉他的。' },
+          { s: "They can't have seen us.", zh: '他们不可能看见我们了。' },
+        ],
+      },
+      {
+        id: 'g5-3', grade: '初中', title: '被动语态', en: 'The Passive Voice',
+        intro: '主语是动作的承受者时用被动语态：be + 过去分词，"被……"。',
+        rule: `<p>主动语态：主语是动作的执行者（Many people <b>speak</b> English）。被动语态：主语是动作的承受者（English <b>is spoken</b> by many people）。</p>
+<p>被动语态 = <b>be + 过去分词</b>，时态由 be 体现；动作的执行者用 <b>by</b> 引出，不重要时可以省略。</p>`,
+        forms: [
+          { label: '一般现在时', parts: ['主语', 'am / is / are', '过去分词', '(by…)'] },
+          { label: '一般过去时', parts: ['主语', 'was / were', '过去分词', '(by…)'] },
+          { label: '一般将来时', parts: ['主语', 'will be', '过去分词', '(by…)'] },
+          { label: '含情态动词', parts: ['主语', 'can / must / should + be', '过去分词'] },
+        ],
+        examples: [
+          'English [is spoken] in many countries.|很多国家都说英语。',
+          'This bridge [was built] in 1990.|这座桥建于 1990 年。',
+          'The window [was broken] by Tom.|窗户是汤姆打破的。',
+          'The meeting [will be held] next Monday.|会议将在下周一召开。',
+          'Trees [should be planted] every year.|每年都应该植树。',
+          'My bike [was stolen] yesterday.|我的自行车昨天被偷了。',
+        ],
+        traps: [
+          '被动语态别漏了 be：The book <b>was</b> written by him，不说 The book written by him。',
+          '只有及物动词才有被动语态：happen、take place 没有被动，不说 was happened。',
+        ],
+        quiz: [
+          { c: 'Paper ___ by the Chinese long ago.', o: ['was invented', 'invented', 'is invented', 'was invent'], why: '纸是被发明的，long ago 用一般过去时被动 was invented。' },
+          { c: 'Football ___ all over the world.', o: ['is played', 'plays', 'is playing', 'played'], why: '足球是被踢的，表示普遍情况用一般现在时被动。' },
+          { c: 'The work must ___ before Friday.', o: ['be finished', 'finish', 'finished', 'be finish'], why: '情态动词的被动：must be + 过去分词。' },
+          { c: 'The accident ___ last night.', o: ['happened', 'was happened', 'is happened', 'happens'], why: 'happen 是不及物动词，没有被动语态。' },
+          { s: 'This story was written by Lu Xun.', zh: '这个故事是鲁迅写的。' },
+          { s: 'Rice is grown in the south of China.', zh: '中国南方种植水稻。' },
+          { c: "The classroom ___ every day.", o: ["is cleaned", "cleans", "is cleaning", "cleaned"], why: "教室是被打扫的，表示经常用一般现在时被动。" },
+          { c: "This song ___ by a famous singer in 2010.", o: ["was sung", "sang", "is sung", "was sing"], why: "歌是被唱的，in 2010 用一般过去时被动 was sung。" },
+          { c: "The new school ___ next year.", o: ["will be built", "will build", "is built", "was built"], why: "学校是被建的，next year 用一般将来时被动。" },
+          { c: "Many trees ___ in spring every year.", o: ["are planted", "plant", "are planting", "planted"], why: "树是被种的，主语复数用 are planted。" },
+          { c: "Children should ___ well.", o: ["be taken care of", "take care of", "be taken care", "taken care of"], why: "短语动词变被动时，介词 of 要保留。" },
+          { c: "The book was written ___ Mark Twain.", o: ["by", "with", "from", "of"], why: "被动语态中，动作的执行者用 by 引出。" },
+          { s: "The window was broken by the wind.", zh: "窗户被风吹破了。" },
+          { s: "Chinese is spoken in Singapore.", zh: "新加坡也说汉语。" },
+          { s: "The work will be finished tomorrow.", zh: "这项工作明天会完成。" },
+        ],
+      },
+      {
+        id: 'gs-6', grade: '高中', title: '被动语态进阶：进行时与完成时', en: 'Passive: Continuous & Perfect',
+        intro: '被动语态的时态由 be 来体现。进行时的被动是 be being done，完成时的被动是 have / has / had been done。',
+        rule: `<p>被动语态的基本结构是 <b>be + 过去分词</b>，变时态只需要变 be。</p>
+<p><b>进行时的被动</b>：be 变成 <b>am / is / are being</b>（现在）或 <b>was / were being</b>（过去），表示"正在被……"：The road <b>is being repaired</b>.</p>
+<p><b>完成时的被动</b>：be 变成 <b>have / has been</b>（现在完成）或 <b>had been</b>（过去完成），表示"已经被……"：The work <b>has been finished</b>.</p>`,
+        forms: [
+          { label: '现在进行时', parts: ['主语', 'am / is / are', 'being', '过去分词'] },
+          { label: '过去进行时', parts: ['主语', 'was / were', 'being', '过去分词'] },
+          { label: '现在完成时', parts: ['主语', 'have / has', 'been', '过去分词'] },
+          { label: '过去完成时', parts: ['主语', 'had', 'been', '过去分词'] },
+        ],
+        table: {
+          head: ['时态', '主动', '被动'],
+          rows: [
+            ['现在进行时', 'They are building a bridge.', 'A bridge is being built.'],
+            ['过去进行时', 'They were cleaning the room.', 'The room was being cleaned.'],
+            ['现在完成时', 'Someone has stolen my bike.', 'My bike has been stolen.'],
+            ['过去完成时', 'They had sold the house.', 'The house had been sold.'],
+          ],
+        },
+        examples: [
+          'A new bridge [is being built] over the river.|河上正在建一座新桥。',
+          'The problem [is being discussed] at the meeting.|会上正在讨论这个问题。',
+          'When I got there, the room [was being cleaned].|我到那儿的时候，房间正在打扫。',
+          'All the tickets [have been sold].|所有的票都已经卖完了。',
+          'My bike [has been stolen].|我的自行车被偷了。',
+          'The house [had been sold] before we arrived.|我们到之前，房子已经卖掉了。',
+        ],
+        traps: [
+          '进行时的被动里 <b>being</b> 不能丢：The car is <b>being</b> washed.（The car is washed 是一般现在时）',
+          '完成时的被动里 <b>been</b> 不能丢：The letter has <b>been</b> sent.（has sent 是主动，意思变成"它寄出了别的东西"）',
+          'being（进行）和 been（完成）读音相近，注意区分：is <b>being</b> done / has <b>been</b> done。',
+        ],
+        quiz: [
+          { c: 'Look! The house ___ painted.', o: ['is being', 'is been', 'has being', 'being'], why: 'Look! 说明正在进行，房子"正在被粉刷"，用 is being done。' },
+          { c: 'The homework ___ finished. You can check it now.', o: ['has been', 'has being', 'is being', 'have'], why: '作业"已经被完成"，用现在完成时的被动 has been done。' },
+          { c: 'When I arrived, dinner ___ cooked. It was not ready yet.', o: ['was being', 'has been', 'is being', 'were being'], why: '到达是过去的时间点，当时晚饭"正在被做"，用 was being done。' },
+          { c: 'By the time we came, all the food ___ eaten.', o: ['had been', 'has being', 'is being', 'have been'], why: '在"我们来"之前就已经被吃完，用过去完成时的被动 had been done。' },
+          { s: 'The road is being repaired.', zh: '这条路正在修。' },
+          { s: 'The work has been finished.', zh: '工作已经完成了。' },
+          { c: 'A new school is being ___ near my home.', o: ['built', 'build', 'building', 'builds'], why: 'is being 后面接过去分词 built。' },
+          { c: 'My watch has ___ repaired.', o: ['been', 'being', 'be', 'was'], why: '完成时的被动是 has been + 过去分词。' },
+          { c: 'The windows ___ cleaned at the moment.', o: ['are being', 'have been', 'were being', 'are been'], why: 'at the moment 表示此刻正在进行，用 are being done。' },
+          { c: 'Many trees ___ planted here since last year.', o: ['have been', 'are being', 'were being', 'had been'], why: 'since last year 用现在完成时，树是被种的，用 have been done。' },
+          { c: '___ the letter been sent yet?', o: ['Has', 'Is', 'Was', 'Does'], why: 'been sent 前面用 Has 构成现在完成时被动的疑问句。' },
+          { c: 'The patient ___ examined by the doctor when I called.', o: ['was being', 'has been', 'is being', 'were being'], why: '我打电话时（过去的时间点）病人"正在被检查"，主语是单数，用 was being。' },
+          { s: 'My phone has been stolen.', zh: '我的手机被偷了。' },
+          { s: 'The room was being cleaned.', zh: '房间当时正在打扫。' },
+          { s: 'The tickets had been sold out.', zh: '票已经卖完了。' },
+        ],
+      },
+      {
+        id: 'g5-4', grade: '小学', title: '比较级与最高级', en: 'Comparatives & Superlatives',
+        intro: '两者比较用比较级 + than，三者及以上比较用 the + 最高级。',
+        rule: `<p><b>比较级</b>：A + 动词 + 比较级 + <b>than</b> + B（Tom is taller than Jim）。</p>
+<p><b>最高级</b>：A + 动词 + <b>the</b> + 最高级 + of / in…（Tom is the tallest in our class）。</p>
+<p>同级比较：<b>as + 原级 + as</b>（和……一样）；否定 not as / so … as（不如……）。</p>`,
+        table: {
+          head: ['规则', '原级 → 比较级 → 最高级'],
+          rows: [
+            ['一般加 -er / -est', 'tall → taller → tallest'],
+            ['以 e 结尾加 -r / -st', 'nice → nicer → nicest'],
+            ['辅音 + y 结尾，变 y 为 i', 'happy → happier → happiest'],
+            ['重读闭音节，双写末尾辅音', 'big → bigger → biggest，hot → hotter → hottest'],
+            ['多音节词前加 more / most', 'beautiful → more beautiful → most beautiful'],
+            ['不规则', 'good / well → better → best，bad → worse → worst，many / much → more → most'],
+          ],
+        },
+        examples: [
+          'An elephant is [bigger than] a horse.|大象比马大。',
+          'This book is [more interesting than] that one.|这本书比那本有趣。',
+          'Lily is [the tallest] girl in our class.|莉莉是我们班最高的女孩。',
+          'Summer is [the hottest] season of the year.|夏天是一年中最热的季节。',
+          'My English is [better] than before.|我的英语比以前好了。',
+          'Tom runs [as fast as] Jack.|汤姆跑得和杰克一样快。',
+        ],
+        traps: [
+          '比较级前可以用 much、a little、even 修饰，但不能用 very：<b>much</b> taller，不说 very taller。',
+          'as … as 中间用原级：as tall as，不说 as taller as。',
+        ],
+        quiz: [
+          { c: 'My bag is ___ than yours.', o: ['heavier', 'heavy', 'heaviest', 'more heavy'], why: '有 than 用比较级，heavy 变 y 为 i 加 -er。' },
+          { c: 'Who is ___ student in your class?', o: ['the best', 'better', 'the better', 'good'], why: '班级里最好的，用最高级 the best。' },
+          { c: 'This picture is ___ than that one.', o: ['more beautiful', 'beautifuler', 'most beautiful', 'beautiful'], why: '多音节词的比较级用 more。' },
+          { c: 'Tom is as ___ as his father now.', o: ['tall', 'taller', 'tallest', 'the tallest'], why: 'as … as 中间用原级。' },
+          { s: 'The Yangtze River is the longest river in China.', zh: '长江是中国最长的河流。' },
+          { s: 'Today is much colder than yesterday.', zh: '今天比昨天冷得多。' },
+          { c: "This box is ___ than that one.", o: ["bigger", "biger", "big", "biggest"], why: "有 than 用比较级，big 双写 g 再加 -er。" },
+          { c: "Summer is ___ season of the year.", o: ["the hottest", "hotter", "the hotest", "hottest"], why: "一年中最热，用 the + 最高级，hot 双写 t。" },
+          { c: "Your idea is much ___ than mine.", o: ["better", "gooder", "best", "more good"], why: "good 的比较级是不规则的 better。" },
+          { c: "Math is ___ than English for me.", o: ["more difficult", "difficulter", "most difficult", "difficult"], why: "多音节词的比较级用 more。" },
+          { c: "Lucy is the ___ girl in our class.", o: ["tallest", "taller", "tall", "most tall"], why: "班级里最高，用最高级 tallest。" },
+          { c: "My bike is as ___ as yours.", o: ["new", "newer", "newest", "the newest"], why: "as … as 中间用原级。" },
+          { s: "An elephant is heavier than a horse.", zh: "大象比马重。" },
+          { s: "He is the best player in our team.", zh: "他是我们队最好的队员。" },
+          { s: "This question is easier than that one.", zh: "这道题比那道题简单。" },
+        ],
+      },
+      {
+        id: 'gj-9', grade: '初中', title: '副词的比较级和最高级', en: 'Comparing Adverbs',
+        intro: '比较"谁做得更快、更好、更认真"，要用副词的比较级和最高级，修饰的是动词。',
+        rule: `<p>形容词比较的是"人或物怎么样"（Tom is <b>taller</b>），副词比较的是"动作做得怎么样"（Tom runs <b>faster</b>）。</p>
+<p>单音节副词和 early 加 <b>-er / -est</b>：fast → faster → fastest，hard → harder → hardest，early → earlier → earliest。</p>
+<p>以 <b>-ly</b> 结尾的副词前面加 <b>more / most</b>：carefully → more carefully → most carefully。</p>
+<p>副词最高级前面的 <b>the</b> 可以省略：He runs (the) fastest in our class.</p>`,
+        forms: [
+          { label: '比较级', parts: ['A', '动词', '副词比较级', 'than', 'B'] },
+          { label: '最高级', parts: ['A', '动词', '(the) 副词最高级', 'of / in + 范围'] },
+          { label: '同级', parts: ['A', '动词', 'as', '副词原级', 'as', 'B'] },
+        ],
+        table: {
+          head: ['原级', '比较级', '最高级'],
+          rows: [
+            ['fast', 'faster', 'fastest'],
+            ['hard', 'harder', 'hardest'],
+            ['early', 'earlier', 'earliest'],
+            ['late', 'later', 'latest'],
+            ['slowly', 'more slowly', 'most slowly'],
+            ['carefully', 'more carefully', 'most carefully'],
+            ['well', 'better', 'best'],
+            ['badly', 'worse', 'worst'],
+            ['much', 'more', 'most'],
+            ['little', 'less', 'least'],
+            ['far', 'farther / further', 'farthest / furthest'],
+          ],
+        },
+        examples: [
+          'Tom runs [faster than] his brother.|汤姆跑得比他哥哥快。',
+          'She gets up [earlier than] me.|她起得比我早。',
+          'Please speak [more slowly].|请说得再慢一点。',
+          'Lily sings [the best] in our class.|莉莉在我们班唱得最好。',
+          'He works [the hardest] of all the students.|他是所有学生中学习最努力的。',
+          'I can swim [as well as] my father.|我游泳游得和我爸爸一样好。',
+        ],
+        traps: [
+          '修饰动词要用副词，不用形容词：He runs <b>quickly</b>.（不说 runs quick）；She sings <b>well</b>.（不说 sings good）',
+          '以 -ly 结尾的副词用 more / most，不加 -er：<b>more carefully</b>，不说 carefullier。early 是例外：earlier。',
+          'well 和 good 的比较级、最高级相同：better、best；badly 和 bad 也相同：worse、worst。',
+        ],
+        quiz: [
+          { c: 'A horse can run ___ than a dog.', o: ['faster', 'fast', 'fastest', 'more fast'], why: '有 than，用比较级；fast 是单音节词，加 -er。' },
+          { c: 'Please drive ___. The road is wet.', o: ['more carefully', 'carefullier', 'more careful', 'careful'], why: '修饰动词 drive 用副词；carefully 以 -ly 结尾，比较级加 more。' },
+          { c: 'Mike jumps ___ in his class.', o: ['the highest', 'higher', 'high', 'more high'], why: '范围是全班（三者以上），用最高级。' },
+          { c: 'She speaks English ___ than her brother.', o: ['better', 'well', 'good', 'best'], why: '有 than，用比较级；well 的比较级是 better。' },
+          { s: 'He runs faster than me.', zh: '他跑得比我快。' },
+          { s: 'She sings better than her sister.', zh: '她唱得比她姐姐好。' },
+          { c: 'I get up ___ than my sister. She gets up at six and I get up at five.', o: ['earlier', 'early', 'more early', 'earliest'], why: '有 than，用比较级；early 变 y 为 i 加 -er。' },
+          { c: 'Who works ___, Tom, Jack or Mike?', o: ['the hardest', 'harder', 'hard', 'more hard'], why: '三个人比较，用最高级。' },
+          { c: 'He did ___ in the test than last time. He got only fifty.', o: ['worse', 'badly', 'bad', 'worst'], why: '有 than，用比较级；badly 的比较级是 worse。' },
+          { c: 'Tom plays the piano as ___ as his teacher.', o: ['well', 'better', 'best', 'good'], why: 'as … as 中间用原级；修饰动词用副词 well。' },
+          { c: 'The old man walks ___ than the young man.', o: ['more slowly', 'slowlier', 'slow', 'most slowly'], why: '有 than，用比较级；slowly 以 -ly 结尾，加 more。' },
+          { c: 'Of all the girls, Amy dances ___.', o: ['the most beautifully', 'more beautifully', 'beautiful', 'most beautiful'], why: '范围是所有女孩，用最高级；修饰动词 dances 用副词。' },
+          { s: 'Please speak more slowly.', zh: '请说慢一点。' },
+          { s: 'My mother gets up the earliest.', zh: '我妈妈起得最早。' },
+          { s: 'I can swim as fast as you.', zh: '我游得和你一样快。' },
+        ],
+      },
+    ],
+  },
+
+  /* ====================================================== */
+  {
+    id: 'nf', title: '非谓语动词', en: 'Non-finite Verbs', level: '高级', icon: '🔧',
+    desc: '不定式、-ing 形式和 -ed 形式：不当谓语的动词，在句子里还能做主语、宾语、定语、状语和补语。',
+    lessons: [
       {
         id: 'g5-2', grade: '初中', title: '不定式与动名词', en: 'To Do & Doing',
         intro: '动词做宾语时，有的接 to do（不定式），有的接 doing（动名词），要分别记。',
@@ -2173,44 +2632,97 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g5-3', grade: '初中', title: '被动语态', en: 'The Passive Voice',
-        intro: '主语是动作的承受者时用被动语态：be + 过去分词，"被……"。',
-        rule: `<p>主动语态：主语是动作的执行者（Many people <b>speak</b> English）。被动语态：主语是动作的承受者（English <b>is spoken</b> by many people）。</p>
-<p>被动语态 = <b>be + 过去分词</b>，时态由 be 体现；动作的执行者用 <b>by</b> 引出，不重要时可以省略。</p>`,
-        forms: [
-          { label: '一般现在时', parts: ['主语', 'am / is / are', '过去分词', '(by…)'] },
-          { label: '一般过去时', parts: ['主语', 'was / were', '过去分词', '(by…)'] },
-          { label: '一般将来时', parts: ['主语', 'will be', '过去分词', '(by…)'] },
-          { label: '含情态动词', parts: ['主语', 'can / must / should + be', '过去分词'] },
-        ],
+        id: 'gs-7', grade: '高中', title: '不定式作定语和结果状语', en: 'To Do as Attributive & Result',
+        intro: '不定式放在名词后面可以做定语（"要做的……"），放在句末还可以表示出乎意料的结果。',
+        rule: `<p><b>不定式作定语</b>要放在被修饰的名词或代词<b>后面</b>，常表示"将要做的、可以做的"：I have a lot of homework <b>to do</b>. 如果不定式里的动词是不及物动词，后面要带上介词：a chair <b>to sit on</b>、a pen <b>to write with</b>。</p>
+<p>the first / last / only 和最高级后面常接不定式作定语：He was the first <b>to arrive</b>.</p>
+<p><b>不定式作结果状语</b>常见三种结构：<b>only to do</b>（结果却……，表示出乎意料的结果）、<b>too … to do</b>（太……而不能）、<b>… enough to do</b>（足够……能够）。</p>`,
+        table: {
+          head: ['用法', '结构', '例子'],
+          rows: [
+            ['作定语', '名词 / 代词 + to do', 'I have something to tell you.'],
+            ['作定语（带介词）', '名词 + to do + 介词', 'She needs a room to live in.'],
+            ['作定语', 'the first / last / only + (名词) + to do', 'She is always the last to leave.'],
+            ['作结果状语', 'only to do', 'He hurried to the station, only to find the train had left.'],
+            ['作结果状语', 'too … to do / … enough to do', 'He is too young to drive. / He is old enough to drive.'],
+          ],
+        },
         examples: [
-          'English [is spoken] in many countries.|很多国家都说英语。',
-          'This bridge [was built] in 1990.|这座桥建于 1990 年。',
-          'The window [was broken] by Tom.|窗户是汤姆打破的。',
-          'The meeting [will be held] next Monday.|会议将在下周一召开。',
-          'Trees [should be planted] every year.|每年都应该植树。',
-          'My bike [was stolen] yesterday.|我的自行车昨天被偷了。',
+          'I have a lot of work [to do] today.|我今天有很多工作要做。',
+          'Would you like something [to drink]?|你想喝点什么吗？',
+          'She has no one [to talk to].|她没有可以说话的人。',
+          'He was the first [to arrive] at school.|他是第一个到校的。',
+          'I hurried to the shop, [only to find] it was closed.|我匆匆赶到商店，却发现它关门了。',
+          'He woke up [to find] himself in hospital.|他醒来发现自己在医院里。',
         ],
         traps: [
-          '被动语态别漏了 be：The book <b>was</b> written by him，不说 The book written by him。',
-          '只有及物动词才有被动语态：happen、take place 没有被动，不说 was happened。',
+          '不及物动词作定语时别丢介词：a house <b>to live in</b>（住的房子）、someone <b>to play with</b>（一起玩的人）。',
+          '<b>only to do</b> 表示意外的结果；<b>in order to do</b> 表示目的，别混淆：He ran to the station <b>to catch</b> the train.（目的）/ He ran to the station, <b>only to miss</b> the train.（结果）',
+          '作定语的不定式和被修饰的词之间常有"动宾关系"：a book <b>to read</b> = read a book。',
         ],
         quiz: [
-          { c: 'Paper ___ by the Chinese long ago.', o: ['was invented', 'invented', 'is invented', 'was invent'], why: '纸是被发明的，long ago 用一般过去时被动 was invented。' },
-          { c: 'Football ___ all over the world.', o: ['is played', 'plays', 'is playing', 'played'], why: '足球是被踢的，表示普遍情况用一般现在时被动。' },
-          { c: 'The work must ___ before Friday.', o: ['be finished', 'finish', 'finished', 'be finish'], why: '情态动词的被动：must be + 过去分词。' },
-          { c: 'The accident ___ last night.', o: ['happened', 'was happened', 'is happened', 'happens'], why: 'happen 是不及物动词，没有被动语态。' },
-          { s: 'This story was written by Lu Xun.', zh: '这个故事是鲁迅写的。' },
-          { s: 'Rice is grown in the south of China.', zh: '中国南方种植水稻。' },
-          { c: "The classroom ___ every day.", o: ["is cleaned", "cleans", "is cleaning", "cleaned"], why: "教室是被打扫的，表示经常用一般现在时被动。" },
-          { c: "This song ___ by a famous singer in 2010.", o: ["was sung", "sang", "is sung", "was sing"], why: "歌是被唱的，in 2010 用一般过去时被动 was sung。" },
-          { c: "The new school ___ next year.", o: ["will be built", "will build", "is built", "was built"], why: "学校是被建的，next year 用一般将来时被动。" },
-          { c: "Many trees ___ in spring every year.", o: ["are planted", "plant", "are planting", "planted"], why: "树是被种的，主语复数用 are planted。" },
-          { c: "Children should ___ well.", o: ["be taken care of", "take care of", "be taken care", "taken care of"], why: "短语动词变被动时，介词 of 要保留。" },
-          { c: "The book was written ___ Mark Twain.", o: ["by", "with", "from", "of"], why: "被动语态中，动作的执行者用 by 引出。" },
-          { s: "The window was broken by the wind.", zh: "窗户被风吹破了。" },
-          { s: "Chinese is spoken in Singapore.", zh: "新加坡也说汉语。" },
-          { s: "The work will be finished tomorrow.", zh: "这项工作明天会完成。" },
+          { c: 'I am hungry. Is there anything ___?', o: ['to eat', 'eat', 'eats', 'ate'], why: '不定式 to eat 放在 anything 后面做定语，表示"可以吃的东西"。' },
+          { c: 'The children need a garden ___.', o: ['to play in', 'to play', 'playing in it', 'play in'], why: 'play 是不及物动词，"在花园里玩"要带介词 in。' },
+          { c: 'He was the first student ___ the question.', o: ['to answer', 'answer', 'answered it', 'answers'], why: 'the first + 名词后面用不定式作定语。' },
+          { c: 'She rushed to the airport, ___ the plane had taken off.', o: ['only to find', 'in order to find', 'so as to find', 'to finding'], why: '赶到机场却发现飞机已经起飞，是出乎意料的结果，用 only to do。' },
+          { s: 'I have something to tell you.', zh: '我有件事要告诉你。' },
+          { s: 'She has no time to play games.', zh: '她没有时间玩游戏。' },
+          { c: 'I have some letters ___ this afternoon.', o: ['to write', 'write', 'wrote', 'writes'], why: '不定式作定语修饰 letters，表示"要写的信"。' },
+          { c: 'Please give me a pen ___.', o: ['to write with', 'to write', 'writing', 'write with'], why: '"用笔写"是 write with a pen，不定式作定语时介词 with 不能丢。' },
+          { c: 'He is old enough ___ to school.', o: ['to go', 'going', 'go', 'went'], why: '形容词 + enough + to do，表示"足够……能够做"。' },
+          { c: 'There is nothing ___ about.', o: ['to worry', 'worry', 'worried', 'worries'], why: '不定式作定语修饰 nothing：nothing to worry about。' },
+          { c: 'He lifted the stone, only ___ it on his own foot.', o: ['to drop', 'drop', 'dropped', 'drops'], why: 'only to do 表示意外的结果。' },
+          { c: 'In "I have a book to read", "to read" 做什么成分？', o: ['定语', '状语', '宾语', '表语'], why: 'to read 修饰名词 book，说明是"要读的书"，做定语。' },
+          { s: 'He was the last to leave.', zh: '他是最后一个离开的。' },
+          { s: 'We need a room to live in.', zh: '我们需要一间房子住。' },
+          { s: 'I have a lot of homework to do.', zh: '我有很多作业要做。' },
+        ],
+      },
+      {
+        id: 'gs-8', grade: '高中', title: '不定式和 -ing 形式作主语、表语', en: 'To Do & Doing as Subject or Predicative',
+        intro: '不定式和 -ing 形式都可以像名词一样做句子的主语和表语。主语太长时，常用 it 做形式主语。',
+        rule: `<p><b>作主语</b>：-ing 形式常表示一般的、习惯性的行为（<b>Swimming</b> is good for you）；不定式常表示具体的、将要做的某一件事（<b>To finish</b> the work today is impossible）。谓语动词用单数。</p>
+<p>主语太长时用 <b>it</b> 做形式主语，把真正的主语放到后面：<b>It</b> is important <b>to learn</b> English. 少数固定句型用 -ing：It is no use <b>crying</b>. / It is no good <b>waiting</b>.</p>
+<p><b>作表语</b>：放在 be 动词后面，说明主语的内容：My dream is <b>to be</b> a doctor. / My hobby is <b>collecting</b> stamps.</p>
+<p><b>it 还可以做形式宾语</b>：find / think / make + <b>it</b> + 形容词 + to do：I find <b>it</b> hard <b>to get up</b> early.</p>`,
+        table: {
+          head: ['成分', '不定式', '-ing 形式'],
+          rows: [
+            ['主语', 'To see is to believe.', 'Seeing is believing.'],
+            ['形式主语 it', 'It is easy to make mistakes.', 'It is no use arguing with him.'],
+            ['表语', 'Her wish is to travel around the world.', 'His job is teaching English.'],
+            ['形式宾语 it', 'I find it hard to remember names.', '（一般用不定式）'],
+          ],
+        },
+        examples: [
+          '[Reading] aloud is a good way to learn English.|朗读是学英语的好方法。',
+          '[To master] a language takes time.|掌握一门语言需要时间。',
+          '[It] is important [to keep] your promise.|信守诺言很重要。',
+          '[It] is no use [crying] over spilt milk.|覆水难收，后悔也没用。',
+          'My dream is [to become] a scientist.|我的梦想是成为科学家。',
+          'I find [it] difficult [to understand] him.|我发现很难理解他。',
+        ],
+        traps: [
+          '-ing 形式或不定式做主语时，谓语用单数：<b>Collecting</b> stamps <b>is</b> fun.（不说 are）',
+          '作表语的 -ing 形式（His job is <b>teaching</b>.）不是进行时：主语和表语可以互换（Teaching is his job），进行时不能。',
+          '形式宾语 it 不能省：I find <b>it</b> easy to learn English.（不说 I find easy to learn English）',
+        ],
+        quiz: [
+          { c: '___ too much TV is bad for your eyes.', o: ['Watching', 'Watch', 'Watched', 'Watches'], why: '-ing 形式做主语，表示"看太多电视"这件事。' },
+          { c: '___ is important to protect the environment.', o: ['It', 'That', 'This', 'There'], why: '真正的主语是后面的 to protect…，句首用形式主语 it。' },
+          { c: 'My dream is ___ a pilot.', o: ['to be', 'be', 'been', 'am'], why: '不定式做表语，说明梦想的内容。' },
+          { c: 'It is no use ___ to him. He never listens.', o: ['talking', 'talk', 'talked', 'talks'], why: 'It is no use 后面固定接 -ing 形式。' },
+          { s: 'Reading books is my favorite hobby.', zh: '读书是我最喜欢的爱好。' },
+          { s: 'It is easy to make mistakes.', zh: '犯错很容易。' },
+          { c: 'Playing computer games all day ___ a waste of time.', o: ['is', 'are', 'were', 'be'], why: '-ing 短语做主语，谓语用单数。' },
+          { c: 'I find ___ hard to fall asleep at night.', o: ['it', 'that', 'this', 'what'], why: 'find + it + 形容词 + to do，it 是形式宾语。' },
+          { c: 'Her hobby is ___ pictures of birds.', o: ['taking', 'take', 'took', 'takes'], why: '-ing 形式做表语，说明爱好的内容。' },
+          { c: '___ a foreign language well takes a lot of practice.', o: ['To learn', 'Learn', 'Learned', 'Learns'], why: '不定式短语做主语。动词原形不能直接做主语。' },
+          { c: 'We think it necessary ___ more trees.', o: ['to plant', 'plant', 'planted', 'plants'], why: 'think + it + 形容词 + to do，真正的宾语是不定式。' },
+          { c: 'In "Seeing is believing", "Seeing" 做什么成分？', o: ['主语', '表语', '宾语', '定语'], why: 'Seeing 在 is 前面，做主语；believing 在 is 后面，做表语。' },
+          { s: 'My job is teaching English.', zh: '我的工作是教英语。' },
+          { s: 'His dream is to travel around the world.', zh: '他的梦想是环游世界。' },
+          { s: 'I find it hard to get up early.', zh: '我发现早起很难。' },
         ],
       },
       {
@@ -2264,109 +2776,244 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g5-4', grade: '小学', title: '比较级与最高级', en: 'Comparatives & Superlatives',
-        intro: '两者比较用比较级 + than，三者及以上比较用 the + 最高级。',
-        rule: `<p><b>比较级</b>：A + 动词 + 比较级 + <b>than</b> + B（Tom is taller than Jim）。</p>
-<p><b>最高级</b>：A + 动词 + <b>the</b> + 最高级 + of / in…（Tom is the tallest in our class）。</p>
-<p>同级比较：<b>as + 原级 + as</b>（和……一样）；否定 not as / so … as（不如……）。</p>`,
+        id: 'gs-9', grade: '高中', title: '分词作定语：-ing 与 -ed', en: 'Participles as Attributives',
+        intro: '现在分词（-ing）和过去分词（-ed）都可以修饰名词。选哪个，看被修饰的名词和这个动作是主动关系还是被动关系。',
+        rule: `<p><b>-ing 形式</b>作定语表示<b>主动、正在进行</b>：a <b>sleeping</b> baby（正在睡觉的宝宝）= a baby who is sleeping。</p>
+<p><b>-ed 形式</b>作定语表示<b>被动、已经完成</b>：a <b>broken</b> window（被打破的窗户）= a window that was broken。</p>
+<p>位置：<b>单个</b>分词放在名词<b>前面</b>（the rising sun）；<b>分词短语</b>放在名词<b>后面</b>，相当于一个定语从句（the girl <b>standing at the door</b> = the girl who is standing at the door）。</p>`,
         table: {
-          head: ['规则', '原级 → 比较级 → 最高级'],
+          head: ['', '-ing（主动 / 进行）', '-ed（被动 / 完成）'],
           rows: [
-            ['一般加 -er / -est', 'tall → taller → tallest'],
-            ['以 e 结尾加 -r / -st', 'nice → nicer → nicest'],
-            ['辅音 + y 结尾，变 y 为 i', 'happy → happier → happiest'],
-            ['重读闭音节，双写末尾辅音', 'big → bigger → biggest，hot → hotter → hottest'],
-            ['多音节词前加 more / most', 'beautiful → more beautiful → most beautiful'],
-            ['不规则', 'good / well → better → best，bad → worse → worst，many / much → more → most'],
+            ['单个分词（前置）', 'a running dog，boiling water', 'a stolen car，boiled water'],
+            ['分词短语（后置）', 'the man talking to our teacher', 'the book written by Mo Yan'],
+            ['相当于定语从句', '= the man who is talking to our teacher', '= the book that was written by Mo Yan'],
           ],
         },
         examples: [
-          'An elephant is [bigger than] a horse.|大象比马大。',
-          'This book is [more interesting than] that one.|这本书比那本有趣。',
-          'Lily is [the tallest] girl in our class.|莉莉是我们班最高的女孩。',
-          'Summer is [the hottest] season of the year.|夏天是一年中最热的季节。',
-          'My English is [better] than before.|我的英语比以前好了。',
-          'Tom runs [as fast as] Jack.|汤姆跑得和杰克一样快。',
+          'Do you know the girl [standing] at the door?|你认识站在门口的那个女孩吗？',
+          'The man [talking] to our teacher is my father.|正在和我们老师说话的那个人是我爸爸。',
+          'Be careful with the [boiling] water.|小心开水。',
+          'The book [written] by Mo Yan is very popular.|莫言写的那本书很受欢迎。',
+          'The police found the [stolen] car.|警察找到了那辆被偷的车。',
+          'Most of the people [invited] to the party came.|被邀请参加聚会的人大部分都来了。',
         ],
         traps: [
-          '比较级前可以用 much、a little、even 修饰，但不能用 very：<b>much</b> taller，不说 very taller。',
-          'as … as 中间用原级：as tall as，不说 as taller as。',
+          '判断方法：名词是动作的发出者用 -ing，是动作的承受者用 -ed：the boy <b>reading</b> a book（男孩读书）/ the book <b>read</b> by the boy（书被读）。',
+          '<b>boiling water</b> 是正在沸腾的水，<b>boiled water</b> 是烧开过的水（可能已经凉了）；<b>falling leaves</b> 是正在飘落的叶子，<b>fallen leaves</b> 是已经落在地上的叶子。',
+          '分词短语只能放在名词后面：the students <b>sitting in the front</b>（不说 the sitting in the front students）。',
         ],
         quiz: [
-          { c: 'My bag is ___ than yours.', o: ['heavier', 'heavy', 'heaviest', 'more heavy'], why: '有 than 用比较级，heavy 变 y 为 i 加 -er。' },
-          { c: 'Who is ___ student in your class?', o: ['the best', 'better', 'the better', 'good'], why: '班级里最好的，用最高级 the best。' },
-          { c: 'This picture is ___ than that one.', o: ['more beautiful', 'beautifuler', 'most beautiful', 'beautiful'], why: '多音节词的比较级用 more。' },
-          { c: 'Tom is as ___ as his father now.', o: ['tall', 'taller', 'tallest', 'the tallest'], why: 'as … as 中间用原级。' },
-          { s: 'The Yangtze River is the longest river in China.', zh: '长江是中国最长的河流。' },
-          { s: 'Today is much colder than yesterday.', zh: '今天比昨天冷得多。' },
-          { c: "This box is ___ than that one.", o: ["bigger", "biger", "big", "biggest"], why: "有 than 用比较级，big 双写 g 再加 -er。" },
-          { c: "Summer is ___ season of the year.", o: ["the hottest", "hotter", "the hotest", "hottest"], why: "一年中最热，用 the + 最高级，hot 双写 t。" },
-          { c: "Your idea is much ___ than mine.", o: ["better", "gooder", "best", "more good"], why: "good 的比较级是不规则的 better。" },
-          { c: "Math is ___ than English for me.", o: ["more difficult", "difficulter", "most difficult", "difficult"], why: "多音节词的比较级用 more。" },
-          { c: "Lucy is the ___ girl in our class.", o: ["tallest", "taller", "tall", "most tall"], why: "班级里最高，用最高级 tallest。" },
-          { c: "My bike is as ___ as yours.", o: ["new", "newer", "newest", "the newest"], why: "as … as 中间用原级。" },
-          { s: "An elephant is heavier than a horse.", zh: "大象比马重。" },
-          { s: "He is the best player in our team.", zh: "他是我们队最好的队员。" },
-          { s: "This question is easier than that one.", zh: "这道题比那道题简单。" },
+          { c: 'The boy ___ under the tree is my brother.', o: ['sitting', 'sat', 'sits', 'is sitting'], why: '男孩主动坐着，用 -ing 短语做后置定语；句子已经有谓语 is，不能再用 sits / is sitting。' },
+          { c: 'The language ___ in Brazil is Portuguese.', o: ['spoken', 'speaking', 'speaks', 'spoke'], why: '语言是"被说"的，用过去分词 spoken。' },
+          { c: 'Look at the ___ sun. How beautiful!', o: ['rising', 'risen', 'rise', 'rose'], why: '太阳正在升起，表示进行用 -ing。' },
+          { c: 'The ground was covered with ___ leaves.', o: ['fallen', 'falling', 'fall', 'fell'], why: '已经落在地上的叶子，表示完成用过去分词 fallen。' },
+          { s: 'The girl singing on the stage is my sister.', zh: '在台上唱歌的那个女孩是我姐姐。' },
+          { s: 'I like the story written by him.', zh: '我喜欢他写的那个故事。' },
+          { c: 'The woman ___ a red coat is our new teacher.', o: ['wearing', 'worn', 'wears', 'wore'], why: '女人主动"穿着"红外套，用 -ing。' },
+          { c: 'We ate the cake ___ by my grandma.', o: ['made', 'making', 'makes', 'make'], why: '蛋糕是"被做"的，用过去分词 made。' },
+          { c: 'There is a car ___ outside the gate.', o: ['waiting', 'waited', 'waits', 'wait'], why: '车在门外"等着"，主动、进行，用 -ing。' },
+          { c: 'The letter ___ yesterday has not arrived.', o: ['posted', 'posting', 'posts', 'post'], why: '信是昨天"被寄出"的，被动、完成，用过去分词。' },
+          { c: 'Do not wake the ___ baby.', o: ['sleeping', 'slept', 'sleep', 'sleeps'], why: '宝宝正在睡觉，用 -ing 做前置定语。' },
+          { c: 'The picture ___ on the wall was painted by my uncle.', o: ['hanging', 'hanged', 'hangs', 'hang'], why: '画"挂在墙上"是主动的状态，用 -ing 短语做后置定语。' },
+          { s: 'The man standing there is our teacher.', zh: '站在那儿的那个人是我们的老师。' },
+          { s: 'She bought a bag made in Italy.', zh: '她买了一个意大利制造的包。' },
+          { s: 'The broken window has been repaired.', zh: '那扇破了的窗户已经修好了。' },
         ],
       },
       {
-        id: 'gj-9', grade: '初中', title: '副词的比较级和最高级', en: 'Comparing Adverbs',
-        intro: '比较"谁做得更快、更好、更认真"，要用副词的比较级和最高级，修饰的是动词。',
-        rule: `<p>形容词比较的是"人或物怎么样"（Tom is <b>taller</b>），副词比较的是"动作做得怎么样"（Tom runs <b>faster</b>）。</p>
-<p>单音节副词和 early 加 <b>-er / -est</b>：fast → faster → fastest，hard → harder → hardest，early → earlier → earliest。</p>
-<p>以 <b>-ly</b> 结尾的副词前面加 <b>more / most</b>：carefully → more carefully → most carefully。</p>
-<p>副词最高级前面的 <b>the</b> 可以省略：He runs (the) fastest in our class.</p>`,
-        forms: [
-          { label: '比较级', parts: ['A', '动词', '副词比较级', 'than', 'B'] },
-          { label: '最高级', parts: ['A', '动词', '(the) 副词最高级', 'of / in + 范围'] },
-          { label: '同级', parts: ['A', '动词', 'as', '副词原级', 'as', 'B'] },
-        ],
+        id: 'gs-10', grade: '高中', title: '分词作状语', en: 'Participles as Adverbials',
+        intro: '分词短语可以代替一个状语从句，表示时间、原因、条件、伴随等，让句子更紧凑。',
+        rule: `<p>当状语从句和主句的<b>主语相同</b>时，可以把从句简化成分词短语。分词的逻辑主语就是主句的主语。</p>
+<p>主句主语和分词是<b>主动</b>关系，用 <b>-ing</b>：<b>Hearing</b> the news, she cried.（她听到消息）</p>
+<p>主句主语和分词是<b>被动</b>关系，用 <b>-ed</b>：<b>Seen</b> from the hill, the city looks beautiful.（城市被看）</p>
+<p>否定形式在分词前加 <b>not</b>：<b>Not knowing</b> what to do, he asked for help.</p>`,
         table: {
-          head: ['原级', '比较级', '最高级'],
+          head: ['表示', '分词短语', '相当于'],
           rows: [
-            ['fast', 'faster', 'fastest'],
-            ['hard', 'harder', 'hardest'],
-            ['early', 'earlier', 'earliest'],
-            ['late', 'later', 'latest'],
-            ['slowly', 'more slowly', 'most slowly'],
-            ['carefully', 'more carefully', 'most carefully'],
-            ['well', 'better', 'best'],
-            ['badly', 'worse', 'worst'],
-            ['much', 'more', 'most'],
-            ['little', 'less', 'least'],
-            ['far', 'farther / further', 'farthest / furthest'],
+            ['时间', 'Walking in the park, I met an old friend.', 'When I was walking in the park, …'],
+            ['原因', 'Being ill, he stayed at home.', 'Because he was ill, …'],
+            ['条件', 'Given more time, we could do it better.', 'If we were given more time, …'],
+            ['伴随', 'She sat there, reading a book.', 'She sat there and read a book.'],
+            ['结果', 'It rained heavily, causing a flood.', '…, and it caused a flood.'],
           ],
         },
         examples: [
-          'Tom runs [faster than] his brother.|汤姆跑得比他哥哥快。',
-          'She gets up [earlier than] me.|她起得比我早。',
-          'Please speak [more slowly].|请说得再慢一点。',
-          'Lily sings [the best] in our class.|莉莉在我们班唱得最好。',
-          'He works [the hardest] of all the students.|他是所有学生中学习最努力的。',
-          'I can swim [as well as] my father.|我游泳游得和我爸爸一样好。',
+          '[Hearing] the good news, she jumped with joy.|听到这个好消息，她高兴得跳了起来。',
+          '[Seen] from the top of the hill, the city looks beautiful.|从山顶上看，这座城市很美。',
+          '[Not knowing] the way, he asked a policeman.|因为不认识路，他问了警察。',
+          'He sat by the window, [reading] a newspaper.|他坐在窗边看报纸。',
+          '[Tired] after the long walk, we went to bed early.|走了很长的路，很累，我们早早就睡了。',
+          '[Given] more time, I could finish the work.|如果多给我一点时间，我就能完成工作。',
         ],
         traps: [
-          '修饰动词要用副词，不用形容词：He runs <b>quickly</b>.（不说 runs quick）；She sings <b>well</b>.（不说 sings good）',
-          '以 -ly 结尾的副词用 more / most，不加 -er：<b>more carefully</b>，不说 carefullier。early 是例外：earlier。',
-          'well 和 good 的比较级、最高级相同：better、best；badly 和 bad 也相同：worse、worst。',
+          '分词的逻辑主语必须是主句的主语：<b>Walking</b> in the street, <b>I</b> saw a dog.（不说 Walking in the street, a dog was seen.——那就成了狗在走路）',
+          '主动用 -ing，被动用 -ed：<b>Seeing</b> the teacher, the boy ran away. / <b>Seen</b> from space, the earth is blue.',
+          '否定词 not 放在分词前面：<b>Not having</b> enough money, he did not buy it.',
         ],
         quiz: [
-          { c: 'A horse can run ___ than a dog.', o: ['faster', 'fast', 'fastest', 'more fast'], why: '有 than，用比较级；fast 是单音节词，加 -er。' },
-          { c: 'Please drive ___. The road is wet.', o: ['more carefully', 'carefullier', 'more careful', 'careful'], why: '修饰动词 drive 用副词；carefully 以 -ly 结尾，比较级加 more。' },
-          { c: 'Mike jumps ___ in his class.', o: ['the highest', 'higher', 'high', 'more high'], why: '范围是全班（三者以上），用最高级。' },
-          { c: 'She speaks English ___ than her brother.', o: ['better', 'well', 'good', 'best'], why: '有 than，用比较级；well 的比较级是 better。' },
-          { s: 'He runs faster than me.', zh: '他跑得比我快。' },
-          { s: 'She sings better than her sister.', zh: '她唱得比她姐姐好。' },
-          { c: 'I get up ___ than my sister. She gets up at six and I get up at five.', o: ['earlier', 'early', 'more early', 'earliest'], why: '有 than，用比较级；early 变 y 为 i 加 -er。' },
-          { c: 'Who works ___, Tom, Jack or Mike?', o: ['the hardest', 'harder', 'hard', 'more hard'], why: '三个人比较，用最高级。' },
-          { c: 'He did ___ in the test than last time. He got only fifty.', o: ['worse', 'badly', 'bad', 'worst'], why: '有 than，用比较级；badly 的比较级是 worse。' },
-          { c: 'Tom plays the piano as ___ as his teacher.', o: ['well', 'better', 'best', 'good'], why: 'as … as 中间用原级；修饰动词用副词 well。' },
-          { c: 'The old man walks ___ than the young man.', o: ['more slowly', 'slowlier', 'slow', 'most slowly'], why: '有 than，用比较级；slowly 以 -ly 结尾，加 more。' },
-          { c: 'Of all the girls, Amy dances ___.', o: ['the most beautifully', 'more beautifully', 'beautiful', 'most beautiful'], why: '范围是所有女孩，用最高级；修饰动词 dances 用副词。' },
-          { s: 'Please speak more slowly.', zh: '请说慢一点。' },
-          { s: 'My mother gets up the earliest.', zh: '我妈妈起得最早。' },
-          { s: 'I can swim as fast as you.', zh: '我游得和你一样快。' },
+          { c: '___ the bad news, she began to cry.', o: ['Hearing', 'Heard', 'Hear', 'Hears'], why: '主语 she 主动"听到"消息，用 -ing。' },
+          { c: '___ from the moon, the earth looks like a blue ball.', o: ['Seen', 'Seeing', 'See', 'Sees'], why: '主语 the earth 是"被看"的，用过去分词。' },
+          { c: '___ what to say, he kept silent.', o: ['Not knowing', 'Knowing not', 'Not known', 'Not know'], why: '分词的否定把 not 放在前面；he 主动"知道"，用 -ing。' },
+          { c: 'The teacher came in, ___ a pile of books.', o: ['carrying', 'carried', 'carry', 'carries'], why: '老师主动"拿着"书，表示伴随，用 -ing。' },
+          { s: 'He sat there reading a book.', zh: '他坐在那儿看书。' },
+          { s: 'Hearing the news, we all felt happy.', zh: '听到这个消息，我们都很高兴。' },
+          { c: '___ by the teacher, the boy felt very happy.', o: ['Praised', 'Praising', 'Praise', 'Praises'], why: '男孩是"被表扬"的，用过去分词。' },
+          { c: '___ in the park, I met my math teacher.', o: ['Walking', 'Walked', 'Walk', 'Walks'], why: '主语 I 主动"散步"，用 -ing。' },
+          { c: '___ in simple English, the book is easy to read.', o: ['Written', 'Writing', 'Write', 'Wrote'], why: '书是"被写"的，用过去分词。' },
+          { c: '___ ill, she did not go to school.', o: ['Being', 'Been', 'Be', 'Is'], why: 'Being ill 表示原因，相当于 Because she was ill。' },
+          { c: 'In "Seeing the dog, the boy ran away", 谁看见了狗？', o: ['the boy', 'the dog', '说话的人', '不清楚'], why: '分词的逻辑主语就是主句的主语 the boy。' },
+          { c: '___ more water, the flowers would grow better.', o: ['Given', 'Giving', 'Give', 'Gives'], why: '花是"被给"水的，被动关系用过去分词。' },
+          { s: 'Seen from the hill, the lake is beautiful.', zh: '从山上看，这个湖很美。' },
+          { s: 'Not knowing her address, I could not visit her.', zh: '因为不知道她的地址，我没法去看她。' },
+          { s: 'She came in carrying a big box.', zh: '她抱着一个大箱子走了进来。' },
+        ],
+      },
+      {
+        id: 'gs-11', grade: '高中', title: '分词作宾语补足语', en: 'Participles as Object Complements',
+        intro: '在 see、hear、find、keep、have 等动词后面，宾语之后还可以跟一个分词，说明宾语"正在做什么"或"被怎么样了"。',
+        rule: `<p>结构是 <b>动词 + 宾语 + 分词</b>。宾语和分词是主动关系、动作正在进行，用 <b>-ing</b>；宾语和分词是被动关系、动作已完成，用 <b>-ed</b>。</p>
+<p>常见动词：感官动词 <b>see、hear、watch、notice、feel</b>；<b>find、keep、leave</b>；使役动词 <b>have、get、make</b>。</p>
+<p><b>have / get + 宾语 + done</b> 很常用，表示"请别人做某事"或"遭遇某事"：I <b>had my hair cut</b>.（请人理发）/ He <b>had his wallet stolen</b>.（钱包被偷）</p>`,
+        forms: [
+          { label: '主动 / 进行', parts: ['动词', '宾语', '动词-ing'] },
+          { label: '被动 / 完成', parts: ['动词', '宾语', '过去分词'] },
+        ],
+        table: {
+          head: ['动词', '+ 宾语 + doing', '+ 宾语 + done'],
+          rows: [
+            ['see / hear / watch', 'I saw him crossing the road.', 'I heard my name called.'],
+            ['find', 'We found her sitting alone.', 'We found the door locked.'],
+            ['keep / leave', 'Sorry to keep you waiting.', 'Keep the windows closed.'],
+            ['have / get', 'He had us laughing all the time.', 'I had my bike repaired.'],
+            ['make', '（不用）', 'He spoke loudly to make himself heard.'],
+          ],
+        },
+        examples: [
+          'I saw him [crossing] the road.|我看见他正在过马路。',
+          'She heard her name [called].|她听见有人叫她的名字。',
+          'Sorry to have kept you [waiting].|抱歉让你久等了。',
+          'When I came back, I found the door [locked].|我回来的时候发现门锁着。',
+          'I had my hair [cut] yesterday.|我昨天理发了。',
+          'He raised his voice to make himself [heard].|他提高了嗓门，好让别人听见。',
+        ],
+        traps: [
+          '<b>see sb do</b> 是看到动作的全过程，<b>see sb doing</b> 是看到动作正在进行：I saw him <b>cross</b> the road.（看着他过了马路）/ I saw him <b>crossing</b> the road.（看到他正在过马路）',
+          '<b>have sth done</b> 是请别人做，<b>have done sth</b> 是现在完成时，别混淆：I <b>had my car washed</b>.（请人洗车）/ I <b>have washed</b> my car.（我自己洗了车）',
+          'make 后面的被动用 -ed：make oneself <b>understood</b> / <b>heard</b>（不用 -ing）。',
+        ],
+        quiz: [
+          { c: 'I heard someone ___ in the next room.', o: ['singing', 'sung', 'sings', 'to sing'], why: 'someone 主动"唱歌"，听到时正在进行，用 -ing。' },
+          { c: 'I must have my computer ___.', o: ['repaired', 'repairing', 'repair', 'repairs'], why: '电脑是"被修"的，have sth done 表示请别人做。' },
+          { c: 'When we got home, we found the window ___.', o: ['broken', 'breaking', 'break', 'breaks'], why: '窗户是"被打破"的，用过去分词。' },
+          { c: 'Do not keep the water ___ while you brush your teeth.', o: ['running', 'run', 'ran', 'runs'], why: '水主动"流着"，keep + 宾语 + doing 表示让某物一直处于某种状态。' },
+          { s: 'I had my bike repaired yesterday.', zh: '我昨天请人修了自行车。' },
+          { s: 'We found him sleeping on the sofa.', zh: '我们发现他在沙发上睡着了。' },
+          { c: 'She had her wallet ___ on the bus.', o: ['stolen', 'stealing', 'steal', 'stole'], why: '钱包"被偷"，have sth done 也可以表示遭遇某事。' },
+          { c: 'I saw the boy ___ by a dog.', o: ['bitten', 'biting', 'bite', 'bites'], why: '男孩是"被咬"的，被动关系用过去分词。' },
+          { c: 'He spoke slowly to make himself ___.', o: ['understood', 'understanding', 'understand', 'understands'], why: 'make oneself understood 是固定搭配：让别人听懂自己的话。' },
+          { c: 'We watched the children ___ in the garden.', o: ['playing', 'played', 'plays', 'to play'], why: '孩子们主动"玩"，正在进行，用 -ing。' },
+          { c: 'Please keep the door ___. It is cold outside.', o: ['closed', 'closing', 'close', 'closes'], why: '门是"被关上"的，keep + 宾语 + done。' },
+          { c: 'I am going to have my photo ___ tomorrow.', o: ['taken', 'taking', 'take', 'took'], why: '照片是"被拍"的，have sth done。' },
+          { s: 'I heard the birds singing.', zh: '我听见鸟儿在唱歌。' },
+          { s: 'He kept me waiting for an hour.', zh: '他让我等了一个小时。' },
+          { s: 'She had her hair cut last week.', zh: '她上周理了发。' },
+        ],
+      },
+      {
+        id: 'gs-12', grade: '高中', title: '非谓语的完成式与被动式', en: 'Perfect & Passive Non-finite Forms',
+        intro: '非谓语动词也有"完成"和"被动"的变化：动作发生在谓语之前用完成式，逻辑主语是动作的承受者用被动式。',
+        rule: `<p><b>完成式</b>表示非谓语的动作发生在谓语动作<b>之前</b>：<b>Having finished</b> his homework, he went out.（先做完作业，再出去）不定式的完成式是 <b>to have done</b>：He seems <b>to have forgotten</b> it.</p>
+<p><b>被动式</b>表示逻辑主语是动作的<b>承受者</b>：不定式 <b>to be done</b>（将要被做）、-ing 形式 <b>being done</b>（正在被做）。</p>
+<p>两者可以合在一起：<b>having been done</b>（已经被做）：<b>Having been told</b> many times, he still made the mistake.</p>`,
+        table: {
+          head: ['形式', '主动', '被动'],
+          rows: [
+            ['不定式（一般）', 'to do', 'to be done'],
+            ['不定式（完成）', 'to have done', 'to have been done'],
+            ['-ing（一般）', 'doing', 'being done'],
+            ['-ing（完成）', 'having done', 'having been done'],
+          ],
+        },
+        examples: [
+          '[Having finished] his homework, he went out to play.|做完作业后，他出去玩了。',
+          '[Having lived] in Beijing for years, she knows the city well.|在北京住了多年，她对这座城市很熟悉。',
+          'He seems [to have forgotten] my name.|他好像忘了我的名字。',
+          'The work needs [to be done] today.|这项工作今天必须完成。',
+          'The building [being built] now is a library.|正在建的那栋楼是图书馆。',
+          '[Having been told] many times, he still forgot it.|已经被告知很多次了，他还是忘了。',
+        ],
+        traps: [
+          '动作有明显的先后才用完成式：<b>Having finished</b> the work, he left.；两个动作几乎同时发生用一般式：<b>Hearing</b> the bell, he stood up.',
+          '三种"被动"定语表示的时间不同：the bridge <b>to be built</b>（将要建的）/ the bridge <b>being built</b>（正在建的）/ the bridge <b>built</b> last year（已经建好的）。',
+          '完成式的否定把 not 放在最前面：<b>Not having received</b> a reply, he wrote again.',
+        ],
+        quiz: [
+          { c: '___ the letter, she went to the post office.', o: ['Having written', 'Written', 'Being written', 'Writes'], why: '先写完信再去邮局，动作有先后，而且 she 主动写信，用 having done。' },
+          { c: 'The meeting ___ tomorrow is very important.', o: ['to be held', 'held', 'being held', 'holding'], why: 'tomorrow 说明会议将要被举行，用 to be done。' },
+          { c: 'The bridge ___ now will be finished next year.', o: ['being built', 'built', 'to build', 'building'], why: 'now 说明桥正在被建，用 being done。' },
+          { c: 'He is said ___ abroad last year.', o: ['to have gone', 'to go', 'going', 'gone'], why: '出国发生在"据说"之前，用不定式的完成式 to have done。' },
+          { s: 'Having finished the work, he went home.', zh: '做完工作后，他回家了。' },
+          { s: 'The room needs to be cleaned.', zh: '这个房间需要打扫。' },
+          { c: '___ in the rain, he caught a cold.', o: ['Having been caught', 'Having caught', 'Catching', 'To catch'], why: '他是"被雨淋"的，而且发生在感冒之前，用 having been done。' },
+          { c: 'She was happy ___ to the party.', o: ['to be invited', 'to invite', 'inviting', 'invite'], why: '她是"被邀请"的，用不定式的被动式。' },
+          { c: '___ all his money, he had to walk home.', o: ['Having spent', 'Spent', 'Being spent', 'Spend'], why: '先花光了钱，才只好走路回家；he 主动花钱，用 having done。' },
+          { c: 'The problem ___ at the meeting now is very important.', o: ['being discussed', 'discussing', 'having discussed', 'discuss'], why: '问题正在被讨论，用 being done 做定语。' },
+          { c: '___ a reply, he decided to write again.', o: ['Not having received', 'Having not received', 'Not received', 'Not receive'], why: '完成式的否定，not 放在 having 前面。' },
+          { c: 'I am sorry ___ you waiting so long.', o: ['to have kept', 'keeping to', 'to keeping', 'kept'], why: '让你久等发生在道歉之前，用 to have done。' },
+          { s: 'He seems to have lost his way.', zh: '他好像迷路了。' },
+          { s: 'She does not like being laughed at.', zh: '她不喜欢被人嘲笑。' },
+          { s: 'Having seen the film, I did not go.', zh: '因为看过那部电影，我就没去。' },
+        ],
+      },
+      {
+        id: 'gs-13', grade: '高中', title: '独立主格与 with 复合结构', en: 'Absolute & With Structures',
+        intro: '当分词的逻辑主语和句子的主语不一样时，要把分词自己的主语写出来，这就是独立主格结构。前面加上 with，就是 with 复合结构。',
+        rule: `<p>分词作状语时，逻辑主语必须是句子的主语。如果不一致，就要在分词前面<b>加上它自己的主语</b>：<b>Weather permitting</b>, we will go out.（permitting 的主语是 weather，不是 we。）这种"名词 / 代词 + 分词等"的结构叫<b>独立主格</b>，用逗号和主句隔开，中间不用连词。</p>
+<p><b>with 复合结构</b> = <b>with + 宾语 + 宾补</b>，常表示伴随的状态或原因。宾补可以是 -ing（主动、进行）、-ed（被动、完成）、to do（将要做）、形容词、副词或介词短语。</p>`,
+        forms: [
+          { label: '独立主格', parts: ['名词 / 代词', 'doing / done / 形容词 / 介词短语'] },
+          { label: 'with 复合结构', parts: ['with', '宾语', 'doing / done / to do / 形容词 / 介词短语'] },
+        ],
+        table: {
+          head: ['结构', '例子', '说明'],
+          rows: [
+            ['名词 + doing', 'Time permitting, I will visit you.', '时间主动"允许"'],
+            ['名词 + done', 'The work done, we went home.', '工作"被完成"'],
+            ['with + 宾语 + doing', 'With the boy leading the way, we found the house.', '男孩在带路'],
+            ['with + 宾语 + done', 'He sat there with his eyes closed.', '眼睛被闭上'],
+            ['with + 宾语 + to do', 'With a lot of work to do, I cannot go out.', '工作还要做'],
+            ['with + 宾语 + 形容词 / 介词短语', 'She sleeps with the window open. / He came in with a book in his hand.', '描述状态'],
+          ],
+        },
+        examples: [
+          '[Weather permitting], we will have a picnic tomorrow.|如果天气允许，我们明天去野餐。',
+          '[The work done], they went home.|工作做完了，他们就回家了。',
+          'He stood there, [his hands in his pockets].|他站在那儿，手插在口袋里。',
+          'She fell asleep [with the light on].|她开着灯睡着了。',
+          'He sat on the sofa [with his eyes closed].|他闭着眼睛坐在沙发上。',
+          '[With so much homework to do], I cannot go out tonight.|有这么多作业要做，我今晚不能出去。',
+        ],
+        traps: [
+          '独立主格和主句之间只用逗号，不能再加 and、but 等连词；它也没有谓语动词：The work <b>done</b>, we left.（不说 The work was done, we left.）',
+          'with 复合结构里，宾语和动作是被动关系用 -ed，主动关系用 -ing：with his eyes <b>closed</b>（眼睛被闭上）/ with tears <b>running</b> down her face（眼泪流下来）。',
+          '表示"还要做"用 to do：with a lot of work <b>to do</b>；表示"已经做完"用 done：with all the work <b>done</b>。',
+        ],
+        quiz: [
+          { c: 'Weather ___, we will go hiking this weekend.', o: ['permitting', 'permitted', 'permits', 'to permit'], why: '天气主动"允许"，独立主格里用 -ing。' },
+          { c: 'He fell asleep with the TV ___.', o: ['on', 'open', 'opened', 'opens'], why: '电器"开着"用副词 on：with the TV on。' },
+          { c: 'The teacher came in with a book ___ his hand.', o: ['in', 'on', 'at', 'by'], why: 'with + 宾语 + 介词短语：手里拿着书是 in his hand。' },
+          { c: 'With all the work ___, we went home happily.', o: ['done', 'doing', 'to do', 'does'], why: '工作已经"被做完"，所以高兴地回家，用过去分词。' },
+          { s: 'He sat there with his eyes closed.', zh: '他闭着眼睛坐在那儿。' },
+          { s: 'She left with the door open.', zh: '她走的时候门开着。' },
+          { c: 'With so many problems ___, the manager is very busy.', o: ['to solve', 'solved', 'solve', 'solves'], why: '还有很多问题"要解决"，所以很忙，表示将要做用 to do。' },
+          { c: 'She sat by the window with her eyes ___ on a book.', o: ['fixed', 'fixing', 'fix', 'to fix'], why: '眼睛是"被固定"在书上的，被动关系用过去分词。' },
+          { c: 'The meeting ___, everyone left the room.', o: ['over', 'was over', 'is over', 'be over'], why: '独立主格没有谓语动词：The meeting over（会议结束后）。' },
+          { c: 'With the old man ___ the way, we found the village easily.', o: ['leading', 'led', 'to be led', 'leads'], why: '老人主动"带路"，用 -ing。' },
+          { c: 'Time ___, I will show you around the city.', o: ['permitting', 'permitted', 'is permitting', 'permits'], why: '独立主格：Time permitting（如果时间允许）。' },
+          { c: 'He ran home, tears ___ down his face.', o: ['running', 'run', 'ran', 'runs'], why: '眼泪主动"流下"，独立主格里用 -ing。' },
+          { s: 'Time permitting, we will visit the museum.', zh: '如果时间允许，我们会去参观博物馆。' },
+          { s: 'With the work done, he felt relaxed.', zh: '工作做完了，他感到很轻松。' },
+          { s: 'He came in with a smile on his face.', zh: '他面带微笑走了进来。' },
         ],
       },
     ],
@@ -2375,7 +3022,7 @@ window.GRAMMAR = [
   /* ====================================================== */
   {
     id: 6, title: '复合句', en: 'Compound & Complex Sentences', level: '高级', icon: '🔗',
-    desc: '用连词把两个句子连起来：并列句和三大从句（状语从句、宾语从句、定语从句）。',
+    desc: '用连词把句子连起来：并列句、状语从句、名词性从句（宾语、主语、表语、同位语从句）和定语从句，最后学怎么拆解长难句。',
     lessons: [
       {
         id: 'g6-1', grade: '初中', title: '并列句', en: 'Compound Sentences',
@@ -2508,6 +3155,54 @@ window.GRAMMAR = [
         ],
       },
       {
+        id: 'gs-18', grade: '高中', title: '直接引语和间接引语', en: 'Direct & Reported Speech',
+        intro: '把别人说的话原样引用是直接引语；用自己的话转述是间接引语。变间接引语时，人称、时态和时间地点词都要跟着变。',
+        rule: `<p>间接引语其实就是<b>宾语从句</b>。陈述句用 <b>that</b>（可省）；一般疑问句用 <b>if / whether</b>；特殊疑问句用原来的疑问词；从句都用<b>陈述句语序</b>。</p>
+<p>主句是过去时（said、told、asked）时，从句的时态要<b>往过去退一步</b>，人称按实际情况变化。</p>
+<p>祈使句变成 <b>tell / ask sb (not) to do</b>：He said, "Open the door." → He <b>told me to open</b> the door.</p>`,
+        table: {
+          head: ['直接引语', '间接引语', '例子'],
+          rows: [
+            ['一般现在时', '一般过去时', '"I am busy." → He said he was busy.'],
+            ['现在进行时', '过去进行时', '"I am reading." → She said she was reading.'],
+            ['一般过去时 / 现在完成时', '过去完成时', '"I have finished." → He said he had finished.'],
+            ['will / can / may', 'would / could / might', '"I will come." → She said she would come.'],
+            ['now / today / tomorrow', 'then / that day / the next day', '"I will go tomorrow." → He said he would go the next day.'],
+            ['yesterday / here / this', 'the day before / there / that', '"I came here yesterday." → He said he had gone there the day before.'],
+          ],
+        },
+        examples: [
+          'He said that he [was] very busy.|他说他很忙。',
+          'She told me that she [would] come the next day.|她告诉我她第二天会来。',
+          'He asked me [if] I liked music.|他问我喜不喜欢音乐。',
+          'She asked me [where] I lived.|她问我住在哪儿。',
+          'The teacher told us [to hand in] our homework.|老师让我们交作业。',
+          'Mum told me [not to stay] up late.|妈妈叫我不要熬夜。',
+        ],
+        traps: [
+          '客观真理不退时态：The teacher said that the earth <b>goes</b> around the sun.',
+          '疑问句变间接引语后是陈述语序，句末用句号：He asked me where I <b>was going</b>.（不说 where was I going?）',
+          'say 后面不能直接跟人，要用 say to sb 或 tell sb：He <b>told me</b> that… / He <b>said to me</b> that…（不说 He said me that…）',
+        ],
+        quiz: [
+          { c: 'Tom said that he ___ tired.', o: ['was', 'am', 'are', 'be'], why: '主句 said 是过去时，从句的 am 退成 was。' },
+          { c: 'She said she ___ come to the party the next day.', o: ['would', 'will', 'shall', 'is'], why: '主句是过去时，will 变成 would。' },
+          { c: 'He asked me ___ I could swim.', o: ['if', 'that', 'what', 'which'], why: '转述一般疑问句用 if 或 whether。' },
+          { c: 'The teacher asked me where ___.', o: ['I lived', 'did I live', 'do I live', 'lived I'], why: '间接引语用陈述句语序，时态退成过去时。' },
+          { s: 'He said that he was busy.', zh: '他说他很忙。' },
+          { s: 'She asked me where I lived.', zh: '她问我住在哪儿。' },
+          { c: 'Mum told me ___ my room.', o: ['to clean', 'clean', 'cleaned', 'cleaning'], why: '转述祈使句用 tell sb to do。' },
+          { c: 'The doctor told him ___ so much sugar.', o: ['not to eat', "don't eat", 'not eat', 'to not eating'], why: '转述否定的祈使句用 tell sb not to do。' },
+          { c: 'He said he ___ his homework already.', o: ['had finished', 'has finished', 'finishes', 'will finish'], why: '主句是过去时，现在完成时退成过去完成时。' },
+          { c: 'The teacher said that light ___ faster than sound.', o: ['travels', 'traveled', 'had traveled', 'would travel'], why: '客观真理不退时态，仍用一般现在时。' },
+          { c: 'She ___ me that she was a nurse.', o: ['told', 'said', 'spoke', 'talked'], why: '后面直接跟人（me）再接 that 从句，用 tell。' },
+          { c: 'He asked her what she ___ doing.', o: ['was', 'is', 'are', 'did'], why: '主句是过去时，现在进行时退成过去进行时。' },
+          { s: 'He told me to wait for him.', zh: '他叫我等他。' },
+          { s: 'She said she had seen the film.', zh: '她说她看过那部电影了。' },
+          { s: 'Mum told me not to be late.', zh: '妈妈叫我别迟到。' },
+        ],
+      },
+      {
         id: 'g6-4', grade: '初中', title: '定语从句', en: 'Relative Clauses',
         intro: '用一个句子修饰名词，放在被修饰的名词后面，由 who、which、that 等引导。',
         rule: `<p>定语从句跟在被修饰的名词（<b>先行词</b>）后面，相当于一个很长的"……的"。</p>
@@ -2547,6 +3242,506 @@ window.GRAMMAR = [
           { s: "I like the teacher who teaches us math.", zh: "我喜欢教我们数学的那位老师。" },
           { s: "This is the house where I was born.", zh: "这是我出生的房子。" },
           { s: "The dog that lives next door is very friendly.", zh: "隔壁的那只狗很友好。" },
+        ],
+      },
+      {
+        id: 'gs-14', grade: '高中', title: '定语从句进阶：whom、why 与"介词 + which"', en: 'More on Relative Clauses',
+        intro: '关系代词指人、在从句里做宾语时可以用 whom；先行词是 reason 时用 why；关系代词做介词的宾语时，介词可以提到它前面。',
+        rule: `<p><b>whom</b> 指人，在从句里做<b>宾语</b>（口语里常用 who 或省略）：the man <b>whom</b> I met yesterday。</p>
+<p><b>why</b> 是关系副词，先行词是 <b>reason</b>：the reason <b>why</b> he was late。</p>
+<p><b>介词 + which / whom</b>：关系代词在从句里做介词的宾语时，介词可以提到关系代词前面，这时指物只能用 <b>which</b>，指人只能用 <b>whom</b>，不能用 that 或 who，也不能省略：the house <b>in which</b> I live / the man <b>to whom</b> I spoke。</p>
+<p>关系副词相当于"介词 + which"：when = on / in / at which；where = in / at which；why = for which。</p>`,
+        table: {
+          head: ['关系词', '先行词', '在从句中', '例子'],
+          rows: [
+            ['whom', '人', '宾语', 'The girl whom you met is my cousin.'],
+            ['why', 'reason', '原因状语', 'This is the reason why I came.'],
+            ['介词 + which', '物', '介词宾语', 'This is the room in which we had the meeting.'],
+            ['介词 + whom', '人', '介词宾语', 'He is the teacher from whom I learned a lot.'],
+            ['whose', '人或物', '定语', 'I know a boy whose mother is a pilot.'],
+          ],
+        },
+        examples: [
+          'The man [whom] I met yesterday is a doctor.|我昨天遇到的那个人是医生。',
+          'Do you know the reason [why] she was absent?|你知道她缺席的原因吗？',
+          'This is the house [in which] I was born.|这就是我出生的那栋房子。',
+          'She is the friend [with whom] I often study.|她是经常和我一起学习的朋友。',
+          'I still remember the day [on which] we first met.|我还记得我们初次见面的那一天。',
+          'The reason [for which] he left is unknown.|他离开的原因不得而知。',
+        ],
+        traps: [
+          '介词后面只能用 which 或 whom：the pen <b>with which</b> I write（不说 with that）；the girl <b>to whom</b> I talked（不说 to who）。',
+          '先行词是 reason，但关系词在从句里做主语或宾语时，用 that / which，不用 why：the reason <b>that</b> he gave us（他给的理由，做 gave 的宾语）。',
+          '选哪个介词看从句里的搭配：the day <b>on which</b>…（on the day）/ the year <b>in which</b>…（in the year）/ the person <b>to whom</b> I wrote（write to）。',
+        ],
+        quiz: [
+          { c: 'The man ___ you saw just now is our headmaster.', o: ['whom', 'which', 'whose', 'why'], why: '先行词是人，在从句里做 saw 的宾语，用 whom。' },
+          { c: 'I do not know the reason ___ he was late.', o: ['why', 'which', 'whom', 'where'], why: '先行词是 reason，在从句里做原因状语，用 why。' },
+          { c: 'This is the room ___ which we had a party.', o: ['in', 'on', 'to', 'with'], why: '"在房间里"开派对是 in the room，所以用 in which。' },
+          { c: "The pen ___ I am writing is my father's.", o: ['with which', 'with that', 'which with', 'with whom'], why: '"用钢笔写"是 write with the pen；介词后面指物只能用 which。' },
+          { s: 'This is the reason why I came here.', zh: '这就是我来这儿的原因。' },
+          { s: 'The man whom you met is my uncle.', zh: '你遇见的那个人是我叔叔。' },
+          { c: 'She is the girl to ___ I lent my bike.', o: ['whom', 'who', 'which', 'that'], why: '介词后面指人只能用 whom。' },
+          { c: 'I will never forget the day ___ which I joined the team.', o: ['on', 'in', 'at', 'for'], why: '具体的某一天用 on：on the day。' },
+          { c: 'The reason ___ he gave us was not true.', o: ['that', 'why', 'whom', 'where'], why: '关系词在从句里做 gave 的宾语，用 that 或 which，不用 why。' },
+          { c: 'He is the boy ___ father is a famous writer.', o: ['whose', 'whom', 'who', 'which'], why: '"男孩的爸爸"表示所属，用 whose。' },
+          { c: 'The town ___ which she grew up is very small.', o: ['in', 'on', 'at', 'to'], why: '"在镇上"长大是 grow up in the town，用 in which。' },
+          { c: 'The friend ___ I went swimming lives next door.', o: ['with whom', 'with who', 'with which', 'whom with'], why: '"和朋友一起"是 with the friend；介词后面指人用 whom。' },
+          { s: 'That is the house in which he lives.', zh: '那就是他住的房子。' },
+          { s: 'She is the teacher from whom I learned English.', zh: '她就是教我英语的那位老师。' },
+          { s: 'I remember the day on which we met.', zh: '我记得我们见面的那一天。' },
+        ],
+      },
+      {
+        id: 'gs-15', grade: '高中', title: '非限制性定语从句', en: 'Non-restrictive Relative Clauses',
+        intro: '非限制性定语从句用逗号和主句隔开，只是对先行词做补充说明，去掉以后主句的意思仍然完整。',
+        rule: `<p><b>限制性</b>定语从句用来确定"是哪一个"，不能去掉，前面没有逗号：The boy <b>who is wearing a red cap</b> is Tom.</p>
+<p><b>非限制性</b>定语从句只是补充信息，前面有逗号，去掉后主句照样成立：Tom, <b>who is wearing a red cap</b>, is my cousin.</p>
+<p>非限制性定语从句里<b>不能用 that</b>，关系词也<b>不能省略</b>。指人用 who / whom / whose，指物用 which，时间用 when，地点用 where。</p>
+<p><b>which</b> 还可以指代<b>前面整个句子</b>：He passed the exam, <b>which</b> made his parents very happy. <b>as</b> 也可以指代整句，而且可以放在句首：<b>As</b> we all know, the earth is round.</p>`,
+        table: {
+          head: ['', '限制性', '非限制性'],
+          rows: [
+            ['作用', '确定是哪一个，不能省', '补充说明，可以省'],
+            ['逗号', '没有', '有'],
+            ['that', '可以用', '不能用'],
+            ['关系词省略', '做宾语时可以省', '不能省'],
+            ['例子', 'My brother who lives in Paris is a doctor.（不止一个兄弟）', 'My brother, who lives in Paris, is a doctor.（只有一个兄弟）'],
+          ],
+        },
+        examples: [
+          'My father, [who] is a teacher, likes reading.|我爸爸是老师，他喜欢读书。',
+          'Beijing, [which] is the capital of China, has a long history.|北京是中国的首都，有着悠久的历史。',
+          'She lives in Hangzhou, [where] there is a beautiful lake.|她住在杭州，那儿有一个美丽的湖。',
+          'Mr. Li, [whose] son is my classmate, is a doctor.|李先生是医生，他的儿子是我同学。',
+          'He was late again, [which] made the teacher angry.|他又迟到了，这让老师很生气。',
+          '[As] we all know, practice makes perfect.|众所周知，熟能生巧。',
+        ],
+        traps: [
+          '逗号后面不能用 that：This book, <b>which</b> I bought yesterday, is interesting.（不说 , that I bought）',
+          '指代前面整句话用 which，从句的谓语用单数：He said nothing, <b>which</b> <b>was</b> strange.',
+          '<b>as</b> 引导的从句可以放在句首，which 不行：<b>As</b> is known to all, …（不说 Which is known to all, …）',
+        ],
+        quiz: [
+          { c: 'My mother, ___ is a nurse, works in a hospital.', o: ['who', 'that', 'which', 'whom'], why: '指人、在从句里做主语用 who；逗号后面不能用 that。' },
+          { c: 'The Great Wall, ___ is in China, is very long.', o: ['which', 'that', 'where', 'who'], why: '指物、做主语用 which；非限制性定语从句不用 that。' },
+          { c: 'He passed the exam, ___ made us all happy.', o: ['which', 'that', 'what', 'it'], why: '指代前面"他通过了考试"这整件事，用 which。' },
+          { c: 'We visited Shanghai, ___ we stayed for a week.', o: ['where', 'which', 'that', 'when'], why: '从句不缺主语和宾语，"在上海"住了一周是地点状语，用 where。' },
+          { s: 'My uncle, who lives in Canada, is a doctor.', zh: '我叔叔住在加拿大，他是一名医生。' },
+          { s: 'He was late, which made me angry.', zh: '他迟到了，这让我很生气。' },
+          { c: 'Mr. Wang, ___ daughter studies abroad, is my neighbor.', o: ['whose', 'who', 'whom', 'which'], why: '"王先生的女儿"表示所属，用 whose。' },
+          { c: '___ we all know, the earth goes around the sun.', o: ['As', 'Which', 'That', 'What'], why: '放在句首指代整句话，只能用 as。' },
+          { c: 'In 2008, ___ I was born, the Olympic Games were held in Beijing.', o: ['when', 'which', 'where', 'that'], why: '先行词是时间 2008，在从句里做时间状语，用 when。' },
+          { c: 'This is Lily, ___ I told you about yesterday.', o: ['whom', 'that', 'which', 'whose'], why: '指人、做 about 的宾语用 whom；逗号后面不能用 that。' },
+          { c: 'She did not come to the party, ___ was a pity.', o: ['which', 'that', 'what', 'who'], why: '指代"她没来"这整件事，用 which。' },
+          { c: 'Which sentence means "I have only one sister"?', o: ["My sister, who lives in Xi'an, is a nurse.", "My sister who lives in Xi'an is a nurse.", "My sisters who live in Xi'an are nurses.", "One of my sisters lives in Xi'an."], why: '非限制性定语从句只是补充说明，不用来区分"哪一个姐姐"，说明只有一个。' },
+          { s: 'As we all know, time is money.', zh: '众所周知，时间就是金钱。' },
+          { s: 'I like Hangzhou, where I was born.', zh: '我喜欢杭州，我出生在那儿。' },
+          { s: 'Tom, whose father is a pilot, sits beside me.', zh: '汤姆坐在我旁边，他爸爸是飞行员。' },
+        ],
+      },
+      {
+        id: 'gs-16', grade: '高中', title: '主语从句与表语从句', en: 'Subject & Predicative Clauses',
+        intro: '一个句子可以整个放在主语或表语的位置上，分别叫主语从句和表语从句。它们和宾语从句一起，统称名词性从句。',
+        rule: `<p>名词性从句的三个要点和宾语从句一样：<b>连接词</b>（陈述句用 that，一般疑问句用 whether，特殊疑问句用疑问词）、<b>陈述句语序</b>、<b>时态呼应</b>。</p>
+<p><b>主语从句</b>做主语，谓语用单数：<b>What he said</b> is true. 主语从句太长时，常用 <b>it</b> 做形式主语：<b>It</b> is certain <b>that he will come</b>.</p>
+<p><b>表语从句</b>放在 be、seem、look 等系动词后面：The problem is <b>that we have no time</b>. 常见句型：The reason is <b>that</b>… / That is <b>why</b>… / That is <b>because</b>… / It seems <b>as if</b>…</p>
+<p><b>what</b> 在从句里做成分（主语、宾语、表语），意思是"……的东西 / 事情"；<b>that</b> 不做成分，没有意思，但在主语从句和表语从句里不能省。</p>`,
+        table: {
+          head: ['连接词', '用法', '主语从句', '表语从句'],
+          rows: [
+            ['that', '不做成分，无意义', 'That he won the game surprised us.', 'The fact is that he lied.'],
+            ['whether', '是否', 'Whether he will come is not clear.', 'The question is whether we can win.'],
+            ['what', '做成分，"……的事物"', 'What she needs is a good rest.', 'This is what I want.'],
+            ['who / when / where / why / how', '疑问词', 'Who broke the window is unknown.', 'That is where I was born.'],
+            ['it 做形式主语', '把主语从句放到后面', 'It is a pity that you missed the film.', '（不适用）'],
+          ],
+        },
+        examples: [
+          '[What he said] is not true.|他说的不是真的。',
+          '[Whether we will go] depends on the weather.|我们去不去取决于天气。',
+          'It is a pity [that you cannot come].|你不能来真遗憾。',
+          'The problem is [that we do not have enough time].|问题是我们没有足够的时间。',
+          'That is [why I was late].|那就是我迟到的原因。',
+          'This is [what I want to tell you].|这就是我想告诉你的事。',
+        ],
+        traps: [
+          '主语从句和表语从句里的"是否"只能用 <b>whether</b>，不能用 if：<b>Whether</b> he will come is unknown.（不说 If he will come is unknown.）',
+          'The reason is <b>that</b>…（不说 The reason is because…）；That is <b>why</b>…（后面是结果）；That is <b>because</b>…（后面是原因）。',
+          '<b>whatever / whoever</b> 可以引导主语从句，意思是"无论什么 / 无论谁"：<b>Whoever</b> comes first will get a prize.；<b>no matter what / who</b> 只能引导让步状语从句，不能做主语。',
+        ],
+        quiz: [
+          { c: '___ he said at the meeting surprised everyone.', o: ['What', 'That', 'Which', 'Whether'], why: '从句里 said 缺宾语，用 what（他说的话）。' },
+          { c: '___ is a pity that you missed the concert.', o: ['It', 'That', 'This', 'What'], why: '真正的主语是后面的 that 从句，句首用形式主语 it。' },
+          { c: 'The question is ___ we can finish the work on time.', o: ['whether', 'if', 'what', 'which'], why: '表语从句里表示"是否"只能用 whether，不能用 if。' },
+          { c: 'The reason why he failed is ___ he did not work hard.', o: ['that', 'because', 'why', 'what'], why: 'The reason is that…，不说 The reason is because…。' },
+          { s: 'What he said is true.', zh: '他说的是真的。' },
+          { s: 'That is why I like her.', zh: '那就是我喜欢她的原因。' },
+          { c: '___ the earth is round is known to all.', o: ['That', 'What', 'Whether', 'Which'], why: '从句 the earth is round 结构完整，用不做成分的 that，在句首不能省。' },
+          { c: 'He was ill. That is ___ he did not come.', o: ['why', 'because', 'what', 'that'], why: 'That is why 后面接结果：没来是生病的结果。' },
+          { c: 'He did not come. That is ___ he was ill.', o: ['because', 'why', 'what', 'which'], why: 'That is because 后面接原因：生病是没来的原因。' },
+          { c: '___ we need is more time.', o: ['What', 'That', 'Whether', 'Why'], why: '从句里 need 缺宾语，用 what（我们需要的东西）。' },
+          { c: '___ breaks the rule will be punished.', o: ['Whoever', 'No matter who', 'Whomever', 'Those'], why: 'whoever 引导主语从句，并在从句里做主语；no matter who 不能引导主语从句。' },
+          { c: 'It seems ___ it is going to rain.', o: ['as if', 'what', 'whether', 'why'], why: 'It seems as if… 表示"看起来好像……"。' },
+          { s: 'It is true that he passed the exam.', zh: '他通过了考试，这是真的。' },
+          { s: 'The problem is that we have no money.', zh: '问题是我们没有钱。' },
+          { s: 'This is what I want to say.', zh: '这就是我想说的。' },
+        ],
+      },
+      {
+        id: 'gs-17', grade: '高中', title: '同位语从句', en: 'Appositive Clauses',
+        intro: '同位语从句跟在 news、fact、idea、hope 等抽象名词后面，说明这个名词的具体内容。',
+        rule: `<p>同位语从句用来解释前面名词的<b>具体内容</b>：The news <b>that our team won</b> made us excited.（消息的内容就是"我们队赢了"。）</p>
+<p>常接同位语从句的名词：<b>news、fact、idea、hope、belief、thought、doubt、promise、suggestion、problem、question</b>。</p>
+<p>连接词多用 <b>that</b>（不做成分、无意义、一般不省略）；表示"是否"用 <b>whether</b>；也可以用 when、where、why、how。</p>
+<p><b>和定语从句的区别</b>：同位语从句说的是名词的<b>内容</b>，that 在从句里不做成分，从句本身是完整的句子；定语从句是对名词的<b>修饰</b>，that 在从句里做主语或宾语，从句缺一个成分。</p>`,
+        table: {
+          head: ['', '同位语从句', '定语从句'],
+          rows: [
+            ['作用', '说明名词的内容', '修饰、限定名词'],
+            ['that', '不做成分，不能换成 which', '做主语或宾语，可以换成 which'],
+            ['从句', '结构完整', '缺主语或宾语'],
+            ['例子', 'The news that he won is true.（消息的内容是"他赢了"）', 'The news that he told us is true.（他告诉我们的消息，told 缺宾语）'],
+          ],
+        },
+        examples: [
+          'The news [that our team won] made everyone excited.|我们队赢了的消息让每个人都很兴奋。',
+          'I have no idea [where he has gone].|我不知道他去哪儿了。',
+          'The fact [that she is honest] is clear to all.|她很诚实，这个事实大家都清楚。',
+          'There is no doubt [that he will succeed].|毫无疑问他会成功。',
+          'He made a promise [that he would come back soon].|他许下诺言，说很快就会回来。',
+          'We have not answered the question [whether we should go].|我们还没有回答该不该去这个问题。',
+        ],
+        traps: [
+          '判断方法：在名词和从句之间加上 be 动词，如果句子成立，就是同位语从句：The news <b>is</b> that our team won.（成立）',
+          '同位语从句里的 that 不能换成 which：the fact <b>that</b> he is ill（不说 the fact which he is ill）。',
+          '<b>There is no doubt that</b>…（毫无疑问）用 that；<b>I doubt whether</b>…（我怀疑是否）用 whether。',
+        ],
+        quiz: [
+          { c: 'The news ___ he passed the exam made his parents happy.', o: ['that', 'which', 'what', 'who'], why: '从句说明 news 的内容，结构完整，用 that。' },
+          { c: 'I have no idea ___ she lives.', o: ['where', 'that', 'which', 'what'], why: '从句说明 idea 的内容"她住在哪儿"，缺地点状语，用 where。' },
+          { c: 'There is no doubt ___ he is the best player.', o: ['that', 'whether', 'which', 'what'], why: 'There is no doubt that… 是固定句型。' },
+          { c: 'The fact ___ the earth is round is known to everyone.', o: ['that', 'which', 'what', 'whether'], why: '从句说明 fact 的内容，结构完整，用 that，不能换成 which。' },
+          { s: 'I have no idea what he wants.', zh: '我不知道他想要什么。' },
+          { s: 'The news that he won is true.', zh: '他赢了的消息是真的。' },
+          { c: 'In "The news that he told me is true", the clause is 什么从句？', o: ['定语从句', '同位语从句', '主语从句', '表语从句'], why: '从句里 told 缺直接宾语，that 在从句里做宾语，所以是定语从句。' },
+          { c: 'In "The news that he won is true", the clause is 什么从句？', o: ['同位语从句', '定语从句', '宾语从句', '状语从句'], why: 'he won 结构完整，说的是 news 的内容，所以是同位语从句。' },
+          { c: 'He gave me a promise ___ he would help me.', o: ['that', 'which', 'what', 'why'], why: '从句说明 promise 的内容，用 that。' },
+          { c: 'We must face the problem ___ we do not have enough money.', o: ['that', 'which', 'what', 'who'], why: '从句说明 problem 的具体内容，结构完整，用 that。' },
+          { c: 'The question ___ we should start has not been decided.', o: ['when', 'which', 'what', 'who'], why: '问题的内容是"我们何时开始"，从句缺时间状语，用 when。' },
+          { c: 'I heard the news ___ a new library will be built.', o: ['that', 'which', 'what', 'where'], why: '从句说明 news 的内容，用 that。' },
+          { s: 'There is no doubt that she is right.', zh: '毫无疑问她是对的。' },
+          { s: 'He made a promise that he would come.', zh: '他许诺说他会来。' },
+          { s: 'The fact that he lied made me sad.', zh: '他撒了谎，这个事实让我很难过。' },
+        ],
+      },
+      {
+        id: 'gs-19', grade: '高中', title: '长难句分析', en: 'Reading Long Sentences',
+        intro: '长句之所以难，是因为修饰成分多、从句套从句。方法是先找主干，再一层一层地看修饰成分。',
+        rule: `<p>分析长难句分三步：</p>
+<p><b>第一步，找谓语动词。</b>一个句子（或从句）只有一个谓语部分。先把 to do、doing、done 这些非谓语和从句里的动词排除，剩下的就是主句的谓语。</p>
+<p><b>第二步，找主干。</b>谓语前面是主语，后面是宾语或表语。把定语、状语、从句和插入语暂时放到一边，只看"谁 + 做了（是）+ 什么"。</p>
+<p><b>第三步，看修饰成分。</b>逐个判断剩下的部分：介词短语、非谓语短语、从句分别在修饰谁、做什么成分。遇到 that、which、who、when、because、if 等连接词，就是一个从句的开始。</p>`,
+        table: {
+          head: ['信号', '说明', '例子'],
+          rows: [
+            ['that / which / who / when / if / because', '一个从句的开始', 'the book that I bought'],
+            ['两个逗号之间', '插入语或非限制性定语从句，可以先跳过', 'Tom, who is my cousin, won.'],
+            ['in / of / with 等介词', '介词短语，做定语或状语', 'the man in the car'],
+            ['to do / doing / done', '非谓语，不是谓语', 'the boy sitting there'],
+            ['and / but / or', '并列，前后结构相同', 'He came in and sat down.'],
+          ],
+        },
+        examples: [
+          '{S:The boy who is sitting by the window} {V:is} {C:my brother}.|坐在窗边的那个男孩是我弟弟。',
+          '{S:The book that I bought yesterday} {V:is} {C:very interesting}.|我昨天买的那本书很有趣。',
+          '{A:When I got home}, {S:my mother} {V:was cooking} {O:dinner}.|我到家的时候，妈妈正在做晚饭。',
+          '{S:The man standing at the gate} {V:asked} {IO:me} {DO:where the station was}.|站在门口的那个人问我车站在哪儿。',
+          '{S:Students who work hard} {V:usually get} {O:good grades}.|努力学习的学生通常成绩好。',
+          '{S:What he said at the meeting} {V:made} {O:everyone} {OC:angry}.|他在会上说的话让每个人都很生气。',
+        ],
+        traps: [
+          '从句里的动词不是主句的谓语：The man <b>who lives next door</b> <b>is</b> a doctor.（主句谓语是 is，不是 lives）',
+          '分词和不定式不是谓语：The girl <b>singing</b> on the stage <b>is</b> my sister.（谓语是 is）',
+          '主语很长时，谓语的单复数看主语的中心词：The <b>books</b> on the desk <b>are</b> mine. / The <b>boy</b> with two dogs <b>is</b> my neighbor.',
+        ],
+        quiz: [
+          { c: 'In "The girl who is wearing a red dress is my sister", 主句的谓语是哪个词？', o: ['is my sister 里的 is', 'is wearing 里的 is', 'wearing', 'who'], why: 'who is wearing a red dress 是定语从句，主句是 The girl is my sister。' },
+          { c: 'In "The book that I borrowed from the library is very useful", 主干是什么？', o: ['The book is very useful', 'I borrowed the book', 'The library is useful', 'I borrowed from the library'], why: '去掉定语从句 that I borrowed from the library，剩下的就是主干。' },
+          { c: 'In "When I was young, I liked climbing trees", 主句的主语是什么？', o: ['I liked 里的 I', 'I was 里的 I', 'trees', 'young'], why: 'When I was young 是时间状语从句，主句是 I liked climbing trees。' },
+          { c: 'In "The man standing at the door is my uncle", "standing at the door" 做什么成分？', o: ['定语', '谓语', '状语', '表语'], why: '分词短语修饰 the man，说明是哪个人，做后置定语。' },
+          { s: 'The boy who is singing is my brother.', zh: '正在唱歌的那个男孩是我弟弟。' },
+          { s: 'The book that I bought is very good.', zh: '我买的那本书非常好。' },
+          { c: 'The students who study in this school ___ very friendly.', o: ['are', 'is', 'was', 'be'], why: '主语的中心词是 students（复数），谓语用 are。' },
+          { c: 'In "I know that he is a good student", 宾语是什么？', o: ['that he is a good student', 'he', 'a good student', 'that'], why: 'know 的宾语是整个 that 从句。' },
+          { c: 'The woman talking to the children ___ their teacher.', o: ['is', 'are', 'were', 'be'], why: '主语的中心词是 the woman（单数），talking to the children 只是定语。' },
+          { c: 'In "Tom, who is my best friend, moved to Shanghai last year", 主句的谓语是什么？', o: ['moved', 'is', 'who', 'friend'], why: '两个逗号之间是非限制性定语从句，主句是 Tom moved to Shanghai last year。' },
+          { c: 'In "What she said made me happy", 主语是什么？', o: ['What she said', 'she', 'What', 'me'], why: '整个从句 What she said 做主语，谓语是 made。' },
+          { c: 'In "He came in and sat down", and 连接的是什么？', o: ['两个并列的谓语', '两个主语', '主句和从句', '两个宾语'], why: 'came in 和 sat down 是同一个主语 He 的两个并列谓语。' },
+          { s: 'What he said made me happy.', zh: '他说的话让我很高兴。' },
+          { s: 'The girl sitting there is my friend.', zh: '坐在那儿的那个女孩是我朋友。' },
+          { s: 'I know that he is a good student.', zh: '我知道他是个好学生。' },
+        ],
+      },
+    ],
+  },
+
+  /* ====================================================== */
+  {
+    id: 'sp', title: '特殊句式', en: 'Special Sentence Patterns', level: '精通', icon: '✨',
+    desc: '省略、倒装、强调和虚拟语气——打破常规语序和时态的表达方式。',
+    lessons: [
+      {
+        id: 'gs-20', grade: '高中', title: '省略', en: 'Ellipsis',
+        intro: '为了避免重复，英语常把前面已经出现过的、或者不说也明白的词省掉。',
+        rule: `<p><b>简单句里的省略</b>：口语里常省掉主语或"主语 + 助动词"：(I) Thank you. / (Are you) Ready? / (It is) Nice to meet you.</p>
+<p><b>并列句里的省略</b>：后一个分句里和前面相同的部分可以省：He likes tea and I (like) coffee. 也可以用助动词代替整个谓语：She can swim, but I <b>can't</b>.</p>
+<p><b>不定式的省略</b>：为避免重复，只保留 <b>to</b>：You can go if you want <b>to</b>.</p>
+<p><b>状语从句的省略</b>：从句主语和主句主语相同（或从句主语是 it），并且从句里有 be 动词时，可以把"<b>主语 + be</b>"一起省掉：<b>When (I was) young</b>, I lived in the country. / <b>If (it is) possible</b>, please come early.</p>`,
+        table: {
+          head: ['类型', '完整形式', '省略后'],
+          rows: [
+            ['口语', 'Are you ready?', 'Ready?'],
+            ['并列句', 'Tom plays the piano and Mary plays the violin.', 'Tom plays the piano and Mary the violin.'],
+            ['助动词代替谓语', 'I have finished, and he has finished too.', 'I have finished, and he has too.'],
+            ['不定式保留 to', 'You can come if you want to come.', 'You can come if you want to.'],
+            ['状语从句', 'While she was reading, she fell asleep.', 'While reading, she fell asleep.'],
+            ['状语从句', 'If it is necessary, I will help.', 'If necessary, I will help.'],
+          ],
+        },
+        examples: [
+          "She can play the guitar, but I [can't].|她会弹吉他，但我不会。",
+          'You may go home if you want [to].|你想回家的话可以回家。',
+          '[When young], he lived in a small village.|小时候他住在一个小村子里。',
+          '[While waiting] for the bus, I read a book.|等公共汽车的时候，我看了一会儿书。',
+          '[If possible], please reply before Friday.|如果可能的话，请在周五前回复。',
+          'Tom likes football and his sister [basketball].|汤姆喜欢足球，他妹妹喜欢篮球。',
+        ],
+        traps: [
+          '状语从句省略的前提是从句主语和主句主语一致：<b>While walking</b> home, <b>I</b> saw an accident.（不说 While walking home, an accident happened.）',
+          "不定式省略时 to 要留下：Would you like to come? Yes, I'd love <b>to</b>.（不说 I'd love.）",
+          '主动用 -ing，被动用 -ed：<b>When asked</b> about it, he said nothing.（= When he was asked）/ <b>When crossing</b> the road, be careful.（= When you are crossing）',
+        ],
+        quiz: [
+          { c: 'She likes music, but her brother ___.', o: ["doesn't", "isn't", 'not', "don't"], why: "用助动词代替 doesn't like music，主语是第三人称单数。" },
+          { c: 'I did not go to the party, though I wanted ___.', o: ['to', 'it', 'so', 'too'], why: '省略 go to the party，只保留不定式符号 to。' },
+          { c: '___ young, she wanted to be a dancer.', o: ['When', 'When was', 'She was', 'When is'], why: 'When (she was) young：从句主语和主句主语相同，省掉"主语 + be"。' },
+          { c: 'While ___ TV, he fell asleep.', o: ['watching', 'watched', 'watch', 'he watching'], why: 'While (he was) watching TV：he 主动看电视，保留 -ing。' },
+          { s: 'When young, he was very poor.', zh: '小时候他很穷。' },
+          { s: 'You can leave if you want to.', zh: '你想走就可以走。' },
+          { c: 'If ___, I will go and help you.', o: ['necessary', 'it necessary', 'is necessary', 'be necessary'], why: 'If (it is) necessary：it is 要么都保留，要么都省掉。' },
+          { c: 'When ___ about the accident, he kept silent.', o: ['asked', 'asking', 'ask', 'asks'], why: 'When (he was) asked：他是"被问"的，保留过去分词。' },
+          { c: "Would you like to join us? Yes, I'd love ___.", o: ['to', 'too', 'for', 'do'], why: "I'd love to (join you)，to 不能省。" },
+          { c: '___ possible, please call me before nine.', o: ['If', 'If is', 'It', 'If be'], why: 'If (it is) possible 是固定的省略形式。' },
+          { c: 'He can speak French and his wife ___ too.', o: ['can', 'is', 'has', 'was'], why: '用情态动词 can 代替 can speak French。' },
+          { c: 'Be careful when ___ the street.', o: ['crossing', 'crossed', 'cross', 'you crossing'], why: 'when (you are) crossing：主动关系，保留 -ing。' },
+          { s: 'While reading, she fell asleep.', zh: '她看着书睡着了。' },
+          { s: 'If possible, come here before six.', zh: '如果可能，请六点前到这儿。' },
+          { s: "He can swim, but I can't.", zh: '他会游泳，但我不会。' },
+        ],
+      },
+      {
+        id: 'gs-21', grade: '高中', title: '倒装', en: 'Inversion',
+        intro: '英语的正常语序是"主语 + 谓语"。把谓语或助动词放到主语前面就是倒装，常用来强调或保持句子平衡。',
+        rule: `<p><b>完全倒装</b>：整个谓语放在主语前。here、there、表示方位的副词或介词短语放句首，并且主语是名词时用：<b>Here comes</b> the bus. / <b>In front of the house stands</b> a tall tree. 主语是代词时不倒装：Here <b>it comes</b>.</p>
+<p><b>部分倒装</b>：只把助动词、情态动词或 be 放在主语前，实义动词留在后面；没有助动词时要加 do / does / did。常见情况有四种：</p>
+<p>① <b>否定词放句首</b>（never、hardly、seldom、little、not until、not only）：<b>Never have I seen</b> such a beautiful place.</p>
+<p>② <b>only + 状语</b>放句首：<b>Only then did I realize</b> my mistake.</p>
+<p>③ <b>so / neither / nor</b> 表示"也（不）"：He likes tea. <b>So do I.</b> / She can't swim. <b>Neither can I.</b></p>
+<p>④ <b>so … that</b> 的 so 部分放句首：<b>So tired was he</b> that he fell asleep at once.</p>`,
+        table: {
+          head: ['类型', '条件', '例子'],
+          rows: [
+            ['完全倒装', 'here / there / 方位词放句首，主语是名词', 'There goes the bell.'],
+            ['部分倒装', '否定词放句首', 'Seldom does he go out at night.'],
+            ['部分倒装', 'only + 状语放句首', 'Only in this way can we solve the problem.'],
+            ['部分倒装', 'so / neither / nor："也（不）"', 'I am hungry. So is she.'],
+            ['部分倒装', 'not only … but also 连接两个句子', 'Not only does he sing, but he also dances.'],
+            ['部分倒装', 'not until 放句首', 'Not until midnight did he come back.'],
+          ],
+        },
+        examples: [
+          '[Here comes] the bus!|公共汽车来了！',
+          '[Never have I] seen such a beautiful lake.|我从没见过这么美的湖。',
+          '[Only then did I] realize my mistake.|直到那时我才意识到自己的错误。',
+          'He likes swimming. [So do I].|他喜欢游泳，我也喜欢。',
+          "She can't drive. [Neither can I].|她不会开车，我也不会。",
+          '[Not until] he came back [did we] start dinner.|直到他回来我们才开始吃晚饭。',
+        ],
+        traps: [
+          '主语是代词时，here / there 开头的句子不倒装：Here <b>he comes</b>.（不说 Here comes he.）',
+          '<b>So do I</b>（我也是，说的是另一个人）和 <b>So I do</b>（确实如此，说的是同一个人）不同：— You look tired. — <b>So I am.</b>',
+          'only 修饰主语时不倒装：<b>Only Tom knows</b> the answer.；only 修饰状语并放在句首才倒装。',
+          '部分倒装只提前助动词，实义动词用原形留在后面：Never <b>did</b> he <b>tell</b> a lie.（不说 Never told he a lie.）',
+        ],
+        quiz: [
+          { c: 'I like playing chess. ___ my father.', o: ['So does', 'So do', 'So is', 'Neither does'], why: '"也喜欢"用 so + 助动词 + 主语；my father 是第三人称单数，用 does。' },
+          { c: 'She has never been to Paris. ___ I.', o: ['Neither have', 'So have', 'Neither do', 'Nor did'], why: '前面是否定句、用的是 has，"我也没有"用 Neither have I。' },
+          { c: 'Never ___ such an interesting film.', o: ['have I seen', 'I have seen', 'I saw', 'saw I'], why: '否定词 never 放句首，助动词 have 提到主语前。' },
+          { c: 'Look! Here ___ our teacher.', o: ['comes', 'come', 'is come', 'coming'], why: 'here 开头、主语是名词，用完全倒装；主语是单数，用 comes。' },
+          { s: 'Never have I heard such a story.', zh: '我从没听过这样的故事。' },
+          { s: 'Only then did he know the truth.', zh: '直到那时他才知道真相。' },
+          { c: 'Only in this way ___ the problem.', o: ['can we solve', 'we can solve', 'we solve', 'solve we'], why: 'only + 状语放句首，情态动词 can 提到主语前。' },
+          { c: 'Seldom ___ late for school.', o: ['is he', 'he is', 'he does', 'does he be'], why: '否定词 seldom 放句首，be 动词提到主语前。' },
+          { c: 'Not until I got home ___ that I had lost my keys.', o: ['did I find', 'I found', 'I did find', 'found I'], why: 'not until 放句首，主句部分倒装：did + 主语 + 动词原形。' },
+          { c: 'Here ___. The bus is on time today.', o: ['it comes', 'comes it', 'come it', 'it come'], why: '主语是代词 it 时不倒装：Here it comes.' },
+          { c: 'Not only ___ English, but he also speaks French.', o: ['does he speak', 'he speaks', 'speaks he', 'he does speaks'], why: 'not only 放句首，所在的分句部分倒装。' },
+          { c: 'So tired ___ that he fell asleep at once.', o: ['was he', 'he was', 'did he', 'he did'], why: 'so + 形容词放句首，be 动词提到主语前。' },
+          { s: 'Seldom does she eat meat.', zh: '她很少吃肉。' },
+          { s: 'Not until ten did he go to bed.', zh: '他直到十点才睡觉。' },
+          { s: 'Hardly could I believe my ears.', zh: '我简直不敢相信自己的耳朵。' },
+        ],
+      },
+      {
+        id: 'gs-22', grade: '高中', title: '强调', en: 'Emphasis',
+        intro: '想突出句子里的某一部分，可以用强调句型 It is … that …；想强调谓语动词，则用 do / does / did。',
+        rule: `<p><b>强调句型</b>：<b>It is / was + 被强调的部分 + that / who + 句子的其余部分</b>。可以强调主语、宾语和状语，不能强调谓语。强调人时可以用 who，其他一律用 <b>that</b>（强调时间、地点也用 that，不用 when、where）。</p>
+<p>原句是现在或将来时用 It <b>is</b>，过去时用 It <b>was</b>。</p>
+<p><b>判断方法</b>：把 It is / was 和 that 去掉，句子仍然完整，就是强调句。</p>
+<p><b>强调谓语</b>：在动词原形前加 <b>do / does / did</b>，表示"确实、一定"：I <b>do</b> like this song. / He <b>did</b> come yesterday.</p>`,
+        forms: [
+          { label: '强调句型', parts: ['It is / was', '被强调部分', 'that / who', '其余部分'] },
+          { label: '一般疑问句', parts: ['Is / Was it', '被强调部分', 'that', '其余部分?'] },
+          { label: '特殊疑问句', parts: ['疑问词', 'is / was it', 'that', '其余部分?'] },
+          { label: '强调谓语', parts: ['主语', 'do / does / did', '动词原形'] },
+        ],
+        table: {
+          head: ['强调的部分', '原句：Tom met Lucy in the park yesterday.'],
+          rows: [
+            ['主语', 'It was Tom that / who met Lucy in the park yesterday.'],
+            ['宾语', 'It was Lucy that Tom met in the park yesterday.'],
+            ['地点', 'It was in the park that Tom met Lucy yesterday.'],
+            ['时间', 'It was yesterday that Tom met Lucy in the park.'],
+            ['谓语', 'Tom did meet Lucy in the park yesterday.'],
+          ],
+        },
+        examples: [
+          '[It was] Tom [that] broke the window.|打破窗户的是汤姆。',
+          '[It is] my mother [who] cooks for us every day.|每天给我们做饭的是我妈妈。',
+          '[It was] in the library [that] I met her.|我是在图书馆遇见她的。',
+          '[It was] not until midnight [that] he came back.|他直到半夜才回来。',
+          '[Was it] yesterday [that] you saw him?|你是昨天看见他的吗？',
+          'I [do] hope you can come.|我真的希望你能来。',
+        ],
+        traps: [
+          '强调时间和地点也用 that，不用 when / where：It was <b>in Beijing that</b> I met him.（不说 where）',
+          '<b>not … until</b> 的强调句是 It was <b>not until</b> … <b>that</b> + 肯定句：It was not until ten <b>that he went</b> to bed.',
+          '强调主语时，that 后面的动词和被强调的主语一致：It is <b>I</b> that <b>am</b> wrong. / It is <b>Tom</b> that <b>is</b> wrong.',
+          'do / does / did 强调后，动词用原形：She <b>does like</b> you.（不说 does likes）',
+        ],
+        quiz: [
+          { c: 'It was Lucy ___ told me the news.', o: ['that', 'which', 'when', 'what'], why: '强调句型用 that（强调人时也可以用 who）。' },
+          { c: 'It was in the park ___ I lost my wallet.', o: ['that', 'where', 'which', 'when'], why: '强调地点状语也用 that，不用 where。' },
+          { c: 'It was yesterday ___ we had the meeting.', o: ['that', 'when', 'which', 'what'], why: '强调时间状语也用 that，不用 when。' },
+          { c: 'It ___ my father who taught me to swim when I was six.', o: ['was', 'is', 'were', 'be'], why: '原句说的是过去的事，用 It was。' },
+          { s: 'It was Tom that broke the window.', zh: '打破窗户的是汤姆。' },
+          { s: 'It was in Beijing that I met him.', zh: '我是在北京遇见他的。' },
+          { c: 'He ___ come to see you yesterday, but you were out.', o: ['did', 'does', 'do', 'was'], why: '强调过去的动作，用 did + 动词原形。' },
+          { c: 'It was not until midnight ___ he finished his work.', o: ['that', 'when', 'until', 'then'], why: 'It was not until … that … 是 not until 的强调句型。' },
+          { c: 'She ___ like the present. She uses it every day.', o: ['does', 'do', 'is', 'has'], why: '强调谓语：主语是第三人称单数，用 does + 动词原形。' },
+          { c: '___ it Tom that broke the window?', o: ['Was', 'Did', 'Does', 'Were'], why: '强调句型的一般疑问句把 was 提到 it 前面。' },
+          { c: 'When was it ___ you first met her?', o: ['that', 'when', 'which', 'what'], why: '强调句型的特殊疑问句：疑问词 + was it that …?' },
+          { c: 'Which sentence is 强调句？', o: ['It was Tom that helped me.', 'It is clear that he is right.', 'It is a pity that you are ill.', 'It is time to go home.'], why: '去掉 It was 和 that，Tom helped me 仍然是完整的句子。' },
+          { s: 'I do like this song.', zh: '我确实喜欢这首歌。' },
+          { s: 'He did tell me the truth.', zh: '他确实告诉了我实话。' },
+          { s: 'It is my mother who cooks dinner.', zh: '做晚饭的是我妈妈。' },
+        ],
+      },
+      {
+        id: 'gs-23', grade: '高中', title: '虚拟语气（一）：if 条件句', en: 'Unreal Conditionals',
+        intro: '虚拟语气用来说"不是事实"的事：假设、愿望、后悔。在 if 条件句里，动词的时态要比实际时间往过去退一步。',
+        rule: `<p>if 条件句分两种：<b>真实条件句</b>说的是可能发生的事（If it rains, we will stay home）；<b>虚拟条件句</b>说的是和事实相反、或不太可能发生的事。虚拟条件句用"时态后退"来表示"这不是真的"。</p>
+<p>① <b>与现在事实相反</b>：if + 过去式（be 一律用 <b>were</b>），主句用 would / could / might + 动词原形。</p>
+<p>② <b>与过去事实相反</b>：if + <b>had done</b>，主句用 would / could / might + <b>have done</b>。</p>
+<p>③ <b>对将来的假设</b>（可能性很小）：if + 过去式 / <b>should do</b> / <b>were to do</b>，主句用 would / could / might + 动词原形。</p>`,
+        table: {
+          head: ['假设的情况', 'if 从句', '主句', '例子'],
+          rows: [
+            ['与现在相反', '过去式（be 用 were）', 'would / could / might do', 'If I were you, I would accept the offer.'],
+            ['与过去相反', 'had done', 'would / could / might have done', 'If you had come earlier, you would have met him.'],
+            ['对将来的假设', '过去式 / should do / were to do', 'would / could / might do', 'If it should rain tomorrow, we would stay at home.'],
+          ],
+        },
+        examples: [
+          'If I [were] you, I [would tell] her the truth.|如果我是你，我会告诉她实话。',
+          'If I [had] wings, I [could fly] to you.|如果我有翅膀，我就能飞到你身边。',
+          'If he [had worked] harder, he [would have passed] the exam.|如果他当时更努力一些，就通过考试了。',
+          'If you [had told] me earlier, I [could have helped] you.|如果你早点告诉我，我本来可以帮你的。',
+          'If it [were to snow] tomorrow, we [would make] a snowman.|要是明天下雪，我们就堆雪人。',
+          '[Had I known] the truth, I [would not have gone] there.|要是我知道真相，我就不会去那儿了。',
+        ],
+        traps: [
+          '虚拟条件句里 be 动词不分人称，一律用 <b>were</b>：If I <b>were</b> you… / If he <b>were</b> here…',
+          '与过去相反时，从句用 had done，主句必须是 would <b>have done</b>，两边都要"退到底"。',
+          'if 从句里有 were、had、should 时，可以省掉 if，把它们提到主语前：<b>Had I known</b>… = If I had known… / <b>Were I</b> you… = If I were you…',
+          '真实条件句不是虚拟：If it <b>rains</b> tomorrow, we <b>will</b> stay at home.（真有可能下雨）',
+        ],
+        quiz: [
+          { c: 'If I ___ you, I would take the job.', o: ['were', 'am', 'was being', 'be'], why: '"我是你"与现在事实相反，be 动词一律用 were。' },
+          { c: 'If I had enough money, I ___ a new computer.', o: ['would buy', 'will buy', 'bought', 'buy'], why: '从句用过去式表示与现在相反，主句用 would + 动词原形。' },
+          { c: 'If he had left earlier, he ___ the train.', o: ['would have caught', 'would catch', 'caught', 'will catch'], why: '从句是 had done，与过去相反，主句用 would have done。' },
+          { c: 'If you ___ harder last term, you would have passed the exam.', o: ['had studied', 'studied', 'study', 'have studied'], why: 'last term 说的是过去，主句是 would have done，从句用 had done。' },
+          { s: 'If I were you, I would go.', zh: '如果我是你，我就去。' },
+          { s: 'If I had time, I would help you.', zh: '如果我有时间，我会帮你的。' },
+          { c: 'If it ___ tomorrow, we will stay at home.', o: ['rains', 'rained', 'had rained', 'would rain'], why: '主句是 will，说明是真实条件句，从句用一般现在时。' },
+          { c: '___ I known your address, I would have written to you.', o: ['Had', 'If', 'Have', 'Did'], why: '省略 if 后把 had 提到主语前：Had I known = If I had known。' },
+          { c: 'If she ___ here now, she could help us.', o: ['were', 'is', 'had been', 'will be'], why: 'now 说明与现在事实相反，be 用 were。' },
+          { c: 'If I ___ a bird, I could fly in the sky.', o: ['were', 'am', 'will be', 'have been'], why: '"我是一只鸟"与现在事实相反，用 were。' },
+          { c: 'We ___ lost if we had not had a map.', o: ['would have got', 'would get', 'got', 'will get'], why: '从句是 had not had，与过去相反，主句用 would have done。' },
+          { c: 'If it ___ rain tomorrow, the sports meeting would be put off.', o: ['should', 'will', 'would', 'shall'], why: '主句是 would，对将来可能性很小的假设，从句用 should + 动词原形。' },
+          { s: 'If he had come, he would have seen her.', zh: '如果他当时来了，就会见到她了。' },
+          { s: 'Had I known it, I would have told you.', zh: '要是我知道这件事，我就告诉你了。' },
+          { s: 'If I were a bird, I could fly.', zh: '如果我是一只鸟，我就能飞。' },
+        ],
+      },
+      {
+        id: 'gs-24', grade: '高中', title: '虚拟语气（二）：wish、建议与其他', en: 'Wish, Suggest & More',
+        intro: '除了 if 条件句，wish、if only、as if、suggest 等后面的从句也用虚拟语气。',
+        rule: `<p><b>wish / if only</b>（但愿、要是……就好了）后面的从句，时态往过去退一步：对<b>现在</b>的愿望用<b>过去式</b>（be 用 were），对<b>过去</b>的遗憾用 <b>had done</b>，对<b>将来</b>的愿望用 <b>would / could do</b>。</p>
+<p><b>建议、要求、命令</b>类动词后面的宾语从句用 <b>(should) + 动词原形</b>，should 常省略。这类动词有 <b>suggest、advise、insist、demand、order、request、recommend</b>。对应的名词（suggestion、advice）和 It is necessary / important that… 后面也一样。</p>
+<p>其他：<b>It is (high) time (that)</b> + 过去式（早该……了）；<b>would rather (that)</b> + 过去式（宁愿某人……）；<b>as if / as though</b> + 过去式或 had done（好像……似的，其实不是）。</p>`,
+        table: {
+          head: ['结构', '从句谓语', '例子'],
+          rows: [
+            ['wish（现在）', '过去式（were）', 'I wish I were taller.'],
+            ['wish（过去）', 'had done', 'I wish I had studied harder.'],
+            ['wish（将来）', 'would / could do', 'I wish it would stop raining.'],
+            ['suggest / insist / demand 等', '(should) + 动词原形', 'He suggested that we (should) leave early.'],
+            ['It is (high) time', '过去式', 'It is time we went home.'],
+            ['would rather', '过去式', 'I would rather you came tomorrow.'],
+            ['as if', '过去式 / had done', 'He talks as if he knew everything.'],
+          ],
+        },
+        examples: [
+          'I wish I [were] as tall as you.|我真希望我和你一样高。',
+          'I wish I [had listened] to your advice.|我真后悔当初没听你的建议。',
+          '[If only] I [could] fly!|要是我会飞就好了！',
+          'The doctor suggested that he [take] more exercise.|医生建议他多锻炼。',
+          'It is high time we [went] to bed.|我们早该睡觉了。',
+          'She talks as if she [knew] everything.|她说起话来好像什么都懂似的。',
+        ],
+        traps: [
+          'suggest 表示"建议"时用 (should) do；表示"暗示、表明"时不用虚拟：His face <b>suggested</b> that he <b>was</b> angry.',
+          'insist 表示"坚持要求"用 (should) do；表示"坚持认为"（说的是事实）时不用虚拟：He insisted that he <b>was</b> right.',
+          'wish 用于难以实现的愿望，用虚拟语气；hope 用于可能实现的希望，用陈述语气：I <b>hope</b> you <b>will</b> come. / I <b>wish</b> you <b>could</b> come.',
+          '省略 should 后动词仍是原形，第三人称单数也不加 -s：He demanded that she <b>leave</b> at once.',
+        ],
+        quiz: [
+          { c: 'I wish I ___ a bird.', o: ['were', 'am', 'will be', 'be'], why: '对现在的愿望（不是事实），wish 后面用过去式，be 用 were。' },
+          { c: 'I wish I ___ to the party last night.', o: ['had gone', 'went', 'go', 'would go'], why: 'last night 是过去，对过去的遗憾用 had done。' },
+          { c: 'The teacher suggested that we ___ the classroom every day.', o: ['clean', 'cleaned', 'cleans', 'will clean'], why: 'suggest 表示"建议"，从句用 (should) + 动词原形。' },
+          { c: 'It is high time we ___ the work.', o: ['started', 'start', 'will start', 'have started'], why: 'It is high time 后面的从句用过去式。' },
+          { s: 'I wish I could fly.', zh: '我希望我会飞。' },
+          { s: 'I wish I had told her.', zh: '我真后悔没告诉她。' },
+          { c: 'He insisted that she ___ a doctor at once.', o: ['see', 'sees', 'saw', 'has seen'], why: 'insist 表示"坚持要求"，从句用 (should) + 动词原形，第三人称也不加 -s。' },
+          { c: 'He talks as if he ___ the boss.', o: ['were', 'is', 'will be', 'be'], why: 'as if 后面说的不是事实，用过去式，be 用 were。' },
+          { c: 'I would rather you ___ here tomorrow.', o: ['came', 'come', 'will come', 'have come'], why: 'would rather 后面的从句用过去式表示现在或将来的愿望。' },
+          { c: 'If only I ___ her advice! Now it is too late.', o: ['had taken', 'took', 'take', 'would take'], why: '"现在太晚了"说明是对过去的遗憾，用 had done。' },
+          { c: 'I ___ you will have a good time.', o: ['hope', 'wish', 'suggest', 'insist'], why: '后面是 will，表示可能实现的希望，用 hope；wish 后面要用虚拟语气。' },
+          { c: 'The doctor advised that he ___ smoking.', o: ['give up', 'gives up', 'gave up', 'will give up'], why: 'advise 后面的从句用 (should) + 动词原形。' },
+          { s: 'It is time we went home.', zh: '我们该回家了。' },
+          { s: 'He suggested that we leave early.', zh: '他建议我们早点走。' },
+          { s: 'She talks as if she knew me.', zh: '她说起话来好像认识我似的。' },
         ],
       },
     ],

@@ -570,6 +570,16 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
 .g-grade.primary { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--accent-ink); }
 .g-grade.junior { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 55%, transparent); color: var(--blue-ink); }
 .g-grade.junior::before { box-shadow: 9px 0 0 currentColor; margin-right: 9px; }
+/* 高中：紫色、三个圆点。文字颜色沿用等级色的做法，浅色主题下压暗、深色主题下保持原色 */
+.g-grade.senior { --c: #CE82FF; background: color-mix(in srgb, var(--c) 16%, var(--card)); border-color: color-mix(in srgb, var(--c) 60%, transparent); color: color-mix(in srgb, var(--c) var(--lv-k), var(--lv-base)); }
+.g-grade.senior::before { box-shadow: 9px 0 0 currentColor, 18px 0 0 currentColor; margin-right: 18px; }
+/* 学段筛选 */
+.g-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.g-filter-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 14px; border: 2px solid var(--line); border-bottom-width: 4px; border-radius: 12px; background: var(--card); color: var(--ink-2); font-size: 14px; font-weight: 800; }
+.g-filter-btn small { font-size: 12px; font-weight: 800; color: var(--muted); }
+.g-filter-btn:hover { background: var(--paper-2); }
+.g-filter-btn[aria-pressed="true"] { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 55%, transparent); color: var(--blue-ink); }
+.g-filter-btn[aria-pressed="true"] small { color: inherit; }
 .lr-meta { flex: none; display: flex; align-items: center; gap: 16px; }
 .lr-meta .lr-stars:empty { display: none; }
 .eyebrow .g-grade { margin-left: 10px; width: auto; height: 24px; padding: 0 8px; font-size: 12px; vertical-align: middle; }
@@ -577,7 +587,7 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
   .g-stage .lesson-row { gap: 12px; padding-inline: 14px; }
   .lr-meta { flex-direction: column-reverse; align-items: flex-end; gap: 4px; }
   .lr-meta .lr-stars { min-width: 0; font-size: 13px; line-height: 1; }
-  .lr-meta .g-grade { width: 66px; height: 28px; font-size: 12px; }
+  .lr-meta .g-grade { width: 66px; height: 28px; gap: 5px; font-size: 12px; }
 }
 .rule ul { margin: 6px 0; padding-left: 1.3em; }
 .rule li { margin: 3px 0; }
