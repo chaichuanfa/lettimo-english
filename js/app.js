@@ -1052,7 +1052,7 @@
       return `<section class="g-stage" style="--lv:${lv.color}">
         <div class="sh-row">
           <div class="sh-icon">${st.icon}</div>
-          <div><p class="eyebrow" style="color:var(--lv)">第 ${st.id} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
+          <div><p class="eyebrow" style="color:var(--lv-ink)">第 ${st.id} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
             <h2 class="g-stage-title">${esc(st.title)} <small>${esc(st.en)}</small></h2>
             <p class="hint">${esc(st.desc)}</p></div>
         </div>

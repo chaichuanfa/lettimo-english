@@ -88,11 +88,11 @@ window.SOUNDS = {
 };
 
 window.LEVELS = [
-  { key: '入门', en: 'Starter', color: '#E8743B' },
-  { key: '基础', en: 'Foundation', color: '#2E9E6E' },
-  { key: '进阶', en: 'Developing', color: '#2F7FC1' },
-  { key: '高级', en: 'Advanced', color: '#8A5CC2' },
-  { key: '精通', en: 'Mastery', color: '#C2405C' },
+  { key: '入门', en: 'Starter', color: '#58CC02' },
+  { key: '基础', en: 'Foundation', color: '#1CB0F6' },
+  { key: '进阶', en: 'Developing', color: '#CE82FF' },
+  { key: '高级', en: 'Advanced', color: '#FF9600' },
+  { key: '精通', en: 'Mastery', color: '#FF4B4B' },
 ];
 
 window.STAGES = [

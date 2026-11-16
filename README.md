@@ -39,7 +39,8 @@ python3 -m http.server 8765
 
 ```
 index.html
-css/style.css
+css/style.css     样式（明亮扁平风格：白底、亮绿主色、2px 描边、立体按钮；含深色模式）
+fonts/            Nunito 字体（SIL Open Font License，见 fonts/OFL.txt），本地加载、离线可用
 js/data.js        课程数据（音素表 SOUNDS + 阶段与课程 STAGES）—— 改内容只改这里
 js/grammar.js     语法课程数据（GRAMMAR）
 js/ipa.js         单词音标（由 CMU 发音词典自动生成）
