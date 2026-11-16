@@ -1,0 +1,450 @@
+{
+ "o_s": {
+  "ok": true,
+  "source": "hot",
+  "mode": "vowel",
+  "window": [
+   0.14,
+   0.32
+  ],
+  "check": "m ɑ  [6/6]"
+ },
+ "a_s": {
+  "ok": true,
+  "source": "cat",
+  "mode": "vowel",
+  "window": [
+   0.04,
+   0.36
+  ],
+  "check": "k æ  [6/6]"
+ },
+ "e_s": {
+  "ok": true,
+  "source": "head",
+  "mode": "vowel",
+  "window": [
+   0.22,
+   0.28
+  ],
+  "check": "m ɛ  [6/6]"
+ },
+ "i_s": {
+  "ok": true,
+  "source": "pig",
+  "mode": "vowel",
+  "window": [
+   0.02,
+   0.14
+  ],
+  "check": "p ɪ  [6/6]"
+ },
+ "u_s": {
+  "ok": true,
+  "source": "sun",
+  "mode": "vowel",
+  "window": [
+   0.12,
+   0.24
+  ],
+  "check": "d ə  [6/6]"
+ },
+ "oo_s": {
+  "ok": true,
+  "source": "hood",
+  "rate": 100,
+  "mode": "hvowel",
+  "window": [
+   0.1,
+   0.21
+  ],
+  "check": "ʊ  [6/6]"
+ },
+ "schwa": {
+  "ok": true,
+  "source": "about",
+  "mode": "vowel",
+  "window": [
+   0.003,
+   0.1
+  ],
+  "check": "ə n  [6/6]"
+ },
+ "a_l": {
+  "ok": true,
+  "source": "say",
+  "mode": "vowel",
+  "window": [
+   0.28,
+   0.476
+  ],
+  "check": "n eɪ  [6/6]"
+ },
+ "e_l": {
+  "ok": true,
+  "source": "see",
+  "mode": "vowel",
+  "window": [
+   0.14,
+   0.417
+  ],
+  "check": "ð i  [6/6]"
+ },
+ "i_l": {
+  "ok": true,
+  "source": "eye",
+  "mode": "whole",
+  "window": [
+   0.003,
+   0.368
+  ],
+  "check": "aɪ  [6/6]"
+ },
+ "o_l": {
+  "ok": true,
+  "source": "go",
+  "rate": 110,
+  "mode": "vowel",
+  "window": [
+   0.16,
+   0.354
+  ],
+  "check": "oʊ  [6/6]"
+ },
+ "u_l": {
+  "ok": true,
+  "source": "you",
+  "mode": "whole",
+  "window": [
+   0.002,
+   0.313
+  ],
+  "check": "j u  [6/6]"
+ },
+ "oo_l": {
+  "ok": true,
+  "source": "too",
+  "mode": "vowel",
+  "window": [
+   0.14,
+   0.369
+  ],
+  "check": "d u  [6/6]"
+ },
+ "aw": {
+  "ok": true,
+  "source": "awe",
+  "mode": "whole",
+  "window": [
+   0.0,
+   0.287
+  ],
+  "check": "ɑ  [6/6]"
+ },
+ "oi": {
+  "ok": true,
+  "source": "oy",
+  "mode": "whole",
+  "window": [
+   0.004,
+   0.371
+  ],
+  "check": "ɔɪ  [6/6]"
+ },
+ "ow": {
+  "ok": true,
+  "source": "how",
+  "mode": "hvowel",
+  "window": [
+   0.18,
+   0.411
+  ],
+  "check": "aʊ  [6/6]"
+ },
+ "ar": {
+  "ok": true,
+  "source": "car",
+  "mode": "tail",
+  "window": [
+   0.04,
+   0.381
+  ],
+  "check": "k ɑ ɝ  [6/6]"
+ },
+ "or": {
+  "ok": true,
+  "source": "or",
+  "mode": "whole",
+  "window": [
+   0.001,
+   0.321
+  ],
+  "check": "ɑ ɝ  [6/6]"
+ },
+ "er": {
+  "ok": true,
+  "source": "her",
+  "mode": "hvowel",
+  "window": [
+   0.09,
+   0.336
+  ],
+  "check": "ɝ  [6/6]"
+ },
+ "air": {
+  "ok": true,
+  "source": "hair",
+  "mode": "htail",
+  "window": [
+   0.15,
+   0.348
+  ],
+  "check": "ɛ ɝ n  [6/6]"
+ },
+ "ear": {
+  "ok": true,
+  "source": "hear",
+  "mode": "htail",
+  "window": [
+   0.06,
+   0.346
+  ],
+  "check": "h ɪ ɝ  [6/6]"
+ },
+ "p": {
+  "ok": true,
+  "source": "pup",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.04
+  ],
+  "check": "前接 p ɑ  [6/6]"
+ },
+ "b": {
+  "ok": true,
+  "source": "bus",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.04
+  ],
+  "check": "前接 b ɑ  [6/6]"
+ },
+ "t": {
+  "ok": true,
+  "source": "tub",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.04
+  ],
+  "check": "前接 t ɑ  [6/6]"
+ },
+ "d": {
+  "ok": true,
+  "source": "dug",
+  "rate": 110,
+  "mode": "stop",
+  "window": [
+   0,
+   0.07
+  ],
+  "check": "前接 d ə ɑ  [6/6]"
+ },
+ "k": {
+  "ok": true,
+  "source": "cup",
+  "rate": 110,
+  "mode": "stop",
+  "window": [
+   0,
+   0.04
+  ],
+  "check": "前接 k ɑ  [6/6]"
+ },
+ "g": {
+  "ok": true,
+  "source": "gut",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.07
+  ],
+  "check": "前接 g ɑ  [6/6]"
+ },
+ "ch": {
+  "ok": true,
+  "source": "chop",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.04
+  ],
+  "check": "前接 ʧ ɑ  [6/6]"
+ },
+ "j": {
+  "ok": true,
+  "source": "jug",
+  "rate": 110,
+  "mode": "stop",
+  "window": [
+   0.025,
+   0.11
+  ],
+  "check": "前接 ʤ ɑ  [6/6]"
+ },
+ "h": {
+  "ok": true,
+  "source": "hut",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0.0,
+   0.14
+  ],
+  "check": "前接 h ə ɑ  [6/6]"
+ },
+ "w": {
+  "ok": true,
+  "source": "one",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0,
+   0.12
+  ],
+  "check": "前接 w ə ɑ  [6/6]"
+ },
+ "y": {
+  "ok": true,
+  "source": "yum",
+  "rate": 150,
+  "mode": "stop",
+  "window": [
+   0.022,
+   0.12
+  ],
+  "check": "前接 j u ɑ  [6/6]"
+ },
+ "f": {
+  "ok": true,
+  "source": "off",
+  "mode": "fric",
+  "window": [
+   0.29,
+   0.34
+  ],
+  "check": "前接 f ɑ  [6/6]"
+ },
+ "v": {
+  "ok": true,
+  "source": "van",
+  "rate": 100,
+  "mode": "fric",
+  "window": [
+   0.0,
+   0.08
+  ],
+  "check": "前接 v ɑ  [6/6]"
+ },
+ "s": {
+  "ok": true,
+  "source": "sun",
+  "mode": "fric",
+  "window": [
+   0.02,
+   0.12
+  ],
+  "check": "前接 s ɑ  [6/6]"
+ },
+ "z": {
+  "ok": true,
+  "source": "zoo",
+  "rate": 100,
+  "mode": "fric",
+  "window": [
+   0.0,
+   0.16
+  ],
+  "check": "前接 z ɑ  [6/6]"
+ },
+ "th": {
+  "ok": false,
+  "score": "4/6",
+  "replaced": false
+ },
+ "th_v": {
+  "ok": false,
+  "score": "0/6",
+  "replaced": false
+ },
+ "sh": {
+  "ok": true,
+  "source": "fish",
+  "mode": "fric",
+  "window": [
+   0.34,
+   0.46
+  ],
+  "check": "前接 ʃ ɑ  [6/6]"
+ },
+ "zh": {
+  "ok": true,
+  "source": "beige",
+  "rate": 100,
+  "mode": "fric",
+  "window": [
+   0.33,
+   0.46
+  ],
+  "check": "后接 m ɑ ʃ  [6/6]"
+ },
+ "m": {
+  "ok": true,
+  "source": "mom",
+  "rate": 100,
+  "mode": "cont",
+  "window": [
+   0.0,
+   0.07
+  ],
+  "check": "前接 m ɑ；后接 ɑ m  [6/6]"
+ },
+ "n": {
+  "ok": true,
+  "source": "nut",
+  "rate": 100,
+  "mode": "cont",
+  "window": [
+   0.022,
+   0.08
+  ],
+  "check": "前接 n ɑ；后接 ɑ n  [6/6]"
+ },
+ "ng": {
+  "ok": true,
+  "source": "sing",
+  "mode": "rstop",
+  "window": [
+   0.26,
+   0.425
+  ],
+  "check": "i ŋ  [6/6]"
+ },
+ "l": {
+  "ok": false,
+  "score": "0/6",
+  "replaced": false
+ },
+ "r": {
+  "ok": false,
+  "score": "0/6",
+  "replaced": false
+ }
+}
