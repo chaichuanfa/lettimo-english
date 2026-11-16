@@ -7,7 +7,7 @@
 
   const App = {
     settings: Object.assign({ rate: 1, tts: false, zh: true }, load('settings', {})),
-    progress: Object.assign({ lessons: {}, last: null }, load('progress', {})),
+    progress: Object.assign({ lessons: {}, last: null, grammar: {} }, load('progress', {})),
     wrong: load('wrong', []),
   };
   window.App = App;
@@ -116,7 +116,7 @@
 
   /* ---------------- 布局 ---------------- */
   function shell(content, active) {
-    const nav = [['#/', '学习路径', 'home'], ['#/dict', '词典', 'dict'], ['#/sounds', '音标总表', 'sounds'], ['#/practice', '练习场', 'practice'], ['#/guide', '学习指南', 'guide']];
+    const nav = [['#/', '学习路径', 'home'], ['#/grammar', '语法', 'grammar'], ['#/dict', '词典', 'dict'], ['#/sounds', '音标总表', 'sounds'], ['#/practice', '练习场', 'practice'], ['#/guide', '学习指南', 'guide']];
     const done = Object.values(App.progress.lessons).filter((l) => l.done).length;
     return `
     <header class="topbar">
@@ -722,6 +722,11 @@
     else if (name === 'sounds') { html = viewSounds(); active = 'sounds'; title = '音标总表 · 拼读之路'; }
     else if (name === 'practice') { html = viewPractice(); active = 'practice'; title = '练习场 · 拼读之路'; }
     else if (name === 'guide') { html = viewGuide(); active = 'guide'; title = '学习指南 · 拼读之路'; }
+    else if (name === 'grammar') {
+      const gl = arg && gLessonById(arg);
+      html = arg ? viewGrammarLesson(arg) : viewGrammar(); active = 'grammar';
+      title = gl ? `${gl.title} · 语法 · 拼读之路` : '语法 · 拼读之路';
+    }
     else if (name === 'dict') {
       try { dictWord = normWord(decodeURIComponent(arg || '')); } catch { dictWord = normWord(arg); }
       html = viewDict(dictWord); active = 'dict'; title = dictWord ? `${dictWord} · 词典 · 拼读之路` : '词典 · 拼读之路';
@@ -765,7 +770,7 @@
   let SEARCH_INDEX = null;
   let sItems = [];
   let sActive = -1;
-  const SUGGEST = ['cake', 'th', 'ough', '/eɪ/', '魔法 e', '不发音', '长元音', '苹果'];
+  const SUGGEST = ['cake', 'th', 'ough', '/eɪ/', '魔法 e', '不发音', '现在完成时', '定语从句', '苹果'];
   const IPA_CHARS = /[æɑɔəɛɪʊʌɝɚθðʃʒŋː\/]/;
   const stripIpa = (x) => x.replace(/[\/\[\]ˈˌ\s]/g, '');
 
@@ -780,6 +785,11 @@
         items.push({ type: 'word', l, text: p.text, zh: p.zh, emoji: p.emoji, ipa: ipaOf(p.text) });
       });
       l.sentences.forEach((s, i) => { const [en, zh] = s.split('|'); items.push({ type: 'sent', l, i, en, zh }); });
+    });
+    G_LESSONS.forEach((l) => {
+      const extra = [...(l.forms || []).flatMap((f) => f.parts), ...(l.signals || [])].join(' ').toLowerCase();
+      items.push({ type: 'grammar', l, title: l.title.toLowerCase(), en: l.en.toLowerCase(), extra, stage: l.stage.title.toLowerCase(),
+        rule: (l.intro + l.rule).replace(/<[^>]+>/g, '').toLowerCase() });
     });
     return items;
   }
@@ -799,6 +809,17 @@
       else if (q.length >= 3 && wordStart(it.en)) up(40);
       if (zhQ && it.stage.includes(q)) up(35);
       else if (q.length >= 3 && wordStart(it.stageEn)) up(25);
+      if (!best && zhQ && q.length >= 2 && it.rule.includes(q)) up(15);
+      return best;
+    }
+    if (it.type === 'grammar') {
+      let best = 0;
+      const up = (v) => { if (v > best) best = v; };
+      if (it.title === q) up(100);
+      else if (it.title.includes(q) && (zhQ || q.length >= 2)) up(it.title.startsWith(q) ? 80 : 65);
+      if (q.length >= 3 && (it.en.includes(q) || it.en.split(/[^a-z]+/).some((w) => w.startsWith(q)))) up(45);
+      if (q.length >= 2 && it.extra.includes(q)) up(40);
+      if (zhQ && it.stage.includes(q)) up(35);
       if (!best && zhQ && q.length >= 2 && it.rule.includes(q)) up(15);
       return best;
     }
@@ -849,6 +870,7 @@
     const scored = SEARCH_INDEX.map((it) => [scoreItem(it, q, qi, zhQ, ipaQ), it]).filter(([s]) => s > 0).sort((a, b) => b[0] - a[0]);
     const groups = [
       ['lesson', '课程', 6],
+      ['grammar', '语法', 5],
       ['word', '单词', 24],
       ['sent', '例句', 6],
     ].map(([type, label, max]) => [label, scored.filter(([, it]) => it.type === type).slice(0, max).map(([, it]) => it)]).filter(([, list]) => list.length);
@@ -868,6 +890,13 @@
           <span class="sr-badge" style="--lv:${levelOf(it.l.stage).color}">${it.l.id}</span>
           <span class="sr-main"><b>${markText(it.l.title, q)}</b> <span class="sr-sub">${markText(it.l.en, q)}</span></span>
           <span class="sr-where">第 ${it.l.stage.id} 阶段 · ${esc(it.l.stage.title)}</span></div>`;
+      }
+      if (it.type === 'grammar') {
+        it.href = `#/grammar/${it.l.id}`;
+        return `<div role="option" id="${id}" class="sr-item" aria-selected="false" data-i="${n - 1}">
+          <span class="sr-badge" style="--lv:${gLevel(it.l.stage).color}">语法</span>
+          <span class="sr-main"><b>${markText(it.l.title, q)}</b> <span class="sr-sub">${markText(it.l.en, q)}</span></span>
+          <span class="sr-where">语法 · ${esc(it.l.stage.title)}</span></div>`;
       }
       if (it.type === 'dict') {
         it.href = `#/dict/${encodeURIComponent(it.w)}`;
@@ -984,6 +1013,212 @@
       el.classList.add('flash');
       setTimeout(() => el.classList.remove('flash'), 2400);
     });
+  }
+
+  /* ---------------- 语法 ---------------- */
+  const G_LESSONS = [];
+  (window.GRAMMAR || []).forEach((st) => st.lessons.forEach((l) => { l.stage = st; G_LESSONS.push(l); }));
+  const gLessonById = (id) => G_LESSONS.find((l) => l.id === id);
+  const gProgress = () => (App.progress.grammar ||= {});
+  const gLevel = (st) => LEVELS.find((x) => x.key === st.level) || LEVELS[0];
+  const ROLE = { S: '主语', V: '谓语', O: '宾语', C: '表语', IO: '间接宾语', DO: '直接宾语', OC: '宾补', A: '状语', AT: '定语' };
+  const gPlain = (en) => en.replace(/\{[A-Z]+:([^}]*)\}/g, '$1').replace(/[[\]]/g, '').replace(/\s+/g, ' ').trim();
+
+  // 例句：[重点] 高亮，{S:成分} 标出句子成分；每个单词仍可点击朗读
+  function gSentence(en) {
+    return en.replace(/\{([A-Z]+):([^}]*)\}|\[([^\]]*)\]|([^[{]+)/g, (m, role, rtext, hl, plain) => {
+      if (role) return `<span class="ge ge-${role}"><span class="ge-t">${highlightSentence(rtext, [])}</span><span class="ge-r" aria-hidden="true">${ROLE[role] || role}</span></span>`;
+      if (hl !== undefined) return `<b class="g-hl">${highlightSentence(hl, [])}</b>`;
+      return highlightSentence(plain, []);
+    });
+  }
+  const gTable = (t) => `<div class="table-wrap"><table><thead><tr>${t.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+
+  function viewGrammar() {
+    const all = G_LESSONS.length;
+    const done = G_LESSONS.filter((l) => gProgress()[l.id]?.done).length;
+    const nextL = G_LESSONS.find((l) => !gProgress()[l.id]?.done) || G_LESSONS[0];
+    return `
+    <section class="page-head">
+      <p class="eyebrow">Grammar</p>
+      <h1>语法</h1>
+      <p class="lead">从词类、基本句子到时态、五大基本句型和复合句，${GRAMMAR.length} 个阶段 ${all} 节课。每课都有规则讲解、句型公式、带发音的例句和小测验。</p>
+      <div class="g-progress"><div class="bar"><i style="width:${(done / all) * 100}%"></i></div><span>已完成 <b>${done}</b> / ${all}</span>
+        <a class="btn primary" href="#/grammar/${nextL.id}">${done ? '继续学习' : '从第一课开始'}：${esc(nextL.title)} ${ICON.arrow}</a></div>
+    </section>
+    ${GRAMMAR.map((st) => {
+      const lv = gLevel(st);
+      const n = st.lessons.filter((l) => gProgress()[l.id]?.done).length;
+      return `<section class="g-stage" style="--lv:${lv.color}">
+        <div class="sh-row">
+          <div class="sh-icon">${st.icon}</div>
+          <div><p class="eyebrow" style="color:var(--lv)">第 ${st.id} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
+            <h2 class="g-stage-title">${esc(st.title)} <small>${esc(st.en)}</small></h2>
+            <p class="hint">${esc(st.desc)}</p></div>
+        </div>
+        <div class="lesson-list">${st.lessons.map((l, i) => {
+          const pr = gProgress()[l.id];
+          return `<a class="lesson-row ${pr?.done ? 'done' : ''}" href="#/grammar/${l.id}" style="--lv:${lv.color}">
+            <span class="lr-num">${pr?.done ? ICON.check : i + 1}</span>
+            <span class="lr-body"><span class="lr-title">${esc(l.title)}</span><span class="lr-en">${esc(l.en)}</span></span>
+            <span class="lr-stars">${pr?.stars ? stars(pr.stars) : ''}</span>
+          </a>`;
+        }).join('')}</div>
+      </section>`;
+    }).join('')}`;
+  }
+
+  function viewGrammarLesson(id) {
+    const l = gLessonById(id);
+    if (!l) return viewNotFound();
+    const st = l.stage;
+    const lv = gLevel(st);
+    const i = G_LESSONS.indexOf(l);
+    const prev = G_LESSONS[i - 1];
+    const next = G_LESSONS[i + 1];
+    const pr = gProgress()[id];
+    let n = 1;
+    const forms = l.forms ? `<div class="g-forms">${l.forms.map((f) => `<div class="g-form"><span class="g-form-label">${esc(f.label)}</span><span class="g-form-parts">${f.parts.map((p) => `<span class="g-part${/[a-z]/.test(p) ? ' key' : ''}">${esc(p)}</span>`).join('<span class="g-plus">+</span>')}</span></div>`).join('')}</div>` : '';
+    const signals = l.signals ? `<div class="g-signals"><span class="g-sig-label">时间标志词</span>${l.signals.map((s) => `<span class="mini-g">${esc(s)}</span>`).join('')}</div>` : '';
+    const roles = [...new Set(l.examples.flatMap((e) => [...e.matchAll(/\{([A-Z]+):/g)].map((m) => m[1])))];
+    const legend = roles.length ? `<div class="g-legend">${roles.map((r) => `<span class="ge ge-${r}"><span class="ge-t">${ROLE[r]}</span></span>`).join('')}</div>` : '';
+    return `
+    <section class="lesson-head" style="--lv:${lv.color}">
+      <a class="crumb" href="#/grammar">${ICON.back} 语法 · 第 ${st.id} 阶段 ${esc(st.title)}</a>
+      <p class="eyebrow">语法第 ${l.id.slice(1)} 课 · ${st.level}</p>
+      <h1>${esc(l.title)} <small>${esc(l.en)}</small></h1>
+      ${pr?.done ? `<span class="done-badge">${ICON.check} 已完成 ${stars(pr.stars || 1)}</span>` : ''}
+      <p class="goal" style="--lv:${lv.color}">${esc(l.intro)}</p>
+    </section>
+    <section class="block">
+      <h2 class="block-title"><span class="num">${n++}</span>规则讲解</h2>
+      <div class="rule">${l.rule}</div>
+      ${forms}${signals}${l.table ? gTable(l.table) : ''}
+    </section>
+    <section class="block">
+      <h2 class="block-title"><span class="num">${n++}</span>例句 <small>点句中单词可单独听</small>
+        <button class="link-btn" data-action="zh">${App.settings.zh ? '隐藏中文' : '显示中文'}</button></h2>
+      ${legend}
+      <ol class="sentences g-sentences ${App.settings.zh ? '' : 'nozh'}">${l.examples.map((s) => { const [en, zh] = s.split('|'); return `<li><button class="icon-btn play" data-say="${esc(gPlain(en))}" data-toggle title="朗读整句" aria-label="朗读整句">${ICON.play}</button><div><p class="en">${gSentence(en)}</p><p class="zh">${esc(zh)}</p></div></li>`; }).join('')}</ol>
+    </section>
+    ${l.traps ? `<section class="block">
+      <h2 class="block-title"><span class="num">${n++}</span>易错提醒</h2>
+      <ul class="g-traps">${l.traps.map((t) => `<li>${t}</li>`).join('')}</ul>
+    </section>` : ''}
+    <section class="block quiz-block">
+      <h2 class="block-title"><span class="num">${n++}</span>小测验</h2>
+      <div id="gquiz" data-glesson="${l.id}">
+        <p>共 ${l.quiz.length} 题（选择题和连词成句），答对 ${gPassMark(l)} 题即可完成本课。${pr?.done ? `你的最好成绩：${stars(pr.stars || 1)}` : ''}</p>
+        <button class="btn primary" data-action="gquiz">开始测验 ${ICON.arrow}</button>
+        ${pr?.done ? '' : '<button class="link-btn" data-action="gmarkdone">我已掌握，直接标记完成</button>'}
+      </div>
+    </section>
+    <nav class="pager">
+      ${prev ? `<a class="btn ghost" href="#/grammar/${prev.id}">${ICON.back} ${esc(prev.title)}</a>` : '<a class="btn ghost" href="#/grammar">语法目录</a>'}
+      ${next ? `<a class="btn ghost" href="#/grammar/${next.id}">${esc(next.title)} ${ICON.arrow}</a>` : '<a class="btn ghost" href="#/grammar">语法目录</a>'}
+    </nav>`;
+  }
+  const gPassMark = (l) => Math.ceil(l.quiz.length * 2 / 3);
+
+  // 选择题填空后的完整句子（用于朗读）；"不填"表示空白处不需要词
+  function gFilled(q) {
+    if (!q.c.includes('___') || /[一-鿿]/.test(q.answer) && q.answer !== '不填' || /^(Which|In ")/.test(q.c)) return null;
+    const parts = q.answer === '不填' ? [''] : q.answer.split(/,\s*/);
+    let k = 0;
+    return q.c.replace(/___/g, () => parts[Math.min(k++, parts.length - 1)]).replace(/\s+/g, ' ').replace(/\s([.,?!])/g, '$1').trim();
+  }
+
+  function startGrammarQuiz(container) {
+    const l = gLessonById(container.dataset.glesson);
+    const qs = l.quiz.map((q) => (q.c !== undefined ? { ...q, type: 'c', options: shuffle(q.o), answer: q.o[0] } : { ...q, type: 'o' }));
+    let i = 0, score = 0;
+    const render = () => {
+      const q = qs[i];
+      let body;
+      if (q.type === 'c') {
+        body = `<p class="q-prompt">${q.c.includes('___') ? '选出正确的答案' : '请选择'}</p>
+          <div class="g-q">${esc(q.c).replace(/___/g, '<span class="gap">　　</span>')}</div>
+          <div class="q-opts g-opts">${q.options.map((o) => `<button class="opt" data-opt="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+      } else {
+        q.punct = (q.s.match(/[.?!]$/) || [''])[0];
+        q.words = q.s.replace(/[.?!]$/, '').split(' ');
+        let order = shuffle(q.words.map((w, k) => k));
+        for (let t = 0; t < 5 && order.every((v, k) => v === k); t++) order = shuffle(order);
+        body = `<p class="q-prompt">连词成句</p>
+          <p class="g-zh">${esc(q.zh)}</p>
+          <div class="g-answer" aria-label="你的句子"><span class="g-ph">依次点击下面的单词</span></div>
+          <div class="g-bank">${order.map((k) => `<button class="g-word" data-k="${k}">${esc(q.words[k])}</button>`).join('')}</div>
+          <div class="g-order-btns"><button class="btn small ghost" data-greset>重新排</button><button class="btn small primary" data-gcheck disabled>检查</button></div>`;
+      }
+      container.innerHTML = `<div class="quiz">
+        <div class="q-head"><span>第 ${i + 1} / ${qs.length} 题</span><div class="bar"><i style="width:${(i / qs.length) * 100}%"></i></div><span>得分 ${score}</span></div>
+        ${body}
+        <div class="q-feedback" aria-live="polite"></div>
+      </div>`;
+      if (q.type === 'c') $$('.opt', container).forEach((b) => b.addEventListener('click', () => answerChoice(b, q)));
+      else wireOrder(q);
+    };
+    const feedback = (ok, q, html, sayText) => {
+      if (ok) score++;
+      const fb = $('.q-feedback', container);
+      fb.innerHTML = `${ok ? '<b class="ok">✓ 正确！</b>' : `<b class="no">✗ ${html}</b>`}
+        ${q.why ? `<span class="g-why">${esc(q.why)}</span>` : ''}
+        ${sayText ? `<button class="link-btn" data-say="${esc(sayText)}">${ICON.speaker} 听整句</button>` : ''}
+        <button class="btn small primary" data-next>${i + 1 < qs.length ? '下一题' : '查看结果'} ${ICON.arrow}</button>`;
+      if (sayText) Speech.say(sayText);
+      $('[data-next]', fb).addEventListener('click', () => { i++; if (i < qs.length) render(); else finish(); });
+      $('[data-next]', fb).focus({ preventScroll: true });
+    };
+    const answerChoice = (btn, q) => {
+      const ok = btn.dataset.opt === q.answer;
+      $$('.opt', container).forEach((b) => { b.disabled = true; if (b.dataset.opt === q.answer) b.classList.add('right'); });
+      if (!ok) btn.classList.add('wrong');
+      const filled = gFilled(q);
+      if (filled) $('.g-q', container).innerHTML = esc(filled);
+      feedback(ok, q, `正确答案：${esc(q.answer)}`, filled);
+    };
+    const wireOrder = (q) => {
+      const ans = $('.g-answer', container), bank = $('.g-bank', container), check = $('[data-gcheck]', container);
+      const sync = () => {
+        $('.g-ph', ans)?.toggleAttribute('hidden', !!ans.querySelector('.g-word'));
+        check.disabled = !!bank.querySelector('.g-word');
+      };
+      const move = (e) => {
+        const w = e.target.closest('.g-word');
+        if (!w || container.querySelector('.q-feedback').childElementCount) return;
+        (w.parentElement === bank ? ans : bank).append(w);
+        sync();
+      };
+      ans.addEventListener('click', move);
+      bank.addEventListener('click', move);
+      $('[data-greset]', container).addEventListener('click', () => { $$('.g-word', ans).forEach((w) => bank.append(w)); sync(); });
+      check.addEventListener('click', () => {
+        const got = $$('.g-word', ans).map((w) => w.textContent).join(' ');
+        const ok = got === q.words.join(' ');
+        ans.classList.add(ok ? 'right' : 'wrong');
+        $$('.g-word', container).forEach((w) => { w.disabled = true; });
+        check.disabled = true; $('[data-greset]', container).disabled = true;
+        feedback(ok, q, `正确的句子：${esc(q.s)}`, q.s);
+      });
+    };
+    const finish = () => {
+      const total = qs.length;
+      const passed = score >= gPassMark(l);
+      const s = score >= total ? 3 : score >= total - 1 ? 2 : 1;
+      if (passed) {
+        const old = gProgress()[l.id];
+        gProgress()[l.id] = { done: true, stars: Math.max(s, old?.stars || 0), at: Date.now() };
+        saveAll();
+      }
+      const next = G_LESSONS[G_LESSONS.indexOf(l) + 1];
+      container.innerHTML = `<div class="result ${passed ? 'pass' : ''}">
+        <div class="r-score">${score}<small>/${total}</small></div>
+        <div class="r-stars">${passed ? stars(s) : ''}</div>
+        <p>${passed ? (score === total ? '满分！太棒了 🎉' : '通过！本课已完成 👍') : '还差一点，再看看规则和例句，然后重试吧 💪'}</p>
+        <div class="r-btns"><button class="btn ghost" data-action="gquiz">再测一次</button>${passed && next ? `<a class="btn primary" href="#/grammar/${next.id}">下一课：${esc(next.title)} ${ICON.arrow}</a>` : ''}</div>
+      </div>`;
+    };
+    render();
   }
 
   /* ---------------- 词典 ---------------- */
@@ -1315,8 +1550,10 @@
     else if (act === 'quiz') startLessonQuiz($('#quiz'));
     else if (act === 'markdone') { const id = $('#quiz').dataset.lesson; App.progress.lessons[id] = { done: true, stars: App.progress.lessons[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
     else if (act === 'clearwrong') { App.wrong = []; saveAll(); route(); }
+    else if (act === 'gquiz') startGrammarQuiz($('#gquiz'));
+    else if (act === 'gmarkdone') { const id = $('#gquiz').dataset.glesson; gProgress()[id] = { done: true, stars: gProgress()[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
     else if (act === 'dictclear') { save('dictRecent', []); route(); }
-    else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级和错词本吗？')) { App.progress = { lessons: {}, last: null }; App.wrong = []; saveAll(); route(); } }
+    else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级和错词本吗？')) { App.progress = { lessons: {}, last: null, grammar: {} }; App.wrong = []; saveAll(); route(); } }
   });
 
   // 例句播放按钮：点一下开始，再点一下停止；播完、被其他声音打断时恢复成播放图标

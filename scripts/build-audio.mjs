@@ -21,6 +21,8 @@ const ctx = { window: {} };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/data.js'), 'utf8'), ctx);
 const { SOUNDS, STAGES } = ctx.window;
+vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/grammar.js'), 'utf8'), ctx);
+const { GRAMMAR = [] } = ctx.window;
 
 // ---- 收集文本 ----
 const texts = new Set();
@@ -41,6 +43,20 @@ for (const st of STAGES) for (const l of st.lessons) {
   (l.pairs || []).forEach((p) => p.split('>').forEach((w) => texts.add(w)));
 }
 Object.values(SOUNDS).forEach((s) => s.kw && texts.add(s.kw));
+// 语法课：例句、测验答案句（与 js/app.js 里的 gPlain / gFilled 保持一致）
+const addSentence = (en) => { texts.add(en); (en.match(/[A-Za-z']+/g) || []).forEach((t) => texts.add(t.toLowerCase())); };
+const gPlain = (en) => en.replace(/\{[A-Z]+:([^}]*)\}/g, '$1').replace(/[[\]]/g, '').replace(/\s+/g, ' ').trim();
+const gFilled = (q) => {
+  const ans = q.o[0];
+  if (!q.c.includes('___') || (/[一-鿿]/.test(ans) && ans !== '不填') || /^(Which|In ")/.test(q.c)) return null;
+  const parts = ans === '不填' ? [''] : ans.split(/,\s*/);
+  let k = 0;
+  return q.c.replace(/___/g, () => parts[Math.min(k++, parts.length - 1)]).replace(/\s+/g, ' ').replace(/\s([.,?!])/g, '$1').trim();
+};
+for (const st of GRAMMAR) for (const l of st.lessons) {
+  l.examples.forEach((e) => addSentence(gPlain(e.split('|')[0])));
+  l.quiz.forEach((q) => { const t = q.s || gFilled(q); if (t) addSentence(t); });
+}
 // 字母名：单个大写字母会被读成 "capital X"，所以用小写；a 的字母名用长元音音素 a_l
 'bcdefghijklmnopqrstuvwxyz'.split('').forEach((c) => texts.add(c));
 ['apple', 'bed', 'cat', 'dog', 'egg', 'fan', 'gum', 'hat', 'in', 'jam', 'kid', 'leg', 'map', 'net', 'octopus', 'pig', 'queen', 'red', 'sun', 'top', 'up', 'van', 'web', 'box', 'yes', 'zip', 'ship'].forEach((w) => texts.add(w));
