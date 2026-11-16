@@ -41,22 +41,29 @@ def dist(a, b):
     return d[len(b)]
 
 
-rows = []
-for w in words:
-    if not w['file'] or not w['ipa']:
-        rows.append((1.0, w, '(缺音频或音标)', [])); continue
-    x = E.load(os.path.join(ROOT, 'audio', w['file']))
-    exp = norm(w['ipa'].split())
-    got = norm(E.recognize(x).split())
-    per = dist(exp, got) / max(len(exp), 1)
-    rows.append((per, w, ' '.join(got), exp))
+def main(out=None):
+    rows = []
+    for w in words:
+        if not w['file'] or not w['ipa']:
+            rows.append((1.0, w, '(缺音频或音标)', [])); continue
+        x = E.load(os.path.join(ROOT, 'audio', w['file']))
+        exp = norm(w['ipa'].split())
+        got = norm(E.recognize(x).split())
+        per = dist(exp, got) / max(len(exp), 1)
+        rows.append((per, w, ' '.join(got), exp))
 
-rows.sort(key=lambda r: -r[0])
-total = len(rows)
-good = sum(1 for r in rows if r[0] == 0)
-print(f'{total} 个单词；完全一致 {good}；平均音素错误率 {sum(r[0] for r in rows) / total:.1%}')
-print('偏差最大的单词（期望 → 识别）：')
-for per, w, got, exp in rows[:60]:
-    print(f'{per:5.0%}  {w["lesson"]:5s} {w["text"]:12s} /{" ".join(exp)}/ → /{got}/')
-json.dump([{'per': r[0], 'lesson': r[1]['lesson'], 'text': r[1]['text'], 'expected': ' '.join(r[3]), 'heard': r[2]} for r in rows],
-          open(os.path.join(E.TMP, 'words.json'), 'w'), ensure_ascii=False, indent=1)
+    rows.sort(key=lambda r: -r[0])
+    total = len(rows)
+    good = sum(1 for r in rows if r[0] == 0)
+    print(f'{total} 个单词；完全一致 {good}；平均音素错误率 {sum(r[0] for r in rows) / total:.1%}')
+    print('偏差最大的单词（期望 → 识别）：')
+    for per, w, got, exp in rows[:60]:
+        print(f'{per:5.0%}  {w["lesson"]:5s} {w["text"]:12s} /{" ".join(exp)}/ → /{got}/')
+    json.dump([{'per': r[0], 'lesson': r[1]['lesson'], 'text': r[1]['text'], 'expected': ' '.join(r[3]), 'heard': r[2]} for r in rows],
+              open(os.path.join(E.TMP, 'words.json'), 'w'), ensure_ascii=False, indent=1)
+    if out:
+        json.dump([{'per': r[0], **r[1], 'got': r[2], 'exp': ' '.join(r[3])} for r in rows], open(out, 'w'), ensure_ascii=False, indent=1)
+
+
+if __name__ == '__main__':
+    main(sys.argv[1] if len(sys.argv) > 1 else None)

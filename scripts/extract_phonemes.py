@@ -36,7 +36,9 @@ JUDGE2 = 'facebook/wav2vec2-lv-60-espeak-cv-ft'
 # 音素id → 候选单词 [(单词, 音素序列(TIMIT 记号), 目标下标, 截取方式)]，按优先顺序尝试
 SPEC = {
     'a_s': [('cat', 'k æ t', 1, 'vowel'), ('bat', 'b æ t', 1, 'vowel'), ('sat', 's æ t', 1, 'vowel')],
-    'e_s': [('head', 'h ɛ d', 1, 'vowel'), ('bed', 'b ɛ d', 1, 'vowel'), ('pet', 'p ɛ t', 1, 'vowel'), ('egg', 'ɛ g', 0, 'vowel')],
+    # 语速 150 时 head 里的 ɛ 只有约 60ms，太短听不清；先用慢速候选
+    'e_s': [('head', 'h ɛ d', 1, 'hvowel', 100), ('bed', 'b ɛ d', 1, 'vowel', 100), ('egg', 'ɛ g', 0, 'vowel', 100),
+            ('head', 'h ɛ d', 1, 'vowel'), ('bed', 'b ɛ d', 1, 'vowel'), ('pet', 'p ɛ t', 1, 'vowel'), ('egg', 'ɛ g', 0, 'vowel')],
     'i_s': [('pig', 'p ɪ g', 1, 'vowel'), ('sit', 's ɪ t', 1, 'vowel'), ('bit', 'b ɪ t', 1, 'vowel')],
     'o_s': [('hot', 'h ɑ t', 1, 'vowel'), ('pot', 'p ɑ t', 1, 'vowel'), ('top', 't ɑ p', 1, 'vowel')],
     'u_s': [('sun', 's ə n', 1, 'vowel'), ('cut', 'k ə t', 1, 'vowel'), ('but', 'b ə t', 1, 'vowel')],

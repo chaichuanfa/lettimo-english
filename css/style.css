@@ -69,7 +69,7 @@
 
 /* ============ 基础 ============ */
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }  /* 去掉移动端点击时系统默认的蓝色/灰色高亮块 */
 body {
   margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font);
   font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased;
@@ -562,6 +562,23 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
 .g-signals { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 14px 0 4px; }
 .g-sig-label { font-size: 13px; font-weight: 800; color: var(--muted); margin-right: 4px; }
 .g-signals .mini-g { font-size: 14px; padding: 3px 9px; }
+/* 学段标签：小学 / 初中。放在课程入口最右侧，等宽对齐；不可点击，所以只用描边、不加立体底边。
+   圆点个数表示学段先后（小学一个、初中两个），不只靠颜色区分。 */
+.g-grade { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 72px; height: 30px;
+  border: 2px solid; border-radius: 10px; font-size: 13px; font-weight: 800; letter-spacing: .04em; line-height: 1; white-space: nowrap; }
+.g-grade::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.g-grade.primary { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--accent-ink); }
+.g-grade.junior { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 55%, transparent); color: var(--blue-ink); }
+.g-grade.junior::before { box-shadow: 9px 0 0 currentColor; margin-right: 9px; }
+.lr-meta { flex: none; display: flex; align-items: center; gap: 16px; }
+.lr-meta .lr-stars:empty { display: none; }
+.eyebrow .g-grade { margin-left: 10px; width: auto; height: 24px; padding: 0 8px; font-size: 12px; vertical-align: middle; }
+@media (max-width: 640px) {
+  .g-stage .lesson-row { gap: 12px; padding-inline: 14px; }
+  .lr-meta { flex-direction: column-reverse; align-items: flex-end; gap: 4px; }
+  .lr-meta .lr-stars { min-width: 0; font-size: 13px; line-height: 1; }
+  .lr-meta .g-grade { width: 66px; height: 28px; font-size: 12px; }
+}
 .rule ul { margin: 6px 0; padding-left: 1.3em; }
 .rule li { margin: 3px 0; }
 
@@ -624,6 +641,7 @@ a { color: var(--blue-ink); }
 .pill { border: 2px solid var(--line); border-radius: 12px; font-weight: 800; color: var(--muted); }
 .pill svg { color: var(--accent); }
 .pill.toggle.on { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 3px 0 var(--accent-edge); }
+.rate-btn { min-width: 6.4em; justify-content: center; font-variant-numeric: tabular-nums; }  /* 三档文字宽度不同，定宽避免切换时顶栏抖动 */
 
 /* 按钮：大写粗体，4px 实色底边，按下时下沉 */
 /* 不做大写转换：按钮里常有课程里的字母组合（ai / ay、s a t p i n），大小写本身就是教学内容 */
@@ -840,3 +858,71 @@ tr:last-child td { border-bottom: 0; }
 :root[data-theme="dark"] .theme-btn .when-dark { display: inline-flex; }
 :root[data-theme="dark"] .theme-btn .when-light { display: none; }
 @media (max-width: 640px) { .tools .theme-btn { display: inline-flex; } }
+
+/* ============ 导航：五个主入口 + "更多"菜单 ============ */
+/* 当前页不只靠颜色区分：有底色、描边和加粗 */
+.nav a { display: inline-flex; align-items: center; gap: 6px; }
+.nav a svg { display: none; }
+.nav a[aria-current="page"] { font-weight: 900; }
+.tools .search-btn, .tools .more-btn { display: inline-flex; }
+.more-btn { padding: 6px 10px; cursor: pointer; anchor-name: --more-btn; }
+.more-btn svg { width: 20px; height: 20px; color: var(--ink-2); }
+.more-btn:hover, .search-btn:hover { background: var(--paper-2); }
+
+/* 菜单是普通的链接和按钮列表（用 Tab 逐个到达），不是应用菜单，所以不加 menu 角色。
+   先写固定位置，再写 anchor()：不支持锚点定位的浏览器会丢掉后一条、保留前一条。 */
+.more-menu {
+  position: fixed; inset: auto; top: 4.25rem; top: anchor(--more-btn bottom); right: 1rem; right: anchor(--more-btn right);
+  z-index: 30; margin: 8px 0 0; padding: 8px; inline-size: min(80dvw, 15rem); max-block-size: calc(100dvh - 6rem); overflow: auto;
+  border: 2px solid var(--line); border-bottom-width: 4px; border-radius: 16px; background: var(--card); color: var(--ink);
+}
+.more-menu:not(:is(:popover-open, .\:popover-open)) { display: none; }
+.more-menu:is(:popover-open, .\:popover-open) { display: grid; gap: 2px; }
+.more-menu hr { width: 100%; margin: 6px 0; border: 0; border-top: 2px solid var(--line); }
+.mm-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 8px 12px;
+  border: 0; border-radius: 10px; background: none; color: var(--ink); font-size: 15px; font-weight: 800; text-align: start; text-decoration: none;
+}
+.mm-item:hover { background: var(--paper-2); text-decoration: none; }
+.mm-item .rate-val { color: var(--accent-ink); font-weight: 900; }
+.more-menu .theme-btn > span { flex: 1; align-items: center; justify-content: space-between; gap: 12px; }
+.more-menu .theme-btn svg { width: 20px; height: 20px; }
+@media (prefers-reduced-motion: no-preference) {
+  .more-menu { opacity: 0; translate: 0 -4px; transition: opacity .12s, translate .12s, display .12s, overlay .12s; transition-behavior: allow-discrete; }
+  .more-menu:is(:popover-open, .\:popover-open) { opacity: 1; translate: 0 0; }
+  @starting-style { .more-menu:popover-open { opacity: 0; translate: 0 -4px; } }
+}
+
+/* 手机和窄屏：同一个 <nav> 固定到屏幕底部做标签栏，顶栏只留图标、搜索和"更多" */
+@media (max-width: 860px) {
+  .topbar { flex-wrap: nowrap; }
+  .nav {
+    position: fixed; inset: auto 0 0 0; z-index: 20; order: 0; width: auto; margin: 0; overflow: visible;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
+    padding: 6px max(8px, env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-right));
+    background: var(--card); border-top: 2px solid var(--line);
+  }
+  .nav a { flex-direction: column; justify-content: center; gap: 2px; min-height: 52px; padding: 4px 2px; font-size: 12px; letter-spacing: 0; }
+  .nav a svg { display: block; width: 24px; height: 24px; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+
+/* ============ 首页 ============ */
+.dash-head .hero-search { margin-top: 18px; max-width: 560px; }
+.dash-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.dash-card { display: flex; flex-direction: column; gap: 12px; padding: 22px; background: var(--card); border: 2px solid var(--line); border-radius: 18px; }
+.dc-top { display: flex; align-items: center; gap: 14px; }
+.dc-icon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; font-size: 28px; border-radius: 16px; border: 2px solid var(--lv); border-bottom-width: 4px; background: var(--card); }
+.dc-name { flex: 1; min-width: 0; }
+.dc-name h2 { font-size: 22px; font-weight: 900; }
+.dc-name p { margin: 2px 0 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.dc-pct { font-size: 20px; font-weight: 900; color: var(--lv-ink); }
+.dc-tag { flex: none; display: inline-block; vertical-align: middle; padding: 3px 10px; border: 2px solid color-mix(in srgb, var(--lv) 55%, transparent); border-radius: 10px;
+  background: color-mix(in srgb, var(--lv) 14%, var(--card)); color: var(--lv-ink); font-size: 13px; font-weight: 800; letter-spacing: 0; white-space: nowrap; }
+.dash-card .bar { flex: none; }
+.dash-card .bar i { background: var(--lv); }
+.dc-meta { margin: 0; font-size: 14px; font-weight: 700; color: var(--muted); }
+.dc-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 4px; }
+.plan-list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+@media (max-width: 760px) { .dash-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .dash-card { padding: 18px 16px; border-radius: 14px; } .dc-cta .btn { flex: 1 1 auto; justify-content: center; } }

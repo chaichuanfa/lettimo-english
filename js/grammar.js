@@ -1,9 +1,18 @@
 /* 语法课程数据
- * GRAMMAR：6 个阶段的语法学习路径
+ * GRAMMAR：7 个阶段的语法学习路径
+ *
+ * 阶段 id 和课程 id 只是进度记录用的固定键，页面上的"第 N 阶段""第 N-M 课"按数组顺序计算，
+ * 所以调整阶段和课程的顺序不会影响已有进度。
+ * id 为 gp-N 的 14 课是对照《义务教育英语课程标准（2022 年版）》表 11 的一、二级语法要求
+ * 和附录 4 语法项目表补充的，按主题分散在前三个阶段里。
+ * id 为 gj-N 的 9 课是初中阶段的补充（课标附录 4 里原先缺的条目，以及教材和中考常见的
+ * 反意疑问句、过去完成时、used to 等），按主题放在相应阶段里。
  *
  * 例句格式 "English|中文"
  *   [文字]        高亮本课重点
  *   {S:文字}      标出句子成分：S 主语 V 谓语 O 宾语 C 表语 IO 间接宾语 DO 直接宾语 OC 宾语补足语 A 状语 AT 定语
+ * grade：'小学' 或 '初中'，显示为课程入口上的学段标签。按课标表 11 划分：一、二级（简单句、一般现在 / 现在进行 /
+ *   一般过去 / 一般将来时、描述和比较人与物、时间地点方位）算小学，其余算初中
  * 句型公式 forms：[{ label, parts: [...] }]，parts 依次用 + 连接
  * 测验 quiz：
  *   { c: '含 ___ 的句子', o: [正确答案, 干扰项…], why: '解析' }   选择题（显示时打乱选项）
@@ -12,11 +21,11 @@
 window.GRAMMAR = [
   /* ====================================================== */
   {
-    id: 1, title: '词类基础', en: 'Parts of Speech', level: '入门', icon: '🧱',
-    desc: '认识名词、冠词、代词、形容词、副词和介词——句子的"零件"。',
+    id: 1, title: '名词与代词', en: 'Nouns & Pronouns', level: '入门', icon: '🧱',
+    desc: '认识名词、冠词和代词——句子里表示"谁"和"什么"的词。',
     lessons: [
       {
-        id: 'g1-1', title: '名词与单复数', en: 'Nouns & Plurals',
+        id: 'g1-1', grade: '小学', title: '名词与单复数', en: 'Nouns & Plurals',
         intro: '名词表示人、事物、地点或概念。可数名词有单数和复数，复数大多在词尾加 -s。',
         rule: `<p>名词分为<b>可数名词</b>（book、apple）和<b>不可数名词</b>（water、milk、rice）。可数名词有单数和复数；不可数名词没有复数，不能直接用 a / an。</p>
 <p>复数的规则变化：</p>`,
@@ -62,7 +71,54 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g1-2', title: '冠词 a / an / the', en: 'Articles',
+        id: 'gp-4', grade: '小学', title: '专有名词与名词所有格', en: "Proper Nouns & Possessive 's",
+        intro: "专有名词是人、地方、节日等的专属名字，首字母要大写；名词加 's 表示\"……的\"。",
+        rule: `<p><b>专有名词</b>是某个人、地方、机构或节日独有的名字，首字母必须<b>大写</b>：Tom、China、Beijing、Monday、May、Children's Day。普通名词（boy、city、day）只有在句首才大写。</p>
+<p><b>名词所有格</b>表示"某人的"，在名词后加 <b>'s</b>：Tom<b>'s</b> bag（汤姆的书包）。问"谁的"用 <b>Whose</b>：Whose bag is this? It's Tom's.</p>
+<p>没有生命的东西常用 <b>of</b> 表示所属：the door <b>of</b> the classroom（教室的门）。</p>`,
+        table: {
+          head: ['情况', '变法', '例子'],
+          rows: [
+            ['单数名词', "加 's", "Tom's bag，my father's car"],
+            ['以 s 结尾的复数名词', "只加 '", "the teachers' office，my parents' room"],
+            ['不以 s 结尾的复数名词', "加 's", "Children's Day，the men's room"],
+            ['两人共有', "只在最后一个名字后加 's", "Lucy and Lily's mother"],
+            ['没有生命的事物', '用 of', 'the name of the school，a map of China'],
+          ],
+        },
+        examples: [
+          "This is [Tom's] schoolbag.|这是汤姆的书包。",
+          "My [mother's] birthday is in [May].|我妈妈的生日在五月。",
+          "[Whose] kite is this? It's [Amy's].|这是谁的风筝？是埃米的。",
+          "The [teachers'] office is on the second floor.|教师办公室在二楼。",
+          'We live in [Beijing], the capital of [China].|我们住在中国的首都北京。',
+          "[Children's] Day is on June first.|儿童节在六月一日。",
+        ],
+        traps: [
+          "<b>Tom's</b> 可能是\"汤姆的\"，也可能是 Tom is 的缩写，要看后面：Tom's bag（汤姆的书包）；Tom's tall（汤姆很高）。",
+          "<b>Whose</b>（谁的）和 <b>Who's</b>（= Who is）读音一样，意思不同：Whose book is it? / Who's that boy?",
+          '语言、国籍、星期、月份、节日都要大写：<b>E</b>nglish、<b>C</b>hinese、<b>S</b>unday、<b>M</b>arch。',
+        ],
+        quiz: [
+          { c: 'This is my ___ bike.', o: ["brother's", 'brother', 'brothers', 'brother is'], why: "\"我哥哥的\"用所有格 brother's。" },
+          { c: "___ pencil is this? It's Mike's.", o: ['Whose', "Who's", 'Who', 'What'], why: "回答是\"迈克的\"，问的是\"谁的\"，用 Whose；Who's = Who is。" },
+          { c: 'June first is ___ Day.', o: ["Children's", "Childrens'", 'Children', 'Childs'], why: "children 是不以 s 结尾的复数，所有格加 's。" },
+          { c: 'We have English class on ___.', o: ['Monday', 'monday', 'mondays', 'the monday'], why: '星期是专有名词，首字母要大写。' },
+          { s: "This is my sister's room.", zh: '这是我姐姐的房间。' },
+          { s: 'Whose bag is on the desk?', zh: '桌上是谁的包？' },
+          { c: 'It is the ___ office. Many teachers work there.', o: ["teachers'", "teacher's", 'teachers', 'teacher'], why: "很多老师共用，teachers 以 s 结尾，所有格只加撇号。" },
+          { c: "Is this your pen? No, it's ___.", o: ["Lily's", 'Lily', 'Lilys', 'Lily is'], why: "\"是莉莉的\"用所有格 Lily's，后面的 pen 可以省略。" },
+          { c: 'Which word should start with a capital letter?', o: ['china', 'city', 'country', 'river'], why: 'China 是国家的名字，属于专有名词，首字母要大写。' },
+          { c: 'My ___ names are Tom and Jack.', o: ["brothers'", "brother's", 'brothers', 'brother'], why: "有两个哥哥，brothers 以 s 结尾，所有格只加撇号。" },
+          { c: 'This is ___ mother. They are twins.', o: ["Lucy and Lily's", "Lucy's and Lily", 'Lucy and Lily', 'Lucy and Lilys'], why: "两人共有同一位妈妈，只在最后一个名字后加 's。" },
+          { c: 'Look at the map ___ China.', o: ['of', 'on', 'at', 'to'], why: '没有生命的事物用 of 表示所属：a map of China。' },
+          { s: "My father's car is black.", zh: '我爸爸的车是黑色的。' },
+          { s: "Tom's birthday is in March.", zh: '汤姆的生日在三月。' },
+          { s: "Today is Teachers' Day.", zh: '今天是教师节。' },
+        ],
+      },
+      {
+        id: 'g1-2', grade: '小学', title: '冠词 a / an / the', en: 'Articles',
         intro: 'a / an 表示"一个"（泛指），the 表示"这个、那个"（特指）。',
         rule: `<p><b>a / an</b> 是不定冠词，放在单数可数名词前，表示"一个"或第一次提到的事物。</p>
 <p>选 a 还是 an 看后面单词的<b>第一个音</b>，不是第一个字母：元音音素前用 <b>an</b>（an apple、an hour），辅音音素前用 <b>a</b>（a book、a university）。</p>
@@ -108,7 +164,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g1-3', title: '人称代词与物主代词', en: 'Pronouns',
+        id: 'g1-3', grade: '小学', title: '人称代词与物主代词', en: 'Pronouns',
         intro: '代词用来代替名词，避免重复。主格做主语，宾格做宾语，物主代词表示"谁的"。',
         rule: `<p>同一个人在句子里位置不同，代词形式也不同：<b>主格</b>放在动词前做主语（<b>He</b> likes me），<b>宾格</b>放在动词或介词后做宾语（I like <b>him</b>）。</p>
 <p>表示"谁的"用物主代词：<b>形容词性</b>后面必须跟名词（my book），<b>名词性</b>后面不跟名词（The book is <b>mine</b>）。</p>`,
@@ -155,7 +211,263 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g1-4', title: '形容词与副词', en: 'Adjectives & Adverbs',
+        id: 'gp-3', grade: '小学', title: '指示代词 this / that / these / those', en: 'Demonstratives',
+        intro: 'this / these 指离自己近的人或物，that / those 指离自己远的人或物。',
+        rule: `<p>指示代词用来"指"东西：近处用 <b>this</b>（单数）和 <b>these</b>（复数），远处用 <b>that</b>（单数）和 <b>those</b>（复数）。</p>
+<p>它们可以单独用（<b>This</b> is my bag），也可以放在名词前（<b>this</b> bag）。be 动词和名词要跟着变：this / that + is + 单数，these / those + are + 复数。</p>
+<p>回答时不再重复 this / that，改用 <b>it</b>；these / those 改用 <b>they</b>：What's this? <b>It's</b> a kite. What are those? <b>They're</b> ducks.</p>`,
+        forms: [
+          { label: '单数', parts: ['This / That', 'is', '单数名词'] },
+          { label: '复数', parts: ['These / Those', 'are', '复数名词'] },
+        ],
+        table: {
+          head: ['', '近处', '远处'],
+          rows: [
+            ['单数', 'this（这个）', 'that（那个）'],
+            ['复数', 'these（这些）', 'those（那些）'],
+            ['例句', 'This is my pen. These are my pens.', 'That is a bird. Those are birds.'],
+          ],
+        },
+        examples: [
+          '[This] is my new schoolbag.|这是我的新书包。',
+          '[That] is our English teacher.|那是我们的英语老师。',
+          '[These] are my grandparents.|这是我的爷爷奶奶。',
+          '[Those] kites are very beautiful.|那些风筝非常漂亮。',
+          "What's [this]? It's an eraser.|这是什么？是一块橡皮。",
+          'Are [those] your shoes? Yes, they are.|那些是你的鞋吗？是的。',
+        ],
+        traps: [
+          "that is 可以缩写成 <b>that's</b>，但 this is 不能缩写。",
+          '回答 Is this / that…? 用 <b>it</b>：Yes, it is.；回答 Are these / those…? 用 <b>they</b>：Yes, they are.',
+          '介绍别人、打电话报自己名字时都用 This is…：<b>This is</b> my friend Amy. / Hello, <b>this is</b> Tom.',
+        ],
+        quiz: [
+          { c: '___ is my pencil. It is here in my hand.', o: ['This', 'That', 'These', 'Those'], why: '就在手里，离得近，而且是单数，用 this。' },
+          { c: 'Look at ___ birds in the sky.', o: ['those', 'this', 'that', 'these'], why: '天上的鸟离得远，birds 是复数，用 those。' },
+          { c: '___ are my new shoes. I am wearing them now.', o: ['These', 'This', 'That', 'Those'], why: '正穿在脚上，离得近；shoes 是复数，用 these。' },
+          { c: 'Is that your bike? Yes, ___ is.', o: ['it', 'that', 'this', 'they'], why: '回答 Is that…? 时用 it 代替 that。' },
+          { s: 'This is my little brother.', zh: '这是我的弟弟。' },
+          { s: 'Those apples are very sweet.', zh: '那些苹果非常甜。' },
+          { c: '___ book over there is mine.', o: ['That', 'This', 'These', 'Those'], why: 'over there 表示在远处，book 是单数，用 that。' },
+          { c: 'Are these your crayons? Yes, ___ are.', o: ['they', 'these', 'it', 'those'], why: '回答 Are these…? 时用 they 代替 these。' },
+          { c: 'These ___ my friends.', o: ['are', 'is', 'am', 'be'], why: 'these 是复数，be 动词用 are。' },
+          { c: 'What are ___? They are tomatoes.', o: ['those', 'that', 'this', 'it'], why: '问句用 are、答句用 They，说明是复数，用 those。' },
+          { c: 'Mum, ___ is my friend Sarah.', o: ['this', 'these', 'those', 'they'], why: '向别人介绍某人时用 This is…。' },
+          { c: 'I like this cap, but I do not like ___ shoes.', o: ['those', 'that', 'this', 'it'], why: 'shoes 是复数，只能用 those。' },
+          { s: 'Is that man your father?', zh: '那个男人是你爸爸吗？' },
+          { s: 'These are my new books.', zh: '这些是我的新书。' },
+          { s: 'That is a very tall tree.', zh: '那是一棵非常高的树。' },
+        ],
+      },
+      {
+        id: 'gp-9', grade: '初中', title: '不定代词与反身代词', en: 'Indefinite & Reflexive Pronouns',
+        intro: 'something、anyone、nothing 这类词指不确定的人或物；myself、yourself 这类词表示"自己"。',
+        rule: `<p><b>不定代词</b>由 some- / any- / every- / no- 加 -thing（物）、-one 或 -body（人）组成。用法和 some、any 一样：<b>some-</b> 用在肯定句，<b>any-</b> 用在否定句和疑问句。</p>
+<p>这些词做主语时，动词用<b>单数</b>：Everyone <b>is</b> here. 形容词要放在它们<b>后面</b>：something <b>new</b>。</p>
+<p><b>反身代词</b>表示"某人自己"，主语和宾语是同一个人时使用：I can dress <b>myself</b>. 一共八个：myself、yourself、himself、herself、itself（单数，以 -self 结尾）；ourselves、yourselves、themselves（复数，以 -selves 结尾）。</p>`,
+        table: {
+          head: ['', 'some-（肯定句）', 'any-（否定句、疑问句）', 'every-（每一个）', 'no-（没有）'],
+          rows: [
+            ['物', 'something', 'anything', 'everything', 'nothing'],
+            ['人', 'someone / somebody', 'anyone / anybody', 'everyone / everybody', 'no one / nobody'],
+          ],
+        },
+        examples: [
+          'There is [something] in my shoe.|我鞋里有东西。',
+          "I can't see [anything] in the dark.|黑暗中我什么也看不见。",
+          '[Everyone] likes the new teacher.|每个人都喜欢新老师。',
+          'There is [nothing] in the box.|盒子里什么也没有。',
+          'My little brother can dress [himself].|我弟弟会自己穿衣服。',
+          'Help [yourself] to some fruit.|请随便吃点水果。',
+        ],
+        traps: [
+          'everyone、someone、nothing 等做主语时动词用单数：Everyone <b>is</b> ready.（不说 Everyone are）',
+          '形容词放在不定代词后面：<b>something interesting</b>，不说 interesting something。',
+          '注意拼写：是 <b>himself</b>、<b>themselves</b>，没有 hisself、theirselves。',
+          '常用搭配：<b>by myself</b>（独自）、<b>enjoy yourself</b>（玩得开心）、<b>help yourself</b>（请自便）。',
+        ],
+        quiz: [
+          { c: 'I am hungry. I want ___ to eat.', o: ['something', 'anything', 'nothing', 'everyone'], why: '肯定句里表示"某个东西"用 something。' },
+          { c: "I can't hear ___. It is very quiet.", o: ['anything', 'something', 'nothing', 'everyone'], why: "否定句用 anything；can't 已经是否定，不能再用 nothing。" },
+          { c: 'Everyone ___ here today.', o: ['is', 'are', 'am', 'be'], why: 'everyone 做主语，动词用单数 is。' },
+          { c: 'The door is open, but ___ is in the room. It is empty.', o: ['no one', 'someone', 'anyone', 'everyone'], why: '房间是空的，"没有人"用 no one。' },
+          { s: 'I have something for you.', zh: '我有东西要给你。' },
+          { s: 'Is there anything in the bag?', zh: '包里有什么东西吗？' },
+          { c: 'I can do it by ___.', o: ['myself', 'me', 'my', 'mine'], why: '"独自、靠自己"是 by myself。' },
+          { c: "The baby can feed ___ now. He doesn't need help.", o: ['himself', 'him', 'he', 'his'], why: '自己喂自己，主语和宾语是同一个人，用反身代词 himself。' },
+          { c: 'Enjoy ___, children!', o: ['yourselves', 'yourself', 'you', 'your'], why: 'children 是复数，"你们自己"用 yourselves。' },
+          { c: 'We clean the classroom ___ every Friday.', o: ['ourselves', 'us', 'our', 'ourself'], why: '主语是 we，对应的反身代词是 ourselves。' },
+          { c: "There is ___ wrong with my bike. It doesn't work.", o: ['something', 'anything', 'nothing', 'everyone'], why: '肯定句里表示"有点问题"用 something wrong。' },
+          { c: 'Listen! ___ is knocking at the door.', o: ['Someone', 'Anyone', 'Everything', 'Nothing'], why: '肯定句里表示"有人"用 someone。' },
+          { s: 'Everyone is in the classroom.', zh: '大家都在教室里。' },
+          { s: 'She can do it by herself.', zh: '她能自己做这件事。' },
+          { s: 'There is nothing on the table.', zh: '桌上什么也没有。' },
+        ],
+      },
+      {
+        id: 'gj-1', grade: '初中', title: '不定代词 both / either / neither / other', en: 'Both, Either, Neither & Other',
+        intro: '说"两个都""两个中任意一个""两个都不"，以及"另一个""其他的"，各有专门的词。',
+        rule: `<p>谈到<b>两个</b>人或物时：<b>both</b> 两个都（后接复数，动词用复数）；<b>either</b> 两个中任意一个；<b>neither</b> 两个都不（either / neither 后接单数名词，动词用单数）。三个或更多用 <b>all</b>（全部）和 <b>none</b>（一个也没有）。</p>
+<p><b>each</b> 强调"每一个"，后接单数名词，动词用单数。</p>
+<p>"另一个、其他的"要分清：<b>another</b> 再一个（不确定的另一个）；<b>the other</b> 两个中的另一个；<b>others</b> 其他的人或物（泛指）；<b>the others</b> 剩下的全部。</p>
+<p><b>one / ones</b> 用来代替前面提到的可数名词，避免重复：I like the red <b>one</b>.</p>`,
+        table: {
+          head: ['词', '意思', '例子'],
+          rows: [
+            ['both', '两个都', 'Both of my parents are teachers.'],
+            ['either', '两个中任意一个', 'You can take either bus.'],
+            ['neither', '两个都不', 'Neither answer is right.'],
+            ['all / none', '（三个以上）全部 / 一个也没有', 'All of us like music. None of us can fly.'],
+            ['each', '每一个', 'Each student has a book.'],
+            ['another', '再一个', 'Can I have another cake?'],
+            ['one … the other', '一个……另一个（共两个）', 'I have two pens. One is red, the other is blue.'],
+            ['some … others', '一些……另一些', 'Some like tea, others like coffee.'],
+            ['one / ones', '代替前面的名词', 'This shirt is too small. I need a bigger one.'],
+          ],
+        },
+        examples: [
+          '[Both] of my sisters can swim.|我的两个姐姐都会游泳。',
+          'You can sit on [either] side.|你坐哪一边都可以。',
+          '[Neither] of the two books is interesting.|这两本书都没意思。',
+          '[Each] of us has a different hobby.|我们每个人都有不同的爱好。',
+          'I have two cats. One is black and [the other] is white.|我有两只猫，一只是黑的，另一只是白的。',
+          'This cup is dirty. Please give me [another] one.|这个杯子脏了，请再给我一个。',
+        ],
+        traps: [
+          'both 用于两个，all 用于三个或更多：<b>both</b> my hands，<b>all</b> my fingers。',
+          "neither 本身已经是否定，句子里不再加 not：<b>Neither</b> of them <b>is</b> here.（不说 Neither of them isn't here）",
+          '<b>the other</b> 是两个中剩下的那一个；<b>another</b> 是另外任意一个。只有两个时用 the other。',
+          'both … and …（两者都）动词用复数；either … or …、neither … nor … 的动词和<b>最近的</b>主语一致。',
+        ],
+        quiz: [
+          { c: 'I have two brothers. ___ of them are doctors.', o: ['Both', 'All', 'Either', 'Neither'], why: '一共两个，"两个都"用 both，动词用复数 are。' },
+          { c: 'There are trees on ___ side of the street.', o: ['either', 'both', 'all', 'neither'], why: 'side 是单数，either + 单数名词表示"两边中的每一边"；both 后面要接复数 sides。' },
+          { c: 'He has two pens. One is red, and ___ is blue.', o: ['the other', 'another', 'others', 'other'], why: '一共两个，"另一个"用 the other。' },
+          { c: 'This cake is delicious. Can I have ___ one?', o: ['another', 'other', 'the others', 'others'], why: '"再来一个"用 another。' },
+          { s: 'Both of them like playing football.', zh: '他们俩都喜欢踢足球。' },
+          { s: 'Neither of us can speak French.', zh: '我们俩都不会说法语。' },
+          { c: '___ of the two answers is right. Try again.', o: ['Neither', 'Both', 'All', 'None'], why: '两个都不对用 neither，动词用单数 is；none 用于三个以上。' },
+          { c: '___ student in our class has a dictionary.', o: ['Each', 'Both', 'All', 'Some'], why: '后面是单数名词 student 和单数动词 has，用 each。' },
+          { c: 'Some students like math, ___ like art.', o: ['others', 'another', 'the other', 'other'], why: 'some … others … 表示"一些……另一些……"。' },
+          { c: 'I do not like this blue shirt. Show me a red ___.', o: ['one', 'ones', 'it', 'that'], why: '用 one 代替前面提到的单数名词 shirt。' },
+          { c: '___ of my three friends are good at English.', o: ['All', 'Both', 'Either', 'Neither'], why: '三个人，"全部"用 all；both、either、neither 只用于两个。' },
+          { c: 'There are five people in the room. Two are reading and ___ are talking.', o: ['the others', 'another', 'the other', 'other'], why: '剩下的三个人全部，用 the others。' },
+          { s: 'Each of the boys has a ball.', zh: '每个男孩都有一个球。' },
+          { s: 'Can I have another cup of tea?', zh: '我能再喝一杯茶吗？' },
+          { s: 'I like the blue one better.', zh: '我更喜欢蓝色的那个。' },
+        ],
+      },
+    ],
+  },
+
+  /* ====================================================== */
+  {
+    id: '1b', title: '数量、描述与连接', en: 'Numbers, Describing & Linking', level: '入门', icon: '🔢',
+    desc: '数词和数量表达、形容词、副词、介词、连词，以及单词是怎么"搭"出来的。',
+    lessons: [
+      {
+        id: 'gp-1', grade: '小学', title: '数词：基数词与序数词', en: 'Numbers',
+        intro: '基数词表示"多少"（one、two、three），序数词表示"第几"（first、second、third）。',
+        rule: `<p><b>基数词</b>用来数数，说年龄、价格、电话号码：I am <b>ten</b> years old.</p>
+<p>13–19 以 <b>-teen</b> 结尾，整十以 <b>-ty</b> 结尾；"几十几"中间加连字符：twenty-one、thirty-five。</p>
+<p><b>序数词</b>表示顺序，前面通常加 <b>the</b>：the <b>first</b> lesson。大多数序数词是基数词加 <b>-th</b>，但前三个要单独记：first、second、third。</p>`,
+        table: {
+          head: ['基数词', '序数词', '缩写'],
+          rows: [
+            ['one', 'first', '1st'],
+            ['two', 'second', '2nd'],
+            ['three', 'third', '3rd'],
+            ['four', 'fourth', '4th'],
+            ['five', 'fifth', '5th'],
+            ['eight', 'eighth', '8th'],
+            ['nine', 'ninth', '9th'],
+            ['twelve', 'twelfth', '12th'],
+            ['twenty', 'twentieth', '20th'],
+            ['twenty-one', 'twenty-first', '21st'],
+            ['one hundred', 'one hundredth', '100th'],
+          ],
+        },
+        examples: [
+          'I have [three] pencils and [two] rulers.|我有三支铅笔和两把尺子。',
+          'My sister is [thirteen] years old.|我姐姐十三岁。',
+          'There are [forty-five] students in our class.|我们班有四十五名学生。',
+          'Our classroom is on the [second] floor.|我们的教室在二楼。',
+          'Sunday is the [first] day of the week.|星期天是一周的第一天。',
+          'This book has [one hundred and twenty] pages.|这本书有一百二十页。',
+        ],
+        traps: [
+          '注意拼写：<b>forty</b>（不是 fourty）、<b>fifth</b>、<b>eighth</b>、<b>ninth</b>（去掉 e）、<b>twelfth</b>。',
+          '-teen 和 -ty 容易听混：thir<b>teen</b>（13，重音在后）和 <b>thir</b>ty（30，重音在前）。',
+          'hundred 前面有具体数字时不加 s：<b>two hundred</b>，不说 two hundreds。',
+        ],
+        quiz: [
+          { c: 'There are ___ days in a week.', o: ['seven', 'seventh', 'seventy', 'seventeen'], why: '表示数量用基数词，一周有七天。' },
+          { c: 'March is the ___ month of the year.', o: ['third', 'three', 'thirteen', 'thirty'], why: '表示"第几"用序数词，three 的序数词是 third。' },
+          { c: 'My brother is in Grade ___.', o: ['Five', 'Fifth', 'the Fifth', 'Fiveth'], why: '"几年级"说 Grade + 基数词：Grade Five。' },
+          { c: 'She lives on the ___ floor.', o: ['ninth', 'nine', 'nineth', 'ninety'], why: '"第九层"用序数词；nine 变序数词要去掉 e：ninth。' },
+          { s: 'I have two brothers.', zh: '我有两个哥哥。' },
+          { s: 'Today is my tenth birthday.', zh: '今天是我的十岁生日。' },
+          { c: 'Ten and ten is ___.', o: ['twenty', 'twelve', 'twentieth', 'two'], why: '10 + 10 = 20，twenty。' },
+          { c: 'There are ___ months in a year.', o: ['twelve', 'twelfth', 'twenty', 'two'], why: '一年有十二个月，表示数量用基数词 twelve。' },
+          { c: 'Tom is the ___ boy in the line.', o: ['first', 'one', 'oneth', 'once'], why: 'the 后面表示顺序用序数词，one 的序数词是 first。' },
+          { c: 'My grandpa is ___ years old.', o: ['seventy', 'seventieth', 'seventh', 'seven tens'], why: '说年龄用基数词，70 是 seventy。' },
+          { c: 'There are four ___ students in our school.', o: ['hundred', 'hundreds', 'hundredth', 'hundreds of'], why: '前面有具体数字 four，hundred 不加 s。' },
+          { c: 'December is the ___ month of the year.', o: ['twelfth', 'twelve', 'twelveth', 'twenty'], why: 'twelve 的序数词是 twelfth（ve 变成 f 再加 th）。' },
+          { s: 'There are thirty students in my class.', zh: '我们班有三十名学生。' },
+          { s: 'We live on the fifth floor.', zh: '我们住在五楼。' },
+          { s: 'The second lesson is very easy.', zh: '第二课很简单。' },
+        ],
+      },
+      {
+        id: 'gp-8', grade: '小学', title: '数量表达 some / any / many / much', en: 'Quantifiers',
+        intro: '用 some、any、many、much、a lot of 说"一些、很多"，要看名词可数还是不可数，句子是肯定还是否定。',
+        rule: `<p><b>some</b> 和 <b>any</b> 都表示"一些"，可数、不可数名词都能用。<b>some</b> 用在<b>肯定句</b>，<b>any</b> 用在<b>否定句和疑问句</b>。</p>
+<p>表示"很多"：<b>many</b> + 可数名词复数，<b>much</b> + 不可数名词，<b>a lot of</b> 两种都可以。</p>
+<p>表示"一点、几个"：<b>a few</b> + 可数名词复数，<b>a little</b> + 不可数名词。</p>
+<p>问数量：<b>How many</b> + 可数名词复数，<b>How much</b> + 不可数名词（也用来问价格）。</p>`,
+        table: {
+          head: ['意思', '可数名词复数', '不可数名词'],
+          rows: [
+            ['一些（肯定句）', 'some apples', 'some milk'],
+            ['一些（否定句、疑问句）', 'any apples', 'any milk'],
+            ['很多', 'many apples / a lot of apples', 'much milk / a lot of milk'],
+            ['一点、几个', 'a few apples', 'a little milk'],
+            ['问多少', 'How many apples?', 'How much milk?'],
+          ],
+        },
+        examples: [
+          'I have [some] new books.|我有一些新书。',
+          "There isn't [any] milk in the fridge.|冰箱里没有牛奶了。",
+          'Do you have [any] questions?|你有什么问题吗？',
+          'There are [many] animals in the zoo.|动物园里有很多动物。',
+          "We don't have [much] time.|我们没有多少时间了。",
+          'She drinks [a lot of] water every day.|她每天喝很多水。',
+        ],
+        traps: [
+          '表示请求或建议、希望对方说"好"时，疑问句里也用 <b>some</b>：Would you like <b>some</b> tea? Can I have <b>some</b> water?',
+          '<b>a few / a little</b> 是"有一些"（肯定）；去掉 a 的 <b>few / little</b> 是"几乎没有"（否定）。',
+          'money、water、bread、homework 是不可数名词：<b>much</b> money、<b>a little</b> water，不说 many money。',
+        ],
+        quiz: [
+          { c: 'I want ___ orange juice.', o: ['some', 'any', 'many', 'a few'], why: '肯定句用 some；juice 不可数，不能用 many 和 a few。' },
+          { c: "We don't have ___ eggs at home.", o: ['any', 'some', 'much', 'a little'], why: '否定句用 any；eggs 可数，不能用 much 和 a little。' },
+          { c: 'Are there ___ fish in the river?', o: ['any', 'some', 'much', 'a little'], why: '一般疑问句用 any。' },
+          { c: 'How ___ apples do you want?', o: ['many', 'much', 'any', 'some'], why: 'apples 是可数名词复数，用 How many。' },
+          { s: 'I have some good friends.', zh: '我有一些好朋友。' },
+          { s: 'There are many trees in the park.', zh: '公园里有很多树。' },
+          { c: 'How ___ is this T-shirt? It is sixty yuan.', o: ['much', 'many', 'old', 'long'], why: '问价格用 How much。' },
+          { c: 'There is not ___ water in the bottle.', o: ['much', 'many', 'a few', 'some'], why: 'water 不可数，否定句里表示"不多"用 much。' },
+          { c: 'Would you like ___ cake? Yes, please.', o: ['some', 'any', 'many', 'a few'], why: '表示建议、希望对方接受时，疑问句也用 some。' },
+          { c: 'He has a ___ friends in his new school.', o: ['few', 'little', 'much', 'many'], why: 'friends 是可数名词复数，用 a few。' },
+          { c: 'Please give me a ___ milk.', o: ['little', 'few', 'many', 'any'], why: 'milk 不可数，用 a little。' },
+          { c: 'She has ___ of toys in her room.', o: ['a lot', 'many', 'much', 'some'], why: '后面有 of，固定搭配是 a lot of。' },
+          { s: "I don't have any money.", zh: '我一点钱也没有。' },
+          { s: 'How many classes do you have today?', zh: '你今天有几节课？' },
+          { s: 'We need a little sugar.', zh: '我们需要一点糖。' },
+        ],
+      },
+      {
+        id: 'g1-4', grade: '小学', title: '形容词与副词', en: 'Adjectives & Adverbs',
         intro: '形容词修饰名词，说明"什么样的"；副词修饰动词、形容词，说明"怎样地、多么"。',
         rule: `<p><b>形容词</b>放在名词前（a <b>big</b> house），或放在 be 动词等系动词后（The house is <b>big</b>）。</p>
 <p><b>副词</b>修饰动词（run <b>fast</b>）、形容词（<b>very</b> big）或整个句子。很多副词由形容词加 <b>-ly</b> 构成：quick → quickly，happy → happily，careful → carefully。</p>
@@ -192,7 +504,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g1-5', title: '介词 in / on / at', en: 'Prepositions',
+        id: 'g1-5', grade: '小学', title: '介词 in / on / at', en: 'Prepositions',
         intro: '介词放在名词或代词前面，表示时间、地点、方向等关系。',
         rule: `<p>同样三个介词，表示<b>时间</b>和<b>地点</b>时都遵循"从大到小"：in 最大、on 居中、at 最小、最具体。</p>`,
         table: {
@@ -234,16 +546,226 @@ window.GRAMMAR = [
           { s: "We have a long holiday in summer.", zh: "我们夏天有一个长假。" },
         ],
       },
+      {
+        id: 'gp-5', grade: '小学', title: '方位介词', en: 'Prepositions of Place',
+        intro: '用 in、on、under、behind、next to 等介词说清楚"在哪里"，用 to、from、into 等说清楚"往哪里"。',
+        rule: `<p>问位置用 <b>Where is / are…?</b>，回答用"主语 + be + 方位介词 + 地点"：Where is the cat? It's <b>under</b> the chair.</p>
+<p>方位介词后面接名词或代词宾格：next to <b>me</b>、behind <b>the door</b>。</p>
+<p>表示移动方向的介词常和 go、walk、run、come 等动词连用：go <b>to</b> school、come <b>from</b> China、walk <b>into</b> the room。</p>`,
+        forms: [
+          { label: '提问', parts: ['Where', 'is / are', '主语?'] },
+          { label: '回答', parts: ['主语', 'is / are', '方位介词', '地点'] },
+        ],
+        table: {
+          head: ['介词', '意思', '例子'],
+          rows: [
+            ['in', '在……里面', 'The ball is in the box.'],
+            ['on', '在……上面（接触表面）', 'The book is on the desk.'],
+            ['under', '在……下面', 'The cat is under the chair.'],
+            ['over / above', '在……上方（不接触）', 'There is a bridge over the river.'],
+            ['in front of', '在……前面', 'There is a tree in front of the house.'],
+            ['behind', '在……后面', 'The boy is behind the door.'],
+            ['next to / beside', '紧挨着、在旁边', 'I sit next to Amy.'],
+            ['near', '在……附近', 'The park is near my home.'],
+            ['between … and …', '在……和……之间', 'The bank is between the shop and the school.'],
+            ['to / from', '到…… / 从……', 'We walk from home to school.'],
+            ['into / out of', '进入 / 从……出来', 'She runs into the room.'],
+            ['up / down', '向上 / 向下', 'They walk up the hill.'],
+            ['on the left / right', '在左边 / 右边', 'The library is on the left.'],
+          ],
+        },
+        examples: [
+          'The cat is [under] the chair.|猫在椅子下面。',
+          'There is a big tree [in front of] the house.|房子前面有一棵大树。',
+          'My desk is [next to] the window.|我的书桌紧挨着窗户。',
+          'The bookstore is [between] the bank [and] the park.|书店在银行和公园之间。',
+          'Tom is hiding [behind] the door.|汤姆躲在门后面。',
+          'We walk [from] home [to] school every day.|我们每天从家走路去学校。',
+        ],
+        traps: [
+          '<b>in front of</b> 指在物体外部的前面；<b>in the front of</b> 指在物体内部的前部：The driver sits in the front of the bus.',
+          '树上自己长出来的用 on，外来的用 in：apples <b>on</b> the tree，a bird <b>in</b> the tree。',
+          'on 要接触表面，over / above 不接触：The lamp is <b>above</b> the table.（灯在桌子上方）',
+          'home、here、there 前面不加 to：<b>go home</b>，不说 go to home。',
+        ],
+        quiz: [
+          { c: 'The dog is sleeping ___ the table. It is on the floor.', o: ['under', 'on', 'in', 'between'], why: '狗在地板上、桌子下面，用 under。' },
+          { c: 'There is a garden in ___ of our house.', o: ['front', 'behind', 'next', 'near'], why: '"在……前面"是固定搭配 in front of。' },
+          { c: 'The bank is ___ the post office and the hospital.', o: ['between', 'into', 'from', 'up'], why: '"在 A 和 B 之间"用 between … and …。' },
+          { c: 'I sit next ___ my best friend.', o: ['to', 'of', 'at', 'from'], why: '"紧挨着"是固定搭配 next to。' },
+          { s: 'The cat is under the chair.', zh: '猫在椅子下面。' },
+          { s: 'My school is near the park.', zh: '我的学校在公园附近。' },
+          { c: 'There are many apples ___ the tree.', o: ['on', 'in', 'at', 'to'], why: '苹果是树上长出来的，用 on the tree。' },
+          { c: 'A bird is singing ___ the tree.', o: ['in', 'on', 'into', 'from'], why: '鸟不是树上长的，是外来的，用 in the tree。' },
+          { c: 'She comes ___ Canada.', o: ['from', 'to', 'at', 'in'], why: '"来自"是 come from。' },
+          { c: 'The teacher walks ___ the classroom and says hello.', o: ['into', 'between', 'under', 'on'], why: '表示"走进"某个空间用 into。' },
+          { c: 'After school, I go ___.', o: ['home', 'to home', 'at home', 'in home'], why: 'home 前面不加 to：go home。' },
+          { c: 'Tom is standing ___ the door. I cannot see him.', o: ['behind', 'in front of', 'on', 'into'], why: '看不见他，说明他在门后面，用 behind。' },
+          { s: 'There is a bridge over the river.', zh: '河上有一座桥。' },
+          { s: 'The park is behind our school.', zh: '公园在我们学校后面。' },
+          { s: 'He walks to school every day.', zh: '他每天走路去上学。' },
+        ],
+      },
+      {
+        id: 'gp-2', grade: '小学', title: '时间与日期', en: 'Time & Dates',
+        intro: '学会用英语说几点钟、星期几、几月几日，并选对介词 at、on、in。',
+        rule: `<p>问时间：<b>What time is it?</b> 回答用 <b>It's …</b>。整点说 <b>o'clock</b>：It's seven o'clock.</p>
+<p>非整点有两种说法。<b>顺读法</b>先说"时"再说"分"：seven thirty（7:30）。<b>逆读法</b>先说"分"：30 分以内用 <b>past</b>（过了几分），超过 30 分用 <b>to</b>（差几分到下一个钟点）；half 是半小时，a quarter 是一刻钟。</p>
+<p>问日期：<b>What's the date today?</b> 问星期：<b>What day is it today?</b> 日期里的"几号"用序数词：June 1st 读作 June (the) first。</p>
+<p>星期（Monday … Sunday）和月份（January … December）首字母都要<b>大写</b>。时间前的介词：<b>at</b> + 钟点，<b>on</b> + 星期和具体日期，<b>in</b> + 月份、季节、年份。</p>`,
+        table: {
+          head: ['时间', '顺读法', '逆读法'],
+          rows: [
+            ['7:00', "seven o'clock", "seven o'clock"],
+            ['7:05', 'seven oh five', 'five past seven'],
+            ['7:15', 'seven fifteen', 'a quarter past seven'],
+            ['7:30', 'seven thirty', 'half past seven'],
+            ['7:45', 'seven forty-five', 'a quarter to eight'],
+            ['7:50', 'seven fifty', 'ten to eight'],
+          ],
+        },
+        examples: [
+          "What time is it? It's [seven o'clock].|几点了？七点了。",
+          'I get up at [half past six].|我六点半起床。',
+          'School starts at [a quarter to eight].|学校七点四十五开始上课。',
+          'We have music class on [Monday] and [Friday].|我们周一和周五上音乐课。',
+          "Children's Day is on [June first].|儿童节在六月一日。",
+          'My birthday is in [October].|我的生日在十月。',
+        ],
+        traps: [
+          '逆读法超过 30 分，要说"差几分到<b>下一个</b>钟点"：7:45 是 a quarter to <b>eight</b>，不是 to seven。',
+          "o'clock 只用于整点：说 seven o'clock，不说 seven thirty o'clock。",
+          '星期和月份的首字母永远大写：<b>M</b>onday、<b>J</b>une；季节不用大写：spring、summer。',
+        ],
+        quiz: [
+          { c: "It's eight ___. Time for school.", o: ["o'clock", 'clock', 'time', 'hour'], why: "整点用 o'clock。" },
+          { c: 'It is 6:30. It is half ___ six.', o: ['past', 'to', 'at', 'on'], why: '6:30 是"六点过了一半"，用 half past six。' },
+          { c: 'It is 9:45. It is a quarter ___ ten.', o: ['to', 'past', 'at', 'in'], why: '超过 30 分用 to，表示"差一刻钟到十点"。' },
+          { c: 'We have art class ___ Wednesday.', o: ['on', 'in', 'at', 'of'], why: '星期前用 on。' },
+          { s: 'What time do you get up?', zh: '你几点起床？' },
+          { s: 'My birthday is in May.', zh: '我的生日在五月。' },
+          { c: 'What ___ is it today? It is Monday.', o: ['day', 'date', 'time', 'week'], why: '问星期几用 What day is it today?' },
+          { c: "What's the ___ today? It is March fifth.", o: ['date', 'day', 'time', 'week'], why: '回答的是几月几日，所以问的是日期 date。' },
+          { c: 'The first month of the year is ___.', o: ['January', 'january', 'February', 'June'], why: '一年的第一个月是 January，月份首字母要大写。' },
+          { c: 'I go to bed ___ nine thirty.', o: ['at', 'on', 'in', 'to'], why: '具体钟点前用 at。' },
+          { c: 'It is 3:15. It is a ___ past three.', o: ['quarter', 'half', 'hour', 'time'], why: '15 分钟是一刻钟：a quarter past three。' },
+          { c: "Teachers' Day is ___ September tenth.", o: ['on', 'in', 'at', 'of'], why: '具体到某一天用 on。' },
+          { s: 'I go to school at seven thirty.', zh: '我七点半去上学。' },
+          { s: 'We have English class on Monday.', zh: '我们周一有英语课。' },
+          { s: 'What day is it today?', zh: '今天星期几？' },
+        ],
+      },
+      {
+        id: 'gp-10', grade: '小学', title: '连词 and / but / or / so / because', en: 'Conjunctions',
+        intro: '连词像胶水，把词和词、句子和句子粘在一起，并说明它们之间的关系。',
+        rule: `<p>连词用来连接两个词、两个短语或两个句子。连接的两部分应该是<b>同一类</b>的：名词和名词（apples <b>and</b> pears）、形容词和形容词（small <b>but</b> heavy）、句子和句子。</p>
+<p><b>because</b> 引出原因，用来回答 <b>Why…?</b>；<b>so</b> 引出结果。</p>`,
+        table: {
+          head: ['连词', '意思', '例子'],
+          rows: [
+            ['and', '和、并且', 'I like apples and bananas.'],
+            ['but', '但是（转折）', 'The room is small but clean.'],
+            ['or', '或者、还是（选择）', 'Do you want milk or juice?'],
+            ['so', '所以（结果）', 'It is raining, so I take an umbrella.'],
+            ['because', '因为（原因）', 'I like summer because I can swim.'],
+          ],
+        },
+        examples: [
+          'I have a pen [and] two pencils.|我有一支钢笔和两支铅笔。',
+          'The bag is old [but] very strong.|这个包很旧，但是很结实。',
+          'Is your pet a cat [or] a dog?|你的宠物是猫还是狗？',
+          'I am tired, [so] I go to bed early.|我累了，所以早早上床睡觉。',
+          'She likes spring [because] the flowers are beautiful.|她喜欢春天，因为花很美。',
+          'Why do you like dogs? [Because] they are cute.|你为什么喜欢狗？因为它们很可爱。',
+        ],
+        traps: [
+          '中文说"因为……所以……"，英语里 <b>because</b> 和 <b>so</b> 只能用一个：Because it is cold, I wear a coat. 或 It is cold, so I wear a coat.',
+          "否定句里表示\"和\"通常用 <b>or</b>：I don't like apples <b>or</b> pears.",
+          '三个以上并列时，and 放在最后一个前面：red, yellow <b>and</b> blue。',
+        ],
+        quiz: [
+          { c: 'I like singing ___ dancing.', o: ['and', 'but', 'so', 'because'], why: '两个爱好是并列关系，用 and。' },
+          { c: 'The dress is nice, ___ it is too big for me.', o: ['but', 'and', 'so', 'because'], why: '前面说好看，后面说太大，是转折关系，用 but。' },
+          { c: 'Is it a boy ___ a girl?', o: ['or', 'but', 'so', 'because'], why: '两个里面选一个，用 or。' },
+          { c: 'It is very cold, ___ I wear a warm coat.', o: ['so', 'but', 'or', 'because'], why: '天冷是原因，穿外套是结果，用 so。' },
+          { s: 'I like winter because I can skate.', zh: '我喜欢冬天，因为我可以滑冰。' },
+          { s: 'He is ill so he stays at home.', zh: '他病了，所以待在家里。' },
+          { c: 'Why are you late? ___ I missed the bus.', o: ['Because', 'So', 'But', 'And'], why: '回答 Why 的问题用 Because。' },
+          { c: "I don't like onions ___ carrots.", o: ['or', 'and', 'so', 'because'], why: '否定句里表示"和"通常用 or。' },
+          { c: 'He is short, ___ he can jump very high.', o: ['but', 'so', 'or', 'because'], why: '个子矮却跳得高，是转折关系，用 but。' },
+          { c: 'Wash your hands ___ come to dinner.', o: ['and', 'but', 'or', 'because'], why: '两个动作先后发生，用 and。' },
+          { c: 'She is ill, ___ she is not at school today.', o: ['so', 'but', 'or', 'because'], why: '生病是原因，没来上学是结果，用 so。' },
+          { c: 'I like autumn ___ the weather is cool.', o: ['because', 'so', 'but', 'or'], why: '后面是喜欢秋天的原因，用 because。' },
+          { s: 'I get up and brush my teeth.', zh: '我起床然后刷牙。' },
+          { s: 'We like her because she is kind.', zh: '我们喜欢她，因为她很善良。' },
+          { s: 'It is late so we go home.', zh: '天晚了，所以我们回家。' },
+        ],
+      },
+      {
+        id: 'gp-14', grade: '小学', title: '构词法与缩写', en: 'Word Building & Short Forms',
+        intro: '很多单词是由旧词"搭"出来的。学会合成、加前后缀和缩写，认词记词都会更快。',
+        rule: `<p><b>合成法</b>：两个词拼成一个新词。class + room = <b>classroom</b>，foot + ball = <b>football</b>。</p>
+<p><b>派生法</b>：在词的前面或后面加上<b>词缀</b>。前缀通常改变意思（<b>un</b>happy 不开心），后缀通常改变词性（teach 动词 → teach<b>er</b> 名词）。</p>
+<p><b>转化法</b>：单词样子不变，词性变了。<b>water</b> 可以是名词"水"，也可以是动词"浇水"。</p>
+<p><b>缩写</b>：口语里常把两个词合在一起，用撇号 <b>'</b> 代替省掉的字母：I am → <b>I'm</b>，do not → <b>don't</b>。</p>`,
+        table: {
+          head: ['方法', '构成', '例子'],
+          rows: [
+            ['合成法', '词 + 词', 'classroom，bedroom，football，homework，sunflower，birthday'],
+            ['派生法（前缀）', 'un-（不）、re-（再）', 'unhappy，unlucky，rewrite，retell'],
+            ['派生法（后缀 → 名词）', '-er / -or（做……的人）', 'teacher，singer，driver，visitor'],
+            ['派生法（后缀 → 形容词）', '-y、-ful、-ly', 'sunny，rainy，careful，helpful，friendly'],
+            ['派生法（后缀 → 副词）', '形容词 + -ly', 'quickly，slowly，carefully'],
+            ['派生法（数词）', '-teen、-ty、-th', 'sixteen，sixty，sixth'],
+            ['转化法', '词形不变，词性改变', 'water（水 / 浇水），play（玩 / 戏剧），clean（干净的 / 打扫）'],
+            ['缩写（be）', '主语 + be', "I'm，you're，he's，it's，we're，they're"],
+            ['缩写（not）', '助动词 + not', "isn't，aren't，don't，doesn't，can't，didn't"],
+            ['其他缩写', '两个词合并', "let's = let us，what's = what is，I'd = I would"],
+            ['简写', '首字母或截短', 'Mr.，Mrs.，TV，PE，a.m.，p.m.'],
+          ],
+        },
+        examples: [
+          'We clean our [classroom] every day.|我们每天打扫教室。',
+          'My uncle is a bus [driver].|我叔叔是一名公交车司机。',
+          'It is [sunny] today.|今天天气晴朗。',
+          'The boy looks [unhappy].|那个男孩看起来不开心。',
+          'I [water] the flowers every morning.|我每天早上浇花。',
+          "[I'm] ten and [she's] nine.|我十岁，她九岁。",
+        ],
+        traps: [
+          "<b>it's</b> = it is，<b>its</b> = 它的；<b>they're</b> = they are，<b>their</b> = 他们的。读音一样，写法不同。",
+          "<b>can't</b> 的完整形式是 cannot（连写）；<b>won't</b> 是 will not 的缩写，写法特殊。",
+          '以 e 结尾的动词加 -er 时只加 r：dance → danc<b>er</b>，drive → driv<b>er</b>；重读闭音节要双写：run → ru<b>nn</b>er，swim → swi<b>mm</b>er。',
+          '以"辅音字母 + y"结尾的形容词变副词，变 y 为 i 再加 -ly：happy → happ<b>ily</b>。',
+        ],
+        quiz: [
+          { c: 'A person who teaches is a ___.', o: ['teacher', 'teaching', 'teaches', 'teach'], why: '动词 teach 加后缀 -er，变成"做这件事的人"。' },
+          { c: 'We have lessons in the ___.', o: ['classroom', 'class room', 'roomclass', 'classesroom'], why: 'class 和 room 合成一个词 classroom，中间不空格。' },
+          { c: '___ a nice day today.', o: ["It's", 'Its', 'Is', 'It'], why: "这里需要\"它是\"，用 It's（= It is）；its 是\"它的\"。" },
+          { c: 'It is raining. It is a ___ day.', o: ['rainy', 'rain', 'rains', 'raining'], why: '修饰名词 day 要用形容词，rain 加 -y 变成 rainy。' },
+          { s: "I don't like rainy days.", zh: '我不喜欢下雨天。' },
+          { s: 'My father is a good driver.', zh: '我爸爸是个好司机。' },
+          { c: 'She is not happy. She is ___.', o: ['unhappy', 'happily', 'happyless', 'dishappy'], why: '前缀 un- 表示"不"：unhappy。' },
+          { c: '"do not" 的缩写是哪一个？', o: ["don't", "do'nt", 'dont', "doesn't"], why: "撇号代替省掉的字母 o：do not → don't。" },
+          { c: 'Please be ___ when you cross the road.', o: ['careful', 'care', 'carefully', 'cares'], why: 'be 动词后面用形容词，care 加 -ful 变成 careful。' },
+          { c: 'In "I water the flowers", the word "water" is a ___.', o: ['动词', '名词', '形容词', '副词'], why: '这里 water 的意思是"浇水"，在句子里做谓语，是动词（转化法）。' },
+          { c: 'They are my friends. ___ very kind.', o: ["They're", 'Their', 'There', 'Theirs'], why: "这里需要\"他们是\"，用 They're（= They are）。" },
+          { c: 'He sings very well. He is a good ___.', o: ['singer', 'sing', 'singing', 'sings'], why: 'sing 加 -er 变成 singer（歌手）。' },
+          { s: "She can't come to the party.", zh: '她不能来参加聚会。' },
+          { s: "Let's play football after school.", zh: '我们放学后踢足球吧。' },
+          { s: "It's a sunny day today.", zh: '今天是个晴天。' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
     id: 2, title: '基本句子', en: 'Basic Sentences', level: '入门', icon: '🗣️',
-    desc: 'be 动词、There be、实义动词，以及疑问句、否定句和祈使句。',
+    desc: 'be 动词、There be、实义动词、have 和 can，以及疑问句、祈使句和感叹句。',
     lessons: [
       {
-        id: 'g2-1', title: 'be 动词 am / is / are', en: 'The Verb "Be"',
+        id: 'g2-1', grade: '小学', title: 'be 动词 am / is / are', en: 'The Verb "Be"',
         intro: 'be 动词表示"是、在"，根据主语选择 am、is 或 are。',
         rule: `<p>口诀：<b>我（I）用 am，你（you）用 are，is 跟着他（he）、她（she）、它（it）；单数名词用 is，复数全部都用 are。</b></p>
 <p>be 动词句变否定句：在 be 后面加 <b>not</b>；变一般疑问句：把 be 提到句首。</p>`,
@@ -287,7 +809,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g2-2', title: 'There be 句型', en: 'There Is / There Are',
+        id: 'g2-2', grade: '小学', title: 'There be 句型', en: 'There Is / There Are',
         intro: 'There be 表示"某处有某物"，be 的单复数由后面紧跟的名词决定。',
         rule: `<p>There be 句型说的是"存在"：<b>There is</b> + 单数或不可数名词，<b>There are</b> + 复数名词，后面通常接地点。</p>
 <p>如果后面有几个名词，be 和<b>最近的</b>那个名词保持一致（就近原则）。</p>
@@ -328,7 +850,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g2-3', title: '实义动词与 do / does', en: 'Action Verbs & Do / Does',
+        id: 'g2-3', grade: '小学', title: '实义动词与 do / does', en: 'Action Verbs & Do / Does',
         intro: '实义动词表示动作（eat、play、like），变否定句和疑问句要借助 do / does。',
         rule: `<p>句子里只有实义动词（没有 be 动词）时，否定句和疑问句要请助动词 <b>do</b> 帮忙；主语是第三人称单数时用 <b>does</b>，后面的动词<b>变回原形</b>。</p>
 <p>主语是第三人称单数（he、she、it、单数名词）时，肯定句里的动词要加 -s / -es：He <b>likes</b> music。</p>`,
@@ -368,7 +890,206 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g2-4', title: '特殊疑问句', en: 'Wh- Questions',
+        id: 'gp-6', grade: '小学', title: 'have / has 表示拥有', en: 'Have / Has',
+        intro: 'have / has 表示"某人有……"。主语是第三人称单数用 has，其余用 have。',
+        rule: `<p><b>have / has</b> 表示"拥有"：I <b>have</b> a dog. She <b>has</b> a cat. 主语是 he、she、it 或单数名词时用 <b>has</b>，其余（I、you、we、they、复数名词）用 <b>have</b>。</p>
+<p>变否定句和疑问句要请 <b>do / does</b> 帮忙，这时后面一律用<b>原形 have</b>。</p>
+<p>have 还可以表示"吃、喝、上（课）"等：have breakfast、have a music class、have a good time。</p>`,
+        forms: [
+          { label: '肯定句', parts: ['主语', 'have / has', '名词'] },
+          { label: '否定句', parts: ['主语', "don't / doesn't", 'have', '名词'] },
+          { label: '疑问句', parts: ['Do / Does', '主语', 'have', '名词?'] },
+        ],
+        table: {
+          head: ['主语', '肯定', '否定', '疑问'],
+          rows: [
+            ['I / you / we / they', 'have', "don't have", 'Do … have?'],
+            ['he / she / it', 'has', "doesn't have", 'Does … have?'],
+          ],
+        },
+        examples: [
+          'I [have] a new bike.|我有一辆新自行车。',
+          'My sister [has] long hair.|我姐姐留着长头发。',
+          "We [don't have] any classes on Sunday.|我们星期天没有课。",
+          "He [doesn't have] a pet.|他没有宠物。",
+          '[Do] you [have] a ruler? Yes, I do.|你有尺子吗？有。',
+          "[Does] she [have] any brothers? No, she doesn't.|她有兄弟吗？没有。",
+        ],
+        traps: [
+          "does / doesn't 后面用原形 <b>have</b>：Does he <b>have</b> a pen?（不说 Does he has）",
+          '"某人有"用 have / has，"某地有"用 There is / are：<b>I have</b> a book. / <b>There is</b> a book on the desk.',
+          '描述外貌常用 have / has：She <b>has</b> big eyes. An elephant <b>has</b> a long nose.',
+        ],
+        quiz: [
+          { c: 'I ___ two pencils.', o: ['have', 'has', 'am', 'having'], why: '主语 I 用 have。' },
+          { c: 'My father ___ a red car.', o: ['has', 'have', 'is', 'haves'], why: 'my father 是第三人称单数，用 has。' },
+          { c: '___ you have a computer?', o: ['Do', 'Does', 'Are', 'Is'], why: '主语 you，疑问句用 Do 开头。' },
+          { c: "She doesn't ___ a bike.", o: ['have', 'has', 'having', 'is'], why: "doesn't 后面用动词原形 have。" },
+          { s: 'I have a little dog.', zh: '我有一只小狗。' },
+          { s: 'Does he have a sister?', zh: '他有姐姐吗？' },
+          { c: 'A rabbit ___ long ears.', o: ['has', 'have', 'is', 'are'], why: 'a rabbit 是单数，用 has。' },
+          { c: 'Tom and Mike ___ the same schoolbag.', o: ['have', 'has', 'is', 'does'], why: '两个人做主语是复数，用 have。' },
+          { c: '___ your mother have a job?', o: ['Does', 'Do', 'Is', 'Has'], why: 'your mother 是第三人称单数，疑问句用 Does。' },
+          { c: 'We ___ have any homework today.', o: ["don't", "doesn't", "aren't", "isn't"], why: "主语 we，否定用 don't。" },
+          { c: 'Do you have a pet? Yes, I ___.', o: ['do', 'have', 'am', 'does'], why: '用 Do 提问，简短回答也用 do。' },
+          { c: 'We ___ lunch at school every day.', o: ['have', 'has', 'are', 'having'], why: 'have lunch 表示"吃午饭"，主语 we 用 have。' },
+          { s: 'My friend has a big family.', zh: '我的朋友有一个大家庭。' },
+          { s: "They don't have a garden.", zh: '他们没有花园。' },
+          { s: 'We have four classes in the morning.', zh: '我们上午有四节课。' },
+        ],
+      },
+      {
+        id: 'gp-7', grade: '小学', title: 'can 表示能力', en: 'Can for Ability',
+        intro: 'can 表示"会、能"，后面永远接动词原形，而且 can 自己没有人称变化。',
+        rule: `<p><b>can</b> 是情态动词，表示"会做某事、能做某事"：I <b>can</b> swim. 不管主语是谁，can 都不变，后面的动词也一律用<b>原形</b>：He <b>can swim</b>.</p>
+<p>否定句用 <b>can't</b>（= cannot）；疑问句把 <b>Can</b> 提到句首，回答用 Yes, … can. / No, … can't.</p>
+<p>can 还可以用来<b>请求许可或请人帮忙</b>：Can I use your pen? Can you help me?</p>`,
+        forms: [
+          { label: '肯定句', parts: ['主语', 'can', '动词原形'] },
+          { label: '否定句', parts: ['主语', "can't", '动词原形'] },
+          { label: '疑问句', parts: ['Can', '主语', '动词原形?'] },
+          { label: '问会做什么', parts: ['What', 'can', '主语', 'do?'] },
+        ],
+        examples: [
+          'I [can] ride a bike.|我会骑自行车。',
+          'My sister [can] play the piano.|我姐姐会弹钢琴。',
+          "Penguins [can't] fly.|企鹅不会飞。",
+          '[Can] you swim? Yes, I can.|你会游泳吗？会。',
+          'What [can] you do? I can draw pictures.|你会做什么？我会画画。',
+          '[Can] I have some water, please?|我可以喝点水吗？',
+        ],
+        traps: [
+          'can 后面用动词原形，第三人称单数也不加 -s：She can <b>sing</b>.（不说 She can sings，也不说 She cans sing）',
+          'can 和动词之间不加 to：I can <b>swim</b>.（不说 I can to swim）',
+          "can't 是 cannot 的缩写；cannot 要连写成一个词。",
+        ],
+        quiz: [
+          { c: 'Birds ___ fly.', o: ['can', 'cans', 'are', 'is'], why: '表示"会、能"用 can，can 没有人称变化。' },
+          { c: 'My brother can ___ the guitar.', o: ['play', 'plays', 'playing', 'to play'], why: 'can 后面接动词原形。' },
+          { c: "___ you ride a horse? No, I can't.", o: ['Can', 'Do', 'Are', 'Is'], why: "答句用的是 can't，所以问句用 Can 开头。" },
+          { c: 'A fish ___ walk.', o: ["can't", 'can', "isn't", "don't"], why: "鱼不会走路，用 can't。" },
+          { s: 'I can speak a little English.', zh: '我会说一点英语。' },
+          { s: 'Can your brother play football?', zh: '你哥哥会踢足球吗？' },
+          { c: 'Can she dance? Yes, she ___.', o: ['can', 'does', 'is', 'cans'], why: '用 Can 提问，简短回答也用 can。' },
+          { c: 'What can you ___? I can cook.', o: ['do', 'does', 'doing', 'to do'], why: 'can 后面的动词用原形 do。' },
+          { c: 'He can ___ very fast.', o: ['run', 'runs', 'running', 'to run'], why: 'can 后面接动词原形，主语是 he 也不加 -s。' },
+          { c: '___ I use your eraser? Sure. Here you are.', o: ['Can', 'Am', 'Do', 'Have'], why: '请求许可用 Can I…?' },
+          { c: 'Can your sister sing? No, she ___.', o: ["can't", "doesn't", "isn't", 'can'], why: "用 Can 提问，否定回答用 can't。" },
+          { c: 'I can ___ you with your homework.', o: ['help', 'helps', 'helping', 'to help'], why: 'can 后面接动词原形，中间不加 to。' },
+          { s: 'My mother can cook very well.', zh: '我妈妈做饭做得很好。' },
+          { s: "I can't find my pencil.", zh: '我找不到我的铅笔了。' },
+          { s: 'Can I have an apple?', zh: '我可以吃一个苹果吗？' },
+        ],
+      },
+      {
+        id: 'gp-13', grade: '小学', title: 'like / want / would like', en: 'Likes & Wants',
+        intro: '表达"喜欢做什么"和"想要什么、想做什么"时，动词后面接什么形式是固定的。',
+        rule: `<p><b>like</b> 表示平时的爱好：like + 名词，或 like + <b>动词-ing</b>：I like <b>swimming</b>.</p>
+<p><b>want</b> 表示想要：want + 名词，或 want + <b>to + 动词原形</b>：I want <b>to swim</b>.</p>
+<p><b>would like</b> 意思和 want 一样，但更礼貌，常缩写成 <b>'d like</b>：I'd like some juice. I'd like <b>to go</b> with you. 点餐、招待客人时常用 <b>Would you like…?</b>，回答 <b>Yes, please.</b> 或 <b>No, thanks.</b></p>
+<p>主语是第三人称单数时，like 和 want 要加 -s（likes、wants）；would like 没有变化。</p>`,
+        forms: [
+          { label: 'like', parts: ['主语', 'like(s)', '动词-ing'] },
+          { label: 'want', parts: ['主语', 'want(s)', 'to + 动词原形'] },
+          { label: 'would like', parts: ['主语', 'would like', 'to + 动词原形'] },
+        ],
+        table: {
+          head: ['动词', '后面接', '例子'],
+          rows: [
+            ['like', '名词 / 动词-ing', 'I like dogs. I like reading.'],
+            ['want', '名词 / to + 动词原形', 'I want a kite. I want to fly a kite.'],
+            ['would like', '名词 / to + 动词原形', "I'd like some tea. I'd like to have some tea."],
+          ],
+        },
+        examples: [
+          'I [like playing] basketball.|我喜欢打篮球。',
+          'My sister [likes drawing] pictures.|我妹妹喜欢画画。',
+          'I [want to be] a doctor.|我想当一名医生。',
+          'He [wants to buy] a new bike.|他想买一辆新自行车。',
+          "[I'd like] some noodles, please.|我想要一些面条。",
+          '[Would] you [like] some juice? Yes, please.|你想喝点果汁吗？好的，谢谢。',
+        ],
+        traps: [
+          'like 后面的动词加 -ing，want 后面的动词前加 to：like <b>swimming</b> / want <b>to swim</b>。',
+          "<b>I like…</b> 是\"我（平时）喜欢\"，<b>I'd like…</b> 是\"我（现在）想要\"，意思不同。",
+          "回答 Would you like…? 不说 Yes, I like.，而说 <b>Yes, please.</b> / <b>No, thanks.</b>；回答 Would you like to…? 说 <b>Yes, I'd love to.</b>",
+          '动词加 -ing 的拼写：以 e 结尾去 e（dance → dancing），重读闭音节双写末尾辅音（swim → swimming，run → running）。',
+        ],
+        quiz: [
+          { c: 'I like ___ books.', o: ['reading', 'read', 'reads', 'to reading'], why: 'like 后面的动词用 -ing 形式。' },
+          { c: 'She wants ___ a kite.', o: ['to fly', 'flying', 'fly', 'flies'], why: 'want 后面接 to + 动词原形。' },
+          { c: 'What would you like? ___ like a hamburger.', o: ["I'd", 'I', "I'm", 'I do'], why: "用 would like 提问，回答用 I'd like…（= I would like）。" },
+          { c: 'My brother ___ playing chess.', o: ['likes', 'like', 'want', 'wants to'], why: '后面是 playing，前面用 like；主语是第三人称单数，加 -s。' },
+          { s: 'I like playing the piano.', zh: '我喜欢弹钢琴。' },
+          { s: 'He wants to be a teacher.', zh: '他想当老师。' },
+          { c: 'Would you like ___ tea? Yes, please.', o: ['some', 'any', 'many', 'a'], why: '表示建议、招待时，疑问句里用 some。' },
+          { c: 'I would like ___ to the zoo.', o: ['to go', 'going', 'go', 'goes'], why: 'would like 后面接 to + 动词原形。' },
+          { c: 'Do you like ___? Yes, I swim every week.', o: ['swimming', 'swiming', 'swim', 'swimmer'], why: 'like 后面用 -ing；swim 是重读闭音节，要双写 m。' },
+          { c: 'Tom ___ to visit his grandparents.', o: ['wants', 'want', 'wanting', 'would'], why: '主语 Tom 是第三人称单数，want 加 -s。' },
+          { c: 'Would you like some cake? No, ___.', o: ['thanks', 'please', 'I am', 'it is'], why: '礼貌地拒绝说 No, thanks.' },
+          { c: 'What does she like doing? She likes ___.', o: ['dancing', 'danceing', 'dances', 'danced'], why: 'like 后面用 -ing；dance 以 e 结尾，去 e 再加 -ing。' },
+          { s: 'I would like some orange juice.', zh: '我想要一些橙汁。' },
+          { s: 'Would you like to come with us?', zh: '你想和我们一起来吗？' },
+          { s: 'We like playing games after school.', zh: '我们喜欢放学后玩游戏。' },
+        ],
+      },
+      {
+        id: 'gp-11', grade: '小学', title: '一般疑问句与选择疑问句', en: 'Yes / No & Choice Questions',
+        intro: '一般疑问句用 Yes / No 回答；选择疑问句用 or 给出选项，要选一个来回答。',
+        rule: `<p>把陈述句变成<b>一般疑问句</b>分两种情况：句子里有 <b>be 动词或 can</b>，直接把它提到句首；句子里只有<b>实义动词</b>，在句首加 <b>Do / Does</b>，动词变回原形。句末用问号，读<b>升调</b>。</p>
+<p><b>简短回答</b>用问句开头的那个词来答：问 Is 答 is，问 Do 答 do，问 Can 答 can。否定回答用缩写 isn't / don't / can't。</p>
+<p><b>选择疑问句</b>用 <b>or</b> 连接两个选项，不能用 Yes / No 回答，要直接说出选的那一个：Is it red <b>or</b> blue? It's blue.</p>
+<p>陈述句变<b>否定句</b>也是同样的思路：be 动词和 can 后面加 not；实义动词前面加 don't / doesn't。</p>`,
+        forms: [
+          { label: 'be / can', parts: ['Is / Are / Can', '主语', '……?'] },
+          { label: '实义动词', parts: ['Do / Does', '主语', '动词原形', '……?'] },
+          { label: '选择疑问句', parts: ['一般疑问句', 'or', '另一个选项?'] },
+        ],
+        table: {
+          head: ['陈述句', '一般疑问句', '肯定回答', '否定回答'],
+          rows: [
+            ['He is a doctor.', 'Is he a doctor?', 'Yes, he is.', "No, he isn't."],
+            ['They are at home.', 'Are they at home?', 'Yes, they are.', "No, they aren't."],
+            ['You like fish.', 'Do you like fish?', 'Yes, I do.', "No, I don't."],
+            ['She likes fish.', 'Does she like fish?', 'Yes, she does.', "No, she doesn't."],
+            ['He can swim.', 'Can he swim?', 'Yes, he can.', "No, he can't."],
+            ['There is a park.', 'Is there a park?', 'Yes, there is.', "No, there isn't."],
+          ],
+        },
+        examples: [
+          '[Is] this your pencil? Yes, it is.|这是你的铅笔吗？是的。',
+          "[Are] you from Canada? No, I'm not.|你来自加拿大吗？不是。",
+          '[Do] you walk to school? Yes, I do.|你走路上学吗？是的。',
+          "[Does] your father cook? No, he doesn't.|你爸爸做饭吗？不做。",
+          "Is your bag red [or] blue? It's blue.|你的包是红色的还是蓝色的？是蓝色的。",
+          'Would you like rice [or] noodles? Noodles, please.|你想吃米饭还是面条？面条，谢谢。',
+        ],
+        traps: [
+          "肯定回答不能缩写：Yes, <b>I am</b>. / Yes, <b>he is</b>.（不说 Yes, I'm. / Yes, he's.）",
+          '用 Does 提问后，动词要变回原形：Does she <b>like</b> fish?（不说 Does she likes）',
+          "问句里的 you，回答时换成 I 或 we；问句里的 your，回答时换成 my：Is this <b>your</b> book? Yes, it's <b>my</b> book.",
+          "选择疑问句不用 Yes / No 回答：Is he tall or short? <b>He's tall.</b>",
+        ],
+        quiz: [
+          { c: '___ she a nurse? Yes, she is.', o: ['Is', 'Does', 'Are', 'Do'], why: '答句用 is，主语 she 是单数，问句用 Is 开头。' },
+          { c: '___ they play football after school?', o: ['Do', 'Are', 'Does', 'Is'], why: '句子里是实义动词 play，主语 they，用 Do。' },
+          { c: 'Does Tom ___ milk?', o: ['like', 'likes', 'liking', 'is like'], why: 'Does 后面的动词用原形。' },
+          { c: 'Are you a student? Yes, I ___.', o: ['am', 'are', 'is', 'do'], why: '回答 Are you…? 用 Yes, I am.' },
+          { s: 'Is your mother a teacher?', zh: '你妈妈是老师吗？' },
+          { s: 'Do you like your new school?', zh: '你喜欢你的新学校吗？' },
+          { c: 'Is it a cat ___ a dog? It is a dog.', o: ['or', 'and', 'but', 'so'], why: '选择疑问句用 or 连接两个选项。' },
+          { c: 'Does your sister like music? No, she ___.', o: ["doesn't", "don't", "isn't", "can't"], why: "用 Does 提问，否定回答用 doesn't。" },
+          { c: 'Can you swim? No, I ___.', o: ["can't", "don't", 'am not', "isn't"], why: "用 Can 提问，否定回答用 can't。" },
+          { c: '___ there any books on the desk? Yes, there are.', o: ['Are', 'Is', 'Do', 'Does'], why: '答句是 there are，books 是复数，问句用 Are there…?' },
+          { c: 'Is the box big or small? ___ small.', o: ["It's", 'Yes', 'No', "They're"], why: '选择疑问句不用 Yes / No，直接回答选的那一个。' },
+          { c: 'I ___ like carrots. I never eat them.', o: ["don't", 'am not', "doesn't", 'not'], why: "实义动词 like 的否定，主语 I 用 don't。" },
+          { s: 'Does he go to school by bus?', zh: '他坐公共汽车上学吗？' },
+          { s: 'Are these your new shoes?', zh: '这些是你的新鞋吗？' },
+          { s: 'Can you help me with my English?', zh: '你能帮我学英语吗？' },
+        ],
+      },
+      {
+        id: 'g2-4', grade: '小学', title: '特殊疑问句', en: 'Wh- Questions',
         intro: '用 what、where、when、who 等疑问词提问，不能用 yes / no 回答。',
         rule: `<p>特殊疑问句 = <b>疑问词 + 一般疑问句</b>。先把句子变成一般疑问句，再把疑问词放在最前面。</p>
 <p>如果疑问词本身就是主语（Who、What 问"谁/什么做了某事"），直接用陈述句语序：<b>Who</b> broke the window?</p>`,
@@ -419,7 +1140,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g2-5', title: '祈使句', en: 'Imperatives',
+        id: 'g2-5', grade: '小学', title: '祈使句', en: 'Imperatives',
         intro: '祈使句用来提出请求、命令或建议，省略主语 you，以动词原形开头。',
         rule: `<p>肯定祈使句以<b>动词原形</b>开头：Open the door. 加上 <b>please</b> 更礼貌。</p>
 <p>否定祈使句在前面加 <b>Don't</b>：Don't run.</p>
@@ -459,16 +1180,67 @@ window.GRAMMAR = [
           { s: "Let's meet at the school gate.", zh: "我们在校门口见吧。" },
         ],
       },
+      {
+        id: 'gp-12', grade: '小学', title: '感叹句', en: 'Exclamations',
+        intro: '感叹句用 What 或 How 开头，表达惊讶、高兴、赞美等强烈的感情，句末用感叹号。',
+        rule: `<p>感叹句有两种基本结构：<b>What</b> 后面跟<b>名词</b>，<b>How</b> 后面跟<b>形容词或副词</b>。句子后半部分的"主语 + 谓语"常常可以省略。</p>
+<p>判断方法：先找到句子的主语和谓语，把它们"拿掉"，看剩下部分的最后一个词——是名词用 What，是形容词或副词用 How。</p>
+<p>口语里还常用<b>感叹词</b>表达感情：Wow!（哇）、Oh!（哦）、Great!（太好了）、Oh no!（糟了）、Ouch!（哎哟）。</p>`,
+        forms: [
+          { label: 'What + 单数', parts: ['What', 'a / an', '形容词', '单数名词', '(主语 + 谓语)!'] },
+          { label: 'What + 复数 / 不可数', parts: ['What', '形容词', '复数名词 / 不可数名词', '(主语 + 谓语)!'] },
+          { label: 'How', parts: ['How', '形容词 / 副词', '(主语 + 谓语)!'] },
+        ],
+        table: {
+          head: ['陈述句', '感叹句'],
+          rows: [
+            ['It is a very nice day.', 'What a nice day (it is)!'],
+            ['They are very beautiful flowers.', 'What beautiful flowers (they are)!'],
+            ['The girl is very clever.', 'How clever the girl is!'],
+            ['He runs very fast.', 'How fast he runs!'],
+          ],
+        },
+        examples: [
+          '[What a] beautiful day!|多么美好的一天啊！',
+          '[What an] interesting story it is!|这是个多么有趣的故事啊！',
+          '[What] lovely flowers!|多可爱的花啊！',
+          '[How] tall the tree is!|这棵树多高啊！',
+          '[How] fast he runs!|他跑得多快啊！',
+          'Wow! [What a] big cake!|哇！好大的蛋糕啊！',
+        ],
+        traps: [
+          'What 后面是复数或不可数名词时不加 a / an：<b>What nice weather!</b>（不说 What a nice weather）',
+          '感叹句后半部分是陈述语序：How tall <b>he is</b>!（How tall is he? 是疑问句）',
+          '元音音素开头的形容词前用 an：What <b>an</b> old house!',
+        ],
+        quiz: [
+          { c: '___ a nice dress!', o: ['What', 'How', 'Who', 'Where'], why: '中心词是名词 dress，用 What。' },
+          { c: '___ beautiful the park is!', o: ['How', 'What', 'What a', 'Which'], why: '去掉主语和谓语 the park is，剩下形容词 beautiful，用 How。' },
+          { c: 'What ___ interesting book!', o: ['an', 'a', 'the', '不填'], why: 'book 是单数可数名词，interesting 以元音音素开头，用 an。' },
+          { c: '___ cute pandas they are!', o: ['What', 'What a', 'How', 'How a'], why: '中心词是复数名词 pandas，用 What，不加 a。' },
+          { s: 'What a lovely baby she is!', zh: '她是个多么可爱的宝宝啊！' },
+          { s: 'How big the elephant is!', zh: '这头大象真大啊！' },
+          { c: "What ___ weather! Let's go out and play.", o: ['nice', 'a nice', 'an nice', 'how nice'], why: 'weather 是不可数名词，前面不加 a / an。' },
+          { c: '___ fast the horse runs!', o: ['How', 'What', 'What a', 'Which'], why: '去掉 the horse runs，剩下副词 fast，用 How。' },
+          { c: 'How clever ___!', o: ['the boy is', 'is the boy', 'the boy', 'boy is'], why: '感叹句后半部分用陈述语序：主语 + 谓语。' },
+          { c: '___ a tall building it is!', o: ['What', 'How', 'Which', 'Where'], why: '去掉 it is，剩下的中心词是名词 building，用 What。' },
+          { c: '___ happy the children are!', o: ['How', 'What', 'What a', 'Who'], why: '去掉 the children are，剩下形容词 happy，用 How。' },
+          { c: '___! That hurts.', o: ['Ouch', 'Wow', 'Great', 'Yummy'], why: '表示疼痛的感叹词是 Ouch。' },
+          { s: 'What an old house it is!', zh: '多么旧的一座房子啊！' },
+          { s: 'How fast the little boy runs!', zh: '那个小男孩跑得真快啊！' },
+          { s: 'What nice weather it is today!', zh: '今天天气真好啊！' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
     id: 3, title: '基本时态', en: 'Basic Tenses', level: '基础', icon: '⏰',
-    desc: '用动词的变化表示动作发生的时间：现在、过去、将来、进行和完成。',
+    desc: '用动词的变化表示动作发生的时间：现在、过去、将来、进行和完成，最后补充过去完成时和过去将来时。',
     lessons: [
       {
-        id: 'g3-1', title: '一般现在时', en: 'Present Simple',
+        id: 'g3-1', grade: '小学', title: '一般现在时', en: 'Present Simple',
         intro: '表示经常发生的动作、习惯、事实和真理。',
         rule: `<p>一般现在时表示<b>经常、习惯性</b>的动作，或者<b>客观事实、普遍真理</b>。</p>
 <p>主语是第三人称单数时，动词要加 -s / -es，规则和名词复数类似：works，watches，goes，studies。have 的三单形式是 <b>has</b>。</p>`,
@@ -509,7 +1281,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-2', title: '现在进行时', en: 'Present Continuous',
+        id: 'g3-2', grade: '小学', title: '现在进行时', en: 'Present Continuous',
         intro: '表示现在（说话这一刻）正在进行的动作。',
         rule: `<p>现在进行时 = <b>am / is / are + 动词-ing</b>，表示此时此刻或现阶段正在进行的动作。</p>
 <p>动词加 -ing 的规则：一般直接加（read → reading）；以不发音的 e 结尾，去 e 加 -ing（make → making）；重读闭音节结尾，双写最后的辅音字母再加 -ing（run → running，swim → swimming）。</p>`,
@@ -550,7 +1322,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-3', title: '一般过去时', en: 'Past Simple',
+        id: 'g3-3', grade: '小学', title: '一般过去时', en: 'Past Simple',
         intro: '表示过去某个时间发生的动作或存在的状态。',
         rule: `<p>一般过去时用动词的<b>过去式</b>，不管主语是谁，形式都一样。</p>
 <p>规则动词加 -ed：play → played，live → lived，stop → stopped，study → studied。很多常用动词是不规则的，需要单独记（见下表）。</p>
@@ -605,7 +1377,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-4', title: '一般将来时', en: 'Future: Will / Be Going To',
+        id: 'g3-4', grade: '小学', title: '一般将来时', en: 'Future: Will / Be Going To',
         intro: '表示将来要发生的动作，常用 will 或 be going to。',
         rule: `<p><b>will + 动词原形</b>：表示将来的事情、预测或说话时临时决定要做的事。所有人称都用 will，否定是 <b>won't</b>（= will not）。</p>
 <p><b>am / is / are going to + 动词原形</b>：表示<b>已经计划好</b>的打算，或根据迹象判断马上要发生的事（Look at the clouds! It's going to rain.）。</p>`,
@@ -646,7 +1418,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-5', title: '过去进行时', en: 'Past Continuous',
+        id: 'g3-5', grade: '初中', title: '过去进行时', en: 'Past Continuous',
         intro: '表示过去某一时刻或某段时间正在进行的动作。',
         rule: `<p>过去进行时 = <b>was / were + 动词-ing</b>，表示过去某个时间点正在做的事。</p>
 <p>常和 <b>when</b>、<b>while</b> 连用：一个较长的动作正在进行时（过去进行时），另一个短动作发生了（一般过去时）。</p>`,
@@ -686,7 +1458,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-6', title: '现在完成时', en: 'Present Perfect',
+        id: 'g3-6', grade: '初中', title: '现在完成时', en: 'Present Perfect',
         intro: '表示过去发生的动作对现在造成的影响，或从过去持续到现在的状态。',
         rule: `<p>现在完成时 = <b>have / has + 过去分词</b>。重点不是"什么时候发生的"，而是"<b>到现在为止</b>"的结果或经历。</p>
 <p>规则动词的过去分词和过去式一样（played → played）；不规则动词要单独记：go → went → <b>gone</b>，see → saw → <b>seen</b>，do → did → <b>done</b>，eat → ate → <b>eaten</b>。</p>
@@ -728,7 +1500,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g3-7', title: '时态对比', en: 'Choosing the Right Tense',
+        id: 'g3-7', grade: '初中', title: '时态对比', en: 'Choosing the Right Tense',
         intro: '把学过的六种时态放在一起比较，根据时间标志词和语境选出正确的时态。',
         rule: `<p>选时态的三步：①找<b>时间标志词</b>；②想动作是<b>习惯、正在进行、已经完成</b>还是<b>将要发生</b>；③根据主语确定动词形式。</p>`,
         table: {
@@ -772,16 +1544,68 @@ window.GRAMMAR = [
           { s: "He will visit his uncle next Sunday.", zh: "他下周日会去看望他叔叔。" },
         ],
       },
+      {
+        id: 'gj-2', grade: '初中', title: '过去完成时与过去将来时', en: 'Past Perfect & Future in the Past',
+        intro: '站在过去的某个时间点：在它之前已经发生的事用过去完成时，在它之后将要发生的事用过去将来时。',
+        rule: `<p><b>过去完成时</b> = <b>had + 过去分词</b>，表示"过去的过去"：在过去某个时间或某个动作之前已经完成的事。When I got to the station, the train <b>had left</b>.（我到车站时，火车已经开走了。）</p>
+<p><b>过去将来时</b> = <b>would + 动词原形</b>（或 was / were going to + 动词原形），表示从过去某个时间看，将要发生的事。最常见于宾语从句：He said he <b>would come</b>.</p>
+<p>这两种时态都需要一个"过去的参照点"，一般不单独使用。</p>`,
+        forms: [
+          { label: '过去完成时', parts: ['主语', 'had', '过去分词'] },
+          { label: '否定句', parts: ['主语', "hadn't", '过去分词'] },
+          { label: '疑问句', parts: ['Had', '主语', '过去分词?'] },
+          { label: '过去将来时', parts: ['主语', 'would', '动词原形'] },
+        ],
+        signals: ['by the time', 'before', 'after', 'when', 'already', 'by the end of last year'],
+        table: {
+          head: ['时态', '构成', '时间关系', '例子'],
+          rows: [
+            ['过去完成时', 'had done', '过去某时之前已经完成', 'The film had begun when we arrived.'],
+            ['一般过去时', 'did', '过去某时发生', 'We arrived at eight.'],
+            ['过去将来时', 'would do', '从过去看将要发生', 'She said she would call me.'],
+          ],
+        },
+        examples: [
+          'When I got to the station, the train [had left].|我到车站时，火车已经开走了。',
+          'She [had finished] her homework before dinner.|晚饭前她已经完成了作业。',
+          'By the time he was ten, he [had learned] to swim.|到十岁的时候，他已经学会了游泳。',
+          "I [hadn't seen] snow before I came here.|来这里之前我没见过雪。",
+          'He said he [would visit] us the next day.|他说他第二天会来看我们。',
+          'I knew you [would like] the present.|我就知道你会喜欢这份礼物。',
+        ],
+        traps: [
+          '两个过去的动作，<b>先发生</b>的用过去完成时，后发生的用一般过去时：After I <b>had washed</b> my hands, I <b>ate</b> dinner.',
+          '主句是过去时（said、thought、knew），宾语从句里的 will 要变成 <b>would</b>：He said he <b>would</b> help me.',
+          '只说一个过去的动作、没有先后对比时，用一般过去时就够了：I <b>finished</b> my homework yesterday.（不用 had finished）',
+        ],
+        quiz: [
+          { c: 'When we arrived, the film ___ already begun.', o: ['had', 'has', 'have', 'was'], why: '电影开始发生在"我们到达"之前，是过去的过去，用 had + 过去分词。' },
+          { c: 'By the time I got up, my mother ___ breakfast.', o: ['had cooked', 'cooks', 'has cooked', 'will cook'], why: 'by the time + 过去时，主句用过去完成时。' },
+          { c: 'He said he ___ come to the party.', o: ['would', 'will', 'is', 'has'], why: '主句 said 是过去时，从句里的 will 变成 would。' },
+          { c: 'She told me she ___ the book before.', o: ['had read', 'reads', 'has read', 'will read'], why: '"读过"发生在"告诉我"之前，用过去完成时。' },
+          { s: 'The train had left the station.', zh: '火车已经离开了车站。' },
+          { s: 'He said he would call me.', zh: '他说他会给我打电话。' },
+          { c: 'After he ___ his homework, he went out to play.', o: ['had finished', 'finishes', 'has finished', 'would finish'], why: '先做完作业，再出去玩；先发生的动作用过去完成时。' },
+          { c: 'I thought it ___ rain, so I took an umbrella.', o: ['would', 'will', 'had', 'is'], why: '从过去（thought）看将要发生的事，用 would + 动词原形。' },
+          { c: 'The bus ___ when I got to the stop. I had to walk.', o: ['had gone', 'goes', 'has gone', 'would go'], why: '车开走发生在我到站之前，用过去完成时。' },
+          { c: '___ you seen a panda before you visited the zoo?', o: ['Had', 'Have', 'Did', 'Would'], why: '问的是"参观动物园之前"的经历，用过去完成时，疑问句把 Had 提前。' },
+          { c: 'I did not know when he ___ be back.', o: ['would', 'will', 'had', 'has'], why: '主句是过去时，从句表示过去的将来，用 would。' },
+          { c: 'She was sad because she ___ her keys.', o: ['had lost', 'loses', 'will lose', 'would lose'], why: '丢钥匙发生在"难过"之前，用过去完成时。' },
+          { s: 'She had never seen the sea before.', zh: '她以前从没见过大海。' },
+          { s: 'I knew you would be late.', zh: '我就知道你会迟到。' },
+          { s: 'They had finished the work by five.', zh: '到五点他们已经完成了工作。' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
-    id: 4, title: '五大基本句型', en: 'Core Sentence Patterns', level: '进阶', icon: '🧩',
-    desc: '再长的英语句子，主干也离不开这五种结构。学会找主干，长句不再难。',
+    id: 4, title: '句子结构', en: 'Sentence Structure', level: '进阶', icon: '🧩',
+    desc: '句子成分和五大基本句型——再长的句子，主干也离不开这五种结构；再加上主谓一致和反意疑问句。',
     lessons: [
       {
-        id: 'g4-1', title: '句子成分', en: 'Parts of a Sentence',
+        id: 'g4-1', grade: '初中', title: '句子成分', en: 'Parts of a Sentence',
         intro: '一个句子由主语、谓语、宾语、表语、定语、状语、补语等成分组成，主语和谓语是核心。',
         rule: `<p><b>主语</b>：句子说的是"谁 / 什么"，通常是名词或代词。<b>谓语</b>：主语"做什么 / 是什么"，一定含有动词。</p>
 <p><b>宾语</b>：动作的对象。<b>表语</b>：跟在系动词后，说明主语的身份或状态。</p>
@@ -817,7 +1641,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g4-2', title: '主谓 / 主谓宾', en: 'S + V and S + V + O',
+        id: 'g4-2', grade: '初中', title: '主谓 / 主谓宾', en: 'S + V and S + V + O',
         intro: '最简单的两种句型：主语 + 不及物动词；主语 + 及物动词 + 宾语。',
         rule: `<p><b>句型一：主语 + 谓语</b>（S + V）。谓语是<b>不及物动词</b>（vi.），本身意思完整，后面不需要宾语，但可以加状语：Birds fly. / He runs fast.</p>
 <p><b>句型二：主语 + 谓语 + 宾语</b>（S + V + O）。谓语是<b>及物动词</b>（vt.），后面必须有宾语，意思才完整：I like music.</p>
@@ -856,7 +1680,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g4-3', title: '主系表', en: 'S + Linking Verb + Complement',
+        id: 'g4-3', grade: '初中', title: '主系表', en: 'S + Linking Verb + Complement',
         intro: '系动词把主语和表语连起来，说明主语"是什么、怎么样"。',
         rule: `<p><b>句型三：主语 + 系动词 + 表语</b>（S + V + C）。系动词本身意思不完整，必须跟表语。表语通常是名词或形容词。</p>
 <p>常见系动词：</p>
@@ -898,7 +1722,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g4-4', title: '主谓双宾', en: 'S + V + IO + DO',
+        id: 'g4-4', grade: '初中', title: '主谓双宾', en: 'S + V + IO + DO',
         intro: '有些动词后面可以跟两个宾语：给"谁"（间接宾语）和"什么"（直接宾语）。',
         rule: `<p><b>句型四：主语 + 谓语 + 间接宾语 + 直接宾语</b>（S + V + IO + DO）。间接宾语一般是人，直接宾语一般是物。</p>
 <p>常见的双宾动词：give、send、show、tell、teach、buy、make、bring、pass、lend。</p>
@@ -939,7 +1763,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g4-5', title: '主谓宾宾补', en: 'S + V + O + OC',
+        id: 'g4-5', grade: '初中', title: '主谓宾宾补', en: 'S + V + O + OC',
         intro: '宾语后面再跟一个成分，补充说明宾语"是什么、怎么样、做什么"。',
         rule: `<p><b>句型五：主语 + 谓语 + 宾语 + 宾语补足语</b>（S + V + O + OC）。没有宾补，句子意思就不完整。</p>
 <p>宾补可以是：</p>
@@ -980,16 +1804,126 @@ window.GRAMMAR = [
           { s: "We elected Tom our monitor.", zh: "我们选汤姆当班长。" },
         ],
       },
+      {
+        id: 'gj-3', grade: '初中', title: '主谓一致', en: 'Subject-Verb Agreement',
+        intro: '谓语动词的单复数要和主语保持一致。难点在于判断主语到底算单数还是复数。',
+        rule: `<p>基本原则：主语是单数，谓语用单数（is、has、likes）；主语是复数，谓语用复数（are、have、like）。</p>
+<p>判断时有三条思路：<b>语法一致</b>（看主语形式上的单复数）、<b>意义一致</b>（看主语表达的是一个整体还是多个个体）、<b>就近一致</b>（谓语和离它最近的那个主语一致）。</p>`,
+        table: {
+          head: ['情况', '谓语', '例子'],
+          rows: [
+            ['and 连接两个主语', '复数', 'Tom and Mike are friends.'],
+            ['every / each + 单数名词；everyone、nobody 等', '单数', 'Every student has a desk. Everyone is here.'],
+            ['动名词、不定式做主语', '单数', 'Reading books is fun.'],
+            ['时间、金钱、距离看作整体', '单数', 'Ten dollars is enough.'],
+            ['主语后有 with、as well as、except', '看前面的主语', 'The teacher with her students is in the park.'],
+            ['either … or、neither … nor、not only … but also、There be', '就近一致', 'Either you or he is right. There is a pen and two books.'],
+            ['the number of + 复数名词', '单数', 'The number of students is forty.'],
+            ['a number of + 复数名词', '复数', 'A number of students are absent.'],
+            ['people、police', '复数', 'The police are coming.'],
+            ['family、class、team', '整体用单数，成员用复数', 'My family is big. My family are watching TV.'],
+            ['news、maths、physics（以 s 结尾但表示单数）', '单数', 'No news is good news.'],
+          ],
+        },
+        examples: [
+          'Lucy and Lily [are] twins.|露西和莉莉是双胞胎。',
+          'Everyone in my class [likes] the new teacher.|我们班每个人都喜欢新老师。',
+          'Playing computer games too much [is] bad for your eyes.|玩太多电脑游戏对眼睛不好。',
+          'The teacher with two students [is] cleaning the room.|老师正和两个学生一起打扫房间。',
+          'Neither my parents nor my brother [likes] spicy food.|我父母和我哥哥都不喜欢辣的食物。',
+          'The number of cars in our city [is] growing fast.|我们城市的汽车数量增长很快。',
+        ],
+        traps: [
+          'with、together with、as well as 引出的部分不算主语：<b>Tom</b>, as well as his friends, <b>is</b> going.',
+          'the number of（……的数量）谓语用单数；a number of（许多）谓语用复数。',
+          'There be 和 either … or 等结构用就近原则：There <b>is</b> a book and two pens. / There <b>are</b> two pens and a book.',
+          'most of、some of 和分数后面的名词决定单复数：Most of the water <b>is</b> clean. Most of the students <b>are</b> here.',
+        ],
+        quiz: [
+          { c: 'My father and my mother ___ both teachers.', o: ['are', 'is', 'am', 'be'], why: 'and 连接两个人做主语，谓语用复数。' },
+          { c: 'Everyone ___ ready for the test.', o: ['is', 'are', 'am', 'be'], why: 'everyone 做主语，谓语用单数。' },
+          { c: 'Listening to music ___ my favorite hobby.', o: ['is', 'are', 'were', 'be'], why: '动名词短语做主语，谓语用单数。' },
+          { c: 'The boy with two dogs ___ my neighbor.', o: ['is', 'are', 'were', 'be'], why: 'with two dogs 不算主语，主语是 the boy，谓语用单数。' },
+          { s: 'Each of the students has a dictionary.', zh: '每个学生都有一本词典。' },
+          { s: 'My family is very big.', zh: '我的家庭很大。' },
+          { c: 'Either you or your brother ___ to clean the room.', o: ['has', 'have', 'are', 'were'], why: 'either … or … 用就近原则，离谓语最近的是 your brother，用 has。' },
+          { c: 'There ___ a desk and four chairs in the room.', o: ['is', 'are', 'be', 'were'], why: 'There be 用就近原则，最近的是 a desk，用 is。' },
+          { c: 'The number of students in our school ___ over one thousand.', o: ['is', 'are', 'be', 'have'], why: 'the number of 表示"……的数量"，谓语用单数。' },
+          { c: 'A number of people ___ waiting outside.', o: ['are', 'is', 'be', 'has'], why: 'a number of 表示"许多"，谓语用复数。' },
+          { c: 'Two hours ___ a long time to wait.', o: ['is', 'are', 'be', 'have'], why: '时间看作一个整体，谓语用单数。' },
+          { c: 'The news ___ very exciting.', o: ['is', 'are', 'were', 'be'], why: 'news 以 s 结尾但是不可数名词，谓语用单数。' },
+          { s: 'The police are looking for the lost child.', zh: '警察正在寻找那个走失的孩子。' },
+          { s: 'Neither he nor I am wrong.', zh: '他和我都没有错。' },
+          { s: 'Most of the apples are red.', zh: '大部分苹果是红色的。' },
+        ],
+      },
+      {
+        id: 'gj-4', grade: '初中', title: '反意疑问句', en: 'Tag Questions',
+        intro: '在陈述句后面加一个简短的问句，用来确认或征求同意，相当于中文的"……，是吗？""……，对吧？"。',
+        rule: `<p>反意疑问句 = <b>陈述句 + 逗号 + 简短问句</b>。简短问句由"助动词（be / do / 情态动词）+ 代词"组成。</p>
+<p>核心规则是<b>前肯后否，前否后肯</b>：前面是肯定句，后面用否定；前面是否定句，后面用肯定。时态和人称要和前面保持一致，后面的主语必须用<b>代词</b>。</p>
+<p>回答看<b>事实</b>：事实是肯定的就答 Yes，事实是否定的就答 No，不受问法影响。</p>`,
+        forms: [
+          { label: '前肯后否', parts: ['肯定陈述句,', "助动词 + n't", '代词?'] },
+          { label: '前否后肯', parts: ['否定陈述句,', '助动词', '代词?'] },
+        ],
+        table: {
+          head: ['陈述部分', '疑问部分'],
+          rows: [
+            ["It's a nice day,", "isn't it?"],
+            ["You don't like fish,", 'do you?'],
+            ['She can swim,', "can't she?"],
+            ['Tom went to Beijing,', "didn't he?"],
+            ['They will come,', "won't they?"],
+            ['You have finished,', "haven't you?"],
+            ['He never eats meat,', 'does he?'],
+            ["Let's go,", 'shall we?'],
+            ['Open the door,', 'will you?'],
+            ["I'm late,", "aren't I?"],
+          ],
+        },
+        examples: [
+          "It's a nice day, [isn't it]?|今天天气不错，是吧？",
+          "You like music, [don't you]?|你喜欢音乐，对吧？",
+          "She can't drive, [can she]?|她不会开车，是吗？",
+          "Tom didn't come yesterday, [did he]?|汤姆昨天没来，是吗？",
+          "Your parents will be there, [won't they]?|你父母会去那儿，对吧？",
+          "Let's go swimming, [shall we]?|我们去游泳，好吗？",
+        ],
+        traps: [
+          '前面有 never、no、nothing、few、little、hardly 等否定词时，算否定句，后面用肯定：He <b>never</b> smokes, <b>does he</b>?',
+          "回答看事实，不看问法：You don't like fish, do you? 喜欢就答 <b>Yes, I do.</b>（不，我喜欢）；不喜欢就答 <b>No, I don't.</b>（是的，我不喜欢）。",
+          "几个特殊形式：<b>Let's</b> …, shall we? / 祈使句, will you? / <b>I am</b> …, aren't I? / <b>There is</b> …, isn't there?",
+          "后面的主语要用代词：<b>Tom</b> is tall, isn't <b>he</b>?（不说 isn't Tom）",
+        ],
+        quiz: [
+          { c: 'It is cold today, ___ it?', o: ["isn't", 'is', "doesn't", "wasn't"], why: '前面是肯定句，用的是 is，后面用否定 isn\'t。' },
+          { c: "You don't like coffee, ___ you?", o: ['do', "don't", 'are', 'did'], why: "前面是否定句（don't），后面用肯定 do。" },
+          { c: 'She can speak English, ___ she?', o: ["can't", 'can', "doesn't", "isn't"], why: "前面是肯定句，情态动词是 can，后面用 can't。" },
+          { c: 'Tom went to the park yesterday, ___ he?', o: ["didn't", 'did', "doesn't", "wasn't"], why: "went 是一般过去时的实义动词，后面用 didn't。" },
+          { s: "You are a student, aren't you?", zh: '你是学生，对吧？' },
+          { s: "He likes football, doesn't he?", zh: '他喜欢足球，是吧？' },
+          { c: 'They will come to the party, ___ they?', o: ["won't", 'will', "don't", "aren't"], why: "前面是肯定句，用的是 will，后面用 won't。" },
+          { c: 'He never tells lies, ___ he?', o: ['does', "doesn't", 'is', "isn't"], why: 'never 是否定词，前面算否定句，后面用肯定 does。' },
+          { c: "Let's play basketball, ___ we?", o: ['shall', 'will', 'do', "don't"], why: "Let's 开头的句子，反意疑问部分固定用 shall we。" },
+          { c: "Your sister is a nurse, isn't ___?", o: ['she', 'your sister', 'her', 'it'], why: '反意疑问部分的主语要用代词主格 she。' },
+          { c: "There is a bank near here, isn't ___?", o: ['there', 'it', 'here', 'that'], why: 'There be 句型的反意疑问部分仍然用 there。' },
+          { c: "You haven't finished your homework, ___ you?", o: ['have', "haven't", 'do', 'did'], why: "前面是否定句（haven't），后面用肯定 have。" },
+          { s: "She can't swim, can she?", zh: '她不会游泳，是吗？' },
+          { s: "They didn't go to school, did they?", zh: '他们没去上学，是吗？' },
+          { s: "Let's go home, shall we?", zh: '我们回家吧，好吗？' },
+        ],
+      },
     ],
   },
 
   /* ====================================================== */
   {
     id: 5, title: '动词进阶', en: 'More About Verbs', level: '进阶', icon: '⚙️',
-    desc: '情态动词、不定式与动名词、被动语态，以及形容词的比较级和最高级。',
+    desc: '情态动词、不定式与动名词、被动语态、动词的 -ed 形式，以及形容词和副词的比较级、最高级。',
     lessons: [
       {
-        id: 'g5-1', title: '情态动词', en: 'Modal Verbs',
+        id: 'g5-1', grade: '初中', title: '情态动词', en: 'Modal Verbs',
         intro: 'can、must、should、may 等情态动词表示能力、义务、建议、可能，后面接动词原形。',
         rule: `<p>情态动词本身有意思，但不能单独做谓语，后面必须接<b>动词原形</b>；没有人称和数的变化（He <b>can</b> swim，不说 He cans swim）。</p>
 <p>否定在后面加 not，疑问把情态动词提前：can't / Can you…?</p>`,
@@ -1039,7 +1973,57 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g5-2', title: '不定式与动名词', en: 'To Do & Doing',
+        id: 'gj-5', grade: '初中', title: '情态动词表推测', en: 'Modals for Guessing',
+        intro: 'must、may、might、could、can\'t 除了表示"必须、可以"，还能表示对事情的猜测，把握有大有小。',
+        rule: `<p><b>情态动词 + be / 动词原形</b>可以表示对现在情况的推测。把握从大到小：<b>must</b>（一定是）＞ <b>may / could</b>（可能是）＞ <b>might</b>（也许是）＞ <b>can't</b>（不可能是）。</p>
+<p>推测"正在发生的事"用 <b>情态动词 + be + 动词-ing</b>：He must be sleeping.</p>
+<p>注意：表示"一定"的 must，否定不是 mustn't（那是"禁止"），而是 <b>can't</b>（不可能）。</p>`,
+        forms: [
+          { label: '推测状态', parts: ['主语', "must / may / might / can't", 'be', '名词 / 形容词 / 地点'] },
+          { label: '推测动作', parts: ['主语', "must / may / might / can't", 'be', '动词-ing'] },
+        ],
+        table: {
+          head: ['情态动词', '把握', '意思', '例子'],
+          rows: [
+            ['must', '非常肯定', '一定', 'The light is on. He must be at home.'],
+            ['may / could', '有可能', '可能', 'She may be in the library.'],
+            ['might', '不太确定', '也许', 'It might rain this afternoon.'],
+            ["can't", '肯定不是', '不可能', "It can't be Tom. He is in Beijing."],
+          ],
+        },
+        examples: [
+          'The light is on. He [must be] at home.|灯亮着，他一定在家。',
+          'She [may be] in the library now.|她现在可能在图书馆。',
+          'Take an umbrella. It [might rain] later.|带把伞吧，等会儿也许会下雨。',
+          "This [can't be] Lucy's bag. Hers is red.|这不可能是露西的包，她的是红色的。",
+          'Listen! Someone [must be playing] the piano.|听！一定有人在弹钢琴。',
+          'The keys [could be] in your pocket.|钥匙可能在你口袋里。',
+        ],
+        traps: [
+          "表示\"一定\"的 must，否定用 <b>can't</b>（不可能），不用 mustn't（禁止）：It <b>can't</b> be true.",
+          '<b>maybe</b>（一个词）是副词，放在句首：Maybe he is ill.；<b>may be</b>（两个词）是情态动词 + be：He may be ill.',
+          '疑问句里表示推测一般用 <b>can / could</b>：<b>Can</b> it be true?（不说 Must it be true?）',
+        ],
+        quiz: [
+          { c: 'Tom is not at school today. He ___ be ill, but I am not sure.', o: ['may', 'must', "can't", 'need'], why: '不确定，只是"可能"，用 may。' },
+          { c: 'The light in his room is on. He ___ be at home.', o: ['must', "can't", 'need', "mustn't"], why: '灯亮着，有把握地推测"一定在家"，用 must。' },
+          { c: 'That ___ be Mr. Li. He went to Shanghai this morning.', o: ["can't", 'must', 'may', "mustn't"], why: "他今早去了上海，所以\"不可能\"是他，用 can't。" },
+          { c: "Whose book is this? It ___ be Amy's. Her name is on it.", o: ['must', 'might', "can't", 'need'], why: '书上有她的名字，把握很大，用 must。' },
+          { s: 'He must be at home now.', zh: '他现在一定在家。' },
+          { s: "It can't be her bike.", zh: '这不可能是她的自行车。' },
+          { c: 'Listen! Someone must be ___ at the door.', o: ['knocking', 'knock', 'knocks', 'knocked'], why: '推测正在发生的动作用 must be + 动词-ing。' },
+          { c: 'He has just eaten a big meal. He ___ be hungry.', o: ["can't", 'must', 'may', 'should'], why: "刚吃了一大顿饭，\"不可能\"饿，用 can't。" },
+          { c: '___ he is ill. He did not come to school.', o: ['Maybe', 'May be', 'May', 'Might'], why: '放在句首、后面跟完整句子的是副词 maybe（一个词）。' },
+          { c: 'I am not sure where she is. She ___ be in the library.', o: ['might', 'must', "can't", "mustn't"], why: '不确定，表示"也许"用 might。' },
+          { c: 'The bag is very heavy. It ___ be full of books.', o: ['must', "can't", "mustn't", 'need'], why: '包很重，有把握地推测"一定"装满了书，用 must。' },
+          { c: "It ___ be true! I don't believe it.", o: ["can't", 'must', 'may', 'might'], why: "不相信，认为\"不可能\"是真的，用 can't。" },
+          { s: 'She may be in the classroom.', zh: '她可能在教室里。' },
+          { s: 'It might snow this evening.', zh: '今晚也许会下雪。' },
+          { s: 'They must be waiting for us.', zh: '他们一定在等我们。' },
+        ],
+      },
+      {
+        id: 'g5-2', grade: '初中', title: '不定式与动名词', en: 'To Do & Doing',
         intro: '动词做宾语时，有的接 to do（不定式），有的接 doing（动名词），要分别记。',
         rule: `<p>一个句子一般只有一个谓语动词，其他动词要变成<b>非谓语形式</b>：to + 动词原形（不定式）或 动词-ing（动名词）。</p>
 <p>动名词还可以做主语：<b>Swimming</b> is good exercise.</p>`,
@@ -1082,7 +2066,114 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g5-3', title: '被动语态', en: 'The Passive Voice',
+        id: 'gj-6', grade: '初中', title: '不定式作目的状语', en: 'To Do for Purpose',
+        intro: '说明"为了什么而做某事"，最常用的办法是在后面加 to + 动词原形。',
+        rule: `<p><b>to + 动词原形</b>放在句子后面（或句首），表示动作的<b>目的</b>，回答 Why 的问题：I got up early <b>to catch</b> the first bus.（我早起是为了赶头班车。）</p>
+<p>想强调目的时用 <b>in order to</b>；否定用 <b>in order not to</b>。</p>
+<p>区分三种 to do：跟在 want、hope 等动词后面的是<b>宾语</b>（I want to go）；跟在"动词 + 人"后面的是<b>宾语补足语</b>（She asked me to go）；可以翻译成"为了……"、去掉以后句子仍然完整的是<b>目的状语</b>（I went there to see her）。</p>`,
+        forms: [
+          { label: '目的在后', parts: ['主语 + 谓语 + ……', 'to + 动词原形'] },
+          { label: '目的在前', parts: ['To + 动词原形,', '主语 + 谓语 + ……'] },
+          { label: '否定', parts: ['主语 + 谓语 + ……', 'in order not to', '动词原形'] },
+        ],
+        table: {
+          head: ['作用', '判断方法', '例子'],
+          rows: [
+            ['宾语', '跟在 want、hope、decide 等动词后', 'I want to buy a pen.'],
+            ['宾语补足语', '跟在"动词 + 宾语"后，说明宾语做什么', 'Mum told me to buy a pen.'],
+            ['目的状语', '可以用"为了"翻译，去掉后句子仍完整', 'I went to the shop to buy a pen.'],
+          ],
+        },
+        examples: [
+          'I got up early [to catch] the first bus.|我早起是为了赶头班车。',
+          'She went to the library [to borrow] some books.|她去图书馆借书。',
+          'He is saving money [to buy] a new bike.|他正在存钱买一辆新自行车。',
+          '[To learn] English well, you need to practice every day.|要学好英语，你需要每天练习。',
+          'We use a knife [to cut] things.|我们用刀切东西。',
+          'She spoke quietly [in order not to wake] the baby.|她说话很轻，以免吵醒宝宝。',
+        ],
+        traps: [
+          '表示目的用 to do，不用 for doing：I went there <b>to see</b> him.（不说 for seeing him）',
+          '否定的目的一般说 <b>in order not to</b> do：He left early in order not to be late.',
+          'for + 名词也可以表示目的：I went to the shop <b>for</b> some milk. = I went to the shop <b>to buy</b> some milk.',
+        ],
+        quiz: [
+          { c: 'I went to the supermarket ___ some fruit.', o: ['to buy', 'buy', 'bought', 'for buy'], why: '去超市的目的是买水果，用 to + 动词原形。' },
+          { c: 'She studies hard ___ a good grade.', o: ['to get', 'get', 'gets', 'got'], why: '努力学习的目的是取得好成绩，用不定式表示目的。' },
+          { c: '___ healthy, we should exercise every day.', o: ['To keep', 'Keep', 'Keeps', 'Kept'], why: '表示目的的不定式可以放在句首：为了保持健康……' },
+          { c: 'He got up early in order ___ the sunrise.', o: ['to see', 'see', 'seeing', 'saw'], why: 'in order to + 动词原形，表示目的。' },
+          { s: 'I went there to see my grandma.', zh: '我去那里看望我奶奶。' },
+          { s: 'She gets up early to read English.', zh: '她早起读英语。' },
+          { c: 'We ran fast in order ___ be late.', o: ['not to', 'to not', "don't", 'not'], why: '目的的否定是 in order not to + 动词原形。' },
+          { c: 'Why did you go to the park? ___ fly a kite.', o: ['To', 'For', 'Because', 'So'], why: '回答 Why 时可以直接用 To + 动词原形说明目的。' },
+          { c: 'People use computers ___ information.', o: ['to find', 'find', 'found', 'for find'], why: 'use … to do 表示"用……来做……"。' },
+          { c: 'In "I went to the shop to buy milk", "to buy milk" 表示什么？', o: ['目的', '时间', '地点', '原因'], why: '去商店是为了买牛奶，to buy milk 是目的状语。' },
+          { c: 'My father went to Beijing ___ a meeting.', o: ['to have', 'have', 'has', 'had'], why: '去北京的目的是开会，用不定式。' },
+          { c: 'I am writing ___ you about my new school.', o: ['to tell', 'tell', 'told', 'telling'], why: '写信的目的是告诉你，用 to + 动词原形。' },
+          { s: 'He came here to learn Chinese.', zh: '他来这里学中文。' },
+          { s: 'We need water to make tea.', zh: '我们需要水来泡茶。' },
+          { s: 'They are saving money to buy a house.', zh: '他们正在存钱买房子。' },
+        ],
+      },
+      {
+        id: 'gj-7', grade: '初中', title: '含 to do 的常用句式', en: 'Useful Patterns with To Do',
+        intro: 'used to do、It is … to do、too … to do、enough to do，这几个句式里都有 to do，在初中阶段出现得特别多。',
+        rule: `<p><b>used to + 动词原形</b>：过去常常做某事（现在不这样了）。否定用 didn't use to，疑问用 Did … use to…?</p>
+<p><b>It is + 形容词 + (for 某人) + to do</b>：做某事是……的。it 只是形式主语，真正的主语是后面的 to do。</p>
+<p><b>too + 形容词 / 副词 + to do</b>：太……以至于不能……（本身就带否定的意思）。</p>
+<p><b>形容词 / 副词 + enough + to do</b>：足够……可以做……。enough 放在形容词<b>后面</b>。</p>
+<p>后两个句式可以和 <b>so … that …</b> 互换：He is too young to go to school. = He is so young that he can't go to school.</p>`,
+        forms: [
+          { label: '过去常常', parts: ['主语', 'used to', '动词原形'] },
+          { label: '形式主语', parts: ['It is', '形容词', '(for 某人)', 'to + 动词原形'] },
+          { label: '太……不能', parts: ['too', '形容词 / 副词', 'to + 动词原形'] },
+          { label: '足够……能', parts: ['形容词 / 副词', 'enough', 'to + 动词原形'] },
+        ],
+        table: {
+          head: ['句式', '意思', '例子'],
+          rows: [
+            ['used to do', '过去常常做', 'I used to walk to school.'],
+            ['be used to doing', '习惯于做（注意是 doing）', 'I am used to getting up early.'],
+            ['It is + adj. + to do', '做某事是……的', 'It is important to learn English.'],
+            ['too … to do', '太……不能', 'The box is too heavy to carry.'],
+            ['… enough to do', '足够……能', 'He is old enough to go to school.'],
+            ['so … that …', '如此……以至于', "The box is so heavy that I can't carry it."],
+          ],
+        },
+        examples: [
+          'I [used to] be afraid of the dark.|我以前怕黑。',
+          'She [used to] have long hair, but now it is short.|她以前留长发，现在是短发了。',
+          '[It is] important [to eat] breakfast every day.|每天吃早饭很重要。',
+          '[It is] easy for him [to learn] a new language.|对他来说学一门新语言很容易。',
+          'The tea is [too] hot [to drink].|茶太烫了，没法喝。',
+          'He is tall [enough to reach] the shelf.|他够高，能够到架子。',
+        ],
+        traps: [
+          '<b>used to do</b>（过去常常做）和 <b>be used to doing</b>（习惯于做）不同：I used to <b>get</b> up late. / I am used to <b>getting</b> up early.',
+          'too … to 本身已经带否定意思，后面不再加 not：too tired <b>to walk</b>（太累了走不动）。',
+          'enough 放在形容词、副词<b>后面</b>，放在名词<b>前面</b>：old <b>enough</b> / <b>enough</b> money。',
+          'It is + adj. + <b>for</b> 某人 to do 说的是事情难易、重要与否；It is + adj. + <b>of</b> 某人 to do 说的是人的品质（kind、nice、clever）：It is kind <b>of</b> you to help me.',
+        ],
+        quiz: [
+          { c: 'I ___ play the piano when I was a child, but now I do not.', o: ['used to', 'use to', 'am used to', 'was used to'], why: '过去常常做、现在不做了，用 used to + 动词原形。' },
+          { c: 'It is important ___ enough sleep.', o: ['to get', 'get', 'gets', 'got'], why: 'It is + 形容词 + to do，it 是形式主语。' },
+          { c: 'The boy is ___ young to go to school.', o: ['too', 'so', 'very', 'enough'], why: '"太……不能……"用 too … to …。' },
+          { c: 'She is old ___ to look after herself.', o: ['enough', 'too', 'so', 'very'], why: '"足够……能……"用 形容词 + enough + to do。' },
+          { s: 'I used to play football after school.', zh: '我过去常常放学后踢足球。' },
+          { s: 'It is fun to fly a kite.', zh: '放风筝很有趣。' },
+          { c: '___ is not easy to learn a foreign language well.', o: ['It', 'That', 'This', 'There'], why: '真正的主语是后面的 to learn…，句首用形式主语 it。' },
+          { c: 'He is used to ___ up early.', o: ['getting', 'get', 'gets', 'got'], why: 'be used to 表示"习惯于"，to 是介词，后面接 doing。' },
+          { c: 'Did you ___ live in the countryside?', o: ['use to', 'used to', 'using to', 'uses to'], why: 'Did 后面用原形：Did you use to…?' },
+          { c: 'It is kind ___ you to help me.', o: ['of', 'for', 'to', 'with'], why: 'kind 说的是人的品质，用 It is + adj. + of 某人 + to do。' },
+          { c: 'The bag is so heavy ___ I cannot carry it.', o: ['that', 'to', 'too', 'enough'], why: 'so … that … 表示"如此……以至于……"，that 后面接完整的句子。' },
+          { c: 'It is hard for me ___ this math problem.', o: ['to solve', 'solve', 'solving', 'solved'], why: 'It is + 形容词 + for 某人 + to do。' },
+          { s: 'He is too tired to walk.', zh: '他太累了，走不动。' },
+          { s: 'She is old enough to drive.', zh: '她到了可以开车的年龄。' },
+          { s: 'It is important to drink enough water.', zh: '喝足够的水很重要。' },
+        ],
+      },
+      {
+        id: 'g5-3', grade: '初中', title: '被动语态', en: 'The Passive Voice',
         intro: '主语是动作的承受者时用被动语态：be + 过去分词，"被……"。',
         rule: `<p>主动语态：主语是动作的执行者（Many people <b>speak</b> English）。被动语态：主语是动作的承受者（English <b>is spoken</b> by many people）。</p>
 <p>被动语态 = <b>be + 过去分词</b>，时态由 be 体现；动作的执行者用 <b>by</b> 引出，不重要时可以省略。</p>`,
@@ -1123,7 +2214,57 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g5-4', title: '比较级与最高级', en: 'Comparatives & Superlatives',
+        id: 'gj-8', grade: '初中', title: '动词的 -ed 形式', en: 'The -ed Form',
+        intro: '动词的 -ed 形式（过去分词）除了构成完成时和被动语态，还可以像形容词一样用，表示"被……的"或"已经……的"。',
+        rule: `<p>过去分词有三大用途：和 have / has 构成<b>现在完成时</b>（have finished）；和 be 构成<b>被动语态</b>（is made）；单独使用时相当于<b>形容词</b>，做定语或表语。</p>
+<p>做<b>定语</b>：单个分词放在名词前（a <b>broken</b> cup 打碎的杯子）；分词短语放在名词后（a book <b>written</b> by Lu Xun 鲁迅写的书）。</p>
+<p>做<b>表语</b>：放在 be、feel、look、get 等系动词后，常表示人的感受：I am <b>tired</b>. She looks <b>worried</b>.</p>
+<p>表示感受的词有成对的 -ed 和 -ing 形式：<b>-ed</b> 说"人感到……"，<b>-ing</b> 说"事物令人……"。</p>`,
+        table: {
+          head: ['-ed（人感到……）', '-ing（事物令人……）', '例子'],
+          rows: [
+            ['interested', 'interesting', 'I am interested in the book. The book is interesting.'],
+            ['excited', 'exciting', 'We are excited. The game is exciting.'],
+            ['bored', 'boring', 'He feels bored. The film is boring.'],
+            ['surprised', 'surprising', 'She was surprised. The news was surprising.'],
+            ['tired', 'tiring', 'I am tired. The trip was tiring.'],
+            ['worried', 'worrying', 'Mum looks worried. The news is worrying.'],
+          ],
+        },
+        examples: [
+          'Be careful with the [broken] glass.|小心碎玻璃。',
+          'I like the story [written] by Lu Xun.|我喜欢鲁迅写的这个故事。',
+          'This is a bike [made] in China.|这是一辆中国制造的自行车。',
+          'We are all [excited] about the trip.|我们都对这次旅行感到兴奋。',
+          'The film was [boring], so I felt [bored].|这部电影很无聊，所以我觉得很无聊。',
+          'She looked [surprised] at the news.|她听到这个消息时显得很吃惊。',
+        ],
+        traps: [
+          '-ed 说人的感受，-ing 说事物的特点：I am <b>interested</b> in the <b>interesting</b> book.',
+          '不规则动词的过去分词不加 -ed，要单独记：break → <b>broken</b>，write → <b>written</b>，make → <b>made</b>，lose → <b>lost</b>。',
+          '过去分词做定语有被动或完成的意思，现在分词（-ing）做定语有主动或进行的意思：a <b>broken</b> window（被打破的窗）/ a <b>sleeping</b> baby（正在睡觉的宝宝）。',
+          '常用搭配：be interested <b>in</b>、be surprised <b>at</b>、be worried <b>about</b>、be excited <b>about</b>、be tired <b>of</b>。',
+        ],
+        quiz: [
+          { c: 'I am ___ in science.', o: ['interested', 'interesting', 'interest', 'interests'], why: '说人的感受用 -ed：be interested in。' },
+          { c: 'The story is very ___.', o: ['interesting', 'interested', 'interest', 'interests'], why: '说事物"令人感兴趣"用 -ing。' },
+          { c: 'He is reading a book ___ by Mo Yan.', o: ['written', 'writing', 'wrote', 'writes'], why: '书是"被写的"，用过去分词 written 做后置定语。' },
+          { c: 'Please pick up the ___ cup on the floor.', o: ['broken', 'breaking', 'break', 'broke'], why: '"打碎了的杯子"用过去分词 broken 做定语。' },
+          { s: 'I am interested in English.', zh: '我对英语感兴趣。' },
+          { s: 'The film is very interesting.', zh: '这部电影很有趣。' },
+          { c: 'The children were ___ to see the pandas.', o: ['excited', 'exciting', 'excite', 'excites'], why: '孩子们"感到兴奋"，说人的感受用 -ed。' },
+          { c: 'The football match was really ___.', o: ['exciting', 'excited', 'excite', 'excites'], why: '比赛"令人兴奋"，说事物用 -ing。' },
+          { c: 'This is a toy ___ in China.', o: ['made', 'making', 'make', 'makes'], why: '玩具是"被制造的"，用过去分词 made。' },
+          { c: 'She looks ___. What happened?', o: ['worried', 'worrying', 'worry', 'worries'], why: '系动词 look 后面说人的状态，用 worried。' },
+          { c: 'The lesson was ___, and many students fell asleep.', o: ['boring', 'bored', 'bore', 'bores']  , why: '课"令人厌倦"，说事物用 -ing。' },
+          { c: 'I am ___ after the long walk.', o: ['tired', 'tiring', 'tire', 'tires'], why: '说人"感到累"用 tired。' },
+          { s: 'This is a book written by my teacher.', zh: '这是一本我老师写的书。' },
+          { s: 'We were surprised at the news.', zh: '我们对这个消息感到吃惊。' },
+          { s: 'She found her lost dog.', zh: '她找到了她走失的狗。' },
+        ],
+      },
+      {
+        id: 'g5-4', grade: '小学', title: '比较级与最高级', en: 'Comparatives & Superlatives',
         intro: '两者比较用比较级 + than，三者及以上比较用 the + 最高级。',
         rule: `<p><b>比较级</b>：A + 动词 + 比较级 + <b>than</b> + B（Tom is taller than Jim）。</p>
 <p><b>最高级</b>：A + 动词 + <b>the</b> + 最高级 + of / in…（Tom is the tallest in our class）。</p>
@@ -1169,6 +2310,65 @@ window.GRAMMAR = [
           { s: "This question is easier than that one.", zh: "这道题比那道题简单。" },
         ],
       },
+      {
+        id: 'gj-9', grade: '初中', title: '副词的比较级和最高级', en: 'Comparing Adverbs',
+        intro: '比较"谁做得更快、更好、更认真"，要用副词的比较级和最高级，修饰的是动词。',
+        rule: `<p>形容词比较的是"人或物怎么样"（Tom is <b>taller</b>），副词比较的是"动作做得怎么样"（Tom runs <b>faster</b>）。</p>
+<p>单音节副词和 early 加 <b>-er / -est</b>：fast → faster → fastest，hard → harder → hardest，early → earlier → earliest。</p>
+<p>以 <b>-ly</b> 结尾的副词前面加 <b>more / most</b>：carefully → more carefully → most carefully。</p>
+<p>副词最高级前面的 <b>the</b> 可以省略：He runs (the) fastest in our class.</p>`,
+        forms: [
+          { label: '比较级', parts: ['A', '动词', '副词比较级', 'than', 'B'] },
+          { label: '最高级', parts: ['A', '动词', '(the) 副词最高级', 'of / in + 范围'] },
+          { label: '同级', parts: ['A', '动词', 'as', '副词原级', 'as', 'B'] },
+        ],
+        table: {
+          head: ['原级', '比较级', '最高级'],
+          rows: [
+            ['fast', 'faster', 'fastest'],
+            ['hard', 'harder', 'hardest'],
+            ['early', 'earlier', 'earliest'],
+            ['late', 'later', 'latest'],
+            ['slowly', 'more slowly', 'most slowly'],
+            ['carefully', 'more carefully', 'most carefully'],
+            ['well', 'better', 'best'],
+            ['badly', 'worse', 'worst'],
+            ['much', 'more', 'most'],
+            ['little', 'less', 'least'],
+            ['far', 'farther / further', 'farthest / furthest'],
+          ],
+        },
+        examples: [
+          'Tom runs [faster than] his brother.|汤姆跑得比他哥哥快。',
+          'She gets up [earlier than] me.|她起得比我早。',
+          'Please speak [more slowly].|请说得再慢一点。',
+          'Lily sings [the best] in our class.|莉莉在我们班唱得最好。',
+          'He works [the hardest] of all the students.|他是所有学生中学习最努力的。',
+          'I can swim [as well as] my father.|我游泳游得和我爸爸一样好。',
+        ],
+        traps: [
+          '修饰动词要用副词，不用形容词：He runs <b>quickly</b>.（不说 runs quick）；She sings <b>well</b>.（不说 sings good）',
+          '以 -ly 结尾的副词用 more / most，不加 -er：<b>more carefully</b>，不说 carefullier。early 是例外：earlier。',
+          'well 和 good 的比较级、最高级相同：better、best；badly 和 bad 也相同：worse、worst。',
+        ],
+        quiz: [
+          { c: 'A horse can run ___ than a dog.', o: ['faster', 'fast', 'fastest', 'more fast'], why: '有 than，用比较级；fast 是单音节词，加 -er。' },
+          { c: 'Please drive ___. The road is wet.', o: ['more carefully', 'carefullier', 'more careful', 'careful'], why: '修饰动词 drive 用副词；carefully 以 -ly 结尾，比较级加 more。' },
+          { c: 'Mike jumps ___ in his class.', o: ['the highest', 'higher', 'high', 'more high'], why: '范围是全班（三者以上），用最高级。' },
+          { c: 'She speaks English ___ than her brother.', o: ['better', 'well', 'good', 'best'], why: '有 than，用比较级；well 的比较级是 better。' },
+          { s: 'He runs faster than me.', zh: '他跑得比我快。' },
+          { s: 'She sings better than her sister.', zh: '她唱得比她姐姐好。' },
+          { c: 'I get up ___ than my sister. She gets up at six and I get up at five.', o: ['earlier', 'early', 'more early', 'earliest'], why: '有 than，用比较级；early 变 y 为 i 加 -er。' },
+          { c: 'Who works ___, Tom, Jack or Mike?', o: ['the hardest', 'harder', 'hard', 'more hard'], why: '三个人比较，用最高级。' },
+          { c: 'He did ___ in the test than last time. He got only fifty.', o: ['worse', 'badly', 'bad', 'worst'], why: '有 than，用比较级；badly 的比较级是 worse。' },
+          { c: 'Tom plays the piano as ___ as his teacher.', o: ['well', 'better', 'best', 'good'], why: 'as … as 中间用原级；修饰动词用副词 well。' },
+          { c: 'The old man walks ___ than the young man.', o: ['more slowly', 'slowlier', 'slow', 'most slowly'], why: '有 than，用比较级；slowly 以 -ly 结尾，加 more。' },
+          { c: 'Of all the girls, Amy dances ___.', o: ['the most beautifully', 'more beautifully', 'beautiful', 'most beautiful'], why: '范围是所有女孩，用最高级；修饰动词 dances 用副词。' },
+          { s: 'Please speak more slowly.', zh: '请说慢一点。' },
+          { s: 'My mother gets up the earliest.', zh: '我妈妈起得最早。' },
+          { s: 'I can swim as fast as you.', zh: '我游得和你一样快。' },
+        ],
+      },
     ],
   },
 
@@ -1178,7 +2378,7 @@ window.GRAMMAR = [
     desc: '用连词把两个句子连起来：并列句和三大从句（状语从句、宾语从句、定语从句）。',
     lessons: [
       {
-        id: 'g6-1', title: '并列句', en: 'Compound Sentences',
+        id: 'g6-1', grade: '初中', title: '并列句', en: 'Compound Sentences',
         intro: '用 and、but、or、so 把两个地位相同的句子连起来。',
         rule: `<p>并列句 = 句子 1 + <b>并列连词</b> + 句子 2，两个句子同样重要。</p>`,
         table: {
@@ -1221,7 +2421,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g6-2', title: '状语从句', en: 'Adverbial Clauses',
+        id: 'g6-2', grade: '初中', title: '状语从句', en: 'Adverbial Clauses',
         intro: '用 when、because、if、although 等引导的从句，说明主句动作的时间、原因、条件、让步。',
         rule: `<p>状语从句放在主句前面时，中间一般用逗号隔开；放在后面时通常不用逗号。</p>
 <p><b>主将从现</b>：when、if 引导的时间或条件从句表示将来时，从句用一般现在时，主句用将来时：If it <b>rains</b> tomorrow, we <b>will</b> stay at home.</p>`,
@@ -1266,7 +2466,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g6-3', title: '宾语从句', en: 'Object Clauses',
+        id: 'g6-3', grade: '初中', title: '宾语从句', en: 'Object Clauses',
         intro: '一个句子做另一个句子的宾语，常跟在 think、know、say、ask、wonder 等动词后。',
         rule: `<p>宾语从句有三个要点：</p>
 <ul><li><b>连接词</b>：陈述句用 <b>that</b>（可省略）；一般疑问句用 <b>if / whether</b>（是否）；特殊疑问句用原来的疑问词。</li>
@@ -1308,7 +2508,7 @@ window.GRAMMAR = [
         ],
       },
       {
-        id: 'g6-4', title: '定语从句', en: 'Relative Clauses',
+        id: 'g6-4', grade: '初中', title: '定语从句', en: 'Relative Clauses',
         intro: '用一个句子修饰名词，放在被修饰的名词后面，由 who、which、that 等引导。',
         rule: `<p>定语从句跟在被修饰的名词（<b>先行词</b>）后面，相当于一个很长的"……的"。</p>
 <ul><li>先行词是<b>人</b>：用 <b>who</b> 或 that（the girl <b>who</b> is singing）</li>

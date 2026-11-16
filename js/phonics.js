@@ -215,11 +215,47 @@
       else if (between === 1) start = /[^aeiouy]$/i.test(syllables[k - 1].t) ? b : a + 1;
       starts.push(start);
     }
-    return starts.map((st, k) => { const end = k + 1 < starts.length ? starts[k + 1] : tokens.length; return Array.from({ length: end - st }, (_, t) => st + t); });
+    const out = starts.map((st, k) => { const end = k + 1 < starts.length ? starts[k + 1] : tokens.length; return Array.from({ length: end - st }, (_, t) => st + t); });
+    // 音节交界处的辅音：拼写上两边都有这个辅音（rab·bit、lit·tle）时，这个音同时属于前后两个音节，
+    // 这样拼读时前一个音节读 "rab"、后一个读 "bit"，而不是 "ra" + "bit"
+    const isV = (i) => i >= 0 && i < tokens.length && VOWEL_RE.test(tokens[i].replace(/[ˈˌ]/g, ''));
+    for (let k = 1; k < out.length; k++) {
+      const prev = syllables[k - 1].t.toLowerCase(), cur = syllables[k].t.toLowerCase();
+      const a = out[k - 1], b = out[k];
+      if (!a.length || !b.length) continue;
+      const curStartsCons = /^[^aeiou]/.test(cur), prevEndsCons = /[^aeiouy]$/.test(prev) && !/e$/.test(prev);
+      if (curStartsCons && isV(b[0]) && !isV(a[a.length - 1])) b.unshift(a[a.length - 1]);
+      else if (prevEndsCons && isV(a[a.length - 1]) && !isV(b[0])) a.push(b[0]);
+    }
+    return out;
+  }
+  // 用字母↔音素对齐（js/g2p.js）按拼写划分音节：每个音节取它所含字母块的音；
+  // 横跨音节边界的字母块（rab·bit 的 bb、lit·tle 的 tt）的音同时属于前后两个音节
+  function alignSyllablesBySpelling(syllables, tokens) {
+    const G = window.G2P;
+    if (!G) return null;
+    const text = syllables.map((s) => s.t).join('').toLowerCase();
+    const r = G.align(text, tokens);
+    if (!r || r.irregular) return null;
+    let pos = 0;
+    return syllables.map((sy) => {
+      const s0 = pos, s1 = pos + sy.t.length;
+      pos = s1;
+      const idx = [];
+      r.segs.forEach((sg) => {
+        const e = sg.start + sg.t.length;
+        if (sg.start >= s1 || e <= s0) return;
+        const straddles = sg.start < s0 || e > s1;
+        // 横跨边界、且一个字母对应一个音（jun·gle 的 ng = /ŋ/+/g/）：按字母分给两边；否则（双写辅音）两边共用
+        if (straddles && sg.ph.length === sg.t.length) sg.ph.forEach((ph, i) => { if (sg.start + i >= s0 && sg.start + i < s1) idx.push(ph); });
+        else idx.push(...sg.ph);
+      });
+      return [...new Set(idx)].sort((x, y) => x - y);
+    });
   }
   function alignIPA(a, tokens) {
     if (!tokens || !tokens.length) return null;
-    if (a.syllables) return alignSyllables(a.syllables, tokens);
+    if (a.syllables) return alignSyllablesBySpelling(a.syllables, tokens) || alignSyllables(a.syllables, tokens);
     return alignSegs(a.segs, tokens);
   }
 

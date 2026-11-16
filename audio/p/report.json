@@ -21,13 +21,14 @@
  },
  "e_s": {
   "ok": true,
-  "source": "head",
+  "source": "bed",
+  "rate": 100,
   "mode": "vowel",
   "window": [
-   0.22,
-   0.28
+   0.02,
+   0.12
   ],
-  "check": "m ɛ  [6/6]"
+  "check": "b ɛ  [6/6]"
  },
  "i_s": {
   "ok": true,

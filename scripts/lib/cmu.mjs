@@ -21,6 +21,23 @@ export const PICK = {
   chocolate: 'CH AA1 K AH0 L AH0 T',  // 与课程中三个音节 choc·o·late 对应
   unhappy: 'AH2 N HH AE1 P IY0', unlock: 'AH2 N L AA1 K', untie: 'AH2 N T AY1',  // 前缀 un- 不弱读
   redo: 'R IY2 D UW1', refill: 'R IY2 F IH1 L', replay: 'R IY1 P L EY2',          // re- 读 /riː/
+  // 短元音 o：美式读 /ɑ/（Cambridge 美式音标），与课程"o 读 /ɑ/"一致
+  dog: 'D AA1 G', log: 'L AA1 G', cross: 'K R AA1 S', strong: 'S T R AA1 NG', moth: 'M AA1 TH', cloth: 'K L AA1 TH',
+  long: 'L AA1 NG', song: 'S AA1 NG', off: 'AA1 F', moss: 'M AA1 S', toss: 'T AA1 S', wrong: 'R AA1 NG',
+  coupon: 'K UW1 P AA2 N', wanted: 'W AA1 N T IH0 D', exit: 'EH1 K S IH0 T',
+  // au / aw / al / ough / augh 课：读 /ɔ/（词典收录的另一种美式读法），与本课一致
+  caught: 'K AO1 T', bought: 'B AO1 T', cough: 'K AO1 F', chalk: 'CH AO1 K', august: 'AO1 G AH0 S T',
+  // 非重读音节词典也收 /ɪ/ 的读法（与 Cambridge 美式一致），和课程拼读一致
+  orange: 'AO1 R IH0 N JH', engine: 'EH1 N JH IH0 N', honest: 'AA1 N IH0 S T', biscuit: 'B IH1 S K IH0 T',
+  dolphin: 'D AA1 L F IH0 N', receive: 'R IH0 S IY1 V',
+  needed: 'N IY1 D IH0 D', landed: 'L AE1 N D IH0 D', added: 'AE1 D IH0 D', melted: 'M EH1 L T IH0 D',
+  rabbit: 'R AE1 B IH0 T', market: 'M AA1 R K IH0 T', dentist: 'D EH1 N T IH0 S T', puppet: 'P AH1 P IH0 T',
+  tennis: 'T EH1 N IH0 S', robin: 'R AA1 B IH0 N',
+  village: 'V IH1 L IH0 JH', cabbage: 'K AE1 B IH0 JH', message: 'M EH1 S IH0 JH', package: 'P AE1 K IH0 JH',
+  usual: 'Y UW1 ZH UW0 AH0 L', casual: 'K AE1 ZH UW0 AH0 L', visual: 'V IH1 ZH UW0 AH0 L',
+  and: 'AE1 N D',          // 单独朗读用强读式 /ænd/
+  giraffe: 'JH AH0 R AE1 F', garage: 'G AH0 R AA1 ZH',   // 词典首选把 r 并进 /ɚ/，与拼写 gi·raffe、ga·rage 对不上；用 Cambridge 美式 /dʒəˈræf/ /gəˈrɑʒ/
+  gorilla: 'G AH0 R IH1 L AH0',  // 词典首选 /gɚˈɪlə/ 把 r 并进了元音，按 go·ril·la 分音节时选 /gəˈrɪlə/
 };
 // 词典里没有的词，直接给出 IPA
 // 以空格分隔音素

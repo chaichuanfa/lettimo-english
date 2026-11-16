@@ -1,0 +1,890 @@
+[
+ {
+  "src": "课5-4",
+  "en": "Use the rules.",
+  "file": "t/use-the-rules-1inrjs2.mp3",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "margin": 5.8,
+  "scores": {
+   "juːz": 30.4,
+   "juːs": 36.2
+  }
+ },
+ {
+  "src": "课8-2",
+  "en": "The mouse is in the house.",
+  "file": "t/the-mouse-is-in-the-house-n1mep3.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 4.78,
+  "scores": {
+   "haʊs": 19.05,
+   "haʊz": 23.83
+  }
+ },
+ {
+  "src": "语法gp-4",
+  "en": "We live in Beijing, the capital of China.",
+  "file": "t/we-live-in-beijing-the-capital-of-ch-1yxya3l.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 10.87,
+  "scores": {
+   "lɪv": 77.7,
+   "laɪv": 88.57
+  }
+ },
+ {
+  "src": "测验g1-3",
+  "en": "Their house is very big.",
+  "file": "t/their-house-is-very-big-145wtw5.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 1.43,
+  "scores": {
+   "haʊs": 48.64,
+   "haʊz": 50.07
+  }
+ },
+ {
+  "src": "测验gp-1",
+  "en": "She lives on the ninth floor.",
+  "file": "t/she-lives-on-the-ninth-floor-1eg784z.mp3",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "margin": 10.85,
+  "scores": {
+   "lɪvz": 37.43,
+   "laɪvz": 48.28
+  }
+ },
+ {
+  "src": "测验gp-1",
+  "en": "We live on the fifth floor.",
+  "file": "t/we-live-on-the-fifth-floor-1j4pr48.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 10.63,
+  "scores": {
+   "lɪv": 31.08,
+   "laɪv": 41.71
+  }
+ },
+ {
+  "src": "测验g1-4",
+  "en": "Please read the sentence carefully.",
+  "file": "t/please-read-the-sentence-carefully-17t3ho2.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.57,
+  "scores": {
+   "riːd": 86.35,
+   "rɛd": 95.92
+  }
+ },
+ {
+  "src": "测验g1-5",
+  "en": "My grandparents live in Beijing.",
+  "file": "t/my-grandparents-live-in-beijing-1c8sq01.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 11.04,
+  "scores": {
+   "lɪv": 66.97,
+   "laɪv": 78.01
+  }
+ },
+ {
+  "src": "语法gp-5",
+  "en": "There is a big tree in front of the house.",
+  "file": "t/there-is-a-big-tree-in-front-of-the--201g2m.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 2.63,
+  "scores": {
+   "haʊs": 90.78,
+   "haʊz": 93.41
+  }
+ },
+ {
+  "src": "测验gp-5",
+  "en": "There is a garden in front of our house.",
+  "file": "t/there-is-a-garden-in-front-of-our-ho-p6el4c.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 3.52,
+  "scores": {
+   "haʊs": 88.33,
+   "haʊz": 91.85
+  }
+ },
+ {
+  "src": "测验g2-2",
+  "en": "There is a big tree behind my house.",
+  "file": "t/there-is-a-big-tree-behind-my-house-1ngtqmi.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 0.51,
+  "scores": {
+   "haʊs": 84.46,
+   "haʊz": 84.97
+  }
+ },
+ {
+  "src": "语法g2-3",
+  "en": "Does your brother like swimming? No, he doesn't.",
+  "file": "t/does-your-brother-like-swimming-no-h-8tnxze.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.11,
+  "scores": {
+   "dʌz": 110.02,
+   "doʊz": 118.13
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Does she have a bike?",
+  "file": "t/does-she-have-a-bike-136unhd.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.04,
+  "scores": {
+   "dʌz": 57.39,
+   "doʊz": 65.43
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Do you often read books?",
+  "file": "t/do-you-often-read-books-1n5z7k4.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.41,
+  "scores": {
+   "riːd": 74.29,
+   "rɛd": 83.7
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Does your father work in a hospital?",
+  "file": "t/does-your-father-work-in-a-hospital-19229db.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.2,
+  "scores": {
+   "dʌz": 72.87,
+   "doʊz": 81.07
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "They don't live in Beijing.",
+  "file": "t/they-don-t-live-in-beijing-chl72o.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 10.49,
+  "scores": {
+   "lɪv": 34.77,
+   "laɪv": 45.26
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Does your mother like flowers?",
+  "file": "t/does-your-mother-like-flowers-wl40qu.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.79,
+  "scores": {
+   "dʌz": 55.37,
+   "doʊz": 63.16
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Do they live near here? Yes, they do.",
+  "file": "t/do-they-live-near-here-yes-they-do-r2su6l.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 10.55,
+  "scores": {
+   "lɪv": 52.77,
+   "laɪv": 63.32
+  }
+ },
+ {
+  "src": "测验g2-3",
+  "en": "Tom does his homework every evening.",
+  "file": "t/tom-does-his-homework-every-evening-t92lh.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.69,
+  "scores": {
+   "dʌz": 81.95,
+   "doʊz": 89.64
+  }
+ },
+ {
+  "src": "语法gp-6",
+  "en": "Does she have any brothers? No, she doesn't.",
+  "file": "t/does-she-have-any-brothers-no-she-do-oa4w9n.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.24,
+  "scores": {
+   "dʌz": 74.43,
+   "doʊz": 82.67
+  }
+ },
+ {
+  "src": "测验gp-6",
+  "en": "Does he have a sister?",
+  "file": "t/does-he-have-a-sister-m7n3c9.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.72,
+  "scores": {
+   "dʌz": 31.36,
+   "doʊz": 39.08
+  }
+ },
+ {
+  "src": "测验gp-6",
+  "en": "Does your mother have a job?",
+  "file": "t/does-your-mother-have-a-job-3jbqk1.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.09,
+  "scores": {
+   "dʌz": 56.72,
+   "doʊz": 64.81
+  }
+ },
+ {
+  "src": "测验gp-7",
+  "en": "Can I use your eraser? Sure. Here you are.",
+  "file": "t/can-i-use-your-eraser-sure-here-you--136kqg7.mp3",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "margin": 5.87,
+  "scores": {
+   "juːz": 59.84,
+   "juːs": 65.71
+  }
+ },
+ {
+  "src": "测验gp-13",
+  "en": "What does she like doing? She likes dancing.",
+  "file": "t/what-does-she-like-doing-she-likes-d-o4h92h.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.27,
+  "scores": {
+   "dʌz": 86.24,
+   "doʊz": 94.51
+  }
+ },
+ {
+  "src": "语法gp-11",
+  "en": "Does your father cook? No, he doesn't.",
+  "file": "t/does-your-father-cook-no-he-doesn-t-1ldrr8m.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.17,
+  "scores": {
+   "dʌz": 101.9,
+   "doʊz": 110.07
+  }
+ },
+ {
+  "src": "测验gp-11",
+  "en": "Does Tom like milk?",
+  "file": "t/does-tom-like-milk-1iomkc7.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.65,
+  "scores": {
+   "dʌz": 68.63,
+   "doʊz": 76.28
+  }
+ },
+ {
+  "src": "测验gp-11",
+  "en": "Does your sister like music? No, she doesn't.",
+  "file": "t/does-your-sister-like-music-no-she-d-1ncfst1.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 8.14,
+  "scores": {
+   "dʌz": 107.37,
+   "doʊz": 115.51
+  }
+ },
+ {
+  "src": "测验gp-11",
+  "en": "Does he go to school by bus?",
+  "file": "t/does-he-go-to-school-by-bus-1ru5ias.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.76,
+  "scores": {
+   "dʌz": 88.08,
+   "doʊz": 95.84
+  }
+ },
+ {
+  "src": "语法g2-4",
+  "en": "Why does she look sad?",
+  "file": "t/why-does-she-look-sad-1g39em0.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.14,
+  "scores": {
+   "dʌz": 60.32,
+   "doʊz": 67.46
+  }
+ },
+ {
+  "src": "测验g2-5",
+  "en": "Please close the window.",
+  "file": "t/please-close-the-window-s37t7m.mp3",
+  "word": "close",
+  "want": "kloʊz",
+  "got": "kloʊz",
+  "ok": true,
+  "margin": 4.55,
+  "scores": {
+   "kloʊz": 53.04,
+   "kloʊs": 57.59
+  }
+ },
+ {
+  "src": "测验gp-12",
+  "en": "What an old house it is!",
+  "file": "t/what-an-old-house-it-is-1qfrfv3.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 4.91,
+  "scores": {
+   "haʊs": 44.01,
+   "haʊz": 48.92
+  }
+ },
+ {
+  "src": "测验g3-1",
+  "en": "Lucy does her homework after dinner every day.",
+  "file": "t/lucy-does-her-homework-after-dinner--16k8m9t.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.9,
+  "scores": {
+   "dʌz": 93.85,
+   "doʊz": 101.75
+  }
+ },
+ {
+  "src": "测验g3-1",
+  "en": "Does he play football every week?",
+  "file": "t/does-he-play-football-every-week-cnayiu.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.82,
+  "scores": {
+   "dʌz": 94.47,
+   "doʊz": 102.29
+  }
+ },
+ {
+  "src": "测验g3-1",
+  "en": "Does your brother often play basketball?",
+  "file": "t/does-your-brother-often-play-basketb-141d35p.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.92,
+  "scores": {
+   "dʌz": 125.36,
+   "doʊz": 133.28
+  }
+ },
+ {
+  "src": "测验g3-1",
+  "en": "Does he usually walk to school?",
+  "file": "t/does-he-usually-walk-to-school-1ih5g1x.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.71,
+  "scores": {
+   "dʌz": 72.97,
+   "doʊz": 80.68
+  }
+ },
+ {
+  "src": "测验g3-6",
+  "en": "I have already read the book.",
+  "file": "t/i-have-already-read-the-book-xxwylk.mp3",
+  "word": "read",
+  "want": "rɛd",
+  "got": "rɛd",
+  "ok": true,
+  "margin": 9.92,
+  "scores": {
+   "riːd": 75.82,
+   "rɛd": 65.9
+  }
+ },
+ {
+  "src": "测验g3-6",
+  "en": "I have already read this book.",
+  "file": "t/i-have-already-read-this-book-1jrv6k7.mp3",
+  "word": "read",
+  "want": "rɛd",
+  "got": "rɛd",
+  "ok": true,
+  "margin": 9.93,
+  "scores": {
+   "riːd": 79.53,
+   "rɛd": 69.6
+  }
+ },
+ {
+  "src": "语法g3-7",
+  "en": "She read a book yesterday.",
+  "file": "t/she-read-a-book-yesterday-pbx1t9.mp3",
+  "word": "read",
+  "want": "rɛd",
+  "got": "rɛd",
+  "ok": true,
+  "margin": 10.03,
+  "scores": {
+   "riːd": 78.42,
+   "rɛd": 68.39
+  }
+ },
+ {
+  "src": "语法g3-7",
+  "en": "She will read a new book tomorrow.",
+  "file": "t/she-will-read-a-new-book-tomorrow-1fky4zu.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.73,
+  "scores": {
+   "riːd": 72.02,
+   "rɛd": 81.75
+  }
+ },
+ {
+  "src": "语法g3-7",
+  "en": "She has read this book three times.",
+  "file": "t/she-has-read-this-book-three-times-gcl36m.mp3",
+  "word": "read",
+  "want": "rɛd",
+  "got": "rɛd",
+  "ok": true,
+  "margin": 10.01,
+  "scores": {
+   "riːd": 85.54,
+   "rɛd": 75.53
+  }
+ },
+ {
+  "src": "语法gj-2",
+  "en": "I knew you would like the present.",
+  "file": "t/i-knew-you-would-like-the-present-n5j4jk.mp3",
+  "word": "present",
+  "want": "ˈprɛzənt",
+  "got": "ˈprɛzənt",
+  "ok": true,
+  "margin": 8.43,
+  "scores": {
+   "ˈprɛzənt": 83.17,
+   "prɪˈzɛnt": 91.6
+  }
+ },
+ {
+  "src": "测验gj-2",
+  "en": "She told me she had read the book before.",
+  "file": "t/she-told-me-she-had-read-the-book-be-aki5xg.mp3",
+  "word": "read",
+  "want": "rɛd",
+  "got": "rɛd",
+  "ok": true,
+  "margin": 9.93,
+  "scores": {
+   "riːd": 107.5,
+   "rɛd": 97.57
+  }
+ },
+ {
+  "src": "测验g4-1",
+  "en": "My best friend lives in a small town.",
+  "file": "t/my-best-friend-lives-in-a-small-town-1xqidnr.mp3",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "margin": 8.4,
+  "scores": {
+   "lɪvz": 86.91,
+   "laɪvz": 95.31
+  }
+ },
+ {
+  "src": "语法g4-5",
+  "en": "My teacher asked me to read the text.",
+  "file": "t/my-teacher-asked-me-to-read-the-text-111b836.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.53,
+  "scores": {
+   "riːd": 130.35,
+   "rɛd": 139.88
+  }
+ },
+ {
+  "src": "测验g4-5",
+  "en": "The teacher made us read the text again.",
+  "file": "t/the-teacher-made-us-read-the-text-ag-1mrufwz.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.53,
+  "scores": {
+   "riːd": 111.36,
+   "rɛd": 120.89
+  }
+ },
+ {
+  "src": "测验gj-4",
+  "en": "He never tells lies, does he?",
+  "file": "t/he-never-tells-lies-does-he-1usa42u.mp3",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "margin": 7.66,
+  "scores": {
+   "dʌz": 49.46,
+   "doʊz": 57.12
+  }
+ },
+ {
+  "src": "语法g5-1",
+  "en": "May I use your phone?",
+  "file": "t/may-i-use-your-phone-1nx5n16.mp3",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "margin": 5.54,
+  "scores": {
+   "juːz": 33.48,
+   "juːs": 39.02
+  }
+ },
+ {
+  "src": "语法gj-6",
+  "en": "We use a knife to cut things.",
+  "file": "t/we-use-a-knife-to-cut-things-x9gv30.mp3",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "margin": 6.13,
+  "scores": {
+   "juːz": 57.07,
+   "juːs": 63.2
+  }
+ },
+ {
+  "src": "测验gj-6",
+  "en": "She gets up early to read English.",
+  "file": "t/she-gets-up-early-to-read-english-1xcwulb.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.57,
+  "scores": {
+   "riːd": 84.07,
+   "rɛd": 93.64
+  }
+ },
+ {
+  "src": "测验gj-6",
+  "en": "People use computers to find information.",
+  "file": "t/people-use-computers-to-find-informa-7j4e4h.mp3",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "margin": 6.44,
+  "scores": {
+   "juːz": 113.84,
+   "juːs": 120.28
+  }
+ },
+ {
+  "src": "测验gj-6",
+  "en": "They are saving money to buy a house.",
+  "file": "t/they-are-saving-money-to-buy-a-house-xzldep.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 0.33,
+  "scores": {
+   "haʊs": 51.61,
+   "haʊz": 51.94
+  }
+ },
+ {
+  "src": "语法gj-7",
+  "en": "I used to be afraid of the dark.",
+  "file": "t/i-used-to-be-afraid-of-the-dark-i-yo-u6679q.mp3",
+  "word": "used",
+  "want": "juːst",
+  "got": "juːzd",
+  "ok": false,
+  "margin": 2.26,
+  "scores": {
+   "juːzd": 84.65,
+   "juːst": 86.91
+  }
+ },
+ {
+  "src": "语法gj-7",
+  "en": "She used to have long hair, but now it is short.",
+  "file": "t/she-used-to-have-long-hair-but-now-i-16jbls8.mp3",
+  "word": "used",
+  "want": "juːst",
+  "got": "juːzd",
+  "ok": false,
+  "margin": 2.87,
+  "scores": {
+   "juːzd": 88.44,
+   "juːst": 91.31
+  }
+ },
+ {
+  "src": "测验gj-7",
+  "en": "I used to play the piano when I was a child, but now I do not.",
+  "file": "t/i-used-to-play-the-piano-when-i-was--whlq7e.mp3",
+  "word": "used",
+  "want": "juːst",
+  "got": "juːzd",
+  "ok": false,
+  "margin": 5.68,
+  "scores": {
+   "juːzd": 155.65,
+   "juːst": 161.33
+  }
+ },
+ {
+  "src": "测验gj-7",
+  "en": "I used to play football after school.",
+  "file": "t/i-used-to-play-football-after-school-lynwac.mp3",
+  "word": "used",
+  "want": "juːst",
+  "got": "juːzd",
+  "ok": false,
+  "margin": 2.05,
+  "scores": {
+   "juːzd": 104.5,
+   "juːst": 106.55
+  }
+ },
+ {
+  "src": "测验gj-7",
+  "en": "He is used to getting up early.",
+  "file": "t/he-is-used-to-getting-up-early-he-is-1uk8za.mp3",
+  "word": "used",
+  "want": "juːst",
+  "got": "juːzd",
+  "ok": false,
+  "margin": 4.33,
+  "scores": {
+   "juːzd": 74.54,
+   "juːst": 78.87
+  }
+ },
+ {
+  "src": "测验gj-7",
+  "en": "Did you use to live in the countryside?",
+  "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
+  "word": "use",
+  "want": "juːs",
+  "got": "juːz",
+  "ok": false,
+  "margin": 4.85,
+  "scores": {
+   "juːz": 89.48,
+   "juːs": 94.33
+  }
+ },
+ {
+  "src": "测验gj-7",
+  "en": "Did you use to live in the countryside?",
+  "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "margin": 10.86,
+  "scores": {
+   "lɪv": 94.33,
+   "laɪv": 105.19
+  }
+ },
+ {
+  "src": "测验g5-3",
+  "en": "The window was broken by the wind.",
+  "file": "t/the-window-was-broken-by-the-wind-28o1gw.mp3",
+  "word": "wind",
+  "want": "wɪnd",
+  "got": "wɪnd",
+  "ok": true,
+  "margin": 10.05,
+  "scores": {
+   "wɪnd": 69.66,
+   "waɪnd": 79.71
+  }
+ },
+ {
+  "src": "测验g6-2",
+  "en": "Although he is only six, he can read many English books.",
+  "file": "t/although-he-is-only-six-he-can-read--pq03su.mp3",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "margin": 9.48,
+  "scores": {
+   "riːd": 127.28,
+   "rɛd": 136.76
+  }
+ },
+ {
+  "src": "测验g6-3",
+  "en": "Do you know where she lives?",
+  "file": "t/do-you-know-where-she-lives-1f5x10t.mp3",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "margin": 10.32,
+  "scores": {
+   "lɪvz": 29.65,
+   "laɪvz": 39.97
+  }
+ },
+ {
+  "src": "语法g6-4",
+  "en": "This is the house where Lu Xun once lived.",
+  "file": "t/this-is-the-house-where-lu-xun-once--vc88z6.mp3",
+  "error": "有词不在词典里：xun"
+ },
+ {
+  "src": "测验g6-4",
+  "en": "This is the house where I was born.",
+  "file": "t/this-is-the-house-where-i-was-born-mljgoy.mp3",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "margin": 5.72,
+  "scores": {
+   "haʊs": 45.76,
+   "haʊz": 51.48
+  }
+ },
+ {
+  "src": "测验g6-4",
+  "en": "The dog that lives next door is very friendly.",
+  "file": "t/the-dog-that-lives-next-door-is-very-ynjls.mp3",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "margin": 10.63,
+  "scores": {
+   "lɪvz": 114.29,
+   "laɪvz": 124.92
+  }
+ }
+]

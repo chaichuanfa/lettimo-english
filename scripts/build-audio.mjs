@@ -31,7 +31,7 @@ for (const st of STAGES) for (const l of st.lessons) {
   for (const w of l.words) {
     const word = w.split('|')[0];
     texts.add(cleanWord(w));
-    if (word.includes('·')) word.split('·').forEach((s) => texts.add(s.replace("'", '').toLowerCase()));
+    // 音节不再单独合成：按音节拼读时用校验过的音素录音逐个读出（见 js/app.js 的 blend）
   }
   for (const s of l.sentences) {
     const en = s.split('|')[0];
@@ -108,15 +108,25 @@ async function buildPhonemes() {
   return manifest;
 }
 
+// 朗读替换：页面文字不变，只改交给 TTS 的文字，纠正 Samantha 的多音词误读（由 scripts/verify_heteronyms.py 发现并核实）
+// - "used to" 应读 /juːst/，Samantha 读成 /juːzd/（与 "yoozd to" 合成结果完全相同）
+// - "The dog that lives next door" 的 lives 被读成 /laɪvz/（life 的复数）
+const SPEAK_AS = [
+  [/\bused to\b/g, 'yoost to'], [/\bUsed to\b/g, 'Yoost to'],
+  [/^The dog that lives next door/, 'The dog that livs next door'],
+];
+const speakAs = (t) => SPEAK_AS.reduce((s, [re, to]) => s.replace(re, to), t);
+
 async function buildTexts() {
   fs.mkdirSync(path.join(AUDIO, 't'), { recursive: true });
   const manifest = {};
   const list = [...texts].filter(Boolean);
   await pool(list, 8, async (t) => {
-    const rel = fileFor(t);
+    const spoken = speakAs(t);
+    const rel = fileFor(spoken === t ? t : `${t} → ${spoken}`);   // 换了朗读文字就换文件名，旧录音不会被沿用
     const out = path.join(AUDIO, rel);
     // 单个字母（如代词 I）按小写合成，避免读成 "capital I"
-    const speak = t.length === 1 ? t.toLowerCase() : t;
+    const speak = t.length === 1 ? t.toLowerCase() : spoken;
     if (FORCE || !fs.existsSync(out)) await ttsToMp3(speak, out, t.includes(' ') ? 165 : 150);
     manifest[t] = rel;
   });

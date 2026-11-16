@@ -1,4 +1,4 @@
-/* 拼读之路 · 主程序（无依赖，hash 路由） */
+/* 英语之路 · 主程序（无依赖，hash 路由） */
 (function () {
   /* ---------------- 存储 ---------------- */
   const KEY = 'phonics-path.';
@@ -11,6 +11,10 @@
     wrong: load('wrong', []),
   };
   window.App = App;
+  /* 朗读速度：右上角按钮在这三档间循环；旧版存的 0.7 等值归到最接近的一档 */
+  const RATES = [1, 0.75, 0.5];
+  App.settings.rate = RATES.reduce((a, b) => (Math.abs(b - App.settings.rate) < Math.abs(a - App.settings.rate) ? b : a));
+  const rateLabel = () => `🐢 ${App.settings.rate}×`;
   const saveAll = () => { save('settings', App.settings); save('progress', App.progress); save('wrong', App.wrong); };
 
   /* ---------------- 数据索引 ---------------- */
@@ -49,6 +53,11 @@
     check: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
     arrow: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>',
     back: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m6 6-6-6 6-6"/></svg>',
+    home: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M6 10v9.5h12V10"/><path d="M10 19.5v-5h4v5"/></svg>',
+    pen: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 1.2-4.6L16.6 4a2.1 2.1 0 0 1 3 3L8.2 18.5 4 20z"/><path d="m14.5 6.2 3.3 3.3"/></svg>',
+    book: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.6A1.6 1.6 0 0 1 6.6 4H19v13H6.6A1.6 1.6 0 0 0 5 18.6V5.6z"/><path d="M5 18.4A1.6 1.6 0 0 0 6.6 20H19"/><path d="M9 8.5h6M9 12h4"/></svg>',
+    review: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1"/><path d="M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M17.8 3.2v4h-4"/><path d="M6.2 20.8v-4h4"/></svg>',
+    more: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
   };
 
   /* ---------------- 单词渲染 ---------------- */
@@ -95,9 +104,20 @@
     clear();
     const steps = [];
     if (a.syllables) {
+      // 按音节逐音拼读：每个音节点亮后，用校验过的音素录音逐个读出它的音（音标同步高亮），音节之间停顿；
+      // 不把 "tle"、"ta" 这类字母串交给 TTS 去猜读法（会读成字母名或错误的音）
+      const toks = ipaTokens(a.text) || [];
+      const sidOf = (k) => window.G2P?.PH2SID[toks[k].replace(/[ˈˌː]/g, '').replace('ɚ', 'ɝ')];
       a.syllables.forEach((s, i) => {
         steps.push(() => mark(i));
-        steps.push({ type: 't', v: s.t.toLowerCase() }, { type: 'wait', v: 180 });
+        const ks = map?.[i] || [];
+        if (ks.length && ks.every(sidOf)) {
+          ks.forEach((k) => {
+            steps.push(() => { ips.forEach((p) => p.classList.remove('active')); ips[k]?.classList.add('active', 'done'); });
+            steps.push({ type: 'p', v: sidOf(k) }, { type: 'wait', v: 70 });
+          });
+          steps.push({ type: 'wait', v: 260 });
+        } else steps.push({ type: 't', v: s.t.toLowerCase() }, { type: 'wait', v: 180 });
       });
     } else {
       a.segs.forEach((s, i) => {
@@ -117,32 +137,96 @@
   }
 
   /* ---------------- 布局 ---------------- */
+  // 主导航：一个首页、三门课、一个复习。电脑上排在顶栏里，手机上同一个 <nav> 固定在底部做标签栏。
+  // 词典、音标总表、学习指南和朗读速度、主题收在右上角的"更多"里。
+  const NAV = [['#/', '首页', 'home', 'home'], ['#/phonics', '拼读', 'phonics', 'blend'], ['#/grammar', '语法', 'grammar', 'pen'], ['#/words', '单词', 'words', 'book'], ['#/review', '复习', 'review', 'review']];
   function shell(content, active) {
-    const nav = [['#/', '学习路径', 'home'], ['#/grammar', '语法', 'grammar'], ['#/dict', '词典', 'dict'], ['#/sounds', '音标总表', 'sounds'], ['#/practice', '练习场', 'practice'], ['#/guide', '学习指南', 'guide']];
-    const done = Object.values(App.progress.lessons).filter((l) => l.done).length;
     return `
     <header class="topbar">
-      <a class="brand" href="#/"><img class="brand-mark" src="assets/phonics-logo.webp" width="38" height="38" alt=""><span class="brand-text">拼读之路<small>Phonics Path</small></span></a>
-      <nav class="nav">${nav.map(([h, t, k]) => `<a href="${h}" class="${active === k ? 'on' : ''}">${t}</a>`).join('')}</nav>
+      <a class="brand" href="#/"><img class="brand-mark" src="assets/phonics-logo.webp" width="38" height="38" alt=""><span class="brand-text">英语之路<small>English Path</small></span></a>
+      <nav class="nav" aria-label="主导航">${NAV.map(([h, t, k, ic]) => `<a href="${h}" class="${active === k ? 'on' : ''}"${active === k ? ' aria-current="page"' : ''}>${ICON[ic]}<span>${t}</span></a>`).join('')}</nav>
       <div class="tools">
         <button class="pill search-btn" data-action="search" aria-label="搜索（快捷键 /）">${ICON.search}<span>搜索</span><kbd>/</kbd></button>
-        <span class="pill" title="已完成课程">${ICON.check}<b>${done}</b>/${LESSONS.length}</span>
-        <button class="pill toggle ${App.settings.rate < 1 ? 'on' : ''}" data-action="slow" title="切换慢速朗读">🐢 慢速</button>
-        <button class="pill theme-btn" data-action="theme">
-          <span class="when-light" title="切换到深色模式">${ICON.sun}<span class="visually-hidden">切换到深色模式</span></span>
-          <span class="when-dark" title="切换到浅色模式">${ICON.moon}<span class="visually-hidden">切换到浅色模式</span></span>
-        </button>
+        <button class="pill more-btn" type="button" popovertarget="more-menu" aria-controls="more-menu" aria-label="更多：词典、音标总表、学习指南和设置">${ICON.more}</button>
+        <div id="more-menu" class="more-menu" popover="auto">
+          <a class="mm-item" href="#/dict">词典</a>
+          <a class="mm-item" href="#/sounds">音标总表</a>
+          <a class="mm-item" href="#/guide">学习指南</a>
+          <hr>
+          <button type="button" class="mm-item rate-btn" data-action="slow" title="点击切换 1× / 0.75× / 0.5×" aria-label="朗读速度 ${App.settings.rate} 倍，点击切换"><span>朗读速度</span><b class="rate-val">${rateLabel()}</b></button>
+          <button type="button" class="mm-item theme-btn" data-action="theme">
+            <span class="when-light"><span>切换到深色模式</span>${ICON.moon}</span>
+            <span class="when-dark"><span>切换到浅色模式</span>${ICON.sun}</span>
+          </button>
+        </div>
       </div>
     </header>
     <main id="view">${content}</main>
     <footer class="foot">
-      <p>拼读之路 · 从字母音到多音节词的自然拼读学习路径 · 进度保存在本机浏览器</p>
+      <p>英语之路 · 小学到初中的英语基础：拼读、语法、单词 · 进度保存在本机浏览器</p>
       <p><a href="#/guide">学习指南与音频来源说明</a></p>
     </footer>`;
   }
 
-  /* ---------------- 首页 / 学习路径 ---------------- */
-  function viewHome() {
+  /* ---------------- 首页：今天学什么 ---------------- */
+  function viewDashboard() {
+    const nu = nextUp();
+    const pDone = LESSONS.filter((l) => isDone(l.id)).length;
+    const gDone = G_LESSONS.filter((l) => gProgress()[l.id]?.done).length;
+    const gNext = G_LESSONS.find((l) => !gProgress()[l.id]?.done) || G_LESSONS[0];
+    const pct = (d, n) => Math.round((d / n) * 100);
+    const course = (o) => `<article class="dash-card" style="--lv:${o.color}">
+        <div class="dc-top"><span class="dc-icon" aria-hidden="true">${o.icon}</span>
+          <div class="dc-name"><h2>${o.title}</h2><p>${o.sub}</p></div>
+          ${o.tag ? `<span class="dc-tag">${o.tag}</span>` : `<b class="dc-pct">${pct(o.done, o.total)}%</b>`}</div>
+        ${o.total ? `<div class="bar"><i style="width:${pct(o.done, o.total)}%"></i></div><p class="dc-meta">已完成 ${o.done} / ${o.total} 课</p>` : `<p class="dc-meta">${o.note}</p>`}
+        <div class="dc-cta">${o.cta}</div>
+      </article>`;
+    return `
+    <section class="page-head dash-head">
+      <p class="eyebrow">English Path</p>
+      <h1>今天学点什么？</h1>
+      <p class="lead">拼读、语法、单词——小学到初中的英语基础，一步一步来。</p>
+      <button class="hero-search" data-action="search">${ICON.search}<span>搜单词、语法点、字母组合或中文…</span><kbd>/</kbd></button>
+    </section>
+    <section class="dash-grid" aria-label="课程">
+      ${course({ color: '#58CC02', icon: '🔤', title: '拼读', sub: `Phonics · ${STAGES.length} 个阶段`, done: pDone, total: LESSONS.length,
+        cta: `<a class="btn primary" href="#/lesson/${nu.id}">${pDone ? '继续' : '开始'}：${esc(nu.title)} ${ICON.arrow}</a><a class="btn ghost" href="#/phonics">学习路径</a>` })}
+      ${course({ color: '#1CB0F6', icon: '🧩', title: '语法', sub: `Grammar · ${GRAMMAR.length} 个阶段`, done: gDone, total: G_LESSONS.length,
+        cta: `<a class="btn primary" href="#/grammar/${gNext.id}">${gDone ? '继续' : '开始'}：${esc(gNext.title)} ${ICON.arrow}</a><a class="btn ghost" href="#/grammar">课程目录</a>` })}
+      ${course({ color: '#CE82FF', icon: '📚', title: '单词', sub: 'Words · 背单词', tag: '开发中', note: '词书、每日新词和间隔重复复习还在开发中。',
+        cta: '<a class="btn ghost" href="#/words">看看计划</a><a class="btn ghost" href="#/dict">先用词典查词</a>' })}
+      ${course({ color: '#FF9600', icon: '🔁', title: '复习', sub: 'Review · 练习与错词本', tag: App.wrong.length ? `${App.wrong.length} 个错词` : '错词本为空',
+        note: App.wrong.length ? '测验里答错的词都在错词本里，可以选它做练习范围。' : '听音选词、听写拼词、闪卡认读、听音辨字母四种玩法。',
+        cta: `<a class="btn ghost" href="#/review">去复习 ${ICON.arrow}</a>` })}
+    </section>`;
+  }
+
+  /* ---------------- 单词（占位） ---------------- */
+  function viewWords() {
+    return `
+    <section class="page-head">
+      <p class="eyebrow">Words</p>
+      <h1>单词 <span class="dc-tag" style="--lv:#CE82FF">开发中</span></h1>
+      <p class="lead">背单词功能还在开发中，这里先占个位置。</p>
+    </section>
+    <section class="block">
+      <h2 class="block-title">计划中的内容</h2>
+      <ul class="plan-list">
+        <li><b>词书</b>：课标小学词汇（505 词）、中考词汇（1,550 词），以及自己的生词本。</li>
+        <li><b>单词卡片</b>：先看拼读拆分——字母与发音的对应、音节、音标，再看释义和例句。</li>
+        <li><b>每日新词和间隔重复</b>：答对的词，下次复习的间隔逐渐拉长；答错的词回到第一天。</li>
+        <li><b>错词本合并</b>：测验里答错的词自动进入复习，连续答对后移出。</li>
+      </ul>
+    </section>
+    <section class="block">
+      <h2 class="block-title">现在可以先用</h2>
+      <div class="dc-cta"><a class="btn primary" href="#/dict">词典：查 4 万个词 ${ICON.arrow}</a><a class="btn ghost" href="#/review">复习：练拼读课里的单词</a></div>
+    </section>`;
+  }
+
+  /* ---------------- 拼读 / 学习路径 ---------------- */
+  function viewPhonics() {
     const nu = nextUp();
     const done = LESSONS.filter((l) => isDone(l.id)).length;
     const pct = Math.round((done / LESSONS.length) * 100);
@@ -190,6 +274,7 @@
         <div class="hero-cta">
           <a class="btn primary" href="#/lesson/${nu.id}">${done ? '继续学习' : '从第一课开始'}：${esc(nu.title)} ${ICON.arrow}</a>
           <a class="btn ghost" href="#/guide">怎么学？</a>
+          <a class="btn ghost" href="#/sounds">音标总表</a>
         </div>
         <button class="hero-search" data-action="search">${ICON.search}<span>搜单词、字母组合、音标或中文…</span><kbd>/</kbd></button>
       </div>
@@ -221,7 +306,7 @@
     const next = STAGES.find((s) => s.id === st.id + 1);
     return `
     <section class="stage-head" style="--lv:${lv.color}">
-      <a class="crumb" href="#/">${ICON.back} 学习路径</a>
+      <a class="crumb" href="#/phonics">${ICON.back} 拼读 · 学习路径</a>
       <div class="sh-row">
         <div class="sh-icon">${st.icon}</div>
         <div>
@@ -347,7 +432,7 @@
     </section>
     <nav class="pager">
       ${prev ? `<a class="btn ghost" href="#/lesson/${prev.id}">${ICON.back} ${esc(prev.title)}</a>` : '<span></span>'}
-      ${next ? `<a class="btn ghost" href="#/lesson/${next.id}">${esc(next.title)} ${ICON.arrow}</a>` : '<a class="btn ghost" href="#/practice">去练习场</a>'}
+      ${next ? `<a class="btn ghost" href="#/lesson/${next.id}">${esc(next.title)} ${ICON.arrow}</a>` : '<a class="btn ghost" href="#/review">去复习</a>'}
     </nav>`;
   }
 
@@ -443,7 +528,7 @@
         <div class="r-score">${score}<small>/${total}</small></div>
         <div class="r-stars">${passed ? stars(s) : ''}</div>
         <p>${passed ? (score === total ? '满分！太棒了 🎉' : '通过！本课已完成 👍') : '还差一点，再复习一下单词和例句，然后重试吧 💪'}</p>
-        ${missed.length ? `<p class="hint">答错的单词已加入练习场的"错词本"。</p>` : ''}
+        ${missed.length ? `<p class="hint">答错的单词已加入"复习"里的错词本。</p>` : ''}
         <div class="r-btns"><button class="btn ghost" data-action="quiz">再测一次</button>${passed && next ? `<a class="btn primary" href="#/lesson/${next.id}">下一课：${esc(next.title)} ${ICON.arrow}</a>` : ''}</div>
       </div>`;
     });
@@ -478,6 +563,7 @@
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
     return `
     <section class="page-head">
+      <a class="crumb" href="#/phonics">${ICON.back} 拼读</a>
       <p class="eyebrow">Sound Chart</p>
       <h1>音标总表</h1>
       <p class="lead">英语约有 44 个音素。点击任意格子：先听这个音，再听关键词。悬停可查看发音要领。</p>
@@ -497,14 +583,14 @@
     </section>`;
   }
 
-  /* ---------------- 练习场 ---------------- */
+  /* ---------------- 复习（练习玩法 + 错词本） ---------------- */
   function viewPractice() {
     const learned = LESSONS.filter((l) => isDone(l.id));
     return `
     <section class="page-head">
-      <p class="eyebrow">Practice</p>
-      <h1>练习场</h1>
-      <p class="lead">选择练习范围和玩法，巩固已经学过的拼读规则。</p>
+      <p class="eyebrow">Review</p>
+      <h1>复习</h1>
+      <p class="lead">选择练习范围和玩法，巩固已经学过的拼读规则。测验里答错的词都收在错词本里。</p>
     </section>
     <section class="block practice-setup">
       <div class="field">
@@ -677,7 +763,7 @@
         <li><b>拼</b>：在"示例单词"里点<b>拼读</b>，看每个字母组合依次亮起、听每个音，再听整个单词。自己跟着一起拼。</li>
         <li><b>读</b>：遮住发音，自己先读单词，再点击核对。</li>
         <li><b>用</b>：朗读例句，注意高亮的本课单词；可以隐藏中文挑战自己。</li>
-        <li><b>测</b>：完成 15 题的小测验，答对 10 题即完成本课。答错的词会进入错词本，在练习场复习。</li>
+        <li><b>测</b>：完成 15 题的小测验，答对 10 题即完成本课。答错的词会进入错词本，可以在“复习”里练。</li>
       </ol>
     </section>
     <section class="block two-col">
@@ -685,7 +771,7 @@
         <h2 class="block-title">每周节奏建议</h2>
         <ul class="plain">
           <li>周一至周四：每天学 1 课新内容（或复习上一课）。</li>
-          <li>周五：练习场"听音选词""听写拼词"综合复习本周内容。</li>
+          <li>周五：在“复习”里用"听音选词""听写拼词"综合复习本周内容。</li>
           <li>周末：用"闪卡认读"清空错词本，大声朗读本周所有例句。</li>
           <li>一个阶段学完后，再进入下一个阶段；觉得吃力就放慢节奏，扎实比速度重要。</li>
         </ul>
@@ -707,9 +793,11 @@
       <ul class="plain">
         <li>本站采用<b>美式发音</b>，所有声音（单词、例句和每一个音素）都来自同一个美式女声（macOS Samantha 语音），口音一致。</li>
         <li>单个音素无法直接合成，所以是从这个声音朗读的真实单词中截取的，例如 /æ/ 取自 cat、/eɪ/ 取自 hay、/ʃ/ 取自 fish。每个音素都经过英语音素识别模型校验：元音必须被识别为目标元音；辅音与元音 /ɑ/ 拼在一起时必须被识别为"该辅音 + ɑ"。</li>
-        <li>爆破音（p、b、t、d、k、g）以及 ch、j、h、w、y 无法单独持续发出，录音带有极短的弱元音，这是正常的；θ（thin）和 ŋ（sing）带有极短的元音过渡，因为它们主要靠过渡才能和 f、n 区分开。</li>
+        <li>/θ/ /ð/ /z/ /ʒ/ /v/ /l/ /r/ /ŋ/ /h/ 这 9 个辅音另外做了声学核查（浊音、共振峰、摩擦能量）：/z/ /ʒ/ /ð/ /v/ 取自两个元音之间（如 easy、vision），保证全程声带振动；/r/ 的第三共振峰明显降低，/l/ 不降低，与真人发音一致。</li>
+        <li>爆破音（p、b、t、d、k、g）以及 ch、j、h、w、y 无法单独持续发出，录音带有极短的弱元音，这是正常的；其他辅音只保留 20–60 毫秒逐渐变弱的过渡，帮助听出发音部位（单独的 /l/ 和 /m/、/ŋ/ 和 /n/ 不靠过渡很难分辨），但不会构成一个音节。</li>
+        <li>多音节词按音节拼读时，每个音节用上面这些音素逐个读出，不让语音合成去猜 "tle"、"ta" 这类字母串的读法（会被读成字母名或错误的音）。</li>
         <li>如果某个音频文件缺失，网站会自动改用浏览器内置的语音合成朗读。</li>
-        <li>页面右上角"🐢 慢速"可以放慢所有发音，适合跟读。</li>
+        <li>页面右上角的"🐢 1×"按钮可以调节所有发音的速度，点击在 1×、0.75×、0.5× 三档间循环，适合跟读。</li>
       </ul>
     </section>
     <section class="block">
@@ -728,7 +816,7 @@
   }
 
   function viewNotFound() {
-    return `<section class="page-head"><h1>页面不存在</h1><p><a class="btn primary" href="#/">返回学习路径</a></p></section>`;
+    return `<section class="page-head"><h1>页面不存在</h1><p><a class="btn primary" href="#/">返回首页</a></p></section>`;
   }
 
   /* ---------------- 路由 ---------------- */
@@ -739,22 +827,25 @@
     const [path, query] = raw.split('?');
     const [name, arg] = path.split('/');
     const params = new URLSearchParams(query || '');
-    let html, active = '', title = '拼读之路 · 自然拼读学习';
+    const SITE = '英语之路';
+    let html, active = '', title = `${SITE} · 拼读、语法与单词`;
     let dictWord = '';
-    if (!name) { html = viewHome(); active = 'home'; }
-    else if (name === 'stage') { html = viewStage(arg); active = 'home'; const st = STAGES.find((s) => s.id === +arg); if (st) title = `${st.title} · 拼读之路`; }
-    else if (name === 'lesson') { html = viewLesson(arg); active = 'home'; const l = lessonById(arg); if (l) title = `${l.title} · 第 ${l.id} 课 · 拼读之路`; }
-    else if (name === 'sounds') { html = viewSounds(); active = 'sounds'; title = '音标总表 · 拼读之路'; }
-    else if (name === 'practice') { html = viewPractice(); active = 'practice'; title = '练习场 · 拼读之路'; }
-    else if (name === 'guide') { html = viewGuide(); active = 'guide'; title = '学习指南 · 拼读之路'; }
+    if (!name) { html = viewDashboard(); active = 'home'; }
+    else if (name === 'phonics') { html = viewPhonics(); active = 'phonics'; title = `拼读 · ${SITE}`; }
+    else if (name === 'stage') { html = viewStage(arg); active = 'phonics'; const st = STAGES.find((s) => s.id === +arg); if (st) title = `${st.title} · 拼读 · ${SITE}`; }
+    else if (name === 'lesson') { html = viewLesson(arg); active = 'phonics'; const l = lessonById(arg); if (l) title = `${l.title} · 第 ${l.id} 课 · ${SITE}`; }
+    else if (name === 'sounds') { html = viewSounds(); active = 'phonics'; title = `音标总表 · ${SITE}`; }
+    else if (name === 'review' || name === 'practice') { html = viewPractice(); active = 'review'; title = `复习 · ${SITE}`; }   // practice 是旧地址
+    else if (name === 'words') { html = viewWords(); active = 'words'; title = `单词 · ${SITE}`; }
+    else if (name === 'guide') { html = viewGuide(); title = `学习指南 · ${SITE}`; }
     else if (name === 'grammar') {
       const gl = arg && gLessonById(arg);
       html = arg ? viewGrammarLesson(arg) : viewGrammar(); active = 'grammar';
-      title = gl ? `${gl.title} · 语法 · 拼读之路` : '语法 · 拼读之路';
+      title = gl ? `${gl.title} · 语法 · ${SITE}` : `语法 · ${SITE}`;
     }
     else if (name === 'dict') {
       try { dictWord = normWord(decodeURIComponent(arg || '')); } catch { dictWord = normWord(arg); }
-      html = viewDict(dictWord); active = 'dict'; title = dictWord ? `${dictWord} · 词典 · 拼读之路` : '词典 · 拼读之路';
+      html = viewDict(dictWord); title = dictWord ? `${dictWord} · 词典 · ${SITE}` : `词典 · ${SITE}`;
     }
     else html = viewNotFound();
     document.title = title;
@@ -1070,9 +1161,11 @@
 
   /* ---------------- 语法 ---------------- */
   const G_LESSONS = [];
-  (window.GRAMMAR || []).forEach((st) => st.lessons.forEach((l) => { l.stage = st; G_LESSONS.push(l); }));
+  // 阶段号、课号按数组顺序计算（st.no / l.no）；st.id、l.id 只作为进度记录的固定键
+  (window.GRAMMAR || []).forEach((st, si) => { st.no = si + 1; st.lessons.forEach((l, li) => { l.stage = st; l.no = `${st.no}-${li + 1}`; G_LESSONS.push(l); }); });
   const gLessonById = (id) => G_LESSONS.find((l) => l.id === id);
   const gProgress = () => (App.progress.grammar ||= {});
+  const gGrade = (l) => (l.grade ? `<span class="g-grade ${l.grade === '初中' ? 'junior' : 'primary'}">${l.grade}</span>` : '');
   const gLevel = (st) => LEVELS.find((x) => x.key === st.level) || LEVELS[0];
   const ROLE = { S: '主语', V: '谓语', O: '宾语', C: '表语', IO: '间接宾语', DO: '直接宾语', OC: '宾补', A: '状语', AT: '定语' };
   const gPlain = (en) => en.replace(/\{[A-Z]+:([^}]*)\}/g, '$1').replace(/[[\]]/g, '').replace(/\s+/g, ' ').trim();
@@ -1095,7 +1188,7 @@
     <section class="page-head">
       <p class="eyebrow">Grammar</p>
       <h1>语法</h1>
-      <p class="lead">从词类、基本句子到时态、五大基本句型和复合句，${GRAMMAR.length} 个阶段 ${all} 节课。每课都有规则讲解、句型公式、带发音的例句和小测验。</p>
+      <p class="lead">从词类、基本句子到时态、五大基本句型和复合句，${GRAMMAR.length} 个阶段 ${all} 节课。每课都有规则讲解、句型公式、带发音的例句和小测验，并标明属于小学还是初中内容。</p>
       <div class="g-progress"><div class="bar"><i style="width:${(done / all) * 100}%"></i></div><span>已完成 <b>${done}</b> / ${all}</span>
         <a class="btn primary" href="#/grammar/${nextL.id}">${done ? '继续学习' : '从第一课开始'}：${esc(nextL.title)} ${ICON.arrow}</a></div>
     </section>
@@ -1105,7 +1198,7 @@
       return `<section class="g-stage" style="--lv:${lv.color}">
         <div class="sh-row">
           <div class="sh-icon">${st.icon}</div>
-          <div><p class="eyebrow" style="color:var(--lv-ink)">第 ${st.id} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
+          <div><p class="eyebrow" style="color:var(--lv-ink)">第 ${st.no} 阶段 · ${st.level} · ${n}/${st.lessons.length}</p>
             <h2 class="g-stage-title">${esc(st.title)} <small>${esc(st.en)}</small></h2>
             <p class="hint">${esc(st.desc)}</p></div>
         </div>
@@ -1114,7 +1207,7 @@
           return `<a class="lesson-row ${pr?.done ? 'done' : ''}" href="#/grammar/${l.id}" style="--lv:${lv.color}">
             <span class="lr-num">${pr?.done ? ICON.check : i + 1}</span>
             <span class="lr-body"><span class="lr-title">${esc(l.title)}</span><span class="lr-en">${esc(l.en)}</span></span>
-            <span class="lr-stars">${pr?.stars ? stars(pr.stars) : ''}</span>
+            <span class="lr-meta"><span class="lr-stars">${pr?.stars ? stars(pr.stars) : ''}</span>${gGrade(l)}</span>
           </a>`;
         }).join('')}</div>
       </section>`;
@@ -1137,8 +1230,8 @@
     const legend = roles.length ? `<div class="g-legend">${roles.map((r) => `<span class="ge ge-${r}"><span class="ge-t">${ROLE[r]}</span></span>`).join('')}</div>` : '';
     return `
     <section class="lesson-head" style="--lv:${lv.color}">
-      <a class="crumb" href="#/grammar">${ICON.back} 语法 · 第 ${st.id} 阶段 ${esc(st.title)}</a>
-      <p class="eyebrow">语法第 ${l.id.slice(1)} 课 · ${st.level}</p>
+      <a class="crumb" href="#/grammar">${ICON.back} 语法 · 第 ${st.no} 阶段 ${esc(st.title)}</a>
+      <p class="eyebrow">语法第 ${l.no} 课 · ${st.level}${gGrade(l)}</p>
       <h1>${esc(l.title)} <small>${esc(l.en)}</small></h1>
       ${pr?.done ? `<span class="done-badge">${ICON.check} 已完成 ${stars(pr.stars || 1)}</span>` : ''}
       <p class="goal" style="--lv:${lv.color}">${esc(l.intro)}</p>
@@ -1599,7 +1692,11 @@
     const act = d.action;
     if (act === 'search') { openSearch(); return; }
     if (act === 'theme') { toggleTheme(); return; }
-    if (act === 'slow') { App.settings.rate = App.settings.rate < 1 ? 1 : 0.7; saveAll(); t.classList.toggle('on', App.settings.rate < 1); }
+    if (act === 'slow') {
+      App.settings.rate = RATES[(RATES.indexOf(App.settings.rate) + 1) % RATES.length]; saveAll();
+      t.classList.toggle('on', App.settings.rate < 1); (t.querySelector('.rate-val') || t).textContent = rateLabel();
+      t.setAttribute('aria-label', `朗读速度 ${App.settings.rate} 倍，点击切换`);
+    }
     else if (act === 'zh') { App.settings.zh = !App.settings.zh; saveAll(); $('.sentences')?.classList.toggle('nozh', !App.settings.zh); t.textContent = App.settings.zh ? '隐藏中文' : '显示中文'; }
     else if (act === 'quiz') startLessonQuiz($('#quiz'));
     else if (act === 'markdone') { const id = $('#quiz').dataset.lesson; App.progress.lessons[id] = { done: true, stars: App.progress.lessons[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
@@ -1656,6 +1753,16 @@
   window.addEventListener('storage', (e) => { if (e.key === THEME_KEY) applyTheme(e.newValue); });
 
   function pulse(el) { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
+
+  // "更多"菜单用原生 Popover；不支持的旧浏览器退回到手动开关（点按钮切换，点外面或按 Esc 关闭）
+  if (!('popover' in HTMLElement.prototype)) {
+    document.addEventListener('click', (e) => {
+      const menu = $('#more-menu'); if (!menu) return;
+      if (e.target.closest('[popovertarget="more-menu"]')) menu.classList.toggle(':popover-open');
+      else if (!e.target.closest('#more-menu')) menu.classList.remove(':popover-open');
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('#more-menu')?.classList.remove(':popover-open'); });
+  }
 
   window.addEventListener('hashchange', route);
   route();
