@@ -1,0 +1,20 @@
+/* Sentence words remain inline while gaining keyboard-accessible playback. */
+button.sw {
+  display: inline;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  text-align: inherit;
+}
+button.sw.hit {
+  font-weight: 800;
+}
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""从思源柔黑（Resource Han Rounded CN，SIL OFL 1.1）裁出网站用的中文粗体圆体。
+"""从思源柔黑（Resource Han Rounded CN，SIL OFL 1.1）裁出网站用的中文圆体。
 
-只给 600–900 字重的中文换成圆体（标题、按钮、课程名等），与 Nunito 的粗圆风格对齐；
-600 以下的正文中文继续用系统字体（苹方 / 微软雅黑 / 思源黑体），小字号更清楚。
+覆盖 400–900 字重，让正文、标题、按钮和课程名使用同一套中文圆体；
+保留真实字重变化，与 Nunito 的圆润风格对齐。
 
 输出：
   fonts/ep-rounded-a.woff2      界面与课程内容用到的字（每页都会用到）
@@ -56,6 +56,9 @@ def read(path):
 
 def char_sets():
     files = glob.glob(os.path.join(ROOT, 'js', '**', '*.js'), recursive=True) + [os.path.join(ROOT, 'index.html')]
+    # React 页面及共享模块也包含界面文字；词典/词书仍归入按需字体块。
+    for extension in ('js', 'jsx', 'ts', 'tsx'):
+        files += glob.glob(os.path.join(ROOT, 'src', '**', f'*.{extension}'), recursive=True)
     extra = [f for f in files if f'{os.sep}dict{os.sep}' in f or f'{os.sep}vocab{os.sep}' in f]
     ui = set()
     for f in files:
@@ -122,7 +125,7 @@ def main():
     s.subset(base)
     tmp = os.path.join(CACHE, 'ep-rounded-all.otf')
     base.save(tmp)  # 先落盘再读回，CFF2 在内存里直接做实例化会出错
-    base = instancer.instantiateVariableFont(TTFont(tmp), {'wght': (600, 900), 'ROND': 100})
+    base = instancer.instantiateVariableFont(TTFont(tmp), {'wght': (400, 900), 'ROND': 100})
     rename(base)
     base.save(tmp)
 
@@ -140,17 +143,15 @@ def main():
         print(f'fonts/ep-rounded-{name}.woff2', os.path.getsize(out) // 1024, 'KB')
         # 常驻块用宽范围：每页都要用，范围外的字下载后找不到字形会自动回退到下一个字体
         rng = 'U+3000-303F, U+3400-9FFF, U+F900-FAFF, U+FF00-FFEF' if name == 'a' else ranges(text)
-        faces.append(f'@font-face {{ font-family: "{FAMILY}"; font-style: normal; font-weight: 600 1000; font-display: swap;\n'
+        faces.append(f'@font-face {{ font-family: "{FAMILY}"; font-style: normal; font-weight: 400 900; font-display: swap;\n'
                      f'  src: url("../fonts/ep-rounded-{name}.woff2") format("woff2");\n  unicode-range: {rng}; }}')
     os.remove(tmp)
 
     css = (
         '/* 由 scripts/build-cn-font.py 生成，不要手改。\n'
-        ' * 中文粗体圆体：思源柔黑 Resource Han Rounded CN 1.910 的子集（SIL OFL 1.1，见 fonts/OFL-ResourceHanRounded.txt），\n'
-        ' * 按 OFL 要求改名为 EP Rounded CN。只覆盖 600–900 字重；600 以下由下面的占位规则接住，\n'
-        ' * 它的 unicode-range 只含一个私用区码位，所以正文中文会直接落到系统字体，也不会下载任何文件。 */\n'
-        f'@font-face {{ font-family: "{FAMILY}"; font-style: normal; font-weight: 1 599;\n'
-        '  src: url("../fonts/ep-rounded-a.woff2") format("woff2");\n  unicode-range: U+E000; }\n'
+        ' * 中文圆体：思源柔黑 Resource Han Rounded CN 1.910 的子集（SIL OFL 1.1，见 fonts/OFL-ResourceHanRounded.txt），\n'
+        ' * 按 OFL 要求改名为 EP Rounded CN。覆盖 400–900 字重，正文和标题统一使用圆体。\n'
+        ' * 字典额外汉字按需加载；未收录的字形仍由系统字体兜底。 */\n'
         # 浏览器从后往前匹配同名规则：先查按需块，最后落到常驻块
         + '\n'.join(faces) + '\n'
     )

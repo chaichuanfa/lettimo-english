@@ -51,7 +51,7 @@
   }
 
   /* ---------------- 进度数据 ---------------- */
-  const emptyData = () => ({ v: 1, settings: { book: null, newPerDay: 20, reviewCap: 100, spelling: true }, words: {}, days: {}, custom: [] });
+  const emptyData = () => ({ v: 1, settings: { book: null, newPerDay: 10, reviewCap: 100, spelling: true }, words: {}, days: {}, custom: [] });
   function normalize(raw) {
     const d = emptyData();
     if (!raw || typeof raw !== 'object' || raw.v !== 1) return d;

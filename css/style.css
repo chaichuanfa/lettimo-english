@@ -1,4 +1,4 @@
-/* ============ 字体（Nunito，SIL OFL，见 fonts/OFL.txt；中文粗体圆体见 css/fonts-cn.css） ============ */
+/* ============ 字体（Nunito，SIL OFL，见 fonts/OFL.txt；中文圆体见 css/fonts-cn.css） ============ */
 @font-face {
   font-family: "Nunito"; font-style: normal; font-weight: 200 1000; font-display: swap;
   src: url("../fonts/nunito-latin-wght-normal.woff2") format("woff2");
@@ -83,6 +83,11 @@ svg { width: 1.1em; height: 1.1em; flex: none; }
 svg:not([fill]) { fill: currentColor; }  /* 线条图标自带 fill="none"，不能被这里覆盖成实心 */
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 #view { max-width: 1080px; margin: 0 auto; padding: 0 20px 40px; }
+
+/* 阶段标题在本阶段内吸顶，避开全站顶栏和课程的键盘焦点。 */
+#view { --stage-top: calc(var(--topbar-height, 64px) + 8px); }
+.unit-banner, .g-stage > .sh-row { position: sticky; top: var(--stage-top); z-index: 2; }
+.unit-path a, .g-stage .lesson-row { scroll-margin-top: calc(var(--stage-top) + 8rem); }
 
 /* ============ 顶栏 ============ */
 .topbar {
@@ -545,10 +550,13 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
 .g-progress .bar { flex: 1 1 160px; }
 .g-progress span { font-size: 14px; color: var(--muted); }
 .g-stage { margin-top: 26px; }
-.g-stage .sh-row { display: flex; gap: 16px; align-items: center; }
+.g-stage .sh-row {
+  display: flex; gap: 16px; align-items: center; padding: 8px 12px;
+  background: var(--card); border: 2px solid var(--line); border-radius: 16px;
+}
 .g-stage .sh-icon { width: 60px; height: 60px; font-size: 30px; border-radius: 16px; }
 .g-stage-title { font-size: 24px; font-weight: 900; margin: 2px 0 0; }
-.g-stage .hint { margin: 2px 0 0; }
+.g-stage > .hint { margin: 8px 12px 0; }
 .g-stage .lesson-list { margin: 12px 0 0; }
 .lesson-head .goal { margin-top: 14px; }
 

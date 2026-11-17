@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: write
-  pages: write
+  actions: write
 
 concurrency:
   group: daily-quote
@@ -25,9 +25,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test tests/daily-quote*.test.mjs
-      - run: node scripts/update-daily-quote.mjs
-      - name: Commit snapshot and request Pages build
+      - run: node --experimental-strip-types --test tests/daily-quote*.test.ts
+      - run: node --experimental-strip-types scripts/update-daily-quote.ts
+      - name: Commit snapshot and dispatch React build
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -41,4 +41,4 @@ jobs:
           fi
           # GITHUB_TOKEN 的提交不会自动触发 Pages，需显式请求构建。
           # 即便快照未变化也请求构建，让补试可恢复前一次失败的发布。
-          gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/deploy.yml/dispatches" -f ref=main

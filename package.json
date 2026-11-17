@@ -1,0 +1,31 @@
+{
+  "name": "english-path",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "check": "npm test && npm run build && npm run check:build && npm run test:e2e",
+    "check:build": "node --experimental-strip-types scripts/check-react-build.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

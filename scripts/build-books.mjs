@@ -16,7 +16,7 @@ const { shortGloss } = createRequire(import.meta.url)(path.join(ROOT, 'js/vocab-
 
 const BITS = { zk: 1, gk: 2, cet4: 4, cet6: 8 };
 const BOOKS = [
-  { id: 'zk', name: '中考词汇', desc: '初中阶段要求掌握的词', bit: 1, not: 0 },
+  { id: 'zk', name: '中考词汇（含小学）', desc: '初中阶段要求掌握的词', bit: 1, not: 0 },
   { id: 'gk', name: '高考词汇', desc: '高中阶段要求掌握的词，包含中考词', bit: 2, not: 0 },
   { id: 'cet4', name: '四级词汇', desc: '大学英语四级', bit: 4, not: 0 },
   { id: 'cet6', name: '六级词汇', desc: '大学英语六级，只收四级以外的词', bit: 8, not: 4 },
