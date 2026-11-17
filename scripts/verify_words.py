@@ -216,8 +216,9 @@ RESPELL = json.load(open(os.path.join(ROOT, 'scripts', 'ref', 'word-respellings.
 # 与原词合成不同，就证明没有读成那个音（shin 就是这样查出与 sheen 完全相同、读错了的）
 MISREAD = json.load(open(os.path.join(ROOT, 'scripts', 'ref', 'word-misreadings.json')))
 # 有据可查的读音变体（不是错误）
-KNOWN = {'hangzhou': '专有名词：强制对齐确认读 /hɑŋdʒoʊ/（远优于 /hæŋzu/）', 'xun': '专有名词：与 "shoon" 合成完全相同（/ʃun/）','pure': 'ure：Samantha 读 [juɚ]，第 7-6 课规则已说明（词典记作 /jʊr/，口语常读 /juɚ/）',
-         'cure': 'ure：Samantha 读 [juɚ]，第 7-6 课规则已说明（词典记作 /jʊr/，口语常读 /juɚ/）'}
+# 有据可查、无法用拼写证明的情况（证据针对当前声音 Ava；换声音后要重新核实）
+KNOWN = {'hangzhou': '专有名词，词典里没有：识别结果为 /h ɑ n ʤ oʊ/（ŋ 在 ʤ 前同化为 n），即英语词典标注的 /ˌhɑːŋˈdʒoʊ/；与英语化误读 Hang-zoo、Hangzoe、Hang-chow 的识别结果都不同',
+         'schoolbag': '合成词（school + bag），词典里没有：识别 6 种条件全部是 /s k u l b æ g/，与 "school bag" 一致'}
 _h = {}
 
 
@@ -226,7 +227,7 @@ def synth_hash(text, rate=150):
     import tempfile
     if text not in _h:
         path = os.path.join(tempfile.gettempdir(), 'w-' + hashlib.md5(text.encode()).hexdigest() + '.aiff')
-        subprocess.run(['say', '-v', E.VOICE, '-r', str(rate), '-o', path, '--', text], check=True)
+        E.say(text, rate, path)
         _h[text] = hashlib.md5(open(path, 'rb').read()).hexdigest()
         os.remove(path)
     return _h[text]
@@ -242,17 +243,76 @@ def respellings(word):
     return out
 
 
-def prove(word, spoken):
+# 按音标拼出"只能那样读"的写法（用于声学距离对比：正确读法 vs 识别模型以为的读法）
+SPELL_OF = {'ɪ': 'i', 'ɛ': 'e', 'æ': 'a', 'ɑ': 'ah', 'ʌ': 'u', 'ə': 'u', 'ʊ': 'oo', 'u': 'oo', 'i': 'ee', 'eɪ': 'ay',
+            'aɪ': 'igh', 'oʊ': 'oh', 'aʊ': 'ow', 'ɔɪ': 'oy', 'ɔ': 'aw', 'ɝ': 'er', 'ɚ': 'er', 'p': 'p', 'b': 'b', 't': 't',
+            'd': 'd', 'k': 'k', 'g': 'g', 'f': 'f', 'v': 'v', 's': 's', 'z': 'z', 'θ': 'th', 'ð': 'th', 'ʃ': 'sh', 'ʒ': 'zh',
+            'ʧ': 'ch', 'ʤ': 'j', 'm': 'm', 'n': 'n', 'ŋ': 'ng', 'l': 'l', 'ɹ': 'r', 'w': 'w', 'j': 'y', 'h': 'h', 'ɾ': 't'}
+
+
+def phonetic(toks):
+    try:
+        return ''.join(SPELL_OF[t] for t in toks)
+    except KeyError:
+        return None
+
+
+VOWELS_ALL = set('ɪ ɛ æ ɑ ʌ ə ʊ u i eɪ aɪ oʊ aʊ ɔɪ ɔ ɝ ɚ'.split())
+
+
+def neutral(exp, pos, heard):
+    """这个替换在美式英语里本来就不区分（不是误读）：r 前的元音（/ɔr/ /oʊr/ /ʊr/ 合流，ɪr/ir、ɛr/eɪr 同理）；
+    元音之间的 t/d（闪音，metal 读得像 medal）；弱读元音 ə 与 ɪ ɛ ʊ ʌ 互换"""
+    ph, nxt = exp[pos], exp[pos + 1] if pos + 1 < len(exp) else None
+    prv = exp[pos - 1] if pos > 0 else None
+    if ph in VOWELS_ALL and nxt in ('ɹ', 'ɝ', 'ɚ'):
+        return 'r 前元音不区分'
+    if {ph, heard} == {'t', 'd'} and prv in VOWELS_ALL | {'ɹ'} and (nxt in VOWELS_ALL | {'l', 'ɹ'} or nxt is None and False):
+        return '元音间 t/d 闪音化'
+    if 'ə' in (ph, heard) and {ph, heard} <= {'ə', 'ɪ', 'ɛ', 'ʊ', 'ʌ'}:
+        return '弱读元音'
+    return None
+
+
+def prove(word, spoken, exp=None, flags=(), alts=()):
+    """返回 (证明 或 None, 是否证实读错)。Ava 对同一串音素必定合成出逐字节相同的音频、不同音素就不同，所以：
+    1. 与"正确读法"的规则拼写合成完全相同 → 证明读对；
+    2. 把被标记的音换成识别模型听到的音，拼出"误读写法"：合成完全相同 → 证实读错；全都不同 → 证明没有读成那样；
+    r 前元音、元音间 t/d、弱读元音这几类美式英语本来就不区分的替换不算误读（拼出的误读写法也会被读成正确读法）"""
     w = word.lower()
     if w in KNOWN:
-        return KNOWN[w]
+        return KNOWN[w], False
     h = synth_hash(spoken)
-    sp = next((sp for sp in respellings(word) if synth_hash(sp) == h), None)
+    sp = next((sp for sp in respellings(word) if sp.lower() != spoken.lower() and synth_hash(sp) == h), None)
     if sp:
-        return f'与 "{sp}" 合成完全相同'
-    if w in MISREAD and synth_hash(MISREAD[w]) != h:
-        return f'与误读版 "{MISREAD[w]}" 合成不同'
-    return None
+        return f'与 "{sp}" 合成完全相同', False
+    if not exp:
+        if w in MISREAD and synth_hash(MISREAD[w]) != h:
+            return f'与误读版 "{MISREAD[w]}" 合成不同', False
+        return None, False
+    checked, skipped = [], []
+    for f in flags:
+        if not isinstance(f.get('pos'), int) or f.get('heard_as') not in SPELL_OF:
+            return None, False
+        why = neutral(exp, f['pos'], f['heard_as'])
+        mis = exp[:f['pos']] + [f['heard_as']] + exp[f['pos'] + 1:]
+        if why or mis in alts:
+            skipped.append(f"/{f['phone']}/→/{f['heard_as']}/（{why or '词典里的另一种读法'}）")
+            continue
+        m = phonetic(mis)
+        if not m or m.lower() == spoken.lower():
+            if w in MISREAD:          # 拼不出与原词不同的误读写法（his → /hɪs/ 还是 "his"），改用 word-misreadings.json 里的写法
+                continue
+            return None, False
+        if synth_hash(m) == h:
+            return f'与误读写法 "{m}"（/{" ".join(mis)}/）合成完全相同', True
+        checked.append(f'"{m}"')
+    if w in MISREAD:
+        if synth_hash(MISREAD[w]) == h:
+            return f'与误读版 "{MISREAD[w]}" 合成完全相同', True
+        checked.append(f'"{MISREAD[w]}"')
+    parts = ([f'与误读写法 {"、".join(checked)} 合成都不同'] if checked else []) + ([f'不算误读：{"；".join(skipped)}'] if skipped else [])
+    return ('；'.join(parts), False) if parts else (None, False)
 
 
 def main(out=None, only=None):
@@ -270,9 +330,10 @@ def main(out=None, only=None):
         else:                        # 点读词：取 CMU 里与录音最吻合的读法
             vs = cmu_variants(w['text'])
             if not vs:      # 词典里没有（专有名词、合成词）：只能用对照合成证实
-                proof = prove(w['text'], speak_as.get(w['text'], w['text']))
+                proof, wrong = prove(w['text'], speak_as.get(w['text'], w['text']))
                 rows.append({**w, 'flags': [{'pos': 0, 'phone': '?', 'heard_as': '?', 'margin': 0}] if not proof else [{'pos': 0, 'phone': '词典无', 'heard_as': '-', 'margin': 0}],
-                             'proof': proof, **({} if proof else {'issue': '词典里没有，对照合成也无法证实'})})
+                             'proof': None if wrong else proof, 'wrong': proof if wrong else None,
+                             **({} if proof and not wrong else {'issue': '词典里没有，对照合成也无法证实'})})
                 continue
             exp = min(vs, key=lambda v: ctc_loss(x, v)) if len(vs) > 1 else vs[0]
         flags = gop(x, exp)
@@ -287,12 +348,19 @@ def main(out=None, only=None):
                     v, d = nearest(fe)
                     f['speaker_nearest'] = v
                     f['bias'] = v == f['phone'] or (f['phone'] in ('ə', 'ɪ') and v in ('ə', 'ɪ'))
-        proof = prove(w['text'], speak_as.get(w['text'], w['text'])) if flags else None
-        rows.append({**w, 'exp': ' '.join(exp), 'heard': E.recognize(x), 'flags': flags, 'proof': proof})
+        proof, wrong = prove(w['text'], speak_as.get(w['text'], w['text']), exp, flags, alts) if flags else (None, False)
+        rows.append({**w, 'exp': ' '.join(exp), 'heard': E.recognize(x), 'flags': flags,
+                     'proof': None if wrong else proof, 'wrong': proof if wrong else None})
     bad = [r for r in rows if r['flags'] or r.get('issue')]
     review = [r for r in bad if not r.get('proof')]
-    print(f'{len(rows)} 个单词；识别模型标记 {len(bad)} 个，其中对照合成证实按常规读法读的 {len(bad) - len(review)} 个；待复核 {len(review)} 个')
+    wrong = [r for r in review if r.get('wrong')]
+    print(f'{len(rows)} 个单词；识别模型标记 {len(bad)} 个，其中对照合成证实按常规读法读的 {len(bad) - len(review)} 个；'
+          f'证实读错 {len(wrong)} 个；待复核 {len(review)} 个')
+    for r in wrong:
+        print(f'  ✗✗ {r["lesson"]:5s} {r["text"]:12s} 读错：{r["wrong"]}')
     for r in review:
+        if r.get('wrong'):
+            continue
         if r.get('issue'):
             print(f'  ✗ {r["lesson"]:5s} {r["text"]:12s} {r["issue"]}')
             continue

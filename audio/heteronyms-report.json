@@ -1,5 +1,65 @@
 [
  {
+  "src": "课2-3",
+  "en": "This big wig does not fit.",
+  "file": "t/this-big-wig-does-not-fit-8ujm59.mp3",
+  "spoken": "This big wig does not fit.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 6.83）",
+  "scores": {
+   "dʌz": 84.48,
+   "doʊz": 91.31
+  }
+ },
+ {
+  "src": "课4-4",
+  "en": "Use the whisk to mix the eggs.",
+  "file": "t/use-the-whisk-to-mix-the-eggs-y0d0eh.mp3",
+  "spoken": "Use the whisk to mix the eggs.",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "how": "对照合成：与 \"yooz\" 写法完全相同",
+  "scores": {
+   "juːz": 87.84,
+   "juːs": 100.64
+  }
+ },
+ {
+  "src": "课4-7",
+  "en": "Use a sponge to clean the cage.",
+  "file": "t/use-a-sponge-to-clean-the-cage-x370e8.mp3",
+  "spoken": "Use a sponge to clean the cage.",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "how": "强制对齐（差距 6.05），声学距离 \"yooz\" 0.432、\"yoos\" 1.016",
+  "scores": {
+   "juːz": 101.9,
+   "juːs": 107.95
+  }
+ },
+ {
+  "src": "课5-1",
+  "en": "Please close the gate.",
+  "file": "t/please-close-the-gate-t3r77b.mp3",
+  "spoken": "Please close the gate.",
+  "word": "close",
+  "want": "kloʊz",
+  "got": "kloʊz",
+  "ok": true,
+  "how": "对照合成：与 \"cloze\" 写法完全相同",
+  "scores": {
+   "kloʊz": 80.76,
+   "kloʊs": 86.1
+  }
+ },
+ {
   "src": "课5-4",
   "en": "Use the rules.",
   "file": "t/use-the-rules-1inrjs2.mp3",
@@ -8,10 +68,40 @@
   "want": "juːz",
   "got": "juːz",
   "ok": true,
+  "how": "强制对齐（差距 6.19）",
+  "scores": {
+   "juːz": 29.08,
+   "juːs": 35.27
+  }
+ },
+ {
+  "src": "课7-6",
+  "en": "Please close the door and sweep the floor.",
+  "file": "t/please-close-the-door-and-sweep-the--18gc6ta.mp3",
+  "spoken": "Please close the door and sweep the floor.",
+  "word": "close",
+  "want": "kloʊz",
+  "got": "kloʊz",
+  "ok": true,
   "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
-   "juːz": 30.4,
-   "juːs": 36.2
+   "kloʊz": 116.83,
+   "kloʊs": 122.69
+  }
+ },
+ {
+  "src": "课8-1",
+  "en": "Please use a quiet voice in the library.",
+  "file": "t/please-use-a-quiet-voice-in-the-libr-1bfgoqa.mp3",
+  "spoken": "Please use a quiet voice in the library.",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "how": "强制对齐（差距 6.12）",
+  "scores": {
+   "juːz": 110.9,
+   "juːs": 117.02
   }
  },
  {
@@ -25,8 +115,98 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 19.05,
-   "haʊz": 23.83
+   "haʊs": 23.27,
+   "haʊz": 27.18
+  }
+ },
+ {
+  "src": "课8-2",
+  "en": "An owl made a loud sound outside the house.",
+  "file": "t/an-owl-made-a-loud-sound-outside-the-1l75c21.mp3",
+  "spoken": "An owl made a loud sound outside the house.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "scores": {
+   "haʊs": 78.43,
+   "haʊz": 83.45
+  }
+ },
+ {
+  "src": "课8-3",
+  "en": "Does this sauce need more salt?",
+  "file": "t/does-this-sauce-need-more-salt-7in5gf.mp3",
+  "spoken": "Does this sauce need more salt?",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 7.41）",
+  "scores": {
+   "dʌz": 52.62,
+   "doʊz": 60.03
+  }
+ },
+ {
+  "src": "课9-1",
+  "en": "Use a pencil to draw a giant circle.",
+  "file": "t/use-a-pencil-to-draw-a-giant-circle-980as5.mp3",
+  "spoken": "Use a pencil to draw a giant circle.",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "how": "强制对齐（差距 6.03）",
+  "scores": {
+   "juːz": 119.55,
+   "juːs": 125.58
+  }
+ },
+ {
+  "src": "课9-6",
+  "en": "Use two eggs, but save one yolk.",
+  "file": "t/use-two-eggs-but-save-one-yolk-13rqk71.mp3",
+  "spoken": "Use two eggs, but save one yolk.",
+  "word": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "ok": true,
+  "how": "强制对齐（差距 7.46），声学距离 \"yooz\" 0.383、\"yoos\" 0.791",
+  "scores": {
+   "juːz": 107.43,
+   "juːs": 114.89
+  }
+ },
+ {
+  "src": "课9-7",
+  "en": "The chef uses a machine to mix the dough.",
+  "file": "t/the-chef-uses-a-machine-to-mix-the-d-1k0jj89.mp3",
+  "spoken": "The chef uses a machine to mix the dough.",
+  "word": "uses",
+  "want": "ˈjuːzɪz",
+  "got": "ˈjuːzɪz",
+  "ok": true,
+  "how": "强制对齐（差距 6.11），声学距离 \"yoozez\" 0.715、\"yoosez\" 1.444",
+  "scores": {
+   "ˈjuːzɪz": 72.53,
+   "ˈjuːsɪz": 78.64
+  }
+ },
+ {
+  "src": "课10-5",
+  "en": "I used my camera to take a picture of the elephant.",
+  "file": "t/i-used-my-camera-to-take-a-picture-o-1bmb9w1.mp3",
+  "spoken": "I yoozd my camera to take a picture of the elephant.",
+  "word": "used",
+  "want": "juːzd",
+  "got": "juːzd",
+  "ok": true,
+  "how": "按替换写法 \"yoozd\" 合成",
+  "scores": {
+   "juːzd": 142.18,
+   "juːst": 148.31
   }
  },
  {
@@ -38,10 +218,10 @@
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "how": "对照合成：与 \"liv\" 写法完全相同",
+  "how": "强制对齐（差距 10.79）",
   "scores": {
-   "lɪv": 96.27,
-   "laɪv": 107.21
+   "lɪv": 96.84,
+   "laɪv": 107.63
   }
  },
  {
@@ -55,8 +235,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 48.64,
-   "haʊz": 50.07
+   "haʊs": 53.94,
+   "haʊz": 60.4
   }
  },
  {
@@ -68,10 +248,10 @@
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "how": "强制对齐（差距 10.61），声学距离 \"livs\" 0.256、\"lyves\" 0.528",
   "scores": {
-   "lɪvz": 37.43,
-   "laɪvz": 48.28
+   "lɪvz": 40.32,
+   "laɪvz": 50.93
   }
  },
  {
@@ -85,8 +265,8 @@
   "ok": true,
   "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 31.08,
-   "laɪv": 41.71
+   "lɪv": 32.01,
+   "laɪv": 42.59
   }
  },
  {
@@ -100,8 +280,8 @@
   "ok": true,
   "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
-   "riːd": 86.35,
-   "rɛd": 95.92
+   "riːd": 107.74,
+   "rɛd": 117.58
   }
  },
  {
@@ -113,10 +293,10 @@
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "how": "对照合成：与 \"liv\" 写法完全相同",
+  "how": "强制对齐（差距 10.99）",
   "scores": {
-   "lɪv": 85.28,
-   "laɪv": 96.3
+   "lɪv": 89.97,
+   "laɪv": 100.96
   }
  },
  {
@@ -128,10 +308,10 @@
   "want": "ˈprɛzənts",
   "got": "ˈprɛzənts",
   "ok": true,
-  "how": "对照合成：与 \"prezzents\" 写法完全相同",
+  "how": "强制对齐（差距 11.9）",
   "scores": {
-   "ˈprɛzənts": 118.17,
-   "prɪˈzɛnts": 132.01
+   "ˈprɛzənts": 109.11,
+   "prɪˈzɛnts": 121.01
   }
  },
  {
@@ -145,8 +325,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 90.78,
-   "haʊz": 93.41
+   "haʊs": 75.69,
+   "haʊz": 80.74
   }
  },
  {
@@ -160,8 +340,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 88.33,
-   "haʊz": 91.85
+   "haʊs": 82.06,
+   "haʊz": 86.14
   }
  },
  {
@@ -175,8 +355,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 84.46,
-   "haʊz": 84.97
+   "haʊs": 86.76,
+   "haʊz": 87.24
   }
  },
  {
@@ -188,10 +368,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.11）",
+  "how": "强制对齐（差距 6.18），声学距离 \"duz\" 0.432、\"doze\" 0.891",
   "scores": {
-   "dʌz": 110.02,
-   "doʊz": 118.13
+   "dʌz": 116.3,
+   "doʊz": 122.48
   }
  },
  {
@@ -203,10 +383,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.04）",
+  "how": "强制对齐（差距 6.74）",
   "scores": {
-   "dʌz": 57.39,
-   "doʊz": 65.43
+   "dʌz": 55.25,
+   "doʊz": 61.99
   }
  },
  {
@@ -218,10 +398,10 @@
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "how": "强制对齐（差距 9.54），声学距离 \"reed\" 0.492、\"red\" 0.844",
   "scores": {
-   "riːd": 74.29,
-   "rɛd": 83.7
+   "riːd": 61.17,
+   "rɛd": 70.71
   }
  },
  {
@@ -233,10 +413,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.2）",
+  "how": "强制对齐（差距 6.34），声学距离 \"duz\" 0.355、\"doze\" 0.521",
   "scores": {
-   "dʌz": 72.87,
-   "doʊz": 81.07
+   "dʌz": 73.91,
+   "doʊz": 80.25
   }
  },
  {
@@ -250,8 +430,8 @@
   "ok": true,
   "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 49.22,
-   "laɪv": 59.79
+   "lɪv": 48.84,
+   "laɪv": 59.45
   }
  },
  {
@@ -263,10 +443,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.79）",
+  "how": "强制对齐（差距 6.7），声学距离 \"duz\" 0.479、\"doze\" 0.786",
   "scores": {
-   "dʌz": 55.37,
-   "doʊz": 63.16
+   "dʌz": 68.41,
+   "doʊz": 75.11
   }
  },
  {
@@ -278,10 +458,10 @@
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "how": "对照合成：与 \"liv\" 写法完全相同",
+  "how": "强制对齐（差距 10.44），声学距离 \"liv\" 0.323、\"lyve\" 0.488",
   "scores": {
-   "lɪv": 52.77,
-   "laɪv": 63.32
+   "lɪv": 76.49,
+   "laɪv": 86.93
   }
  },
  {
@@ -293,10 +473,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.69）",
+  "how": "强制对齐（差距 4.86）",
   "scores": {
-   "dʌz": 81.95,
-   "doʊz": 89.64
+   "dʌz": 95.47,
+   "doʊz": 100.33
   }
  },
  {
@@ -310,8 +490,8 @@
   "ok": true,
   "how": "对照合成：与 \"reeds\" 写法完全相同",
   "scores": {
-   "riːdz": 90.6,
-   "rɛdz": 100.13
+   "riːdz": 91.06,
+   "rɛdz": 100.14
   }
  },
  {
@@ -323,10 +503,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.24）",
+  "how": "对照合成：与 \"duz\" 写法完全相同",
   "scores": {
-   "dʌz": 74.43,
-   "doʊz": 82.67
+   "dʌz": 85.2,
+   "doʊz": 92.4
   }
  },
  {
@@ -338,10 +518,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.72）",
+  "how": "强制对齐（差距 4.31）",
   "scores": {
-   "dʌz": 31.36,
-   "doʊz": 39.08
+   "dʌz": 32.96,
+   "doʊz": 37.27
   }
  },
  {
@@ -353,10 +533,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.09）",
+  "how": "强制对齐（差距 5.73），声学距离 \"duz\" 0.506、\"doze\" 0.861",
   "scores": {
-   "dʌz": 56.72,
-   "doʊz": 64.81
+   "dʌz": 64.58,
+   "doʊz": 70.31
   }
  },
  {
@@ -368,10 +548,10 @@
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "强制对齐（差距 3.61）",
   "scores": {
-   "juːz": 59.84,
-   "juːs": 65.71
+   "juːz": 94.63,
+   "juːs": 98.24
   }
  },
  {
@@ -383,10 +563,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.27）",
+  "how": "强制对齐（差距 7.83），声学距离 \"duz\" 0.298、\"doze\" 0.438",
   "scores": {
-   "dʌz": 86.24,
-   "doʊz": 94.51
+   "dʌz": 89.81,
+   "doʊz": 97.64
   }
  },
  {
@@ -398,10 +578,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.17）",
+  "how": "强制对齐（差距 5.4）",
   "scores": {
-   "dʌz": 101.9,
-   "doʊz": 110.07
+   "dʌz": 118.81,
+   "doʊz": 124.21
   }
  },
  {
@@ -413,10 +593,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.65）",
+  "how": "强制对齐（差距 6.93）",
   "scores": {
-   "dʌz": 68.63,
-   "doʊz": 76.28
+   "dʌz": 78.55,
+   "doʊz": 85.48
   }
  },
  {
@@ -428,10 +608,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.14）",
+  "how": "强制对齐（差距 6.54）",
   "scores": {
-   "dʌz": 107.37,
-   "doʊz": 115.51
+   "dʌz": 101.25,
+   "doʊz": 107.79
   }
  },
  {
@@ -443,10 +623,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.76）",
+  "how": "强制对齐（差距 8.21），声学距离 \"duz\" 0.347、\"doze\" 0.682",
   "scores": {
-   "dʌz": 88.08,
-   "doʊz": 95.84
+   "dʌz": 84.17,
+   "doʊz": 92.38
   }
  },
  {
@@ -458,10 +638,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.14）",
+  "how": "强制对齐（差距 6.94），声学距离 \"duz\" 0.346、\"doze\" 0.816",
   "scores": {
-   "dʌz": 60.32,
-   "doʊz": 67.46
+   "dʌz": 46.46,
+   "doʊz": 53.4
   }
  },
  {
@@ -473,10 +653,10 @@
   "want": "kloʊz",
   "got": "kloʊz",
   "ok": true,
-  "how": "强制对齐（差距 4.55）",
+  "how": "对照合成：与 \"cloze\" 写法完全相同",
   "scores": {
-   "kloʊz": 53.04,
-   "kloʊs": 57.59
+   "kloʊz": 55.79,
+   "kloʊs": 60.6
   }
  },
  {
@@ -488,10 +668,10 @@
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "how": "强制对齐（差距 5.27），声学距离 \"howss\" 0.37、\"howz\" 0.851",
   "scores": {
-   "haʊs": 44.01,
-   "haʊz": 48.92
+   "haʊs": 44.76,
+   "haʊz": 50.03
   }
  },
  {
@@ -503,10 +683,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.9）",
+  "how": "强制对齐（差距 8.15）",
   "scores": {
-   "dʌz": 93.85,
-   "doʊz": 101.75
+   "dʌz": 89.3,
+   "doʊz": 97.45
   }
  },
  {
@@ -518,10 +698,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.82）",
+  "how": "强制对齐（差距 4.46），声学距离 \"duz\" 0.695、\"doze\" 1.046",
   "scores": {
-   "dʌz": 94.47,
-   "doʊz": 102.29
+   "dʌz": 102.61,
+   "doʊz": 107.07
   }
  },
  {
@@ -533,10 +713,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.92）",
+  "how": "强制对齐（差距 5.3）",
   "scores": {
-   "dʌz": 125.36,
-   "doʊz": 133.28
+   "dʌz": 138.2,
+   "doʊz": 143.5
   }
  },
  {
@@ -548,10 +728,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.71）",
+  "how": "强制对齐（差距 6.69）",
   "scores": {
-   "dʌz": 72.97,
-   "doʊz": 80.68
+   "dʌz": 72.87,
+   "doʊz": 79.56
   }
  },
  {
@@ -565,8 +745,8 @@
   "ok": true,
   "how": "对照合成：与 \"livd\" 写法完全相同",
   "scores": {
-   "lɪvd": 74.34,
-   "laɪvd": 84.86
+   "lɪvd": 72.23,
+   "laɪvd": 83.05
   }
  },
  {
@@ -578,10 +758,10 @@
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "how": "强制对齐（差距 9.92）",
+  "how": "强制对齐（差距 9.68）",
   "scores": {
-   "riːd": 75.82,
-   "rɛd": 65.9
+   "riːd": 81.45,
+   "rɛd": 71.77
   }
  },
  {
@@ -593,10 +773,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 10.99），声学距离 \"livd\" 0.399、\"lyved\" 0.81",
   "scores": {
-   "lɪvd": 58.44,
-   "laɪvd": 69.27
+   "lɪvd": 49.11,
+   "laɪvd": 60.1
   }
  },
  {
@@ -608,10 +788,10 @@
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "how": "强制对齐（差距 9.93）",
+  "how": "强制对齐（差距 9.8），声学距离 \"reed\" 1.101、\"red\" 0.607",
   "scores": {
-   "riːd": 79.53,
-   "rɛd": 69.6
+   "riːd": 74.08,
+   "rɛd": 64.28
   }
  },
  {
@@ -623,10 +803,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 11.0）",
   "scores": {
-   "lɪvd": 59.18,
-   "laɪvd": 69.88
+   "lɪvd": 60.83,
+   "laɪvd": 71.83
   }
  },
  {
@@ -640,8 +820,8 @@
   "ok": true,
   "how": "对照合成：与 \"reeds\" 写法完全相同",
   "scores": {
-   "riːdz": 85.02,
-   "rɛdz": 94.44
+   "riːdz": 94.42,
+   "rɛdz": 104.12
   }
  },
  {
@@ -655,8 +835,8 @@
   "ok": true,
   "how": "对照合成：与 \"red\" 写法完全相同",
   "scores": {
-   "riːd": 78.42,
-   "rɛd": 68.39
+   "riːd": 73.96,
+   "rɛd": 66.47
   }
  },
  {
@@ -668,10 +848,10 @@
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "how": "强制对齐（差距 10.0）",
   "scores": {
-   "riːd": 72.02,
-   "rɛd": 81.75
+   "riːd": 59.53,
+   "rɛd": 69.53
   }
  },
  {
@@ -683,10 +863,10 @@
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "how": "对照合成：与 \"red\" 写法完全相同",
+  "how": "强制对齐（差距 9.69）",
   "scores": {
-   "riːd": 85.54,
-   "rɛd": 75.53
+   "riːd": 86.97,
+   "rɛd": 77.28
   }
  },
  {
@@ -698,10 +878,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 10.9）",
   "scores": {
-   "lɪvd": 66.53,
-   "laɪvd": 77.11
+   "lɪvd": 81.87,
+   "laɪvd": 92.77
   }
  },
  {
@@ -715,8 +895,8 @@
   "ok": true,
   "how": "对照合成：与 \"lernd\" 写法完全相同",
   "scores": {
-   "lɝnd": 38.67,
-   "ˈlɝnɪd": 43.03
+   "lɝnd": 53.55,
+   "ˈlɝnɪd": 58.02
   }
  },
  {
@@ -730,8 +910,8 @@
   "ok": true,
   "how": "对照合成：与 \"lernd\" 写法完全相同",
   "scores": {
-   "lɝnd": 98.23,
-   "ˈlɝnɪd": 102.63
+   "lɝnd": 108.3,
+   "ˈlɝnɪd": 113.78
   }
  },
  {
@@ -745,8 +925,8 @@
   "ok": true,
   "how": "对照合成：与 \"prezzent\" 写法完全相同",
   "scores": {
-   "ˈprɛzənt": 83.17,
-   "prɪˈzɛnt": 91.6
+   "ˈprɛzənt": 78.74,
+   "prɪˈzɛnt": 87.88
   }
  },
  {
@@ -758,10 +938,10 @@
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "how": "对照合成：与 \"red\" 写法完全相同",
+  "how": "强制对齐（差距 9.9）",
   "scores": {
-   "riːd": 107.5,
-   "rɛd": 97.57
+   "riːd": 110.38,
+   "rɛd": 100.48
   }
  },
  {
@@ -773,10 +953,10 @@
   "want": "ˈmɪnɪts",
   "got": "ˈmɪnɪts",
   "ok": true,
-  "how": "强制对齐（差距 13.7）",
+  "how": "强制对齐（差距 14.75）",
   "scores": {
-   "ˈmɪnɪts": 158.91,
-   "maɪˈnuːts": 172.61
+   "ˈmɪnɪts": 172.3,
+   "maɪˈnuːts": 187.05
   }
  },
  {
@@ -788,10 +968,10 @@
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "how": "人工复核：强制对齐判 /lɪvz/ 与声学距离判 /laɪvz/ 冲突。人工测量：录音元音 F1 稳定约 425、F2 约 2200（/ɪ/），元音开头 F1 309、浊音段 190ms，与 \"livs\"（350、215ms）一致；\"lyves\" 的 /aɪ/ 有 F1 870→700、F2 1435→2087 的滑动且更长（300ms）。判读对 /lɪvz/。",
   "scores": {
-   "lɪvz": 86.91,
-   "laɪvz": 95.31
+   "lɪvz": 82.36,
+   "laɪvz": 91.74
   }
  },
  {
@@ -805,8 +985,8 @@
   "ok": true,
   "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
-   "riːd": 130.35,
-   "rɛd": 139.88
+   "riːd": 151.04,
+   "rɛd": 160.68
   }
  },
  {
@@ -820,8 +1000,8 @@
   "ok": true,
   "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
-   "riːd": 111.36,
-   "rɛd": 120.89
+   "riːd": 107.02,
+   "rɛd": 116.81
   }
  },
  {
@@ -833,10 +1013,10 @@
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "how": "强制对齐（差距 10.74）",
   "scores": {
-   "lɪvz": 39.42,
-   "laɪvz": 50.11
+   "lɪvz": 34.88,
+   "laɪvz": 45.62
   }
  },
  {
@@ -850,8 +1030,8 @@
   "ok": true,
   "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
-   "lɪvz": 55.38,
-   "laɪvz": 66.24
+   "lɪvz": 54.47,
+   "laɪvz": 65.21
   }
  },
  {
@@ -863,10 +1043,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.66）",
+  "how": "强制对齐（差距 7.79），声学距离 \"duz\" 0.137、\"doze\" 0.456",
   "scores": {
-   "dʌz": 49.46,
-   "doʊz": 57.12
+   "dʌz": 52.26,
+   "doʊz": 60.05
   }
  },
  {
@@ -878,10 +1058,10 @@
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "强制对齐（差距 5.18），声学距离 \"yooz\" 0.28、\"yoos\" 0.841",
   "scores": {
-   "juːz": 33.48,
-   "juːs": 39.02
+   "juːz": 26.7,
+   "juːs": 31.88
   }
  },
  {
@@ -895,8 +1075,8 @@
   "ok": true,
   "how": "对照合成：与 \"winned\" 写法完全相同",
   "scores": {
-   "wɪnd": 69.66,
-   "waɪnd": 79.71
+   "wɪnd": 74.9,
+   "waɪnd": 85.14
   }
  },
  {
@@ -908,10 +1088,10 @@
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "how": "强制对齐（差距 5.66）",
   "scores": {
-   "haʊs": 80.24,
-   "haʊz": 86.09
+   "haʊs": 89.69,
+   "haʊz": 95.35
   }
  },
  {
@@ -925,8 +1105,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 81.16,
-   "haʊz": 84.25
+   "haʊs": 82.86,
+   "haʊz": 89.59
   }
  },
  {
@@ -938,10 +1118,10 @@
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "对照合成：与 \"yooz\" 写法完全相同",
   "scores": {
-   "juːz": 57.07,
-   "juːs": 63.2
+   "juːz": 66.08,
+   "juːs": 72.03
   }
  },
  {
@@ -953,10 +1133,10 @@
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "how": "强制对齐（差距 9.38）",
   "scores": {
-   "riːd": 84.07,
-   "rɛd": 93.64
+   "riːd": 75.6,
+   "rɛd": 84.98
   }
  },
  {
@@ -968,10 +1148,10 @@
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "强制对齐（差距 9.65），声学距离 \"yooz\" 0.566、\"yoos\" 1.142",
   "scores": {
-   "juːz": 113.84,
-   "juːs": 120.28
+   "juːz": 107.99,
+   "juːs": 117.64
   }
  },
  {
@@ -985,113 +1165,113 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 51.61,
-   "haʊz": 51.94
+   "haʊs": 54.87,
+   "haʊz": 58.14
   }
  },
  {
   "src": "语法gj-7",
   "en": "I used to be afraid of the dark.",
-  "file": "t/i-used-to-be-afraid-of-the-dark-i-yo-u6679q.mp3",
-  "spoken": "I yoost to be afraid of the dark.",
+  "file": "t/i-used-to-be-afraid-of-the-dark-hi97l6.mp3",
+  "spoken": "I used to be afraid of the dark.",
   "word": "used",
   "want": "juːst",
   "got": "juːst",
   "ok": true,
-  "how": "按替换写法 \"yoost\" 合成",
+  "how": "人工复核：强制对齐判 /juːzd/（差距 1.22）与声学距离判 /juːst/（\"yoost\" 0.345、\"yoozd\" 0.839）冲突。人工测量：连读中 used to 的 s/z 本身无声学区别（录音、yoost、yoozd 的摩擦段都约 155ms、浊音 <0.1）；整句声学距离明显更近 yoost，且同一声音的 \"I used to walk to school\" 与 \"yoost\" 写法逐字节相同。判读对 /juːst/。",
   "scores": {
-   "juːzd": 84.65,
-   "juːst": 86.91
+   "juːzd": 91.65,
+   "juːst": 92.87
   }
  },
  {
   "src": "语法gj-7",
   "en": "She used to have long hair, but now it is short.",
-  "file": "t/she-used-to-have-long-hair-but-now-i-16jbls8.mp3",
-  "spoken": "She yoost to have long hair, but now it is short.",
+  "file": "t/she-used-to-have-long-hair-but-now-i-1kx2glh.mp3",
+  "spoken": "She used to have long hair, but now it is short.",
   "word": "used",
   "want": "juːst",
   "got": "juːst",
   "ok": true,
-  "how": "按替换写法 \"yoost\" 合成",
+  "how": "对照合成：与 \"yoost\" 写法完全相同",
   "scores": {
-   "juːzd": 88.44,
-   "juːst": 91.31
+   "juːzd": 109.76,
+   "juːst": 112.87
   }
  },
  {
   "src": "测验gj-7",
   "en": "I used to play the piano when I was a child, but now I do not.",
-  "file": "t/i-used-to-play-the-piano-when-i-was--whlq7e.mp3",
-  "spoken": "I yoost to play the piano when I was a child, but now I do not.",
+  "file": "t/i-used-to-play-the-piano-when-i-was--zw6j5t.mp3",
+  "spoken": "I used to play the piano when I was a child, but now I do not.",
   "word": "used",
   "want": "juːst",
   "got": "juːst",
   "ok": true,
-  "how": "按替换写法 \"yoost\" 合成",
+  "how": "对照合成：与 \"yoost\" 写法完全相同",
   "scores": {
-   "juːzd": 155.65,
-   "juːst": 161.33
+   "juːzd": 162.39,
+   "juːst": 158.6
   }
  },
  {
   "src": "测验gj-7",
   "en": "I used to play football after school.",
-  "file": "t/i-used-to-play-football-after-school-lynwac.mp3",
-  "spoken": "I yoost to play football after school.",
+  "file": "t/i-used-to-play-football-after-school-1wmboel.mp3",
+  "spoken": "I used to play football after school.",
   "word": "used",
   "want": "juːst",
   "got": "juːst",
   "ok": true,
-  "how": "按替换写法 \"yoost\" 合成",
+  "how": "人工复核：同上：强制对齐判 /juːzd/（差距 6.64）与声学距离判 /juːst/（\"yoost\" 0.314、\"yoozd\" 0.692）冲突；s/z 在连读中无区别（摩擦段 150–160ms、浊音 <0.1），判读对 /juːst/。",
   "scores": {
-   "juːzd": 104.5,
-   "juːst": 106.55
+   "juːzd": 97.72,
+   "juːst": 104.36
   }
  },
  {
   "src": "测验gj-7",
   "en": "He is used to getting up early.",
-  "file": "t/he-is-used-to-getting-up-early-he-is-1uk8za.mp3",
-  "spoken": "He is yoost to getting up early.",
+  "file": "t/he-is-used-to-getting-up-early-1h3bwf4.mp3",
+  "spoken": "He is used to getting up early.",
   "word": "used",
   "want": "juːst",
   "got": "juːst",
   "ok": true,
-  "how": "按替换写法 \"yoost\" 合成",
+  "how": "人工复核：强制对齐判 /juːst/（差距 1.46，不足以定案），声学距离略偏 \"yoost\"（0.961 对 \"yoozd\" 1.067，未达判定比值）。人工测量：used 后的擦音段 200ms、浊音 0.03（完全清音），比 \"yoozd\"（150ms、0.07）和 \"yoost\"（165ms、0.06）都更清更长，是 /s/ 而不是 /z/。判读对 /juːst/。",
   "scores": {
-   "juːzd": 74.54,
-   "juːst": 78.87
+   "juːzd": 70.04,
+   "juːst": 68.58
   }
  },
  {
   "src": "测验gj-7",
   "en": "Did you use to live in the countryside?",
-  "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
-  "spoken": "Did you use to live in the countryside?",
+  "file": "t/did-you-use-to-live-in-the-countrysi-t6vbgu.mp3",
+  "spoken": "Did you yoos to live in the countryside?",
   "word": "use",
   "want": "juːs",
   "got": "juːs",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "按替换写法 \"yoos\" 合成",
   "scores": {
-   "juːz": 89.48,
-   "juːs": 94.33
+   "juːz": 87.37,
+   "juːs": 88.84
   }
  },
  {
   "src": "测验gj-7",
   "en": "Did you use to live in the countryside?",
-  "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
-  "spoken": "Did you use to live in the countryside?",
+  "file": "t/did-you-use-to-live-in-the-countrysi-t6vbgu.mp3",
+  "spoken": "Did you yoos to live in the countryside?",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
   "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 94.33,
-   "laɪv": 105.19
+   "lɪv": 88.84,
+   "laɪv": 99.64
   }
  },
  {
@@ -1105,8 +1285,8 @@
   "ok": true,
   "how": "对照合成：与 \"clozed\" 写法完全相同",
   "scores": {
-   "kloʊzd": 126.31,
-   "kloʊst": 135.3
+   "kloʊzd": 144.09,
+   "kloʊst": 153.58
   }
  },
  {
@@ -1120,8 +1300,8 @@
   "ok": true,
   "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 41.53,
-   "laɪv": 51.73
+   "lɪv": 37.07,
+   "laɪv": 47.79
   }
  },
  {
@@ -1133,10 +1313,10 @@
   "want": "juːs",
   "got": "juːs",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "强制对齐（差距 5.23）",
   "scores": {
-   "juːz": 90.13,
-   "juːs": 93.81
+   "juːz": 102.15,
+   "juːs": 96.92
   }
  },
  {
@@ -1148,10 +1328,10 @@
   "want": "juːs",
   "got": "juːs",
   "ok": true,
-  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "how": "对照合成：与 \"yoos\" 写法完全相同",
   "scores": {
-   "juːz": 93.87,
-   "juːs": 88.32
+   "juːz": 81.0,
+   "juːs": 81.15
   }
  },
  {
@@ -1165,8 +1345,8 @@
   "ok": true,
   "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
-   "riːd": 139.64,
-   "rɛd": 148.79
+   "riːd": 132.51,
+   "rɛd": 141.96
   }
  },
  {
@@ -1180,8 +1360,8 @@
   "ok": true,
   "how": "对照合成：与 \"clozed\" 写法完全相同",
   "scores": {
-   "kloʊzd": 151.03,
-   "kloʊst": 158.84
+   "kloʊzd": 155.37,
+   "kloʊst": 163.21
   }
  },
  {
@@ -1195,8 +1375,8 @@
   "ok": true,
   "how": "对照合成：与 \"livd\" 写法完全相同",
   "scores": {
-   "lɪvd": 73.9,
-   "laɪvd": 84.43
+   "lɪvd": 97.5,
+   "laɪvd": 108.22
   }
  },
  {
@@ -1208,10 +1388,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.84）",
+  "how": "强制对齐（差距 7.41）",
   "scores": {
-   "dʌz": 76.0,
-   "doʊz": 83.84
+   "dʌz": 88.63,
+   "doʊz": 96.04
   }
  },
  {
@@ -1225,8 +1405,8 @@
   "ok": true,
   "how": "对照合成：与 \"clozed\" 写法完全相同",
   "scores": {
-   "kloʊzd": 61.69,
-   "kloʊst": 71.66
+   "kloʊzd": 67.46,
+   "kloʊst": 76.33
   }
  },
  {
@@ -1240,23 +1420,23 @@
   "ok": true,
   "how": "对照合成：与 \"clozed\" 写法完全相同",
   "scores": {
-   "kloʊzd": 71.39,
-   "kloʊst": 81.08
+   "kloʊzd": 81.96,
+   "kloʊst": 90.4
   }
  },
  {
   "src": "测验gs-13",
   "en": "He ran home, tears running down his face.",
-  "file": "t/he-ran-home-tears-running-down-his-f-35xbcp.mp3",
-  "spoken": "He ran home, tears running down his face.",
+  "file": "t/he-ran-home-tears-running-down-his-f-1h58qmp.mp3",
+  "spoken": "He ran home, teers running down his face.",
   "word": "tears",
   "want": "tɪrz",
   "got": "tɪrz",
   "ok": true,
-  "how": "强制对齐（差距 6.88）",
+  "how": "按替换写法 \"teers\" 合成",
   "scores": {
-   "tɪrz": 55.2,
-   "tɛrz": 62.08
+   "tɪrz": 71.75,
+   "tɛrz": 66.05
   }
  },
  {
@@ -1270,8 +1450,8 @@
   "ok": true,
   "how": "对照合成：与 \"livd\" 写法完全相同",
   "scores": {
-   "lɪvd": 75.8,
-   "laɪvd": 86.36
+   "lɪvd": 84.14,
+   "laɪvd": 94.69
   }
  },
  {
@@ -1283,10 +1463,10 @@
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "how": "强制对齐（差距 9.48），声学距离 \"reed\" 0.474、\"red\" 0.741",
   "scores": {
-   "riːd": 127.28,
-   "rɛd": 136.76
+   "riːd": 135.6,
+   "rɛd": 145.08
   }
  },
  {
@@ -1298,10 +1478,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 10.71），声学距离 \"livd\" 0.105、\"lyved\" 0.685",
   "scores": {
-   "lɪvd": 119.48,
-   "laɪvd": 130.18
+   "lɪvd": 106.93,
+   "laɪvd": 117.64
   }
  },
  {
@@ -1315,8 +1495,8 @@
   "ok": true,
   "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
-   "lɪvz": 29.65,
-   "laɪvz": 39.97
+   "lɪvz": 29.17,
+   "laɪvz": 39.44
   }
  },
  {
@@ -1328,10 +1508,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 10.18）",
   "scores": {
-   "lɪvd": 36.77,
-   "laɪvd": 47.15
+   "lɪvd": 45.9,
+   "laɪvd": 56.08
   }
  },
  {
@@ -1345,8 +1525,8 @@
   "ok": true,
   "how": "对照合成：与 \"livd\" 写法完全相同",
   "scores": {
-   "lɪvd": 67.98,
-   "laɪvd": 78.14
+   "lɪvd": 84.94,
+   "laɪvd": 95.42
   }
  },
  {
@@ -1369,7 +1549,7 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同"
+  "how": "人工复核：Xun 不在词典里无法强制对齐，对照合成不逐字节相同，声学距离偏向 \"livd\"（0.719 对 \"lyved\" 0.936，未达判定比值）。人工测量：lived 的浊音段 235ms，与 \"livd\"（250ms）一致，\"lyved\" 的 /aɪ/ 明显更长（350ms）。判读对 /lɪvd/。另：Xun 与 \"Shoon\" 合成逐字节相同（/ʃun/）。"
  },
  {
   "src": "测验g6-4",
@@ -1382,23 +1562,23 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 45.76,
-   "haʊz": 51.48
+   "haʊs": 54.25,
+   "haʊz": 57.99
   }
  },
  {
   "src": "测验g6-4",
   "en": "The dog that lives next door is very friendly.",
-  "file": "t/the-dog-that-lives-next-door-is-very-ynjls.mp3",
-  "spoken": "The dog that livs next door is very friendly.",
+  "file": "t/the-dog-that-lives-next-door-is-very-suo2ao.mp3",
+  "spoken": "The dog that lives next door is very friendly.",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "按替换写法 \"livs\" 合成",
+  "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
-   "lɪvz": 114.29,
-   "laɪvz": 124.92
+   "lɪvz": 134.73,
+   "laɪvz": 145.18
   }
  },
  {
@@ -1412,23 +1592,23 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 61.76,
-   "haʊz": 67.32
+   "haʊs": 63.52,
+   "haʊz": 68.88
   }
  },
  {
   "src": "测验gs-14",
   "en": "The friend with whom I went swimming lives next door.",
-  "file": "t/the-friend-with-whom-i-went-swimming-koxmva.mp3",
-  "spoken": "The friend with whom I went swimming livs next door.",
+  "file": "t/the-friend-with-whom-i-went-swimming-axk20n.mp3",
+  "spoken": "The friend with whom I went swimming lives next door.",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "按替换写法 \"livs\" 合成",
+  "how": "强制对齐（差距 10.54）",
   "scores": {
-   "lɪvz": 88.56,
-   "laɪvz": 99.25
+   "lɪvz": 98.09,
+   "laɪvz": 108.63
   }
  },
  {
@@ -1442,8 +1622,8 @@
   "ok": true,
   "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
-   "haʊs": 55.07,
-   "haʊz": 59.45
+   "haʊs": 48.82,
+   "haʊz": 55.31
   }
  },
  {
@@ -1455,10 +1635,10 @@
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "how": "强制对齐（差距 9.94），声学距离 \"livs\" 0.266、\"lyves\" 0.673",
   "scores": {
-   "lɪvz": 55.07,
-   "laɪvz": 65.33
+   "lɪvz": 48.82,
+   "laɪvz": 58.76
   }
  },
  {
@@ -1472,8 +1652,8 @@
   "ok": true,
   "how": "对照合成：与 \"lernd\" 写法完全相同",
   "scores": {
-   "lɝnd": 66.52,
-   "ˈlɝnɪd": 70.97
+   "lɝnd": 62.79,
+   "ˈlɝnɪd": 67.57
   }
  },
  {
@@ -1485,7 +1665,7 @@
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "how": "对照合成：与 \"livs\" 写法完全相同"
+  "how": "声学距离 \"livs\" 0.27、\"lyves\" 0.706"
  },
  {
   "src": "测验gs-15",
@@ -1498,8 +1678,8 @@
   "ok": true,
   "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
-   "lɪvz": 110.37,
-   "laɪvz": 121.25
+   "lɪvz": 102.22,
+   "laɪvz": 113.02
   }
  },
  {
@@ -1513,8 +1693,8 @@
   "ok": true,
   "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
-   "lɪvz": 44.08,
-   "laɪvz": 54.32
+   "lɪvz": 47.83,
+   "laɪvz": 57.94
   }
  },
  {
@@ -1526,10 +1706,10 @@
   "want": "lɪvd",
   "got": "lɪvd",
   "ok": true,
-  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "how": "强制对齐（差距 10.53），声学距离 \"livd\" 0.308、\"lyved\" 0.71",
   "scores": {
-   "lɪvd": 69.54,
-   "laɪvd": 80.2
+   "lɪvd": 75.09,
+   "laɪvd": 85.62
   }
  },
  {
@@ -1538,13 +1718,13 @@
   "file": "t/while-waiting-for-the-bus-i-read-a-b-14yzxnk.mp3",
   "spoken": "While waiting for the bus, I read a book.",
   "word": "read",
-  "want": "riːd",
-  "got": "riːd",
+  "want": "rɛd",
+  "got": "rɛd",
   "ok": true,
-  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "how": "强制对齐（差距 9.82），声学距离 \"reed\" 0.432、\"red\" 0.186",
   "scores": {
-   "riːd": 95.12,
-   "rɛd": 104.55
+   "riːd": 113.9,
+   "rɛd": 104.08
   }
  },
  {
@@ -1556,10 +1736,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.34）",
+  "how": "强制对齐（差距 6.22）",
   "scores": {
-   "dʌz": 73.21,
-   "doʊz": 80.55
+   "dʌz": 74.52,
+   "doʊz": 80.74
   }
  },
  {
@@ -1571,10 +1751,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.05）",
+  "how": "强制对齐（差距 6.68）",
   "scores": {
-   "dʌz": 148.28,
-   "doʊz": 156.33
+   "dʌz": 169.45,
+   "doʊz": 176.13
   }
  },
  {
@@ -1586,10 +1766,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 8.23）",
+  "how": "对照合成：与 \"duz\" 写法完全相同",
   "scores": {
-   "dʌz": 87.04,
-   "doʊz": 95.27
+   "dʌz": 62.54,
+   "doʊz": 69.9
   }
  },
  {
@@ -1601,10 +1781,10 @@
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "how": "强制对齐（差距 7.66）",
+  "how": "强制对齐（差距 5.4），声学距离 \"duz\" 0.352、\"doze\" 0.793",
   "scores": {
-   "dʌz": 114.87,
-   "doʊz": 122.53
+   "dʌz": 126.27,
+   "doʊz": 131.67
   }
  },
  {
@@ -1618,8 +1798,8 @@
   "ok": true,
   "how": "对照合成：与 \"prezzent\" 写法完全相同",
   "scores": {
-   "ˈprɛzənt": 114.87,
-   "prɪˈzɛnt": 123.3
+   "ˈprɛzənt": 126.27,
+   "prɪˈzɛnt": 135.62
   }
  },
  {
@@ -1631,10 +1811,10 @@
   "want": "ˈjuːzɪz",
   "got": "ˈjuːzɪz",
   "ok": true,
-  "how": "强制对齐（差距 5.87）",
+  "how": "人工复核：强制对齐判 /ˈjuːzɪz/ 与声学距离判 /ˈjuːsɪz/ 冲突。人工测量：第一个擦音 55ms、浊音 0.27，与 \"yoozez\"（70ms、0.43）一致；\"yoosez\" 的 /s/ 140ms、浊音 0.07。判读对 /ˈjuːzɪz/。",
   "scores": {
-   "ˈjuːzɪz": 114.87,
-   "ˈjuːsɪz": 120.74
+   "ˈjuːzɪz": 126.27,
+   "ˈjuːsɪz": 131.13
   }
  }
 ]

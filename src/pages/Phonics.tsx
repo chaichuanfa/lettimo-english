@@ -1,3 +1,4 @@
+import { Mascot, PageIntro } from "../components/Mascot";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { App, useApp, saveAll } from "../state";
 import {
@@ -290,18 +291,9 @@ export function PhonicsPage() {
               音标总表
             </a>
           </div>
-          <button
-            className="hero-search"
-            onClick={() =>
-              window.dispatchEvent(new CustomEvent("phonics:search"))
-            }
-          >
-            <Icon name="search" />
-            <span>搜单词、字母组合、音标或中文…</span>
-            <kbd>/</kbd>
-          </button>
         </div>
-        <div className="hero-card">
+        <div className="hero-card phonics-demo-card">
+          <Mascot pose="listening" className="demo-mascot" />
           <BlendScope>
             <div className="demo-word" data-word={demo.text}>
               <SayButton className="wc-word big" text="ship">
@@ -395,7 +387,11 @@ export function StagePage({ id }: { id: string }) {
     next = STAGES.find((s) => s.id === stage.id + 1);
   return (
     <>
-      <section className="stage-head" style={{ "--lv": lv.color }}>
+      <section
+        className="stage-head illustrated-lesson"
+        style={{ "--lv": lv.color }}
+      >
+        <Mascot pose="teaching" className="lesson-mascot" />
         <a className="crumb" href="./phonics">
           <Icon name="back" /> 拼读 · 学习路径
         </a>
@@ -611,7 +607,11 @@ function LessonContent({
   let n = 1;
   return (
     <>
-      <section className="lesson-head" style={{ "--lv": lv.color }}>
+      <section
+        className="lesson-head illustrated-lesson"
+        style={{ "--lv": lv.color }}
+      >
+        <Mascot pose="listening" className="lesson-mascot" />
         <a className="crumb" href={`./stage/${stage.id}`}>
           <Icon name="back" /> 第 {stage.id} 阶段 · {stage.title}
         </a>
@@ -1085,6 +1085,10 @@ function LessonQuiz({ lesson: l }: { lesson: Lesson }) {
   if (result)
     return (
       <div className={`result ${result.passed ? "pass" : ""}`}>
+        <Mascot
+          pose={result.passed ? "cheer" : "reading"}
+          className="result-mascot"
+        />
         <div className="r-score">
           {result.score}
           <small>/{result.total}</small>
@@ -1226,15 +1230,17 @@ export function SoundsPage() {
   return (
     <>
       <section className="page-head">
-        <a className="crumb" href="./phonics">
-          <Icon name="back" /> 拼读
-        </a>
-        <p className="eyebrow">Sound Chart</p>
-        <h1>音标总表</h1>
-        <p className="lead">
-          英语约有 44
-          个音素。点击任意格子：先听这个音，再听关键词。悬停可查看发音要领。
-        </p>
+        <PageIntro pose="listening">
+          <a className="crumb" href="./phonics">
+            <Icon name="back" /> 拼读
+          </a>
+          <p className="eyebrow">Sound Chart</p>
+          <h1>音标总表</h1>
+          <p className="lead">
+            英语约有 44
+            个音素。点击任意格子：先听这个音，再听关键词。悬停可查看发音要领。
+          </p>
+        </PageIntro>
       </section>
       {SOUND_GROUPS.map(([type, zh, en, desc]) => (
         <section className="block" key={type}>

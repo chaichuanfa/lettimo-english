@@ -1,0 +1,4 @@
+{
+  "words": "Ava (Premium)",
+  "note": "单词、例句的合成声音（build-audio.mjs 与各复查脚本的对照合成都读这里）。macOS 系统设置 → 辅助功能 → 朗读内容 → 系统声音 → 管理声音 → 英语（美国）→ Ava（高级）。音素是权威词典录音，见 import_authoritative.py。"
+}

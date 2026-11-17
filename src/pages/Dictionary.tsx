@@ -1,3 +1,4 @@
+import { PageIntro } from "../components/Mascot";
 import { navigate } from "../router";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
@@ -457,11 +458,13 @@ export default function Dictionary({ word = "" }: { word?: string }) {
   return (
     <>
       <section className="page-head dict-head">
-        <p className="eyebrow">Dictionary</p>
-        <h1>词典</h1>
-        <p className="lead">
-          输入英文单词，查看音标、中文释义和例句，听发音，并按自然拼读规则一块一块拼出来。
-        </p>
+        <PageIntro pose="reading">
+          <p className="eyebrow">Dictionary</p>
+          <h1>词典</h1>
+          <p className="lead">
+            输入英文单词，查看音标、中文释义和例句，听发音，并按自然拼读规则一块一块拼出来。
+          </p>
+        </PageIntro>
         <form
           className="dict-form"
           id="dict-form"

@@ -1,0 +1,44 @@
+{
+ "I used to be afraid of the dark.": {
+  "word": "used",
+  "reading": "juːst",
+  "evidence": "强制对齐判 /juːzd/（差距 1.22）与声学距离判 /juːst/（\"yoost\" 0.345、\"yoozd\" 0.839）冲突。人工测量：连读中 used to 的 s/z 本身无声学区别（录音、yoost、yoozd 的摩擦段都约 155ms、浊音 <0.1）；整句声学距离明显更近 yoost，且同一声音的 \"I used to walk to school\" 与 \"yoost\" 写法逐字节相同。判读对 /juːst/。",
+  "audio": "t/i-used-to-be-afraid-of-the-dark-hi97l6.mp3",
+  "audio_md5": "96a3fd1cf8ad92c4a8f2f6a03c816215"
+ },
+ "I used to play football after school.": {
+  "word": "used",
+  "reading": "juːst",
+  "evidence": "同上：强制对齐判 /juːzd/（差距 6.64）与声学距离判 /juːst/（\"yoost\" 0.314、\"yoozd\" 0.692）冲突；s/z 在连读中无区别（摩擦段 150–160ms、浊音 <0.1），判读对 /juːst/。",
+  "audio": "t/i-used-to-play-football-after-school-1wmboel.mp3",
+  "audio_md5": "3d3b10224af0784c3c1992c5c1e1b222"
+ },
+ "My best friend lives in a small town.": {
+  "word": "lives",
+  "reading": "lɪvz",
+  "evidence": "强制对齐判 /lɪvz/ 与声学距离判 /laɪvz/ 冲突。人工测量：录音元音 F1 稳定约 425、F2 约 2200（/ɪ/），元音开头 F1 309、浊音段 190ms，与 \"livs\"（350、215ms）一致；\"lyves\" 的 /aɪ/ 有 F1 870→700、F2 1435→2087 的滑动且更长（300ms）。判读对 /lɪvz/。",
+  "audio": "t/my-best-friend-lives-in-a-small-town-1xqidnr.mp3",
+  "audio_md5": "9c8f2ce7ec8e6290f8e7257db431fdc9"
+ },
+ "She does like the present. She uses it every day.": {
+  "word": "uses",
+  "reading": "ˈjuːzɪz",
+  "evidence": "强制对齐判 /ˈjuːzɪz/ 与声学距离判 /ˈjuːsɪz/ 冲突。人工测量：第一个擦音 55ms、浊音 0.27，与 \"yoozez\"（70ms、0.43）一致；\"yoosez\" 的 /s/ 140ms、浊音 0.07。判读对 /ˈjuːzɪz/。",
+  "audio": "t/she-does-like-the-present-she-uses-i-1fsahbz.mp3",
+  "audio_md5": "fc3dbd9789454d4be60d8ec5ebcbc768"
+ },
+ "This is the house where Lu Xun once lived.": {
+  "word": "lived",
+  "reading": "lɪvd",
+  "audio": "t/this-is-the-house-where-lu-xun-once--vc88z6.mp3",
+  "evidence": "Xun 不在词典里无法强制对齐，对照合成不逐字节相同，声学距离偏向 \"livd\"（0.719 对 \"lyved\" 0.936，未达判定比值）。人工测量：lived 的浊音段 235ms，与 \"livd\"（250ms）一致，\"lyved\" 的 /aɪ/ 明显更长（350ms）。判读对 /lɪvd/。另：Xun 与 \"Shoon\" 合成逐字节相同（/ʃun/）。",
+  "audio_md5": "d721d21799782c6a508bd0ebd0ee09aa"
+ },
+ "He is used to getting up early.": {
+  "word": "used",
+  "reading": "juːst",
+  "audio": "t/he-is-used-to-getting-up-early-1h3bwf4.mp3",
+  "evidence": "强制对齐判 /juːst/（差距 1.46，不足以定案），声学距离略偏 \"yoost\"（0.961 对 \"yoozd\" 1.067，未达判定比值）。人工测量：used 后的擦音段 200ms、浊音 0.03（完全清音），比 \"yoozd\"（150ms、0.07）和 \"yoost\"（165ms、0.06）都更清更长，是 /s/ 而不是 /z/。判读对 /juːst/。",
+  "audio_md5": "59f7cf9ed48a5b1aff419a5ab10e28cd"
+ }
+}

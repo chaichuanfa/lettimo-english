@@ -1,3 +1,4 @@
+import { Mascot, PageIntro } from "../components/Mascot";
 import {
   Fragment,
   useEffect,
@@ -143,13 +144,15 @@ export function GrammarPage() {
   return (
     <>
       <section className="page-head">
-        <p className="eyebrow">Grammar</p>
-        <h1>语法</h1>
-        <p className="lead">
-          从词类、基本句子、时态，到非谓语动词、复合句和特殊句式，
-          {GRAMMAR.length} 个阶段 {all}{" "}
-          节课。每课都有规则讲解、句型公式、带发音的例句和小测验，并标明属于小学、初中还是高中内容。
-        </p>
+        <PageIntro pose="teaching">
+          <p className="eyebrow">Grammar</p>
+          <h1>语法</h1>
+          <p className="lead">
+            从词类、基本句子、时态，到非谓语动词、复合句和特殊句式，
+            {GRAMMAR.length} 个阶段 {all}{" "}
+            节课。每课都有规则讲解、句型公式、带发音的例句和小测验，并标明属于小学、初中还是高中内容。
+          </p>
+        </PageIntro>
         <div className="g-progress">
           <div className="bar">
             <i style={{ width: `${(done / all) * 100}%` }} />
@@ -292,9 +295,10 @@ function LessonContent({ lesson }: { lesson: IndexedGrammarLesson }) {
   return (
     <>
       <section
-        className="lesson-head"
+        className="lesson-head illustrated-lesson"
         style={{ "--lv": level.color } as CSSProperties}
       >
+        <Mascot pose="teaching" className="lesson-mascot" />
         <a className="crumb" href="./grammar">
           <Icon name="back" /> 语法 · 第 {stage.no} 阶段 {stage.title}
         </a>
@@ -452,6 +456,10 @@ function LessonContent({ lesson }: { lesson: IndexedGrammarLesson }) {
                 const passed = score >= passMark(total);
                 return (
                   <div className={`result ${passed ? "pass" : ""}`}>
+                    <Mascot
+                      pose={passed ? "cheer" : "reading"}
+                      className="result-mascot"
+                    />
                     <div className="r-score">
                       {score}
                       <small>/{total}</small>

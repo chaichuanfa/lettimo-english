@@ -28,12 +28,12 @@
   "spoken": "vase",
   "want": "veɪs",
   "got": "veɪs",
-  "how": "对照合成：与 \"vace\" 完全相同",
+  "how": "强制对齐 {'veɪs': 15.9, 'vɑz': 26.4}",
   "ok": true
  },
  {
   "word": "use",
-  "spoken": "use",
+  "spoken": "yooz",
   "want": "juːz",
   "got": "juːz",
   "how": "对照合成：与 \"yooz\" 完全相同",
@@ -84,7 +84,7 @@
   "spoken": "the",
   "want": "ðə",
   "got": "ðə",
-  "how": "强制对齐 {'ðə': 17.6, 'ðiː': 24.2}",
+  "how": "强制对齐 {'ðə': 17.3, 'ðiː': 25.0}",
   "ok": true
  },
  {
@@ -92,7 +92,7 @@
   "spoken": "and",
   "want": "ænd",
   "got": "ænd",
-  "how": "强制对齐 {'ænd': 20.4, 'ənd': 22.4}",
+  "how": "强制对齐 {'ænd': 25.1, 'ənd': 32.5}",
   "ok": true
  },
  {
@@ -100,7 +100,7 @@
   "spoken": "of",
   "want": "ʌv",
   "got": "ʌv",
-  "how": "强制对齐 {'ʌv': 21.6, 'ɔf': 22.2}",
+  "how": "强制对齐 {'ʌv': 35.1, 'ɔf': 39.3}",
   "ok": true
  },
  {
@@ -116,7 +116,7 @@
   "spoken": "have",
   "want": "hæv",
   "got": "hæv",
-  "how": "强制对齐 {'hæv': 17.4, 'həv': 23.9}",
+  "how": "强制对齐 {'hæv': 17.3, 'həv': 24.9}",
   "ok": true
  },
  {
@@ -132,7 +132,7 @@
   "spoken": "you",
   "want": "juː",
   "got": "juː",
-  "how": "强制对齐 {'juː': 16.8, 'jə': 24.5}",
+  "how": "强制对齐 {'juː': 17.3, 'jə': 25.1}",
   "ok": true
  },
  {
@@ -148,7 +148,7 @@
   "spoken": "calm",
   "want": "kɑm",
   "got": "kɑm",
-  "how": "强制对齐 {'kɑm': 23.5, 'kɑlm': 32.4}",
+  "how": "强制对齐 {'kɑm': 19.0, 'kɑlm': 27.3}",
   "ok": true
  },
  {
@@ -156,7 +156,7 @@
   "spoken": "palm",
   "want": "pɑm",
   "got": "pɑm",
-  "how": "强制对齐 {'pɑm': 19.9, 'pɑlm': 24.2}",
+  "how": "强制对齐 {'pɑm': 28.2, 'pɑlm': 29.4}",
   "ok": true
  },
  {
@@ -164,7 +164,7 @@
   "spoken": "tomato",
   "want": "təˈmeɪtoʊ",
   "got": "təˈmeɪtoʊ",
-  "how": "对照合成：与 \"tomayto\" 完全相同",
+  "how": "强制对齐 {'təˈmeɪtoʊ': 27.4, 'təˈmɑtoʊ': 36.5}",
   "ok": true
  },
  {
@@ -172,7 +172,7 @@
   "spoken": "again",
   "want": "əˈgɛn",
   "got": "əˈgɛn",
-  "how": "强制对齐 {'əˈgɛn': 28.2, 'əˈgeɪn': 35.4}",
+  "how": "强制对齐 {'əˈgɛn': 31.4, 'əˈgeɪn': 38.4}",
   "ok": true
  },
  {
@@ -180,7 +180,7 @@
   "spoken": "human",
   "want": "ˈhjuːmən",
   "got": "ˈhjuːmən",
-  "how": "强制对齐 {'ˈhjuːmən': 20.1, 'ˈjuːmən': 24.7}",
+  "how": "强制对齐 {'ˈhjuːmən': 23.7, 'ˈjuːmən': 31.7}",
   "ok": true
  },
  {
@@ -188,7 +188,7 @@
   "spoken": "huge",
   "want": "hjuːdʒ",
   "got": "hjuːdʒ",
-  "how": "强制对齐 {'hjuːdʒ': 33.4, 'juːdʒ': 39.9}",
+  "how": "强制对齐 {'hjuːdʒ': 45.1, 'juːdʒ': 45.6}",
   "ok": true
  },
  {
@@ -212,7 +212,7 @@
   "spoken": "coupon",
   "want": "ˈkuːpɑn",
   "got": "ˈkuːpɑn",
-  "how": "强制对齐 {'ˈkuːpɑn': 35.7, 'ˈkjuːpɑn': 42.2}",
+  "how": "强制对齐 {'ˈkuːpɑn': 34.2, 'ˈkjuːpɑn': 42.3}",
   "ok": true
  },
  {
@@ -220,7 +220,7 @@
   "spoken": "job",
   "want": "dʒɑb",
   "got": "dʒɑb",
-  "how": "强制对齐 {'dʒɑb': 24.4, 'dʒoʊb': 31.5}",
+  "how": "强制对齐 {'dʒɑb': 48.0, 'dʒoʊb': 49.3}",
   "ok": true
  },
  {
@@ -228,7 +228,7 @@
   "spoken": "with",
   "want": "wɪθ",
   "got": "wɪθ",
-  "how": "强制对齐 {'wɪθ': 16.1, 'wɪð': 19.8}",
+  "how": "强制对齐 {'wɪθ': 19.3, 'wɪð': 24.8}",
   "ok": true
  },
  {
@@ -260,15 +260,15 @@
   "spoken": "family",
   "want": "ˈfæməli",
   "got": "ˈfæməli",
-  "how": "对照合成：与 \"fammily\" 完全相同",
+  "how": "强制对齐 {'ˈfæməli': 23.3, 'ˈfæmli': 25.6}",
   "ok": true
  },
  {
   "word": "camera",
-  "spoken": "cammera",
+  "spoken": "kam-er-uh",
   "want": "ˈkæmɚə",
   "got": "ˈkæmɚə",
-  "how": "对照合成：与 \"cammera\" 完全相同",
+  "how": "对照合成：与 \"kam-er-uh\" 完全相同",
   "ok": true
  },
  {
@@ -304,8 +304,8 @@
   "ok": true
  },
  {
-  "word": "August",
-  "spoken": "August",
+  "word": "august",
+  "spoken": "august",
   "want": "ˈɔːgəst",
   "got": "ˈɔːgəst",
   "how": "对照合成：与 \"Awgust\" 完全相同",

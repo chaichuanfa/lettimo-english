@@ -55,7 +55,7 @@ TABLE = {
     'zero':   ('ˈziːroʊ', {'ˈziːroʊ': ('z i ɹ oʊ', ['zeero']), 'ˈzɪroʊ': ('z ɪ ɹ oʊ', ['zirro'])}),
     'engine': ('ˈɛndʒɪn', {'ˈɛndʒɪn': ('ɛ n ʤ ɪ n', ['enjin']), 'ˈɪndʒɪn': ('ɪ n ʤ ɪ n', ['injin'])}),
     'family': ('ˈfæməli', {'ˈfæməli': ('f æ m ə l i', ['fammily']), 'ˈfæmli': ('f æ m l i', ['famly'])}),
-    'camera': ('ˈkæmɚə', {'ˈkæmɚə': ('k æ m ɝ ə', ['cammera']), 'ˈkæmrə': ('k æ m ɹ ə', ['camra'])}),
+    'camera': ('ˈkæmɚə', {'ˈkæmɚə': ('k æ m ɝ ə', ['kam-er-uh']), 'ˈkæmrə': ('k æ m ɹ ə', ['camra'])}),
     'sunday': ('ˈsʌndeɪ', {'ˈsʌndeɪ': ('s ə n d eɪ', ['sundae']), 'ˈsʌndi': ('s ə n d i', ['sundee'])}),
     'exit':   ('ˈɛksɪt', {'ˈɛksɪt': ('ɛ k s ɪ t', ['eksit']), 'ˈɛgzɪt': ('ɛ g z ɪ t', ['egzit'])}),
     'shin':   ('ʃɪn', {'ʃɪn': ('ʃ ɪ n', ['shinn']), 'ʃiːn': ('ʃ i n', ['sheen'])}),
@@ -68,7 +68,7 @@ TMP = tempfile.mkdtemp(prefix='lex-')
 def synth_hash(text, rate=150):
     path = os.path.join(TMP, hashlib.md5(text.encode()).hexdigest() + '.aiff')
     if not os.path.exists(path):
-        subprocess.run(['say', '-v', E.VOICE, '-r', str(rate), '-o', path, '--', text], check=True)
+        E.say(text, rate, path)
     with open(path, 'rb') as f:
         return hashlib.md5(f.read()).hexdigest()
 

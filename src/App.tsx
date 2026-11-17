@@ -1,3 +1,4 @@
+import { PageIntro } from "./components/Mascot";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Route } from "./router";
 import {
@@ -28,6 +29,8 @@ import Words from "./pages/Words";
 import Guide from "./pages/Guide";
 import Dictionary from "./pages/Dictionary";
 import { useVocab, vocabCounts } from "./vocab-store";
+const SITE_NAME = "英语之路";
+const SITE_NAME_EN = "English Path";
 const NAV = [
   ["", "首页", "home"],
   ["phonics", "拼读", "blend"],
@@ -44,11 +47,13 @@ function Review() {
   return (
     <>
       <section className="page-head">
-        <p className="eyebrow">Review</p>
-        <h1>复习</h1>
-        <p className="lead">
-          三门课的复习都在这里：单词按间隔复习，语法重做错题，拼读做练习。
-        </p>
+        <PageIntro pose="cheer">
+          <p className="eyebrow">Review</p>
+          <h1>复习</h1>
+          <p className="lead">
+            三门课的复习都在这里：单词按间隔复习，语法重做错题，拼读做练习。
+          </p>
+        </PageIntro>
       </section>
       <section className="block rv-block" style={{ "--lv": "#CE82FF" }}>
         <h2 className="block-title">
@@ -108,7 +113,6 @@ function titleFor({ name, arg }: Route) {
   if (name === "grammar" && arg)
     return `${G_LESSONS.find((l) => l.id === arg)?.title || "页面不存在"} · 语法`;
   const titles: Record<string, string> = {
-    "": "拼读、语法与单词",
     phonics: "拼读",
     grammar: "语法",
     words: "单词",
@@ -159,7 +163,9 @@ export default function AppView() {
   }, []);
   useEffect(() => {
     Speech.stop();
-    document.title = titleFor(route) + " · 英语之路";
+    document.title = name
+      ? `${titleFor(route)} · ${SITE_NAME}`
+      : `${SITE_NAME} · ${SITE_NAME_EN}`;
     window.scrollTo(0, 0);
     setFallbackOpen(false);
     if (
@@ -248,7 +254,8 @@ export default function AppView() {
             alt=""
           />
           <span className="brand-text">
-            英语之路<small>English Path</small>
+            {SITE_NAME}
+            <small>{SITE_NAME_EN}</small>
           </span>
         </a>
         <nav className="nav" aria-label="主导航">
@@ -340,7 +347,8 @@ export default function AppView() {
       {name === "" && (
         <footer className="foot">
           <p>
-            英语之路 · 拼读、语法和单词（中考到四六级词汇） · 进度保存在本机浏览器
+            英语之路 · 拼读、语法和单词（中考到四六级词汇） ·
+            进度保存在本机浏览器
           </p>
           <p>
             <a href="./guide">学习指南与音频来源说明</a>

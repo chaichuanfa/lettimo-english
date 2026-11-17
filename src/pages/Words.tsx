@@ -1,3 +1,4 @@
+import { Mascot, PageIntro } from "../components/Mascot";
 import React, {
   useEffect,
   useLayoutEffect,
@@ -275,39 +276,41 @@ function Home({
 }: CoreDataProps & { book?: BookChoice | null; onSettings: () => void }) {
   const head = (
     <section className="page-head">
-      <div className="ws-headrow">
-        <div>
-          <p className="eyebrow">Words</p>
-          <h1>单词</h1>
-        </div>
-        <button
-          className="btn small ghost ws-set-btn"
-          aria-haspopup="dialog"
-          onClick={onSettings}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
+      <PageIntro pose="reading" className="words-intro">
+        <div className="ws-headrow">
+          <div>
+            <p className="eyebrow">Words</p>
+            <h1>单词</h1>
+          </div>
+          <button
+            className="btn small ghost ws-set-btn"
+            aria-haspopup="dialog"
+            onClick={onSettings}
           >
-            <path d="M4 7h8M18 7h2M4 17h2M12 17h8" />
-            <circle cx="15" cy="7" r="2.6" />
-            <circle cx="9" cy="17" r="2.6" />
-          </svg>
-          <span>设置</span>
-        </button>
-      </div>
-      <p className="lead">
-        {book ? (
-          <>
-            正在学：<b>{book.name}</b>。每天先复习到期的词，再学新词。
-          </>
-        ) : (
-          "每天学一点新词，学过的词按 1、2、4、7、15、30、60 天的间隔安排复习。先选一本词书。"
-        )}
-      </p>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+            >
+              <path d="M4 7h8M18 7h2M4 17h2M12 17h8" />
+              <circle cx="15" cy="7" r="2.6" />
+              <circle cx="9" cy="17" r="2.6" />
+            </svg>
+            <span>设置</span>
+          </button>
+        </div>
+        <p className="lead">
+          {book ? (
+            <>
+              正在学：<b>{book.name}</b>。每天先复习到期的词，再学新词。
+            </>
+          ) : (
+            "每天学一点新词，学过的词按 1、2、4、7、15、30、60 天的间隔安排复习。先选一本词书。"
+          )}
+        </p>
+      </PageIntro>
     </section>
   );
   if (!book)
@@ -1246,7 +1249,7 @@ function Finish({
   const nothing = !p.reviewDone && !p.graduated && !p.known;
   return (
     <div className="result pass">
-      <div className="r-score">{nothing ? "✓" : "🎉"}</div>
+      <Mascot pose={nothing ? "reading" : "cheer"} className="result-mascot" />
       <p>
         {nothing
           ? reviewOnly

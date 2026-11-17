@@ -61,7 +61,7 @@ def synth_hash(text, rate=165):
     import tempfile
     if text not in _hash:
         path = os.path.join(tempfile.gettempdir(), 'het-' + hashlib.md5(text.encode()).hexdigest() + '.aiff')
-        subprocess.run(['say', '-v', E.VOICE, '-r', str(rate), '-o', path, '--', text], check=True)
+        E.say(text, rate, path)
         _hash[text] = hashlib.md5(open(path, 'rb').read()).hexdigest()
         os.remove(path)
     return _hash[text]
@@ -80,12 +80,38 @@ def control(spoken, word):
     return hit[0] if len(hit) == 1 else None
 
 
+def acoustic(spoken, word):
+    """对照合成不逐字节相同时：声学距离判读（见 acoustic_compare.py）。返回 (读法 或 None, 说明)"""
+    import acoustic_compare as AC
+    pat = re.compile(r'\b' + word + r'\b', re.I)
+    if not pat.search(spoken):
+        return None, ''
+    got, d = AC.pick(spoken, {name: pat.sub(sp, spoken, count=1) for name, sp in SPELL[word].items()}, 165)
+    return got, '声学距离 ' + '、'.join(f'"{SPELL[word][k]}" {v}' for k, v in d.items())
+
+
+# 强制对齐与声学距离结论冲突、经人工逐项测量裁决的句子（证据与录音指纹一起记录；录音一变指纹不符，复核自动失效）
+REVIEWED = json.load(open(os.path.join(ROOT, 'scripts', 'ref', 'heteronym-reviewed.json')))
+
+
+def reviewed(sent, word, file):
+    import hashlib
+    r = REVIEWED.get(sent)
+    if r and r['word'] == word and hashlib.md5(open(os.path.join(ROOT, 'audio', file), 'rb').read()).hexdigest() == r['audio_md5']:
+        return r['reading'], '人工复核：' + r['evidence']
+    return None, ''
+
+
+# 例句里 read 是过去式、但句子本身看不出时态的，按中文翻译确定（等公共汽车的时候，我看了一会儿书）
+READ_PAST = {'while waiting for the bus, i read a book.'}
+
+
 def expected(word, sent):
     s = sent.lower()
     if word == 'read':
         past = re.search(r"\b(have|has|had)( already| never| ever)? read\b", s) or re.search(r"\bread\b.*\b(yesterday|last|ago)\b", s) \
             or re.search(r"\b(she|he|i|we|they) read a\b.*yesterday", s)
-        return 'rɛd' if past else 'riːd'
+        return 'rɛd' if past or s in READ_PAST else 'riːd'
     if word == 'use':      # use to（过去常常）、no use / of use（名词）读 /juːs/
         return 'juːs' if re.search(r'\buse to\b|\bno use\b|\bof use\b|\bthe use of\b', s) else 'juːz'
     if word == 'used':
@@ -128,10 +154,16 @@ console.log(JSON.stringify(out));'''
             spoken = speak_as.get(s['en'], s['en'])
             for tw in targets:
                 want, ctl = expected(tw, s['en']), control(spoken, tw)
-                if ctl:
+                ac, ac_how = (None, '') if ctl else acoustic(spoken, tw)
+                rv, rv_how = reviewed(s['en'], tw, s['file'])
+                if rv and not ctl:
+                    rows.append({**s, 'spoken': spoken, 'word': tw, 'want': want, 'got': rv, 'ok': rv == want, 'how': rv_how})
+                elif ctl:
                     got = want if ctl == 'neutral' else ctl
                     rows.append({**s, 'spoken': spoken, 'word': tw, 'want': want, 'got': got, 'ok': got == want,
                                  'how': '对照合成：两种拼写合成相同（读音中和）' if ctl == 'neutral' else f'对照合成：与 "{SPELL[tw][ctl]}" 写法完全相同'})
+                elif ac:
+                    rows.append({**s, 'spoken': spoken, 'word': tw, 'want': want, 'got': ac, 'ok': ac == want, 'how': ac_how})
                 else:
                     rows.append({**s, 'error': '有词不在词典里、对照合成也无法判断：' + ', '.join(w for w in words if w not in cmu and w not in VAR)})
             continue
@@ -158,11 +190,21 @@ console.log(JSON.stringify(out));'''
                 got, how = want, '对照合成：两种拼写合成相同（读音中和）'
             elif ctl:
                 got, how = ctl, f'对照合成：与 "{SPELL[tw][ctl]}" 写法完全相同'
-            elif spoken != s['en']:
-                alt = next((name for name, sp in SPELL[tw].items() if re.search(r'\b' + sp + r'\b', spoken)), None)
-                got, how = (alt, f'按替换写法 "{SPELL[tw][alt]}" 合成') if alt else (got, f'强制对齐（差距 {margin}）')
+            elif spoken != s['en'] and any(re.search(r'\b' + sp + r'\b', spoken) for sp in SPELL[tw].values()):
+                alt = next(name for name, sp in SPELL[tw].items() if re.search(r'\b' + sp + r'\b', spoken))
+                got, how = alt, f'按替换写法 "{SPELL[tw][alt]}" 合成'
             else:
-                how = f'强制对齐（差距 {margin}）'
+                # 强制对齐与声学距离一致才定案（两者各有偏差：强制对齐在 use(d) to 偏向 /z/，整句声学距离会被韵律变化带偏）；
+                # 冲突时看人工复核清单，没有复核记录就列为无法判断
+                ac, ac_how = acoustic(spoken, tw)
+                rv, rv_how = reviewed(s['en'], tw, s['file'])
+                if rv:
+                    got, how = rv, rv_how
+                elif ac == got or (ac is None and margin >= 3):
+                    how = f'强制对齐（差距 {margin}）' + (f'，{ac_how}' if ac else '')
+                else:
+                    rows.append({**s, 'error': f'强制对齐判 /{got}/（差距 {margin}）与{ac_how or "声学距离（无法区分）"}不一致，需人工复核'})
+                    continue
             rows.append({**s, 'spoken': spoken, 'word': tw, 'want': want, 'got': got, 'ok': got == want, 'how': how, 'scores': scores})
     bad = [r for r in rows if not r.get('ok', False)]
     for r in rows:

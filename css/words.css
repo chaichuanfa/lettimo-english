@@ -34,6 +34,15 @@
 .ws-headrow { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .ws-set-btn { flex: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; color: var(--ink-2); }
 .ws-set-btn svg { width: 18px; height: 18px; }
+.page-intro.words-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "heading mascot settings" "description mascot ."; gap: 12px 24px; align-items: start; }
+.words-intro .ws-headrow { display: contents; }
+.words-intro .ws-headrow > div { grid-area: heading; }
+.words-intro .ws-set-btn { grid-area: settings; justify-self: end; margin-inline-start: auto; }
+.words-intro .intro-mascot { grid-area: mascot; align-self: center; float: none; margin: 0; }
+.words-intro .lead { grid-area: description; min-inline-size: 0; margin: 0; }
+@media (max-width: 640px) {
+  .page-intro.words-intro { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "heading settings" "description mascot"; column-gap: 16px; }
+}
 .ws-dialog {
   width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; overflow: hidden;
   border: 2px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink);

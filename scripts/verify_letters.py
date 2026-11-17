@@ -33,7 +33,7 @@ TMP = tempfile.mkdtemp(prefix='abc-')
 def synth_hash(text, rate=150):
     path = os.path.join(TMP, hashlib.md5(text.encode()).hexdigest() + '.aiff')
     if not os.path.exists(path):
-        subprocess.run(['say', '-v', E.VOICE, '-r', str(rate), '-o', path, '--', text], check=True)
+        E.say(text, rate, path)
     return hashlib.md5(open(path, 'rb').read()).hexdigest()
 
 

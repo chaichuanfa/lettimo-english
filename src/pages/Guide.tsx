@@ -1,3 +1,4 @@
+import { PageIntro } from "../components/Mascot";
 import React from "react";
 import { STAGES, levelOf } from "../data";
 import { resetProgress } from "../state";
@@ -17,14 +18,16 @@ export default function Guide() {
   return (
     <>
       <section className="page-head">
-        <p className="eyebrow">Guide</p>
-        <h1>学习指南</h1>
-        <p className="lead">
-          自然拼读（Phonics）是英语母语国家孩子学习阅读的核心方法：建立
-          <b>字母（组合）</b>与<b>发音</b>
-          之间的对应关系，从而“见词能读、听音能写”。大约 75%
-          以上的英语单词符合拼读规律。
-        </p>
+        <PageIntro pose="teaching">
+          <p className="eyebrow">Guide</p>
+          <h1>学习指南</h1>
+          <p className="lead">
+            自然拼读（Phonics）是英语母语国家孩子学习阅读的核心方法：建立
+            <b>字母（组合）</b>与<b>发音</b>
+            之间的对应关系，从而“见词能读、听音能写”。大约 75%
+            以上的英语单词符合拼读规律。
+          </p>
+        </PageIntro>
       </section>
       <section className="block">
         <h2 className="block-title">
@@ -133,7 +136,7 @@ export default function Guide() {
             美式音标说明页的单音素录音；Cambridge 没有单独录音的 /ɑr/ /ɔr/ /ɛr/
             /ɪr/ /juː/
             用朗文、牛津里本身只由这几个音组成的单词（are、oar、air、ear、ewe）。单词和例句的整句朗读用
-            macOS 的美式女声（Samantha）合成，所以音素和单词是两个不同的声音。
+            macOS 的高质量美式女声 Ava（高级）合成，所以音素和单词是两个不同的声音。少数 Ava 会读错的词（如 ox、elected、our、exit）只换了交给语音合成的写法，页面文字不变，并逐个核对过读音。
           </li>
           <li>元音直接用词典的录音，只去掉前后的静音。</li>
           <li>

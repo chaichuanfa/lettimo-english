@@ -57,6 +57,14 @@ export default function DailyQuote() {
           <time dateTime={quote?.date || ""}>
             {quote?.date.replaceAll("-", ".")}
           </time>
+          {quote && (
+            <SayButton
+              className="dq-play"
+              text={quote.english}
+              clip={quote.audio}
+              toggle
+            />
+          )}
         </div>
         <p className="dq-english" lang="en">
           {quote?.english ||
@@ -78,14 +86,6 @@ export default function DailyQuote() {
           </a>
         )}
       </div>
-      {quote && (
-        <SayButton
-          className="dq-play"
-          text={quote.english}
-          clip={quote.audio}
-          toggle
-        />
-      )}
     </section>
   );
 }

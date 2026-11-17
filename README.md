@@ -135,7 +135,7 @@ npm test        # 核心逻辑测试
 
 ## 音频来源与校验
 
-单词、例句是 macOS Samantha（美式女声）合成；音素是权威词典的美式真人录音（男声）。
+单词、例句是 macOS 的 Ava（高级）美式女声合成（声音名写在 `scripts/voice.json`，构建与复查脚本都读它；需在 系统设置 → 辅助功能 → 朗读内容 → 系统声音 → 管理声音 里下载）；音素是权威词典的美式真人录音（男声）。
 
 - 音素（`scripts/import_authoritative.py`，记录在 `audio/p/authoritative-report.json`）：原始录音放在 `audio-src/authoritative/`（词典版权录音，已 gitignore，不入库；下载清单见该目录的 manifest.json）。
   - 40 个来自 Cambridge Dictionary 美式音标页（https://dictionary.cambridge.org/help/phonetics.html）的单音素录音；Cambridge 没有的 ar or air ear u_l 用 Longman 的 are / air / ear / ewe、Oxford Learner's 的 oar（这几个词本身只由这些音组成）。
@@ -143,7 +143,7 @@ npm test        # 核心逻辑测试
   - 校验（`verify_phonemes.py` 的权威录音分支）：元音查开头无送气噪声、长度正常；辅音查结尾没有超出允许过渡的元音、接上同一发音人的 /ɑ/ 能辨认。θ ŋ 连未截取的原录音识别模型都识别不出（θ→s、ŋ→u），改用声学判断（θ 在原录音里比后面的 ə 弱 11dB 而 /s/ 比 ə 还响、频谱更散；ŋ 是持续的低 F1 浊音）。识别模型对这位发音人的孤立元音有偏差（æ ʌ ə 判成 ɑ，起音处幻听 h/b/m），所以元音不用识别结果判定。
 - 以下是改用权威录音之前的音素做法（Samantha 截取；脚本保留，重跑会覆盖 audio/p，需再跑一次 import_authoritative.py）：
 
-- 单词、例句：用 `say` 直接合成（`scripts/build-audio.mjs`）。单个字母会被合成成 "capital X"，所以字母名一律用小写合成。少数 Samantha 会读错的文字只换朗读写法、不改页面文字（`SPEAK_AS` / `SPEAK_WORD`：如 "used to" 按 "yoost to"、Beijing 按 "Bayjing"、单独的 a 按 "uh"、our 按 "hour"、exit 按 "eksit"、shin 按 "shinn"、点读的 Mr 按 "mister"），实际合成用的文字记在 `audio/speak-as.json`。
+- 单词、例句：用 `say` 直接合成（`scripts/build-audio.mjs`，每次调用超时 60 秒、重试 3 次——say 偶尔会卡死）。单个字母会被合成成 "capital X"，所以字母名一律用小写合成。Ava 会读错的文字只换朗读写法、不改页面文字（`SPEAK_AS` / `SPEAK_WORD`）：our→hour、exit→eksit、camera→kam-er-uh、shin→shinn、单独的 use→yooz、elected→electid（单独和例句里都读成 oh-lected）、"use to"→"yoos to"、"I used my camera"→"I yoozd my camera"、"tears running"→"teers running" 等；改写拼写也读不对的 ox（单独读成 /oʊks/）从整句 "Ox and box." 截取前 0.303 秒（`CARRIER`，附 md5 校验）。实际合成用的文字记在 `audio/speak-as.json`。
 - 旧做法·音素：无法直接合成，从 Samantha 朗读的单词里截取，分三类处理（结果分别在 `audio/p/report.json`、`refine-report.json`、`sustain-report.json`）：
   - 单元音（`scripts/sustain_phonemes.py`）：从浊音起点截（不带前一个辅音的送气），去掉滑向后一个辅音的过渡，优先 h_d / 元音开头的词；松元音 ɪ ɛ ʌ ʊ 保持自然长度（拉长了 ɛ 会被听成 æ、ʌ 听成 ɑ），æ ɑ 等放慢到约 0.32 秒。
   - 二合元音、r 化元音（同上脚本）：保留完整滑动，不用 h 开头的词（会残留 h 的气流）；放慢不超过约 1.3 倍（滑动变缓会被听成单元音）。
@@ -158,7 +158,8 @@ npm test        # 核心逻辑测试
   - `verify_heteronyms.py`：例句里的多音词按语境读对。
   - `verify_letters.py`：字母名。
   - `verify_words.py`：全部单词录音（课程单词，以及例句点读、最小对立词、关键词等，共 2000 多个）逐音做发音质量检查（GOP）；被标记的词必须用对照合成证实是按常规读法读的——与规则拼写合成完全相同（`scripts/ref/word-respellings.json`），或与"误读版"拼写合成不同（`scripts/ref/word-misreadings.json`，shin 就是这样查出与 sheen 完全相同的）；证明不了的列为待复核。
-  - 对照合成：Samantha 对同一段文字每次合成的音频完全相同，所以录音与哪种"只能那样读"的拼写合成出相同音频，就确定读成了哪种——这是确定的结论，不受识别模型偏差影响。
+  - 对照合成：合成声音对同一串音素每次合成的音频完全相同（Ava、Samantha 都是），所以录音与哪种"只能那样读"的拼写合成出相同音频，就确定读成了哪种——这是确定的结论，不受识别模型偏差影响。单词：与"正确读法"拼写相同 → 读对；把识别模型怀疑的音换掉拼出"误读写法"，相同 → 读错、全都不同 → 没有读成那样（r 前元音、元音间 t/d 闪音、弱读 ə 这几类本来就不区分，不算误读）。
+  - 例句：Ava 改一个词整句韵律都会微调，对照合成常常不会逐字节相同，这时要求强制对齐与声学距离（`scripts/acoustic_compare.py`，MFCC 动态时间规整）结论一致；冲突的由人工逐项测量（共振峰、擦音时长与浊音比例）裁决，证据与录音 md5 一起记在 `scripts/ref/heteronym-reviewed.json`，录音一变自动失效。
 - 多音节词按音节拼读时用音素录音逐个读出，不单独合成音节（TTS 会把 "tle" 读成字母名、把 table 的 "ta" 读成 /tɑ/）。
 - 校验脚本需要单独的 Python 环境：
 

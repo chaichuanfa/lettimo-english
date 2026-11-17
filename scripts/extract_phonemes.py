@@ -29,7 +29,20 @@ from transformers import AutoProcessor, AutoModelForCTC
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 OUT = os.path.join(ROOT, 'audio', 'p')
-VOICE, RATE = 'Samantha', 150
+VOICE, RATE = 'Samantha', 150   # 旧的音素截取用（音素现改用权威录音）
+def say(text, rate, path, voice=None):
+    """调用 macOS say 合成到 path。偶尔会卡死不返回（多个进程同时合成时见过），所以加超时、重试 3 次"""
+    for attempt in range(3):
+        try:
+            subprocess.run(['say', '-v', voice or WORD_VOICE, '-r', str(rate), '-o', path, '--', text], check=True, timeout=60)
+            return path
+        except subprocess.TimeoutExpired:
+            continue
+    raise RuntimeError(f'say 连续 3 次超时：{text!r}')
+
+
+# 单词、例句的合成声音（与 build-audio.mjs 相同，复查脚本做对照合成用）
+WORD_VOICE = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'voice.json')))['words']
 SR, FRAME = 16000, 0.02
 MODEL = 'vitouphy/wav2vec2-xls-r-300m-timit-phoneme'
 JUDGE2 = 'facebook/wav2vec2-lv-60-espeak-cv-ft'

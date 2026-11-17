@@ -1,3 +1,4 @@
+import { Mascot } from "../components/Mascot";
 import React from "react";
 interface CourseProps {
   color: string;
@@ -16,6 +17,8 @@ import { useVocab, vocabCounts } from "../vocab-store";
 import { grammarWrongList } from "./Grammar";
 import { Icon } from "../components/UI";
 import DailyQuote from "../components/DailyQuote";
+import DailyChallenge from "../components/DailyChallenge";
+import { recommendStudy } from "../features/dashboard";
 function Course({
   color,
   icon,
@@ -72,6 +75,14 @@ export default function Dashboard() {
     gd = G_LESSONS.filter((l) => app.progress.grammar[l.id]?.done).length;
   const gw = grammarWrongList().length,
     total = counts.due + gw + app.wrong.length;
+  const recommendation = recommendStudy(
+    app.progress,
+    LESSONS,
+    G_LESSONS,
+    counts.due,
+    gw + app.wrong.length,
+    counts.started,
+  );
   return (
     <>
       <section className="page-head dash-head">
@@ -89,7 +100,68 @@ export default function Dashboard() {
           <kbd>/</kbd>
         </button>
       </section>
-      <DailyQuote />
+      <section className="today-study" aria-labelledby="today-title">
+        <div className="today-copy">
+          <Mascot pose="wave" className="reading-mascot" />
+          <p className="today-eyebrow">
+            <Icon name="sun" /> 今日学习 · 每天进步一点点
+          </p>
+          <h2 id="today-title">{recommendation.title}</h2>
+          <p className="today-description">{recommendation.description}</p>
+          <div className="today-actions">
+            <a className="btn primary" href={recommendation.href}>
+              {recommendation.action} <Icon name="arrow" />
+            </a>
+            {!counts.started && (
+              <a className="today-alternative" href="./words">
+                也可以从背单词开始
+              </a>
+            )}
+          </div>
+        </div>
+        <div className="today-path">
+          <p>一点巩固，一点新收获</p>
+          <ol role="list">
+            <li>
+              <span className="today-step">
+                <Icon name="review" />
+              </span>
+              <div>
+                <b>温习旧知识</b>
+                <span>
+                  {total ? `${total} 项等待复习` : "暂时没有待复习内容"}
+                </span>
+              </div>
+            </li>
+            <li>
+              <span className="today-step">
+                <Icon name="book" />
+              </span>
+              <div>
+                <b>学一点新内容</b>
+                <span>跟着自己的进度往前走</span>
+              </div>
+            </li>
+            <li>
+              <span className="today-step">
+                <Icon name="pen" />
+              </span>
+              <div>
+                <b>试一道小挑战</b>
+                <span>就在下方，随时试试</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <div className="daily-grid">
+        <DailyQuote />
+        <DailyChallenge />
+      </div>
+      <div className="dash-section-heading">
+        <h2>我的学习</h2>
+        <p>按自己的节奏，一步一步来</p>
+      </div>
       <section className="dash-grid" aria-label="课程">
         <Course
           color="#58CC02"
@@ -159,6 +231,38 @@ export default function Dashboard() {
           </a>
         </Course>
       </section>
+      <nav className="dash-shortcuts" aria-label="学习工具">
+        <a href="./dict">
+          <span className="shortcut-icon">
+            <Icon name="search" />
+          </span>
+          <span>
+            <b>查词典</b>
+            <small>释义、发音与例句</small>
+          </span>
+          <Icon name="arrow" />
+        </a>
+        <a href="./sounds">
+          <span className="shortcut-icon">
+            <Icon name="speaker" />
+          </span>
+          <span>
+            <b>音标总表</b>
+            <small>听一听，练准每个音</small>
+          </span>
+          <Icon name="arrow" />
+        </a>
+        <a href="./guide">
+          <span className="shortcut-icon">
+            <Icon name="book" />
+          </span>
+          <span>
+            <b>学习指南</b>
+            <small>找到适合自己的起点</small>
+          </span>
+          <Icon name="arrow" />
+        </a>
+      </nav>
     </>
   );
 }
