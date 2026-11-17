@@ -20,24 +20,24 @@
 
 ## 本地运行
 
-使用 **Node.js 22.12+**（推荐 24）。
+使用 **Node.js 22.12+**（推荐 24）和 **pnpm 12.14.0**（[安装指南](https://pnpm.io/installation)）。项目通过 `packageManager` 固定 pnpm 版本。
 
 ```bash
 git clone https://github.com/chaichuanfa/lettimo-english.git
 cd lettimo-english
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 打开 [本地网站](http://127.0.0.1:5173/)。项目使用 React、TypeScript 和 Vite，构建后可作为静态网站部署。
 
 ```bash
-npm run build    # 构建到 dist/
-npm run preview  # 预览生产构建
-npm test         # 运行核心测试
+pnpm build    # 构建到 dist/
+pnpm preview  # 预览生产构建
+pnpm test     # 运行核心测试
 ```
 
-仓库已配置 GitHub Pages 自动部署，推送到 `main` 后发布。自行部署时仅上传 `dist/`；若部署在子目录，构建时设置 `SITE_BASE`，例如 `SITE_BASE=/lettimo-english/ npm run build`。
+仓库已配置 GitHub Pages 自动部署，推送到 `main` 后发布。自行部署时仅上传 `dist/`；若部署在子目录，构建时设置 `SITE_BASE`，例如 `SITE_BASE=/lettimo-english/ pnpm build`。
 
 ## 使用许可
 

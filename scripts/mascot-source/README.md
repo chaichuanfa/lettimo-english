@@ -36,4 +36,4 @@ Output is `assets/mascots/parrot/`: `wave`, `reading`, `listening`, `teaching`, 
 
 The website loops clips automatically while visible, with no interactive controls. Offscreen clips and hidden tabs pause. Reduced motion uses a still image without loading the player. The lightweight SVG player supports the paths, masks and gradients used here; expressions and external images are not required. Validate animated path interpolation in the browser; the native poster renderer only receives frozen frame-zero data.
 
-Run `npm test` to verify layer parenting, path morph topology, keyframe continuity and posters. To edit in Lottie Creator, import the generated JSON for the corresponding pose.
+Run `pnpm test` to verify layer parenting, path morph topology, keyframe continuity and posters. To edit in Lottie Creator, import the generated JSON for the corresponding pose.
