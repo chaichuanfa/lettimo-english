@@ -27,7 +27,6 @@ import {
   useVocab,
   updateVocab,
   saveVocab,
-  importVocab,
   removeCustomWord,
   today,
 } from "../vocab-store";
@@ -276,31 +275,9 @@ function Home({
 }: CoreDataProps & { book?: BookChoice | null; onSettings: () => void }) {
   const head = (
     <section className="page-head">
-      <PageIntro pose="reading" className="words-intro">
-        <div className="ws-headrow">
-          <div>
-            <p className="eyebrow">Words</p>
-            <h1>单词</h1>
-          </div>
-          <button
-            className="btn small ghost ws-set-btn"
-            aria-haspopup="dialog"
-            onClick={onSettings}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-            >
-              <path d="M4 7h8M18 7h2M4 17h2M12 17h8" />
-              <circle cx="15" cy="7" r="2.6" />
-              <circle cx="9" cy="17" r="2.6" />
-            </svg>
-            <span>设置</span>
-          </button>
-        </div>
+      <PageIntro pose="reading">
+        <p className="eyebrow">Words</p>
+        <h1>单词</h1>
         <p className="lead">
           {book ? (
             <>
@@ -358,21 +335,36 @@ function Home({
             待复习的词太多了，今天不安排新词，先把复习补上。
           </p>
         )}
-        <div className="dc-cta">
+        {!todo && <p className="ws-done">今天的任务完成了 🎉</p>}
+        <div className="dc-cta dc-cta--row">
+          <button
+            type="button"
+            className="btn ghost ws-set-btn"
+            aria-haspopup="dialog"
+            onClick={onSettings}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+            >
+              <path d="M4 7h8M18 7h2M4 17h2M12 17h8" />
+              <circle cx="15" cy="7" r="2.6" />
+              <circle cx="9" cy="17" r="2.6" />
+            </svg>
+            设置
+          </button>
           {todo ? (
             <a className="btn primary" href="./words/study">
               {started ? "继续学习" : "开始今天的学习"} <Icon name="arrow" />
             </a>
-          ) : (
-            <>
-              <p className="ws-done">今天的任务完成了 🎉</p>
-              {st.unseen > 0 && (
-                <a className="btn ghost" href="./words/study?more=5">
-                  再学 5 个新词
-                </a>
-              )}
-            </>
-          )}
+          ) : st.unseen > 0 ? (
+            <a className="btn ghost" href="./words/study?more=5">
+              再学 5 个新词
+            </a>
+          ) : null}
         </div>
       </section>
       <section className="block">
@@ -448,14 +440,90 @@ function Stat({ value, label }: { value: React.ReactNode; label: string }) {
     </div>
   );
 }
+function ReviewModeHelp() {
+  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const tip = useRef<HTMLDivElement>(null);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const cancelHide = () => clearTimeout(hideTimer.current);
+  const show = () => {
+    cancelHide();
+    setOpen(true);
+  };
+  const hideLater = () => {
+    cancelHide();
+    if (document.activeElement !== trigger.current)
+      hideTimer.current = setTimeout(() => setOpen(false), 150);
+  };
+  useEffect(() => () => clearTimeout(hideTimer.current), []);
+  useLayoutEffect(() => {
+    if (!open || !trigger.current || !tip.current) return;
+    const button = trigger.current.getBoundingClientRect();
+    const panel = tip.current.getBoundingClientRect();
+    tip.current.style.left = `${Math.max(12, Math.min(button.right - panel.width, innerWidth - panel.width - 12))}px`;
+    tip.current.style.top = `${Math.max(12, Math.min(button.top >= panel.height + 20 ? button.top - panel.height - 8 : button.bottom + 8, innerHeight - panel.height - 12))}px`;
+    const dismiss = (event: Event) => {
+      if (event instanceof KeyboardEvent) {
+        if (event.key !== "Escape") return;
+        event.preventDefault();
+        event.stopPropagation();
+      } else if (
+        event.target instanceof Node &&
+        (trigger.current?.contains(event.target) || tip.current?.contains(event.target))
+      ) return;
+      setOpen(false);
+    };
+    document.addEventListener("keydown", dismiss, true);
+    document.addEventListener("pointerdown", dismiss);
+    document.addEventListener("scroll", dismiss, true);
+    window.addEventListener("resize", dismiss);
+    return () => {
+      document.removeEventListener("keydown", dismiss, true);
+      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("scroll", dismiss, true);
+      window.removeEventListener("resize", dismiss);
+    };
+  }, [open]);
+  return (
+    <>
+      <button
+        ref={trigger}
+        type="button"
+        className="ws-help-button"
+        aria-label="了解熟悉之后的复习方式"
+        aria-expanded={open}
+        aria-controls="ws-review-help"
+        onMouseEnter={show}
+        onMouseLeave={hideLater}
+        onFocus={show}
+        onBlur={() => setOpen(false)}
+        onClick={show}
+      >
+        ?
+      </button>
+      <div
+        ref={tip}
+        id="ws-review-help"
+        className="ws-help-tip"
+        role="tooltip"
+        hidden={!open}
+        onMouseEnter={cancelHide}
+        onMouseLeave={hideLater}
+      >
+        <p>单词多次复习答对、达到「熟悉」后，会使用你选择的方式：</p>
+        <p><b>听发音拼写单词：</b>听读音，输入完整单词，练习拼写。</p>
+        <p><b>回忆意思后自己判断：</b>看单词回忆意思，再查看答案，选择「记得」或「忘了」。</p>
+        <p>刚开始复习时，仍会先做看词选义、听音选义的选择题。</p>
+      </div>
+    </>
+  );
+}
 function Settings({
   core,
   data,
   onClose,
 }: CoreDataProps & { onClose: () => void }) {
-  const dialog = useRef<HTMLDialogElement>(null),
-    file = useRef<HTMLInputElement>(null);
-  const [message, setMessage] = useState("");
+  const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     dialog.current?.showModal();
     const close = () => onClose();
@@ -469,39 +537,6 @@ function Settings({
     updateVocab((d) => {
       d.settings[key] = value;
     });
-  async function importFile(f: File | undefined) {
-    if (!f) return;
-    try {
-      const before = Object.keys(getVocab().words).length;
-      const ok = importVocab(JSON.parse(await f.text()));
-      setMessage(
-        ok
-          ? `已导入：合并后共 ${Object.keys(getVocab().words).length} 个词的进度（原来 ${before} 个）。两边都有的词保留较新的记录。`
-          : "导入失败：浏览器存储空间不足。",
-      );
-    } catch {
-      setMessage("导入失败：这不是本站导出的单词进度文件。");
-    }
-    if (file.current) file.current.value = "";
-  }
-  function exportFile() {
-    const d = new Date(),
-      name = `english-path-words-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}.json`;
-    const url = URL.createObjectURL(
-      new Blob([JSON.stringify(getVocab())], { type: "application/json" }),
-    );
-    const a = Object.assign(document.createElement("a"), {
-      href: url,
-      download: name,
-    });
-    document.body.append(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setMessage(
-      `已导出 ${Object.keys(getVocab().words).length} 个词的进度到文件 ${name}。`,
-    );
-  }
   const S = data.settings;
   return (
     <dialog
@@ -529,11 +564,6 @@ function Settings({
               value={S.book || ""}
               onChange={(e) => change("book", e.target.value)}
             >
-              {!S.book && (
-                <option value="" disabled>
-                  还没有选词书
-                </option>
-              )}
               {allBooks(core, data).map((b) => (
                 <option value={b.id} key={b.id}>
                   {b.name}（{b.count} 词）
@@ -556,7 +586,10 @@ function Settings({
             </select>
           </div>
           <div className="field">
-            <label htmlFor="ws-spell">熟悉之后的复习方式</label>
+            <div className="ws-label-help">
+              <label htmlFor="ws-spell">熟悉之后的复习方式</label>
+              <ReviewModeHelp />
+            </div>
             <select
               id="ws-spell"
               value={S.spelling ? "1" : "0"}
@@ -569,34 +602,6 @@ function Settings({
           <p className="hint">
             修改后立即生效。每天最多复习 {S.reviewCap} 个词。
           </p>
-          <div className="ws-dlg-data">
-            <h3>学习进度</h3>
-            <p className="hint">
-              进度保存在这台设备的浏览器里。换设备时先导出成文件，再到另一台设备导入。
-            </p>
-            <div className="dc-cta">
-              <button className="btn small ghost" onClick={exportFile}>
-                导出进度
-              </button>
-              <button
-                className="btn small ghost"
-                onClick={() => file.current?.click()}
-              >
-                导入进度
-              </button>
-              <input
-                ref={file}
-                id="ws-file"
-                type="file"
-                accept="application/json,.json"
-                hidden
-                onChange={(e) => importFile(e.target.files?.[0])}
-              />
-            </div>
-            <p className="hint" id="ws-msg" role="status">
-              {message}
-            </p>
-          </div>
         </div>
         <div className="ws-dlg-foot">
           <button className="btn primary" onClick={onClose}>

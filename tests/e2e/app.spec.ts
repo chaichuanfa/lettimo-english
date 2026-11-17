@@ -6,7 +6,7 @@ test("every route renders, old addresses work, navigation stops audio", async ({
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   const routes = [
-    ["", "今天学点什么"],
+    ["", "每天一点，英语更进一步"],
     ["phonics", "看到单词"],
     ["stage/1", "字母"],
     ["lesson/1-1", ""],

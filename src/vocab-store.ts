@@ -41,11 +41,6 @@ export function updateVocab(fn: (data: VocabData) => void) {
   fn(data);
   return saveVocab();
 }
-export function importVocab(raw: unknown) {
-  if (!C.isValid(raw)) throw new Error("invalid vocabulary data");
-  data = C.mergeData(data, raw);
-  return saveVocab();
-}
 export function vocabCounts() {
   let due = 0,
     learned = 0;

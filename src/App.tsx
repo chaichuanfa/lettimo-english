@@ -29,8 +29,7 @@ import Words from "./pages/Words";
 import Guide from "./pages/Guide";
 import Dictionary from "./pages/Dictionary";
 import { useVocab, vocabCounts } from "./vocab-store";
-const SITE_NAME = "英语之路";
-const SITE_NAME_EN = "English Path";
+const SITE_NAME = "Lettimo 英语";
 const NAV = [
   ["", "首页", "home"],
   ["phonics", "拼读", "blend"],
@@ -165,7 +164,7 @@ export default function AppView() {
     Speech.stop();
     document.title = name
       ? `${titleFor(route)} · ${SITE_NAME}`
-      : `${SITE_NAME} · ${SITE_NAME_EN}`;
+      : SITE_NAME;
     window.scrollTo(0, 0);
     setFallbackOpen(false);
     if (
@@ -245,7 +244,7 @@ export default function AppView() {
   return (
     <>
       <header className="topbar" ref={topbar}>
-        <a className="brand" href="./">
+        <a className="brand" href="./" aria-label={`${SITE_NAME}首页`}>
           <img
             className="brand-mark"
             src="assets/phonics-logo.webp"
@@ -254,8 +253,8 @@ export default function AppView() {
             alt=""
           />
           <span className="brand-text">
-            {SITE_NAME}
-            <small>{SITE_NAME_EN}</small>
+            Lettimo
+            <small>英语学习</small>
           </span>
         </a>
         <nav className="nav" aria-label="主导航">
@@ -347,7 +346,7 @@ export default function AppView() {
       {name === "" && (
         <footer className="foot">
           <p>
-            英语之路 · 拼读、语法和单词（中考到四六级词汇） ·
+            {SITE_NAME} · 拼读、语法和单词（中考到四六级词汇） ·
             进度保存在本机浏览器
           </p>
           <p>

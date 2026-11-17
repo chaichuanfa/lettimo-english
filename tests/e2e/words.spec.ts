@@ -1,5 +1,4 @@
 import { test, expect, type Page } from "@playwright/test";
-import { readFile } from "node:fs/promises";
 import type { VocabData, VocabSettings } from "../../src/types/vocab";
 type SeedData = Partial<Omit<VocabData, "settings">> & {
   settings?: Partial<VocabSettings>;
@@ -109,43 +108,14 @@ for (const spelling of [true, false])
     expect(data.words.cat).toBeUndefined();
   });
 
-test("import merges newer records, rejects invalid data, exports and removes custom words", async ({
+test("removing a custom word preserves its study progress", async ({
   page,
 }) => {
-  await seed(page, { words: { apple: { s: 2, d: 30000, r: 1, l: 0, t: 20 } } });
-  await page.goto("./words");
-  await page.getByRole("button", { name: "设置", exact: true }).click();
-  const upload = (value: unknown) =>
-    page.locator("#ws-file").setInputFiles({
-      name: "words.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(value)),
-    });
-  await upload({
-    v: 1,
+  await seed(page, {
     words: { apple: { s: 6, d: 30000, r: 8, l: 0, t: 100 } },
-    custom: ["cat"],
+    custom: ["apple", "cat"],
   });
-  await expect(page.getByRole("status")).toContainText("已导入");
-  expect((await stored(page)).words.apple.s).toBe(6);
-  expect((await stored(page)).custom).toEqual(["apple", "cat"]);
-  await upload({ invalid: true });
-  await expect(page.getByRole("status")).toContainText("导入失败");
-  const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "导出进度" }).click();
-  const exported = await download;
-  expect(exported.suggestedFilename()).toMatch(
-    /^english-path-words-\d{8}\.json$/,
-  );
-  const exportedPath = await exported.path();
-  if (!exportedPath) throw new Error("Export download has no local path");
-  const exportedData = await page.evaluate(
-    (raw: unknown) => window.VocabCore.normalize(raw),
-    JSON.parse(await readFile(exportedPath, "utf8")),
-  );
-  expect(exportedData.words.apple.s).toBe(6);
-  expect(exportedData.custom).toEqual(["apple", "cat"]);
-  await page.getByRole("button", { name: "完成", exact: true }).click();
+  await page.goto("./words");
   await page.getByRole("link", { name: "单词列表", exact: true }).click();
   await page
     .locator(".wl li")

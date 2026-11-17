@@ -434,12 +434,6 @@ th { background: var(--paper-2); font-weight: 700; }
 kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius: 5px; border: 2px solid var(--line-2); border-bottom-width: 2px; background: var(--paper); color: var(--muted); }
 .search-btn { gap: 6px; cursor: pointer; }
 .search-btn svg { color: var(--ink-2); }
-.hero-search {
-  display: flex; align-items: center; gap: 10px; width: min(460px, 100%); margin-top: 16px; padding: 12px 14px;
-  border-radius: 12px; border: 2px solid var(--line-2); background: var(--card); color: var(--muted); font-size: 15px; text-align: left;
-}
-.hero-search:hover { border-color: var(--accent); }
-.hero-search span { flex: 1; }
 #search-dialog {
   width: min(680px, calc(100vw - 32px)); max-height: min(78vh, 720px); margin: 10vh auto auto; padding: 0;
   border: 2px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink);
@@ -476,7 +470,7 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
   #search-dialog { margin-top: 12px; max-height: calc(100dvh - 24px); }
   .sr-where { display: none; }
   .sr-lid { display: inline-block; }
-  .sd-foot, .search-btn kbd, .hero-search kbd { display: none; }
+  .sd-foot, .search-btn kbd { display: none; }
   .search-btn span { display: none; }
 }
 
@@ -936,7 +930,6 @@ tr:last-child td { border-bottom: 0; }
 }
 
 /* ============ 首页 ============ */
-.dash-head .hero-search { margin-top: 18px; max-width: 560px; }
 .daily-quote { display: flex; align-items: center; gap: 24px; margin-top: 18px; padding: 22px 24px;
   border: 2px solid var(--line); border-inline-start: 5px solid var(--blue); border-radius: 18px; background: var(--card); }
 .dq-content { flex: 1; min-width: 0; }
@@ -970,8 +963,16 @@ tr:last-child td { border-bottom: 0; }
 .dash-card .bar i { background: var(--lv); }
 .dc-meta { margin: 0; font-size: 14px; font-weight: 700; color: var(--muted); }
 .dc-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 4px; }
+.dc-cta--row { flex-wrap: nowrap; }
+.dc-cta--row .btn { text-align: center; }
+.dc-cta--row .btn.ghost:first-child { white-space: nowrap; }
+.dc-cta--row .btn svg { flex: none; }
 @media (max-width: 760px) { .dash-grid { grid-template-columns: 1fr; } }
-@media (max-width: 640px) { .dash-card { padding: 18px 16px; border-radius: 14px; } .dc-cta .btn { flex: 1 1 auto; justify-content: center; } }
+@media (max-width: 640px) {
+  .dash-card { padding: 18px 16px; border-radius: 14px; }
+  .dc-cta .btn { flex: 1 1 auto; justify-content: center; }
+  .dc-cta--row .btn { padding-inline: 12px; }
+}
 
 /* 今日学习：左侧一个明确动作，右侧展示轻量学习顺序。 */
 .today-study { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, 1fr); gap: 32px; margin-top: 16px; padding: 28px 30px; border: 2px solid var(--accent); border-bottom-width: 5px; border-radius: 20px; background: var(--accent-soft); }
@@ -1075,7 +1076,6 @@ tr:last-child td { border-bottom: 0; }
 .intro-mascot { float: inline-end; width: 136px; height: 136px; margin: 0 0 8px 24px; transform-origin: 50% 85%; }
 .page-intro .eyebrow { margin-top: 0; }
 .page-intro .lead { max-width: none; margin: 12px 0 0; font-size: 16px; line-height: 1.8; }
-.page-intro .ws-headrow { gap: 12px; }
 .page-intro + .g-progress { margin-top: 22px; }
 .phonics-demo-card { display: grid; grid-template-columns: 160px minmax(0, 1fr); align-items: center; gap: 16px; background: color-mix(in srgb, var(--blue) 5%, var(--card)); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); }
 .demo-mascot { width: 160px; height: 160px; transform-origin: 50% 85%; }
@@ -1107,7 +1107,6 @@ tr:last-child td { border-bottom: 0; }
   .page-intro { padding: 18px 16px; border-radius: 16px; }
   .intro-mascot { width: 88px; height: 88px; margin-left: 14px; }
   .page-intro .lead { font-size: 15px; }
-  .page-intro .ws-headrow { flex-wrap: wrap; }
   .lesson-mascot { width: 64px; height: 64px; margin-left: 12px; }
   .phonics-demo-card { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 18px 16px; }
   .demo-mascot { width: 120px; height: 120px; margin: 0 auto; }

@@ -117,7 +117,7 @@ test("private storage failure still allows lessons, dictionary and quote fallbac
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("./");
-  await expect(page.locator("h1")).toContainText("今天学点");
+  await expect(page.locator("h1")).toContainText("每天一点，英语更进一步");
   await page.goto("./lesson/1-1");
   await page.getByRole("button", { name: "我已掌握，直接标记完成" }).click();
   await expect(page.locator(".done-badge")).toBeVisible();
@@ -140,7 +140,7 @@ test("unknown nested addresses and invalid lesson ids render the React not-found
       page.getByRole("heading", { name: "页面不存在" }),
     ).toBeVisible();
     await page.getByRole("link", { name: "返回首页", exact: true }).click();
-    await expect(page.locator("h1")).toContainText("今天学点");
+    await expect(page.locator("h1")).toContainText("每天一点，英语更进一步");
   }
 });
 test("clearing grammar wrongbook also discards the running redo question", async ({

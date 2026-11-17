@@ -59,7 +59,7 @@ function Course({
       ) : (
         <p className="dc-meta">{note}</p>
       )}
-      <div className="dc-cta">{children}</div>
+      <div className="dc-cta dc-cta--row">{children}</div>
     </article>
   );
 }
@@ -86,19 +86,11 @@ export default function Dashboard() {
   return (
     <>
       <section className="page-head dash-head">
-        <p className="eyebrow">English Path</p>
-        <h1>今天学点什么？</h1>
+        <p className="eyebrow">Lettimo</p>
+        <h1>每天一点，英语更进一步</h1>
         <p className="lead">
-          拼读、语法、单词——从小学的英语基础到四六级词汇，一步一步来。
+          从拼读到单词，从语法到表达，按自己的节奏，把英语基础学扎实。
         </p>
-        <button
-          className="hero-search"
-          onClick={() => window.dispatchEvent(new Event("phonics:search"))}
-        >
-          <Icon name="search" />
-          <span>搜单词、语法点、字母组合或中文…</span>
-          <kbd>/</kbd>
-        </button>
       </section>
       <section className="today-study" aria-labelledby="today-title">
         <div className="today-copy">
@@ -171,14 +163,14 @@ export default function Dashboard() {
           done={pd}
           total={LESSONS.length}
         >
+          <a className="btn ghost" href="./phonics">
+            学习路径
+          </a>
           {pn && (
             <a className="btn primary" href={`./lesson/${pn.id}`}>
               {pd ? "继续" : "开始"}：{pn.title} <Icon name="arrow" />
             </a>
           )}
-          <a className="btn ghost" href="./phonics">
-            学习路径
-          </a>
         </Course>
         <Course
           color="#1CB0F6"
@@ -188,11 +180,11 @@ export default function Dashboard() {
           done={gd}
           total={G_LESSONS.length}
         >
-          <a className="btn primary" href={`./grammar/${gn.id}`}>
-            {gd ? "继续" : "开始"}：{gn.title} <Icon name="arrow" />
-          </a>
           <a className="btn ghost" href="./grammar">
             课程目录
+          </a>
+          <a className="btn primary" href={`./grammar/${gn.id}`}>
+            {gd ? "继续" : "开始"}：{gn.title} <Icon name="arrow" />
           </a>
         </Course>
         <Course
@@ -207,15 +199,15 @@ export default function Dashboard() {
               : "中考 · 高考 · 四级 · 六级，按间隔复习"
           }
         >
+          <a className="btn ghost" href="./words">
+            词书与进度
+          </a>
           <a
             className="btn primary"
             href={counts.started ? "./words/study" : "./words"}
           >
             {counts.started ? "开始今天的学习" : "选词书，开始背单词"}{" "}
             <Icon name="arrow" />
-          </a>
-          <a className="btn ghost" href="./words">
-            词书与进度
           </a>
         </Course>
         <Course
