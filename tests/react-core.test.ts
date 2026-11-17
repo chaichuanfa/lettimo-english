@@ -5,17 +5,17 @@ import { parseRoute } from "../src/router.ts";
 test("path routes retain lesson links and query targets, malformed encoding does not crash", () => {
   assert.equal(
     parseRoute(
-      "/phonics-learning/lesson/1-1?w=cat%3F%3D",
-      "/phonics-learning/",
+      "/lettimo-english/lesson/1-1?w=cat%3F%3D",
+      "/lettimo-english/",
     ).params.get("w"),
     "cat?=",
   );
   assert.equal(
-    parseRoute("/phonics-learning/grammar/", "/phonics-learning/").name,
+    parseRoute("/lettimo-english/grammar/", "/lettimo-english/").name,
     "grammar",
   );
   assert.equal(
-    parseRoute("/other/lesson/1-1", "/phonics-learning/").name,
+    parseRoute("/other/lesson/1-1", "/lettimo-english/").name,
     "not-found",
   );
   assert.equal(parseRoute("/practice").name, "review");

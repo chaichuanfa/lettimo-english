@@ -9,13 +9,16 @@ Lettimo 英语是从小学英语基础到四六级词汇的学习网站：63 节
 ## 运行
 
 ```bash
-cd phonics-learning
+git clone https://github.com/chaichuanfa/lettimo-english.git
+cd lettimo-english
 npm ci
 npm run dev
 # 浏览器打开 http://127.0.0.1:5173/
 ```
 
 需要 Node.js 22.12+（推荐 24）。使用 `npm run build` 生成 `dist/`，`npm run preview` 本地预览生产构建。部署时只发布 `dist/`；默认路径为 `/`，其他托管路径可通过 Vite 的 `--base` 参数调整。不能直接发布源码目录或双击 `index.html`。
+
+GitHub Pages 地址：https://chaichuanfa.github.io/lettimo-english/ 。推送到 `main` 后自动构建发布，也可运行 `bash scripts/deploy-github.sh` 重试发布。工作流从 GitHub Pages 配置自动读取部署路径；本地验证 Pages 构建可运行 `SITE_BASE=/lettimo-english/ npm run build` 和 `SITE_BASE=/lettimo-english/ npm run check:build`。
 
 运行 `npm run typecheck` 可单独执行严格类型检查。`npm run check` 会执行 Node 测试、类型检查、生产构建、发布资源检查和浏览器验收。字体输入检查需要 Python 3；首次运行浏览器测试前执行 `npx playwright install chromium`。
 
