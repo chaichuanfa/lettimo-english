@@ -74,6 +74,13 @@ body {
   margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font);
   font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased;
 }
+/* 触屏设备避免长按误选文字，输入区域保留选中和复制粘贴。 */
+@media (hover: none) and (pointer: coarse) {
+  body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  input, textarea, [contenteditable]:not([contenteditable="false"]) {
+    -webkit-user-select: text; user-select: text; -webkit-touch-callout: default;
+  }
+}
 a { color: var(--accent-ink); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button { font: inherit; color: inherit; cursor: pointer; }

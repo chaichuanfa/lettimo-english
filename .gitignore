@@ -15,6 +15,9 @@ node_modules/
 
 audio-src/
 
+# Local previews, recordings and generated intermediates
+/output/
+
 # React build and browser tests
 dist/
 playwright-report/

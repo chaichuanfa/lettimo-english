@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 
-const source = process.argv[2] || "output/mascot-sources/fluent-parrot-original.png";
+const source = process.argv[2] || "scripts/mascot-source/fluent/parrot-original.png";
 const target = "assets/mascots/fluent";
 const png = await readFile(source);
 const durations = [];

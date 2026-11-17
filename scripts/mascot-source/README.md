@@ -1,4 +1,22 @@
-# Green parrot animation source
+# Mascot source materials
+
+This directory contains versioned source materials; `output/` is ignored and
+reserved for local previews, recordings and generated intermediates.
+
+- `approved-wave.json`: the vector rig used by the current Lottie generator.
+- `fluent/parrot-original.png`: the original Microsoft Fluent APNG used by
+  `scripts/build-mascot-frames.mjs`. Source attribution and the MIT license are
+  retained in `assets/mascots/fluent/README.md` and `assets/mascots/fluent/LICENSE`.
+- `illustration-prompts.md`: generation prompts for the static parrot artwork.
+
+Rebuild the Fluent atlas and poster from the repository root (requires ffmpeg
+and cwebp):
+
+```sh
+node scripts/build-mascot-frames.mjs
+```
+
+## Green parrot animation source
 
 `approved-wave.json` preserves the approved green parrot rig and its independent wing, eyelid and tail animation. Creator project: https://creator.lottiefiles.com/?fileId=90abc9ae-6adb-431b-9f80-1dbdb23477d2
 

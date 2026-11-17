@@ -7,6 +7,6 @@ Source: https://github.com/microsoft/fluentui-emoji-animated/blob/daa0365c097957
 Source animation: 256 × 256, 72 frames at 42 ms/frame (3.024 seconds).
 The source artwork and timing are unchanged. Frames are packed into an 8-column,
 9-row WebP atlas for controlled playback and a lossless WebP first-frame poster.
-The original APNG is retained in output/mascot-sources/fluent-parrot-original.png.
+The original APNG is retained in scripts/mascot-source/fluent/parrot-original.png.
 
 Rebuild with scripts/build-mascot-frames.mjs (requires ffmpeg and cwebp).
