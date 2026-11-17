@@ -9,7 +9,9 @@
   <meta name="theme-color" content="#131F24" media="(prefers-color-scheme: dark)">
   <script>/* 提前应用用户选择的主题，避免首屏闪烁 */ try { var t = localStorage.getItem('phonics-path.theme'); if (t === 'light' || t === 'dark') { document.documentElement.setAttribute('data-theme', t); document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = t === 'dark' ? '#131F24' : '#FFFFFF'; }); } } catch (e) {}</script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2358CC02'/><text x='32' y='44' font-size='32' text-anchor='middle' font-family='Nunito,Arial Rounded MT Bold,Arial' font-weight='900' fill='white'>Aa</text></svg>">
+  <link rel="stylesheet" href="css/fonts-cn.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/words.css">
 </head>
 <body>
   <div id="app"><p style="padding:40px;text-align:center">加载中…</p></div>
@@ -33,6 +35,8 @@
   <script src="js/phonics.js"></script>
   <script src="js/g2p.js"></script>
   <script src="js/audio.js"></script>
+  <script src="js/vocab-core.js"></script>
+  <script src="js/words.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

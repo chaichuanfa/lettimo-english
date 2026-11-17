@@ -1,4 +1,4 @@
-/* ============ 字体（Nunito，SIL OFL，见 fonts/OFL.txt） ============ */
+/* ============ 字体（Nunito，SIL OFL，见 fonts/OFL.txt；中文粗体圆体见 css/fonts-cn.css） ============ */
 @font-face {
   font-family: "Nunito"; font-style: normal; font-weight: 200 1000; font-display: swap;
   src: url("../fonts/nunito-latin-wght-normal.woff2") format("woff2");
@@ -41,7 +41,7 @@
   --radius: 16px;
   --lv-k: 72%;              /* 等级色做文字时与黑色混合，保证白底对比度 */
   --lv-base: #000;
-  --font: "Nunito", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font: "Nunito", "EP Rounded CN", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
   --round: var(--font);
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: light;
@@ -624,6 +624,11 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
 .g-word:disabled { cursor: default; }
 .g-order-btns { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
 .g-why { color: var(--ink-2); font-size: 14px; }
+.g-from { flex-basis: 100%; text-align: center; font-size: 13px; font-weight: 700; }   /* 错题重做时标出这道题出自哪一课 */
+/* 复习页：单词、语法两个区块里的一句话说明 */
+.rv-line { margin: 0 0 14px; font-size: 16px; }
+.rv-line b { font-family: var(--round); font-size: 1.25em; font-weight: 900; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
+#gredo:not(:empty) { margin-top: 18px; padding-top: 18px; border-top: 2px solid var(--line); }
 @media (max-width: 640px) {
   .g-q { font-size: 20px; }
   .g-word { font-size: 17px; padding: 7px 11px; }
@@ -933,6 +938,5 @@ tr:last-child td { border-bottom: 0; }
 .dash-card .bar i { background: var(--lv); }
 .dc-meta { margin: 0; font-size: 14px; font-weight: 700; color: var(--muted); }
 .dc-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 4px; }
-.plan-list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
 @media (max-width: 760px) { .dash-grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .dash-card { padding: 18px 16px; border-radius: 14px; } .dc-cta .btn { flex: 1 1 auto; justify-content: center; } }

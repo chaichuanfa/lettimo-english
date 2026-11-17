@@ -297,7 +297,7 @@ window.STAGES = [
         id: '4-3', title: 'th 清音与浊音', en: 'th /θ/ /ð/',
         rule: '<b>th</b> 有两种读音，舌尖都要轻放在上下门牙之间：<br>· 清音 /θ/（声带不振动）：thin、think、bath<br>· 浊音 /ð/（声带振动）：this、that、them —— 多见于高频功能词<br>中国学生常用 /s/ 或 /z/ 代替，一定要把舌尖伸出来。',
         cards: [{ g: 'th', s: 'th', kw: 'thin' }, { g: 'th', s: 'th_v', kw: 'this' }, { g: 'thr', s: ['th', 'r'], blend: true, kw: 'three' }],
-        words: ['thin|瘦的|🥢', 'thick|厚的|📚', 'think|想|🤔', 'bath|洗澡|🛁', 'math|数学|➗', 'moth|飞蛾|🦋', 'path|小路|🛤️', 'this|这个|👇|th:th_v', 'that|那个|👉|th:th_v', 'them|他们|👥|th:th_v', 'then|然后|➡️|th:th_v', 'with|和……一起|🤝|th:th_v', 'thud|砰的一声|💥', 'thump|重击|🥁', 'thank|感谢|🙏', 'three|三|3️⃣', 'cloth|布|🧵', 'tenth|第十|🔟', 'sixth|第六|6️⃣', 'thrill|兴奋|🎢', 'than|比|⚖️|th:th_v', 'throw|扔|🤾', 'thread|线|🧵|ea:e_s', 'throne|王座|👑'],
+        words: ['thin|瘦的|🥢', 'thick|厚的|📚', 'think|想|🤔', 'bath|洗澡|🛁', 'math|数学|➗', 'moth|飞蛾|🦋', 'path|小路|🛤️', 'this|这个|👇|th:th_v', 'that|那个|👉|th:th_v', 'them|他们|👥|th:th_v', 'then|然后|➡️|th:th_v', 'with|和……一起|🤝', 'thud|砰的一声|💥', 'thump|重击|🥁', 'thank|感谢|🙏', 'three|三|3️⃣', 'cloth|布|🧵', 'tenth|第十|🔟', 'sixth|第六|6️⃣', 'thrill|兴奋|🎢', 'than|比|⚖️|th:th_v', 'throw|扔|🤾', 'thread|线|🧵|ea:e_s', 'throne|王座|👑'],
         sentences: ['This is a thin moth.|这是一只瘦小的飞蛾。', 'I think that bath is hot.|我觉得那缸洗澡水很烫。', 'Then we ran up the path.|然后我们沿着小路跑上去。', 'Is this cloth thick?|这块布厚吗？'],
       },
       {
@@ -496,8 +496,8 @@ window.STAGES = [
       },
       {
         id: '7-6', title: 'ire / ure / our / oar / oor', en: 'ire ure our oar oor',
-        rule: '更多 R 控制组合：<br>· <b>ire</b> 读 /aɪr/：fire、tire、wire<br>· <b>ure</b> 读 /jʊr/：pure、cure、secure<br>· <b>our</b> 读 /aʊr/：sour、flour、hour（但在 four、your 中读 /ɔr/）<br>· <b>oar、oor</b> 读 /ɔr/：board、roar、door、floor',
-        cards: [{ g: 'ire', s: 'ire', kw: 'fire', tip: '先发长音 i /aɪ/，再卷舌，像"爱-儿"。' }, { g: 'ure', s: 'ure', kw: 'pure', tip: '先发 /ju/（字母 U），再卷舌。' },
+        rule: '更多 R 控制组合：<br>· <b>ire</b> 读 /aɪr/：fire、tire、wire<br>· <b>ure</b> 读 /jʊr/：pure、cure、secure（美式口语里常读得像字母 U 再卷舌 /juɚ/，示范录音就是这样读的，两种都对）<br>· <b>our</b> 读 /aʊr/：sour、flour、hour（但在 four、your 中读 /ɔr/）<br>· <b>oar、oor</b> 读 /ɔr/：board、roar、door、floor',
+        cards: [{ g: 'ire', s: 'ire', kw: 'fire', tip: '先发长音 i /aɪ/，再卷舌，像"爱-儿"。' }, { g: 'ure', s: 'ure', kw: 'pure', tip: '先发 /ju/（像字母 U），再卷舌。词典记作 /jʊr/，口语里常读成 /juɚ/。' },
           { g: 'our', s: 'our', kw: 'sour', tip: '先发 /aʊ/（像"凹"），再卷舌。' }, { g: 'oar', s: 'or', kw: 'board' }, { g: 'oor', s: 'or', kw: 'door' }],
         words: ['fire|火|🔥', 'tire|轮胎|🛞', 'wire|电线|🔌', 'hire|雇用|🤝', 'tired|累的|😩', 'admire|钦佩|👏', 'pure|纯净的|💧', 'cure|治愈|💊', 'secure|安全的|🔒|e:i_s', 'sour|酸的|🍋', 'flour|面粉|🌾', 'h-our|小时|⏰|h:silent,our:our', 'our|我们的|👨‍👩‍👧', 'four|四|4️⃣|our:or', 'your|你的|👉|our:or', 'board|木板|🪵', 'roar|吼叫|🦁', 'soar|翱翔|🦅', 'oar|船桨|🚣', 'door|门|🚪', 'floor|地板|🟫'],
         sentences: ['Sit by the fire for an hour.|在火边坐一个小时。', 'The lion can roar at the door.|狮子会在门口吼叫。', 'This lemon is sour.|这个柠檬很酸。', 'Put four boards on the floor.|在地板上放四块木板。'],

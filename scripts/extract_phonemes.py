@@ -23,6 +23,7 @@
 """
 import json, os, re, subprocess, sys, tempfile
 import numpy as np
+import parselmouth
 import torch
 from transformers import AutoProcessor, AutoModelForCTC
 
@@ -53,18 +54,21 @@ SPEC = {
     'aw': [('awe', 'ɑ', 0, 'whole'), ('saw', 's ɑ', 1, 'vowel'), ('law', 'l ɑ', 1, 'vowel')],
     'oi': [('oy', 'ɔɪ', 0, 'whole'), ('boy', 'b ɔɪ', 1, 'vowel'), ('toy', 't ɔɪ', 1, 'vowel')],
     'ow': [('how', 'h aʊ', 1, 'hvowel'), ('ow', 'aʊ', 0, 'whole'), ('cow', 'k aʊ', 1, 'vowel')],
-    'ar': [('car', 'k ɑ ɹ', 1, 'tail'), ('are', 'ɑ ɹ', 0, 'whole'), ('far', 'f ɑ ɹ', 1, 'tail')],
+    # are 元音开头，不带送气（car 截出来开头有 40ms 的 k 送气）
+    'ar': [('are', 'ɑ ɹ', 0, 'whole'), ('far', 'f ɑ ɹ', 1, 'tail'), ('car', 'k ɑ ɹ', 1, 'tail')],
     'or': [('or', 'ɑ ɹ', 0, 'whole'), ('for', 'f ɑ ɹ', 1, 'tail'), ('more', 'm ɑ ɹ', 1, 'tail')],
     'er': [('her', 'h ɝ', 1, 'hvowel'), ('fur', 'f ɝ', 1, 'vowel'), ('sir', 's ɝ', 1, 'vowel')],
     'air': [('hair', 'h ɛ ɹ', 1, 'htail'), ('air', 'ɛ ɹ', 0, 'whole'), ('pair', 'p ɛ ɹ', 1, 'tail')],
     'ear': [('hear', 'h ɪ ɹ', 1, 'htail'), ('ear', 'ɪ ɹ', 0, 'whole'), ('near', 'n ɪ ɹ', 1, 'tail')],
-    'p': [('pup', 'p ə p', 0, 'stop'), ('puff', 'p ə f', 0, 'stop')],
-    'b': [('bus', 'b ə s', 0, 'stop'), ('bug', 'b ə g', 0, 'stop')],
-    't': [('tub', 't ə b', 0, 'stop'), ('tug', 't ə g', 0, 'stop')],
-    'd': [('dug', 'd ə g', 0, 'stop', 110), ('dug', 'd ə g', 0, 'stop'), ('duck', 'd ə k', 0, 'stop')],
-    'k': [('cup', 'k ə p', 0, 'stop', 110), ('cup', 'k ə p', 0, 'stop'), ('cub', 'k ə b', 0, 'stop'), ('cut', 'k ə t', 0, 'stop')],
-    'g': [('gum', 'g ə m', 0, 'stop'), ('gut', 'g ə t', 0, 'stop')],
-    'ch': [('chop', 'ʧ ɑ p', 0, 'stop'), ('chuck', 'ʧ ə k', 0, 'stop')],
+    # 清塞音 / 清塞擦音：从爆破到后面元音开始振动为止整段保留（送气、ch 的摩擦都在这一段），不带元音。
+    # 早先按 40ms 截（stop 模式），p t k 的送气被截掉一半、ch 的摩擦只剩 40ms（原声约 85ms），听起来是"一下咔哒"
+    'p': [('pup', 'p ə p', 0, 'asp'), ('puff', 'p ə f', 0, 'asp'), ('pup', 'p ə p', 0, 'stop')],
+    'b': [('bus', 'b ə s', 0, 'vstop'), ('bug', 'b ə g', 0, 'vstop'), ('bus', 'b ə s', 0, 'stop'), ('bug', 'b ə g', 0, 'stop')],
+    't': [('tub', 't ə b', 0, 'asp'), ('tug', 't ə g', 0, 'asp'), ('tub', 't ə b', 0, 'stop')],
+    'd': [('dug', 'd ə g', 0, 'vstop'), ('duck', 'd ə k', 0, 'vstop'), ('dug', 'd ə g', 0, 'stop', 110), ('dug', 'd ə g', 0, 'stop'), ('duck', 'd ə k', 0, 'stop')],
+    'k': [('cup', 'k ə p', 0, 'asp'), ('cut', 'k ə t', 0, 'asp'), ('cup', 'k ə p', 0, 'stop', 110), ('cup', 'k ə p', 0, 'stop'), ('cub', 'k ə b', 0, 'stop'), ('cut', 'k ə t', 0, 'stop')],
+    'g': [('gut', 'g ə t', 0, 'vstop'), ('gum', 'g ə m', 0, 'vstop'), ('gum', 'g ə m', 0, 'stop'), ('gut', 'g ə t', 0, 'stop')],
+    'ch': [('chop', 'ʧ ɑ p', 0, 'asp'), ('chuck', 'ʧ ə k', 0, 'asp'), ('chop', 'ʧ ɑ p', 0, 'stop')],
     'j': [('jug', 'ʤ ə g', 0, 'stop', 110), ('jug', 'ʤ ə g', 0, 'stop'), ('jam', 'ʤ æ m', 0, 'stop')],
     'h': [('hut', 'h ə t', 0, 'stop'), ('hum', 'h ə m', 0, 'stop')],
     'w': [('one', 'w ə n', 0, 'stop'), ('won', 'w ə n', 0, 'stop'), ('wet', 'w ɛ t', 0, 'stop')],
@@ -98,7 +102,7 @@ CONT = {'f': ('f', ['pre']), 'v': ('v', ['pre']), 's': ('s', ['pre']), 'z': ('z'
         'zh': ('ʃ', ['post']), 'th_v': ('ð', ['pre']), 'm': ('m', ['pre', 'post']), 'n': ('n', ['pre', 'post']),
         'l': ('l', ['pre', 'post']), 'r': ('ɹ', ['pre', 'post'])}
 FRICATIVES = {'f', 'v', 's', 'z', 'sh', 'zh', 'th_v'}
-TARGET_DUR = {'vowel': 0.42, 'hvowel': 0.42, 'cont': 0.40, 'fric': 0.40, 'onset': 0.40}
+TARGET_DUR = {'head': 0.36, 'vowel': 0.42, 'hvowel': 0.42, 'cont': 0.40, 'fric': 0.40, 'onset': 0.40}
 VARIANTS = [(p, g) for p in (0.15, 0.3, 0.5) for g in (0.5, 0.9)]
 PASS = 5
 
@@ -170,9 +174,15 @@ def espeak_consonants(txt):
     return [t for t in txt.split() if not _VCH.search(t)]
 
 
+# 拼读 / 辨认测试接在辅音后面的参考元音 /ɑ/。必须是固定文件，不能用 audio/p/o_s.mp3：
+# 那样重做 o_s 时所有辅音的测试结果都会跟着变（纯净的稳定 /ɑ/ 没有过渡，模型就分不清前面辅音的部位，
+# f 会被听成 s、n 听成 m）。这个文件是最初通过校验的 /ɑ/（截自 hot），专门用作测试基准。
+REF_VOWEL = os.path.join(ROOT, 'scripts', 'ref', 'ref_vowel_a.mp3')
+
+
 def ref_vowel():
     if 'v' not in _ref:
-        _ref['v'] = load_trimmed(os.path.join(OUT, 'o_s.mp3'))
+        _ref['v'] = load_trimmed(REF_VOWEL)
     return _ref['v']
 
 
@@ -237,6 +247,23 @@ def locate(word, toks, rate=RATE):
     return x, (on, end), bounds
 
 
+def aspiration_span(word, rate):
+    """词首清塞音 / 清塞擦音：(爆破起点, 后面元音开始振动的时刻)。浊音起点要求连续 5 帧（10ms）有基频"""
+    src = tts(word, rate)
+    wav = os.path.join(TMP, 'asp.wav')
+    run(['ffmpeg', '-y', '-v', 'error', '-i', src, '-ac', '1', '-ar', '24000', wav])
+    snd = parselmouth.Sound(wav)
+    x, sr = snd.values[0], snd.sampling_frequency
+    env = np.convolve(np.abs(x), np.ones(48) / 48, 'same')
+    burst = int(np.argmax(env > 0.02 * env.max())) / sr
+    p = snd.to_pitch_ac(0.002, 75, 15, False, 0.03, 0.45, 0.01, 0.35, 0.14, 600)
+    f, ts = p.selected_array['frequency'], p.xs()
+    for i in range(len(ts) - 5):
+        if ts[i] > burst and all(f[i:i + 5] > 0):
+            return burst, float(ts[i])
+    raise RuntimeError(f'{word}: 找不到元音浊音起点')
+
+
 def candidates(word, toks, idx, mode, rate=RATE):
     toks = toks.split()
     x, (on, end), bounds = locate(word, toks, rate)
@@ -255,12 +282,20 @@ def candidates(word, toks, idx, mode, rate=RATE):
         out = [(st + a, e0 - b) for a in (0, 0.01, 0.02, 0.04) for b in steps]
     elif mode == 'whole':
         out = [(on, end)]
+    elif mode == 'head':  # 从词首到目标音结束（ure 取 Europe 开头的 /jʊr/），结尾往里缩以避开后一个音
+        out = [(on, e0 - b) for b in steps]
     elif mode == 'tail':
         out = [(s0 + a, end) for a in steps]
     elif mode == 'htail':
         env = np.convolve(np.abs(x), np.ones(320) / 320, 'same')
         st = max(s0, np.argmax(env > 0.3 * env.max()) / SR)
         out = [(st + a, end) for a in (0, 0.01, 0.03, 0.05, 0.07, 0.09)]
+    elif mode == 'asp':
+        burst, von = aspiration_span(word, rate)
+        out = [(max(0.0, burst - 0.005), von + d) for d in (0.0, -0.005, 0.005, -0.01, 0.01)]
+    elif mode == 'vstop':  # 浊塞音：爆破 + 后面元音最开头的 2–4 个声门周期（浊塞音的爆破本身只有 10–20ms，必须带一点除阻才听得出）
+        burst, von = aspiration_span(word, rate)
+        out = [(max(0.0, burst - 0.005), von + d) for d in (0.025, 0.02, 0.03, 0.015, 0.035)]
     elif mode == 'stop':
         nxt = bounds[idx + 1][1]
         out = [(max(0, s0 + a), min(e0 + k, nxt)) for k in (0.0, 0.02, 0.03, 0.05, 0.07) for a in (-0.02, 0, 0.02)]
@@ -316,8 +351,9 @@ def render(word, cand, mode, dest, rate=RATE):
         if target and dur < target:
             r = max(dur / target, 0.5)
             flt.append(f'atempo={r:.3f}'); dur /= r
-        fo = 0.06 if mode == 'stop' else 0.05
-        flt += ['afade=t=in:d=0.012', f'afade=t=out:st={max(0, dur - fo):.3f}:d={fo}']
+        fo = {'stop': 0.06, 'asp': 0.015, 'vstop': 0.015}.get(mode, 0.05)
+        fi = 0.004 if mode in ('asp', 'vstop') else 0.012          # asp/vstop 的窗口从爆破前 5ms 开始，淡入不能盖住爆破
+        flt += [f'afade=t=in:d={fi}', f'afade=t=out:st={max(0, dur - fo):.3f}:d={fo}']
         run(['ffmpeg', '-y', '-v', 'error', '-i', src, '-af', ','.join(flt), '-ac', '1', '-ar', '24000', wav])
         gain = -2 - peak_db(wav)
     run(['ffmpeg', '-y', '-v', 'error', '-i', wav, '-af', f'volume={gain:.1f}dB,apad=pad_dur=0.05',
@@ -409,7 +445,7 @@ def extract(sid):
                 fallback = (n, word, cand, mode, rate, note)
             if n >= PASS:
                 length = cand[1] - cand[0]
-                pref = -cand[2] if mode == 'fricstop' else (-length if mode in ('stop', 'rstop') else length)
+                pref = -cand[2] if mode == 'fricstop' else -cands.index(cand) if mode in ('asp', 'vstop') else (-length if mode in ('stop', 'rstop') else length)
                 scored.append((n, pref, cand, note))
         for n, pref, cand, note in sorted(scored, key=lambda t: (-t[0], -t[1])):
             dest = os.path.join(TMP, f'{sid}.mp3')

@@ -3,11 +3,12 @@
   "src": "课5-4",
   "en": "Use the rules.",
   "file": "t/use-the-rules-1inrjs2.mp3",
+  "spoken": "Use the rules.",
   "word": "use",
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "margin": 5.8,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 30.4,
    "juːs": 36.2
@@ -17,11 +18,12 @@
   "src": "课8-2",
   "en": "The mouse is in the house.",
   "file": "t/the-mouse-is-in-the-house-n1mep3.mp3",
+  "spoken": "The mouse is in the house.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 4.78,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 19.05,
    "haʊz": 23.83
@@ -30,26 +32,28 @@
  {
   "src": "语法gp-4",
   "en": "We live in Beijing, the capital of China.",
-  "file": "t/we-live-in-beijing-the-capital-of-ch-1yxya3l.mp3",
+  "file": "t/we-live-in-beijing-the-capital-of-ch-41yrah.mp3",
+  "spoken": "We live in Bayjing, the capital of China.",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 10.87,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 77.7,
-   "laɪv": 88.57
+   "lɪv": 96.27,
+   "laɪv": 107.21
   }
  },
  {
   "src": "测验g1-3",
   "en": "Their house is very big.",
   "file": "t/their-house-is-very-big-145wtw5.mp3",
+  "spoken": "Their house is very big.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 1.43,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 48.64,
    "haʊz": 50.07
@@ -59,11 +63,12 @@
   "src": "测验gp-1",
   "en": "She lives on the ninth floor.",
   "file": "t/she-lives-on-the-ninth-floor-1eg784z.mp3",
+  "spoken": "She lives on the ninth floor.",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "margin": 10.85,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
    "lɪvz": 37.43,
    "laɪvz": 48.28
@@ -73,11 +78,12 @@
   "src": "测验gp-1",
   "en": "We live on the fifth floor.",
   "file": "t/we-live-on-the-fifth-floor-1j4pr48.mp3",
+  "spoken": "We live on the fifth floor.",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 10.63,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
    "lɪv": 31.08,
    "laɪv": 41.71
@@ -87,11 +93,12 @@
   "src": "测验g1-4",
   "en": "Please read the sentence carefully.",
   "file": "t/please-read-the-sentence-carefully-17t3ho2.mp3",
+  "spoken": "Please read the sentence carefully.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.57,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 86.35,
    "rɛd": 95.92
@@ -100,26 +107,43 @@
  {
   "src": "测验g1-5",
   "en": "My grandparents live in Beijing.",
-  "file": "t/my-grandparents-live-in-beijing-1c8sq01.mp3",
+  "file": "t/my-grandparents-live-in-beijing-my-g-1jv6tk9.mp3",
+  "spoken": "My grandparents live in Bayjing.",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 11.04,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 66.97,
-   "laɪv": 78.01
+   "lɪv": 85.28,
+   "laɪv": 96.3
+  }
+ },
+ {
+  "src": "测验g1-5",
+  "en": "Children get presents on Christmas Day.",
+  "file": "t/children-get-presents-on-christmas-d-uunuh5.mp3",
+  "spoken": "Children get presents on Christmas Day.",
+  "word": "presents",
+  "want": "ˈprɛzənts",
+  "got": "ˈprɛzənts",
+  "ok": true,
+  "how": "对照合成：与 \"prezzents\" 写法完全相同",
+  "scores": {
+   "ˈprɛzənts": 118.17,
+   "prɪˈzɛnts": 132.01
   }
  },
  {
   "src": "语法gp-5",
   "en": "There is a big tree in front of the house.",
   "file": "t/there-is-a-big-tree-in-front-of-the--201g2m.mp3",
+  "spoken": "There is a big tree in front of the house.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 2.63,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 90.78,
    "haʊz": 93.41
@@ -129,11 +153,12 @@
   "src": "测验gp-5",
   "en": "There is a garden in front of our house.",
   "file": "t/there-is-a-garden-in-front-of-our-ho-p6el4c.mp3",
+  "spoken": "There is a garden in front of our house.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 3.52,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 88.33,
    "haʊz": 91.85
@@ -143,11 +168,12 @@
   "src": "测验g2-2",
   "en": "There is a big tree behind my house.",
   "file": "t/there-is-a-big-tree-behind-my-house-1ngtqmi.mp3",
+  "spoken": "There is a big tree behind my house.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 0.51,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 84.46,
    "haʊz": 84.97
@@ -157,11 +183,12 @@
   "src": "语法g2-3",
   "en": "Does your brother like swimming? No, he doesn't.",
   "file": "t/does-your-brother-like-swimming-no-h-8tnxze.mp3",
+  "spoken": "Does your brother like swimming? No, he doesn't.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.11,
+  "how": "强制对齐（差距 8.11）",
   "scores": {
    "dʌz": 110.02,
    "doʊz": 118.13
@@ -171,11 +198,12 @@
   "src": "测验g2-3",
   "en": "Does she have a bike?",
   "file": "t/does-she-have-a-bike-136unhd.mp3",
+  "spoken": "Does she have a bike?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.04,
+  "how": "强制对齐（差距 8.04）",
   "scores": {
    "dʌz": 57.39,
    "doʊz": 65.43
@@ -185,11 +213,12 @@
   "src": "测验g2-3",
   "en": "Do you often read books?",
   "file": "t/do-you-often-read-books-1n5z7k4.mp3",
+  "spoken": "Do you often read books?",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.41,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 74.29,
    "rɛd": 83.7
@@ -199,11 +228,12 @@
   "src": "测验g2-3",
   "en": "Does your father work in a hospital?",
   "file": "t/does-your-father-work-in-a-hospital-19229db.mp3",
+  "spoken": "Does your father work in a hospital?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.2,
+  "how": "强制对齐（差距 8.2）",
   "scores": {
    "dʌz": 72.87,
    "doʊz": 81.07
@@ -212,26 +242,28 @@
  {
   "src": "测验g2-3",
   "en": "They don't live in Beijing.",
-  "file": "t/they-don-t-live-in-beijing-chl72o.mp3",
+  "file": "t/they-don-t-live-in-beijing-they-don--1c3afyl.mp3",
+  "spoken": "They don't live in Bayjing.",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 10.49,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
-   "lɪv": 34.77,
-   "laɪv": 45.26
+   "lɪv": 49.22,
+   "laɪv": 59.79
   }
  },
  {
   "src": "测验g2-3",
   "en": "Does your mother like flowers?",
   "file": "t/does-your-mother-like-flowers-wl40qu.mp3",
+  "spoken": "Does your mother like flowers?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.79,
+  "how": "强制对齐（差距 7.79）",
   "scores": {
    "dʌz": 55.37,
    "doʊz": 63.16
@@ -241,11 +273,12 @@
   "src": "测验g2-3",
   "en": "Do they live near here? Yes, they do.",
   "file": "t/do-they-live-near-here-yes-they-do-r2su6l.mp3",
+  "spoken": "Do they live near here? Yes, they do.",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 10.55,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
    "lɪv": 52.77,
    "laɪv": 63.32
@@ -255,25 +288,42 @@
   "src": "测验g2-3",
   "en": "Tom does his homework every evening.",
   "file": "t/tom-does-his-homework-every-evening-t92lh.mp3",
+  "spoken": "Tom does his homework every evening.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.69,
+  "how": "强制对齐（差距 7.69）",
   "scores": {
    "dʌz": 81.95,
    "doʊz": 89.64
   }
  },
  {
+  "src": "测验g2-3",
+  "en": "My father reads newspapers every morning.",
+  "file": "t/my-father-reads-newspapers-every-mor-mlurf9.mp3",
+  "spoken": "My father reads newspapers every morning.",
+  "word": "reads",
+  "want": "riːdz",
+  "got": "riːdz",
+  "ok": true,
+  "how": "对照合成：与 \"reeds\" 写法完全相同",
+  "scores": {
+   "riːdz": 90.6,
+   "rɛdz": 100.13
+  }
+ },
+ {
   "src": "语法gp-6",
   "en": "Does she have any brothers? No, she doesn't.",
   "file": "t/does-she-have-any-brothers-no-she-do-oa4w9n.mp3",
+  "spoken": "Does she have any brothers? No, she doesn't.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.24,
+  "how": "强制对齐（差距 8.24）",
   "scores": {
    "dʌz": 74.43,
    "doʊz": 82.67
@@ -283,11 +333,12 @@
   "src": "测验gp-6",
   "en": "Does he have a sister?",
   "file": "t/does-he-have-a-sister-m7n3c9.mp3",
+  "spoken": "Does he have a sister?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.72,
+  "how": "强制对齐（差距 7.72）",
   "scores": {
    "dʌz": 31.36,
    "doʊz": 39.08
@@ -297,11 +348,12 @@
   "src": "测验gp-6",
   "en": "Does your mother have a job?",
   "file": "t/does-your-mother-have-a-job-3jbqk1.mp3",
+  "spoken": "Does your mother have a job?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.09,
+  "how": "强制对齐（差距 8.09）",
   "scores": {
    "dʌz": 56.72,
    "doʊz": 64.81
@@ -311,11 +363,12 @@
   "src": "测验gp-7",
   "en": "Can I use your eraser? Sure. Here you are.",
   "file": "t/can-i-use-your-eraser-sure-here-you--136kqg7.mp3",
+  "spoken": "Can I use your eraser? Sure. Here you are.",
   "word": "use",
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "margin": 5.87,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 59.84,
    "juːs": 65.71
@@ -325,11 +378,12 @@
   "src": "测验gp-13",
   "en": "What does she like doing? She likes dancing.",
   "file": "t/what-does-she-like-doing-she-likes-d-o4h92h.mp3",
+  "spoken": "What does she like doing? She likes dancing.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.27,
+  "how": "强制对齐（差距 8.27）",
   "scores": {
    "dʌz": 86.24,
    "doʊz": 94.51
@@ -339,11 +393,12 @@
   "src": "语法gp-11",
   "en": "Does your father cook? No, he doesn't.",
   "file": "t/does-your-father-cook-no-he-doesn-t-1ldrr8m.mp3",
+  "spoken": "Does your father cook? No, he doesn't.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.17,
+  "how": "强制对齐（差距 8.17）",
   "scores": {
    "dʌz": 101.9,
    "doʊz": 110.07
@@ -353,11 +408,12 @@
   "src": "测验gp-11",
   "en": "Does Tom like milk?",
   "file": "t/does-tom-like-milk-1iomkc7.mp3",
+  "spoken": "Does Tom like milk?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.65,
+  "how": "强制对齐（差距 7.65）",
   "scores": {
    "dʌz": 68.63,
    "doʊz": 76.28
@@ -367,11 +423,12 @@
   "src": "测验gp-11",
   "en": "Does your sister like music? No, she doesn't.",
   "file": "t/does-your-sister-like-music-no-she-d-1ncfst1.mp3",
+  "spoken": "Does your sister like music? No, she doesn't.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 8.14,
+  "how": "强制对齐（差距 8.14）",
   "scores": {
    "dʌz": 107.37,
    "doʊz": 115.51
@@ -381,11 +438,12 @@
   "src": "测验gp-11",
   "en": "Does he go to school by bus?",
   "file": "t/does-he-go-to-school-by-bus-1ru5ias.mp3",
+  "spoken": "Does he go to school by bus?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.76,
+  "how": "强制对齐（差距 7.76）",
   "scores": {
    "dʌz": 88.08,
    "doʊz": 95.84
@@ -395,11 +453,12 @@
   "src": "语法g2-4",
   "en": "Why does she look sad?",
   "file": "t/why-does-she-look-sad-1g39em0.mp3",
+  "spoken": "Why does she look sad?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.14,
+  "how": "强制对齐（差距 7.14）",
   "scores": {
    "dʌz": 60.32,
    "doʊz": 67.46
@@ -409,11 +468,12 @@
   "src": "测验g2-5",
   "en": "Please close the window.",
   "file": "t/please-close-the-window-s37t7m.mp3",
+  "spoken": "Please close the window.",
   "word": "close",
   "want": "kloʊz",
   "got": "kloʊz",
   "ok": true,
-  "margin": 4.55,
+  "how": "强制对齐（差距 4.55）",
   "scores": {
    "kloʊz": 53.04,
    "kloʊs": 57.59
@@ -423,11 +483,12 @@
   "src": "测验gp-12",
   "en": "What an old house it is!",
   "file": "t/what-an-old-house-it-is-1qfrfv3.mp3",
+  "spoken": "What an old house it is!",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 4.91,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 44.01,
    "haʊz": 48.92
@@ -437,11 +498,12 @@
   "src": "测验g3-1",
   "en": "Lucy does her homework after dinner every day.",
   "file": "t/lucy-does-her-homework-after-dinner--16k8m9t.mp3",
+  "spoken": "Lucy does her homework after dinner every day.",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.9,
+  "how": "强制对齐（差距 7.9）",
   "scores": {
    "dʌz": 93.85,
    "doʊz": 101.75
@@ -451,11 +513,12 @@
   "src": "测验g3-1",
   "en": "Does he play football every week?",
   "file": "t/does-he-play-football-every-week-cnayiu.mp3",
+  "spoken": "Does he play football every week?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.82,
+  "how": "强制对齐（差距 7.82）",
   "scores": {
    "dʌz": 94.47,
    "doʊz": 102.29
@@ -465,11 +528,12 @@
   "src": "测验g3-1",
   "en": "Does your brother often play basketball?",
   "file": "t/does-your-brother-often-play-basketb-141d35p.mp3",
+  "spoken": "Does your brother often play basketball?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.92,
+  "how": "强制对齐（差距 7.92）",
   "scores": {
    "dʌz": 125.36,
    "doʊz": 133.28
@@ -479,25 +543,42 @@
   "src": "测验g3-1",
   "en": "Does he usually walk to school?",
   "file": "t/does-he-usually-walk-to-school-1ih5g1x.mp3",
+  "spoken": "Does he usually walk to school?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.71,
+  "how": "强制对齐（差距 7.71）",
   "scores": {
    "dʌz": 72.97,
    "doʊz": 80.68
   }
  },
  {
+  "src": "语法g3-6",
+  "en": "We have lived here for ten years.",
+  "file": "t/we-have-lived-here-for-ten-years-18gqboh.mp3",
+  "spoken": "We have lived here for ten years.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 74.34,
+   "laɪvd": 84.86
+  }
+ },
+ {
   "src": "测验g3-6",
   "en": "I have already read the book.",
   "file": "t/i-have-already-read-the-book-xxwylk.mp3",
+  "spoken": "I have already read the book.",
   "word": "read",
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "margin": 9.92,
+  "how": "强制对齐（差距 9.92）",
   "scores": {
    "riːd": 75.82,
    "rɛd": 65.9
@@ -505,27 +586,74 @@
  },
  {
   "src": "测验g3-6",
+  "en": "She has lived in Shanghai for five years.",
+  "file": "t/she-has-lived-in-shanghai-for-five-y-bdnwzs.mp3",
+  "spoken": "She has lived in Shanghai for five years.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 58.44,
+   "laɪvd": 69.27
+  }
+ },
+ {
+  "src": "测验g3-6",
   "en": "I have already read this book.",
   "file": "t/i-have-already-read-this-book-1jrv6k7.mp3",
+  "spoken": "I have already read this book.",
   "word": "read",
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "margin": 9.93,
+  "how": "强制对齐（差距 9.93）",
   "scores": {
    "riːd": 79.53,
    "rɛd": 69.6
   }
  },
  {
+  "src": "测验g3-6",
+  "en": "She has lived here for five years.",
+  "file": "t/she-has-lived-here-for-five-years-192pl2k.mp3",
+  "spoken": "She has lived here for five years.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 59.18,
+   "laɪvd": 69.88
+  }
+ },
+ {
+  "src": "语法g3-7",
+  "en": "She reads books every evening.",
+  "file": "t/she-reads-books-every-evening-pf7zhp.mp3",
+  "spoken": "She reads books every evening.",
+  "word": "reads",
+  "want": "riːdz",
+  "got": "riːdz",
+  "ok": true,
+  "how": "对照合成：与 \"reeds\" 写法完全相同",
+  "scores": {
+   "riːdz": 85.02,
+   "rɛdz": 94.44
+  }
+ },
+ {
   "src": "语法g3-7",
   "en": "She read a book yesterday.",
   "file": "t/she-read-a-book-yesterday-pbx1t9.mp3",
+  "spoken": "She read a book yesterday.",
   "word": "read",
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "margin": 10.03,
+  "how": "对照合成：与 \"red\" 写法完全相同",
   "scores": {
    "riːd": 78.42,
    "rɛd": 68.39
@@ -535,11 +663,12 @@
   "src": "语法g3-7",
   "en": "She will read a new book tomorrow.",
   "file": "t/she-will-read-a-new-book-tomorrow-1fky4zu.mp3",
+  "spoken": "She will read a new book tomorrow.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.73,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 72.02,
    "rɛd": 81.75
@@ -549,25 +678,72 @@
   "src": "语法g3-7",
   "en": "She has read this book three times.",
   "file": "t/she-has-read-this-book-three-times-gcl36m.mp3",
+  "spoken": "She has read this book three times.",
   "word": "read",
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "margin": 10.01,
+  "how": "对照合成：与 \"red\" 写法完全相同",
   "scores": {
    "riːd": 85.54,
    "rɛd": 75.53
   }
  },
  {
+  "src": "测验g3-7",
+  "en": "I have lived here since I was born.",
+  "file": "t/i-have-lived-here-since-i-was-born-1wkqcdl.mp3",
+  "spoken": "I have lived here since I was born.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 66.53,
+   "laɪvd": 77.11
+  }
+ },
+ {
+  "src": "测验g3-7",
+  "en": "She has learned English for three years.",
+  "file": "t/she-has-learned-english-for-three-ye-185irrz.mp3",
+  "spoken": "She has learned English for three years.",
+  "word": "learned",
+  "want": "lɝnd",
+  "got": "lɝnd",
+  "ok": true,
+  "how": "对照合成：与 \"lernd\" 写法完全相同",
+  "scores": {
+   "lɝnd": 38.67,
+   "ˈlɝnɪd": 43.03
+  }
+ },
+ {
+  "src": "语法gj-2",
+  "en": "By the time he was ten, he had learned to swim.",
+  "file": "t/by-the-time-he-was-ten-he-had-learne-104391b.mp3",
+  "spoken": "By the time he was ten, he had learned to swim.",
+  "word": "learned",
+  "want": "lɝnd",
+  "got": "lɝnd",
+  "ok": true,
+  "how": "对照合成：与 \"lernd\" 写法完全相同",
+  "scores": {
+   "lɝnd": 98.23,
+   "ˈlɝnɪd": 102.63
+  }
+ },
+ {
   "src": "语法gj-2",
   "en": "I knew you would like the present.",
   "file": "t/i-knew-you-would-like-the-present-n5j4jk.mp3",
+  "spoken": "I knew you would like the present.",
   "word": "present",
   "want": "ˈprɛzənt",
   "got": "ˈprɛzənt",
   "ok": true,
-  "margin": 8.43,
+  "how": "对照合成：与 \"prezzent\" 写法完全相同",
   "scores": {
    "ˈprɛzənt": 83.17,
    "prɪˈzɛnt": 91.6
@@ -577,25 +753,42 @@
   "src": "测验gj-2",
   "en": "She told me she had read the book before.",
   "file": "t/she-told-me-she-had-read-the-book-be-aki5xg.mp3",
+  "spoken": "She told me she had read the book before.",
   "word": "read",
   "want": "rɛd",
   "got": "rɛd",
   "ok": true,
-  "margin": 9.93,
+  "how": "对照合成：与 \"red\" 写法完全相同",
   "scores": {
    "riːd": 107.5,
    "rɛd": 97.57
   }
  },
  {
+  "src": "测验gs-2",
+  "en": "I have been waiting for the bus for twenty minutes. It still has not come.",
+  "file": "t/i-have-been-waiting-for-the-bus-for--8w6asg.mp3",
+  "spoken": "I have been waiting for the bus for twenty minutes. It still has not come.",
+  "word": "minutes",
+  "want": "ˈmɪnɪts",
+  "got": "ˈmɪnɪts",
+  "ok": true,
+  "how": "强制对齐（差距 13.7）",
+  "scores": {
+   "ˈmɪnɪts": 158.91,
+   "maɪˈnuːts": 172.61
+  }
+ },
+ {
   "src": "测验g4-1",
   "en": "My best friend lives in a small town.",
   "file": "t/my-best-friend-lives-in-a-small-town-1xqidnr.mp3",
+  "spoken": "My best friend lives in a small town.",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "margin": 8.4,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
    "lɪvz": 86.91,
    "laɪvz": 95.31
@@ -605,11 +798,12 @@
   "src": "语法g4-5",
   "en": "My teacher asked me to read the text.",
   "file": "t/my-teacher-asked-me-to-read-the-text-111b836.mp3",
+  "spoken": "My teacher asked me to read the text.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.53,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 130.35,
    "rɛd": 139.88
@@ -619,25 +813,57 @@
   "src": "测验g4-5",
   "en": "The teacher made us read the text again.",
   "file": "t/the-teacher-made-us-read-the-text-ag-1mrufwz.mp3",
+  "spoken": "The teacher made us read the text again.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.53,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 111.36,
    "rɛd": 120.89
   }
  },
  {
+  "src": "语法gs-3",
+  "en": "My uncle lives in Shanghai.",
+  "file": "t/my-uncle-lives-in-shanghai-1piqqr7.mp3",
+  "spoken": "My uncle lives in Shanghai.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "scores": {
+   "lɪvz": 39.42,
+   "laɪvz": 50.11
+  }
+ },
+ {
+  "src": "测验gs-3",
+  "en": "My sister lives in a small town.",
+  "file": "t/my-sister-lives-in-a-small-town-16ouhhn.mp3",
+  "spoken": "My sister lives in a small town.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "scores": {
+   "lɪvz": 55.38,
+   "laɪvz": 66.24
+  }
+ },
+ {
   "src": "测验gj-4",
   "en": "He never tells lies, does he?",
   "file": "t/he-never-tells-lies-does-he-1usa42u.mp3",
+  "spoken": "He never tells lies, does he?",
   "word": "does",
   "want": "dʌz",
   "got": "dʌz",
   "ok": true,
-  "margin": 7.66,
+  "how": "强制对齐（差距 7.66）",
   "scores": {
    "dʌz": 49.46,
    "doʊz": 57.12
@@ -647,25 +873,72 @@
   "src": "语法g5-1",
   "en": "May I use your phone?",
   "file": "t/may-i-use-your-phone-1nx5n16.mp3",
+  "spoken": "May I use your phone?",
   "word": "use",
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "margin": 5.54,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 33.48,
    "juːs": 39.02
   }
  },
  {
+  "src": "测验g5-3",
+  "en": "The window was broken by the wind.",
+  "file": "t/the-window-was-broken-by-the-wind-28o1gw.mp3",
+  "spoken": "The window was broken by the wind.",
+  "word": "wind",
+  "want": "wɪnd",
+  "got": "wɪnd",
+  "ok": true,
+  "how": "对照合成：与 \"winned\" 写法完全相同",
+  "scores": {
+   "wɪnd": 69.66,
+   "waɪnd": 79.71
+  }
+ },
+ {
+  "src": "语法gs-6",
+  "en": "The house had been sold before we arrived.",
+  "file": "t/the-house-had-been-sold-before-we-ar-1eft809.mp3",
+  "spoken": "The house had been sold before we arrived.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "scores": {
+   "haʊs": 80.24,
+   "haʊz": 86.09
+  }
+ },
+ {
+  "src": "测验gs-6",
+  "en": "Look! The house is being painted.",
+  "file": "t/look-the-house-is-being-painted-11jhb3u.mp3",
+  "spoken": "Look! The house is being painted.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "scores": {
+   "haʊs": 81.16,
+   "haʊz": 84.25
+  }
+ },
+ {
   "src": "语法gj-6",
   "en": "We use a knife to cut things.",
   "file": "t/we-use-a-knife-to-cut-things-x9gv30.mp3",
+  "spoken": "We use a knife to cut things.",
   "word": "use",
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "margin": 6.13,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 57.07,
    "juːs": 63.2
@@ -675,11 +948,12 @@
   "src": "测验gj-6",
   "en": "She gets up early to read English.",
   "file": "t/she-gets-up-early-to-read-english-1xcwulb.mp3",
+  "spoken": "She gets up early to read English.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.57,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 84.07,
    "rɛd": 93.64
@@ -689,11 +963,12 @@
   "src": "测验gj-6",
   "en": "People use computers to find information.",
   "file": "t/people-use-computers-to-find-informa-7j4e4h.mp3",
+  "spoken": "People use computers to find information.",
   "word": "use",
   "want": "juːz",
   "got": "juːz",
   "ok": true,
-  "margin": 6.44,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 113.84,
    "juːs": 120.28
@@ -703,11 +978,12 @@
   "src": "测验gj-6",
   "en": "They are saving money to buy a house.",
   "file": "t/they-are-saving-money-to-buy-a-house-xzldep.mp3",
+  "spoken": "They are saving money to buy a house.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 0.33,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 51.61,
    "haʊz": 51.94
@@ -717,11 +993,12 @@
   "src": "语法gj-7",
   "en": "I used to be afraid of the dark.",
   "file": "t/i-used-to-be-afraid-of-the-dark-i-yo-u6679q.mp3",
+  "spoken": "I yoost to be afraid of the dark.",
   "word": "used",
   "want": "juːst",
-  "got": "juːzd",
-  "ok": false,
-  "margin": 2.26,
+  "got": "juːst",
+  "ok": true,
+  "how": "按替换写法 \"yoost\" 合成",
   "scores": {
    "juːzd": 84.65,
    "juːst": 86.91
@@ -731,11 +1008,12 @@
   "src": "语法gj-7",
   "en": "She used to have long hair, but now it is short.",
   "file": "t/she-used-to-have-long-hair-but-now-i-16jbls8.mp3",
+  "spoken": "She yoost to have long hair, but now it is short.",
   "word": "used",
   "want": "juːst",
-  "got": "juːzd",
-  "ok": false,
-  "margin": 2.87,
+  "got": "juːst",
+  "ok": true,
+  "how": "按替换写法 \"yoost\" 合成",
   "scores": {
    "juːzd": 88.44,
    "juːst": 91.31
@@ -745,11 +1023,12 @@
   "src": "测验gj-7",
   "en": "I used to play the piano when I was a child, but now I do not.",
   "file": "t/i-used-to-play-the-piano-when-i-was--whlq7e.mp3",
+  "spoken": "I yoost to play the piano when I was a child, but now I do not.",
   "word": "used",
   "want": "juːst",
-  "got": "juːzd",
-  "ok": false,
-  "margin": 5.68,
+  "got": "juːst",
+  "ok": true,
+  "how": "按替换写法 \"yoost\" 合成",
   "scores": {
    "juːzd": 155.65,
    "juːst": 161.33
@@ -759,11 +1038,12 @@
   "src": "测验gj-7",
   "en": "I used to play football after school.",
   "file": "t/i-used-to-play-football-after-school-lynwac.mp3",
+  "spoken": "I yoost to play football after school.",
   "word": "used",
   "want": "juːst",
-  "got": "juːzd",
-  "ok": false,
-  "margin": 2.05,
+  "got": "juːst",
+  "ok": true,
+  "how": "按替换写法 \"yoost\" 合成",
   "scores": {
    "juːzd": 104.5,
    "juːst": 106.55
@@ -773,11 +1053,12 @@
   "src": "测验gj-7",
   "en": "He is used to getting up early.",
   "file": "t/he-is-used-to-getting-up-early-he-is-1uk8za.mp3",
+  "spoken": "He is yoost to getting up early.",
   "word": "used",
   "want": "juːst",
-  "got": "juːzd",
-  "ok": false,
-  "margin": 4.33,
+  "got": "juːst",
+  "ok": true,
+  "how": "按替换写法 \"yoost\" 合成",
   "scores": {
    "juːzd": 74.54,
    "juːst": 78.87
@@ -787,11 +1068,12 @@
   "src": "测验gj-7",
   "en": "Did you use to live in the countryside?",
   "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
+  "spoken": "Did you use to live in the countryside?",
   "word": "use",
   "want": "juːs",
-  "got": "juːz",
-  "ok": false,
-  "margin": 4.85,
+  "got": "juːs",
+  "ok": true,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
   "scores": {
    "juːz": 89.48,
    "juːs": 94.33
@@ -801,73 +1083,304 @@
   "src": "测验gj-7",
   "en": "Did you use to live in the countryside?",
   "file": "t/did-you-use-to-live-in-the-countrysi-1xuh6tp.mp3",
+  "spoken": "Did you use to live in the countryside?",
   "word": "live",
   "want": "lɪv",
   "got": "lɪv",
   "ok": true,
-  "margin": 10.86,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
   "scores": {
    "lɪv": 94.33,
    "laɪv": 105.19
   }
  },
  {
-  "src": "测验g5-3",
-  "en": "The window was broken by the wind.",
-  "file": "t/the-window-was-broken-by-the-wind-28o1gw.mp3",
-  "word": "wind",
-  "want": "wɪnd",
-  "got": "wɪnd",
+  "src": "语法gs-7",
+  "en": "I hurried to the shop, only to find it was closed.",
+  "file": "t/i-hurried-to-the-shop-only-to-find-i-lnwsn.mp3",
+  "spoken": "I hurried to the shop, only to find it was closed.",
+  "word": "closed",
+  "want": "kloʊzd",
+  "got": "kloʊzd",
   "ok": true,
-  "margin": 10.05,
+  "how": "对照合成：与 \"clozed\" 写法完全相同",
   "scores": {
-   "wɪnd": 69.66,
-   "waɪnd": 79.71
+   "kloʊzd": 126.31,
+   "kloʊst": 135.3
+  }
+ },
+ {
+  "src": "测验gs-7",
+  "en": "We need a room to live in.",
+  "file": "t/we-need-a-room-to-live-in-dcr7c9.mp3",
+  "spoken": "We need a room to live in.",
+  "word": "live",
+  "want": "lɪv",
+  "got": "lɪv",
+  "ok": true,
+  "how": "对照合成：与 \"liv\" 写法完全相同",
+  "scores": {
+   "lɪv": 41.53,
+   "laɪv": 51.73
+  }
+ },
+ {
+  "src": "语法gs-8",
+  "en": "It is no use crying over spilt milk.",
+  "file": "t/it-is-no-use-crying-over-spilt-milk-1twllhb.mp3",
+  "spoken": "It is no use crying over spilt milk.",
+  "word": "use",
+  "want": "juːs",
+  "got": "juːs",
+  "ok": true,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "scores": {
+   "juːz": 90.13,
+   "juːs": 93.81
+  }
+ },
+ {
+  "src": "测验gs-8",
+  "en": "It is no use talking to him. He never listens.",
+  "file": "t/it-is-no-use-talking-to-him-he-never-zcey3g.mp3",
+  "spoken": "It is no use talking to him. He never listens.",
+  "word": "use",
+  "want": "juːs",
+  "got": "juːs",
+  "ok": true,
+  "how": "对照合成：两种拼写合成相同（读音中和）",
+  "scores": {
+   "juːz": 93.87,
+   "juːs": 88.32
+  }
+ },
+ {
+  "src": "测验gs-10",
+  "en": "Written in simple English, the book is easy to read.",
+  "file": "t/written-in-simple-english-the-book-i-1fgal1c.mp3",
+  "spoken": "Written in simple English, the book is easy to read.",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "scores": {
+   "riːd": 139.64,
+   "rɛd": 148.79
+  }
+ },
+ {
+  "src": "测验gs-11",
+  "en": "Please keep the door closed. It is cold outside.",
+  "file": "t/please-keep-the-door-closed-it-is-co-qn9fv5.mp3",
+  "spoken": "Please keep the door closed. It is cold outside.",
+  "word": "closed",
+  "want": "kloʊzd",
+  "got": "kloʊzd",
+  "ok": true,
+  "how": "对照合成：与 \"clozed\" 写法完全相同",
+  "scores": {
+   "kloʊzd": 151.03,
+   "kloʊst": 158.84
+  }
+ },
+ {
+  "src": "语法gs-12",
+  "en": "Having lived in Beijing for years, she knows the city well.",
+  "file": "t/having-lived-in-beijing-for-years-sh-1usow65.mp3",
+  "spoken": "Having lived in Bayjing for years, she knows the city well.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 73.9,
+   "laɪvd": 84.43
+  }
+ },
+ {
+  "src": "测验gs-12",
+  "en": "She does not like being laughed at.",
+  "file": "t/she-does-not-like-being-laughed-at-8kil9w.mp3",
+  "spoken": "She does not like being laughed at.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 7.84）",
+  "scores": {
+   "dʌz": 76.0,
+   "doʊz": 83.84
+  }
+ },
+ {
+  "src": "语法gs-13",
+  "en": "He sat on the sofa with his eyes closed.",
+  "file": "t/he-sat-on-the-sofa-with-his-eyes-clo-1n16zc7.mp3",
+  "spoken": "He sat on the sofa with his eyes closed.",
+  "word": "closed",
+  "want": "kloʊzd",
+  "got": "kloʊzd",
+  "ok": true,
+  "how": "对照合成：与 \"clozed\" 写法完全相同",
+  "scores": {
+   "kloʊzd": 61.69,
+   "kloʊst": 71.66
+  }
+ },
+ {
+  "src": "测验gs-13",
+  "en": "He sat there with his eyes closed.",
+  "file": "t/he-sat-there-with-his-eyes-closed-87yuh4.mp3",
+  "spoken": "He sat there with his eyes closed.",
+  "word": "closed",
+  "want": "kloʊzd",
+  "got": "kloʊzd",
+  "ok": true,
+  "how": "对照合成：与 \"clozed\" 写法完全相同",
+  "scores": {
+   "kloʊzd": 71.39,
+   "kloʊst": 81.08
+  }
+ },
+ {
+  "src": "测验gs-13",
+  "en": "He ran home, tears running down his face.",
+  "file": "t/he-ran-home-tears-running-down-his-f-35xbcp.mp3",
+  "spoken": "He ran home, tears running down his face.",
+  "word": "tears",
+  "want": "tɪrz",
+  "got": "tɪrz",
+  "ok": true,
+  "how": "强制对齐（差距 6.88）",
+  "scores": {
+   "tɪrz": 55.2,
+   "tɛrz": 62.08
+  }
+ },
+ {
+  "src": "语法g6-2",
+  "en": "When I was young, I lived in a small village.",
+  "file": "t/when-i-was-young-i-lived-in-a-small--1xugb7r.mp3",
+  "spoken": "When I was young, I lived in a small village.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 75.8,
+   "laɪvd": 86.36
   }
  },
  {
   "src": "测验g6-2",
   "en": "Although he is only six, he can read many English books.",
   "file": "t/although-he-is-only-six-he-can-read--pq03su.mp3",
+  "spoken": "Although he is only six, he can read many English books.",
   "word": "read",
   "want": "riːd",
   "got": "riːd",
   "ok": true,
-  "margin": 9.48,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
   "scores": {
    "riːd": 127.28,
    "rɛd": 136.76
   }
  },
  {
+  "src": "测验g6-2",
+  "en": "When I was a child, I lived in the countryside.",
+  "file": "t/when-i-was-a-child-i-lived-in-the-co-1f9osci.mp3",
+  "spoken": "When I was a child, I lived in the countryside.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 119.48,
+   "laɪvd": 130.18
+  }
+ },
+ {
   "src": "测验g6-3",
   "en": "Do you know where she lives?",
   "file": "t/do-you-know-where-she-lives-1f5x10t.mp3",
+  "spoken": "Do you know where she lives?",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "margin": 10.32,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
   "scores": {
    "lɪvz": 29.65,
    "laɪvz": 39.97
   }
  },
  {
+  "src": "语法gs-18",
+  "en": "She asked me where I lived.",
+  "file": "t/she-asked-me-where-i-lived-1czs9uf.mp3",
+  "spoken": "She asked me where I lived.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 36.77,
+   "laɪvd": 47.15
+  }
+ },
+ {
+  "src": "测验gs-18",
+  "en": "The teacher asked me where I lived.",
+  "file": "t/the-teacher-asked-me-where-i-lived-11e0jbc.mp3",
+  "spoken": "The teacher asked me where I lived.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 67.98,
+   "laɪvd": 78.14
+  }
+ },
+ {
   "src": "语法g6-4",
   "en": "This is the house where Lu Xun once lived.",
   "file": "t/this-is-the-house-where-lu-xun-once--vc88z6.mp3",
-  "error": "有词不在词典里：xun"
+  "spoken": "This is the house where Lu Xun once lived.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同"
+ },
+ {
+  "src": "语法g6-4",
+  "en": "This is the house where Lu Xun once lived.",
+  "file": "t/this-is-the-house-where-lu-xun-once--vc88z6.mp3",
+  "spoken": "This is the house where Lu Xun once lived.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同"
  },
  {
   "src": "测验g6-4",
   "en": "This is the house where I was born.",
   "file": "t/this-is-the-house-where-i-was-born-mljgoy.mp3",
+  "spoken": "This is the house where I was born.",
   "word": "house",
   "want": "haʊs",
   "got": "haʊs",
   "ok": true,
-  "margin": 5.72,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
   "scores": {
    "haʊs": 45.76,
    "haʊz": 51.48
@@ -877,14 +1390,251 @@
   "src": "测验g6-4",
   "en": "The dog that lives next door is very friendly.",
   "file": "t/the-dog-that-lives-next-door-is-very-ynjls.mp3",
+  "spoken": "The dog that livs next door is very friendly.",
   "word": "lives",
   "want": "lɪvz",
   "got": "lɪvz",
   "ok": true,
-  "margin": 10.63,
+  "how": "按替换写法 \"livs\" 合成",
   "scores": {
    "lɪvz": 114.29,
    "laɪvz": 124.92
+  }
+ },
+ {
+  "src": "语法gs-14",
+  "en": "This is the house in which I was born.",
+  "file": "t/this-is-the-house-in-which-i-was-bor-lez20j.mp3",
+  "spoken": "This is the house in which I was born.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "scores": {
+   "haʊs": 61.76,
+   "haʊz": 67.32
+  }
+ },
+ {
+  "src": "测验gs-14",
+  "en": "The friend with whom I went swimming lives next door.",
+  "file": "t/the-friend-with-whom-i-went-swimming-koxmva.mp3",
+  "spoken": "The friend with whom I went swimming livs next door.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "按替换写法 \"livs\" 合成",
+  "scores": {
+   "lɪvz": 88.56,
+   "laɪvz": 99.25
+  }
+ },
+ {
+  "src": "测验gs-14",
+  "en": "That is the house in which he lives.",
+  "file": "t/that-is-the-house-in-which-he-lives-qh46o9.mp3",
+  "spoken": "That is the house in which he lives.",
+  "word": "house",
+  "want": "haʊs",
+  "got": "haʊs",
+  "ok": true,
+  "how": "对照合成：与 \"howss\" 写法完全相同",
+  "scores": {
+   "haʊs": 55.07,
+   "haʊz": 59.45
+  }
+ },
+ {
+  "src": "测验gs-14",
+  "en": "That is the house in which he lives.",
+  "file": "t/that-is-the-house-in-which-he-lives-qh46o9.mp3",
+  "spoken": "That is the house in which he lives.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "scores": {
+   "lɪvz": 55.07,
+   "laɪvz": 65.33
+  }
+ },
+ {
+  "src": "测验gs-14",
+  "en": "She is the teacher from whom I learned English.",
+  "file": "t/she-is-the-teacher-from-whom-i-learn-1yw6t9x.mp3",
+  "spoken": "She is the teacher from whom I learned English.",
+  "word": "learned",
+  "want": "lɝnd",
+  "got": "lɝnd",
+  "ok": true,
+  "how": "对照合成：与 \"lernd\" 写法完全相同",
+  "scores": {
+   "lɝnd": 66.52,
+   "ˈlɝnɪd": 70.97
+  }
+ },
+ {
+  "src": "语法gs-15",
+  "en": "She lives in Hangzhou, where there is a beautiful lake.",
+  "file": "t/she-lives-in-hangzhou-where-there-is-o4u87p.mp3",
+  "spoken": "She lives in Hangzhou, where there is a beautiful lake.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同"
+ },
+ {
+  "src": "测验gs-15",
+  "en": "My uncle, who lives in Canada, is a doctor.",
+  "file": "t/my-uncle-who-lives-in-canada-is-a-do-eeuo9o.mp3",
+  "spoken": "My uncle, who lives in Canada, is a doctor.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "scores": {
+   "lɪvz": 110.37,
+   "laɪvz": 121.25
+  }
+ },
+ {
+  "src": "测验gs-17",
+  "en": "I have no idea where she lives.",
+  "file": "t/i-have-no-idea-where-she-lives-sry174.mp3",
+  "spoken": "I have no idea where she lives.",
+  "word": "lives",
+  "want": "lɪvz",
+  "got": "lɪvz",
+  "ok": true,
+  "how": "对照合成：与 \"livs\" 写法完全相同",
+  "scores": {
+   "lɪvz": 44.08,
+   "laɪvz": 54.32
+  }
+ },
+ {
+  "src": "语法gs-20",
+  "en": "When young, he lived in a small village.",
+  "file": "t/when-young-he-lived-in-a-small-villa-153echr.mp3",
+  "spoken": "When young, he lived in a small village.",
+  "word": "lived",
+  "want": "lɪvd",
+  "got": "lɪvd",
+  "ok": true,
+  "how": "对照合成：与 \"livd\" 写法完全相同",
+  "scores": {
+   "lɪvd": 69.54,
+   "laɪvd": 80.2
+  }
+ },
+ {
+  "src": "语法gs-20",
+  "en": "While waiting for the bus, I read a book.",
+  "file": "t/while-waiting-for-the-bus-i-read-a-b-14yzxnk.mp3",
+  "spoken": "While waiting for the bus, I read a book.",
+  "word": "read",
+  "want": "riːd",
+  "got": "riːd",
+  "ok": true,
+  "how": "对照合成：与 \"reed\" 写法完全相同",
+  "scores": {
+   "riːd": 95.12,
+   "rɛd": 104.55
+  }
+ },
+ {
+  "src": "测验gs-21",
+  "en": "I like playing chess. So does my father.",
+  "file": "t/i-like-playing-chess-so-does-my-fath-17b1xms.mp3",
+  "spoken": "I like playing chess. So does my father.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 7.34）",
+  "scores": {
+   "dʌz": 73.21,
+   "doʊz": 80.55
+  }
+ },
+ {
+  "src": "测验gs-21",
+  "en": "Not only does he speak English, but he also speaks French.",
+  "file": "t/not-only-does-he-speak-english-but-h-1gbdwtw.mp3",
+  "spoken": "Not only does he speak English, but he also speaks French.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 8.05）",
+  "scores": {
+   "dʌz": 148.28,
+   "doʊz": 156.33
+  }
+ },
+ {
+  "src": "测验gs-21",
+  "en": "Seldom does she eat meat.",
+  "file": "t/seldom-does-she-eat-meat-vehcqx.mp3",
+  "spoken": "Seldom does she eat meat.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 8.23）",
+  "scores": {
+   "dʌz": 87.04,
+   "doʊz": 95.27
+  }
+ },
+ {
+  "src": "测验gs-22",
+  "en": "She does like the present. She uses it every day.",
+  "file": "t/she-does-like-the-present-she-uses-i-1fsahbz.mp3",
+  "spoken": "She does like the present. She uses it every day.",
+  "word": "does",
+  "want": "dʌz",
+  "got": "dʌz",
+  "ok": true,
+  "how": "强制对齐（差距 7.66）",
+  "scores": {
+   "dʌz": 114.87,
+   "doʊz": 122.53
+  }
+ },
+ {
+  "src": "测验gs-22",
+  "en": "She does like the present. She uses it every day.",
+  "file": "t/she-does-like-the-present-she-uses-i-1fsahbz.mp3",
+  "spoken": "She does like the present. She uses it every day.",
+  "word": "present",
+  "want": "ˈprɛzənt",
+  "got": "ˈprɛzənt",
+  "ok": true,
+  "how": "对照合成：与 \"prezzent\" 写法完全相同",
+  "scores": {
+   "ˈprɛzənt": 114.87,
+   "prɪˈzɛnt": 123.3
+  }
+ },
+ {
+  "src": "测验gs-22",
+  "en": "She does like the present. She uses it every day.",
+  "file": "t/she-does-like-the-present-she-uses-i-1fsahbz.mp3",
+  "spoken": "She does like the present. She uses it every day.",
+  "word": "uses",
+  "want": "ˈjuːzɪz",
+  "got": "ˈjuːzɪz",
+  "ok": true,
+  "how": "强制对齐（差距 5.87）",
+  "scores": {
+   "ˈjuːzɪz": 114.87,
+   "ˈjuːsɪz": 120.74
   }
  }
 ]

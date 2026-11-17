@@ -9,13 +9,14 @@
     settings: Object.assign({ rate: 1, tts: false, zh: true }, load('settings', {})),
     progress: Object.assign({ lessons: {}, last: null, grammar: {} }, load('progress', {})),
     wrong: load('wrong', []),
+    gwrong: load('gwrong', []),   // 语法错题本：["课程 id|题干", ...]
   };
   window.App = App;
   /* 朗读速度：右上角按钮在这三档间循环；旧版存的 0.7 等值归到最接近的一档 */
   const RATES = [1, 0.75, 0.5];
   App.settings.rate = RATES.reduce((a, b) => (Math.abs(b - App.settings.rate) < Math.abs(a - App.settings.rate) ? b : a));
   const rateLabel = () => `🐢 ${App.settings.rate}×`;
-  const saveAll = () => { save('settings', App.settings); save('progress', App.progress); save('wrong', App.wrong); };
+  const saveAll = () => { save('settings', App.settings); save('progress', App.progress); save('wrong', App.wrong); save('gwrong', App.gwrong); };
 
   /* ---------------- 数据索引 ---------------- */
   const LESSONS = [];
@@ -163,7 +164,7 @@
     </header>
     <main id="view">${content}</main>
     <footer class="foot">
-      <p>英语之路 · 小学到高中的英语基础：拼读、语法、单词 · 进度保存在本机浏览器</p>
+      <p>英语之路 · 拼读、语法和单词（中考到四六级词汇） · 进度保存在本机浏览器</p>
       <p><a href="#/guide">学习指南与音频来源说明</a></p>
     </footer>`;
   }
@@ -186,7 +187,7 @@
     <section class="page-head dash-head">
       <p class="eyebrow">English Path</p>
       <h1>今天学点什么？</h1>
-      <p class="lead">拼读、语法、单词——小学到高中的英语基础，一步一步来。</p>
+      <p class="lead">拼读、语法、单词——从小学的英语基础到四六级词汇，一步一步来。</p>
       <button class="hero-search" data-action="search">${ICON.search}<span>搜单词、语法点、字母组合或中文…</span><kbd>/</kbd></button>
     </section>
     <section class="dash-grid" aria-label="课程">
@@ -194,34 +195,11 @@
         cta: `<a class="btn primary" href="#/lesson/${nu.id}">${pDone ? '继续' : '开始'}：${esc(nu.title)} ${ICON.arrow}</a><a class="btn ghost" href="#/phonics">学习路径</a>` })}
       ${course({ color: '#1CB0F6', icon: '🧩', title: '语法', sub: `Grammar · ${GRAMMAR.length} 个阶段`, done: gDone, total: G_LESSONS.length,
         cta: `<a class="btn primary" href="#/grammar/${gNext.id}">${gDone ? '继续' : '开始'}：${esc(gNext.title)} ${ICON.arrow}</a><a class="btn ghost" href="#/grammar">课程目录</a>` })}
-      ${course({ color: '#CE82FF', icon: '📚', title: '单词', sub: 'Words · 背单词', tag: '开发中', note: '词书、每日新词和间隔重复复习还在开发中。',
-        cta: '<a class="btn ghost" href="#/words">看看计划</a><a class="btn ghost" href="#/dict">先用词典查词</a>' })}
-      ${course({ color: '#FF9600', icon: '🔁', title: '复习', sub: 'Review · 练习与错词本', tag: App.wrong.length ? `${App.wrong.length} 个错词` : '错词本为空',
-        note: App.wrong.length ? '测验里答错的词都在错词本里，可以选它做练习范围。' : '听音选词、听写拼词、闪卡认读、听音辨字母四种玩法。',
-        cta: `<a class="btn ghost" href="#/review">去复习 ${ICON.arrow}</a>` })}
-    </section>`;
-  }
-
-  /* ---------------- 单词（占位） ---------------- */
-  function viewWords() {
-    return `
-    <section class="page-head">
-      <p class="eyebrow">Words</p>
-      <h1>单词 <span class="dc-tag" style="--lv:#CE82FF">开发中</span></h1>
-      <p class="lead">背单词功能还在开发中，这里先占个位置。</p>
-    </section>
-    <section class="block">
-      <h2 class="block-title">计划中的内容</h2>
-      <ul class="plan-list">
-        <li><b>词书</b>：课标小学词汇（505 词）、中考词汇（1,550 词），以及自己的生词本。</li>
-        <li><b>单词卡片</b>：先看拼读拆分——字母与发音的对应、音节、音标，再看释义和例句。</li>
-        <li><b>每日新词和间隔重复</b>：答对的词，下次复习的间隔逐渐拉长；答错的词回到第一天。</li>
-        <li><b>错词本合并</b>：测验里答错的词自动进入复习，连续答对后移出。</li>
-      </ul>
-    </section>
-    <section class="block">
-      <h2 class="block-title">现在可以先用</h2>
-      <div class="dc-cta"><a class="btn primary" href="#/dict">词典：查 4 万个词 ${ICON.arrow}</a><a class="btn ghost" href="#/review">复习：练拼读课里的单词</a></div>
+      ${course({ color: '#CE82FF', icon: '📚', title: '单词', sub: 'Words · 背单词', ...Words.dash() })}
+      ${(() => { const due = Words.counts().due, gw = gWrongList().length, pw = App.wrong.length; return course({ color: '#FF9600', icon: '🔁', title: '复习', sub: 'Review · 单词、语法、拼读',
+        tag: due + gw + pw ? `${due + gw + pw} 项待复习` : '都复习完了',
+        note: `单词到期 ${due} 个 · 语法错题 ${gw} 道 · 拼读错词 ${pw} 个`,
+        cta: `<a class="btn ghost" href="#/review">去复习 ${ICON.arrow}</a>` }); })()}
     </section>`;
   }
 
@@ -538,6 +516,7 @@
     raws.forEach((r) => { if (!App.wrong.includes(r)) App.wrong.push(r); });
     App.wrong = App.wrong.slice(-200);
     saveAll();
+    Words.onWrong(raws.map((r) => Phonics.parseWord(r).text));   // 同时进入"单词"里的间隔复习
   }
 
   /* ---------------- 音标总表 ---------------- */
@@ -583,16 +562,29 @@
     </section>`;
   }
 
-  /* ---------------- 复习（练习玩法 + 错词本） ---------------- */
+  /* ---------------- 复习：单词到期复习 + 语法错题本 + 拼读练习 ---------------- */
   function viewPractice() {
     const learned = LESSONS.filter((l) => isDone(l.id));
+    const gw = gWrongList();
+    if (gw.length !== App.gwrong.length) { App.gwrong = gw.map(({ l, q }) => gKey(l, q)); saveAll(); }   // 课程改过后对不上的错题清掉
     return `
     <section class="page-head">
       <p class="eyebrow">Review</p>
       <h1>复习</h1>
-      <p class="lead">选择练习范围和玩法，巩固已经学过的拼读规则。测验里答错的词都收在错词本里。</p>
+      <p class="lead">三门课的复习都在这里：单词按间隔复习，语法重做错题，拼读做练习。</p>
+    </section>
+    <section class="block rv-block" style="--lv:#CE82FF">
+      <h2 class="block-title"><span aria-hidden="true">📚</span> 单词 <small>到期的词按间隔复习</small></h2>
+      ${Words.reviewHtml()}
+    </section>
+    <section class="block rv-block" style="--lv:#1CB0F6">
+      <h2 class="block-title"><span aria-hidden="true">🧩</span> 语法 <small>错题本</small>${gw.length ? '<button class="link-btn" data-action="gclearwrong">清空错题本</button>' : ''}</h2>
+      <p class="rv-line">${gw.length ? `错题本里有 <b id="gwrong-count">${gw.length}</b> 道题，一次重做 ${Math.min(gw.length, G_REDO_N)} 道。做对的题会移出错题本，做错的留下。` : '语法测验里答错的题会收在这里，重做时做对了就移出去。现在是空的。'}</p>
+      <div class="dc-cta">${gw.length ? `<button class="btn primary" data-action="gredo">重做错题 ${ICON.arrow}</button>` : ''}<a class="btn ghost" href="#/grammar">语法课程</a></div>
+      <div id="gredo"></div>
     </section>
     <section class="block practice-setup">
+      <h2 class="block-title"><span aria-hidden="true">🔤</span> 拼读 <small>练习玩法和错词本</small></h2>
       <div class="field">
         <label for="p-range">练习范围</label>
         <select id="p-range" name="range">
@@ -791,13 +783,13 @@
     <section class="block">
       <h2 class="block-title">发音与音频说明</h2>
       <ul class="plain">
-        <li>本站采用<b>美式发音</b>，所有声音（单词、例句和每一个音素）都来自同一个美式女声（macOS Samantha 语音），口音一致。</li>
-        <li>单个音素无法直接合成，所以是从这个声音朗读的真实单词中截取的，例如 /æ/ 取自 cat、/eɪ/ 取自 hay、/ʃ/ 取自 fish。每个音素都经过英语音素识别模型校验：元音必须被识别为目标元音；辅音与元音 /ɑ/ 拼在一起时必须被识别为"该辅音 + ɑ"。</li>
-        <li>/θ/ /ð/ /z/ /ʒ/ /v/ /l/ /r/ /ŋ/ /h/ 这 9 个辅音另外做了声学核查（浊音、共振峰、摩擦能量）：/z/ /ʒ/ /ð/ /v/ 取自两个元音之间（如 easy、vision），保证全程声带振动；/r/ 的第三共振峰明显降低，/l/ 不降低，与真人发音一致。</li>
-        <li>爆破音（p、b、t、d、k、g）以及 ch、j、h、w、y 无法单独持续发出，录音带有极短的弱元音，这是正常的；其他辅音只保留 20–60 毫秒逐渐变弱的过渡，帮助听出发音部位（单独的 /l/ 和 /m/、/ŋ/ 和 /n/ 不靠过渡很难分辨），但不会构成一个音节。</li>
+        <li>本站采用<b>美式发音</b>。<b>45 个音素</b>的发音来自权威词典的真人录音：40 个取自 Cambridge Dictionary 美式音标说明页的单音素录音；Cambridge 没有单独录音的 /ɑr/ /ɔr/ /ɛr/ /ɪr/ /juː/ 用朗文、牛津里本身只由这几个音组成的单词（are、oar、air、ear、ewe）。单词和例句的整句朗读用 macOS 的美式女声（Samantha）合成，所以音素和单词是两个不同的声音。</li>
+        <li>元音直接用词典的录音，只去掉前后的静音。</li>
+        <li>词典录辅音时都读成"辅音 + uh"（puh、buh、muh），这是词典为了把辅音单独念出来的读法；自然拼读要去掉这个 uh——把 b 念成 "buh"，拼 b-a-t 时就会多出一个元音、拼不成 bat，这是自然拼读最常见的错误。所以辅音只截取 uh 之前的部分，不拉长、不合成：/s/ /f/ /ʃ/ /θ/ 等摩擦音约 0.2 秒；/m/ /n/ /l/ /r/ 约 0.1–0.15 秒，/l/ /w/ /ð/ 多保留 20–60 毫秒滑向元音的过渡（这几个音主要靠过渡听出来），但不构成一个音节。</li>
+        <li>爆破音（p、b、t、d、k、g）本来就是一下短促的声音，这是正常的：p t k ch 保留完整的送气或摩擦，b d g 是爆破加声带振动的开头几个周期。</li>
         <li>多音节词按音节拼读时，每个音节用上面这些音素逐个读出，不让语音合成去猜 "tle"、"ta" 这类字母串的读法（会被读成字母名或错误的音）。</li>
         <li>如果某个音频文件缺失，网站会自动改用浏览器内置的语音合成朗读。</li>
-        <li>页面右上角的"🐢 1×"按钮可以调节所有发音的速度，点击在 1×、0.75×、0.5× 三档间循环，适合跟读。</li>
+        <li>右上角"更多"菜单里的"朗读速度"可以调节所有发音的速度，点击在 1×、0.75×、0.5× 三档间循环，适合跟读。</li>
       </ul>
     </section>
     <section class="block">
@@ -809,8 +801,18 @@
       </ul>
     </section>
     <section class="block">
+      <h2 class="block-title">背单词说明</h2>
+      <ul class="plain">
+        <li><a href="#/words">单词</a>里有中考、高考、四级、六级四本词书，按词频从高到低学习；词典里点"加入生词本"的词会组成第五本。词书按 ECDICT 的考试标签划分，不是官方大纲词表，词数会略有出入。</li>
+        <li>每天先复习到期的词，再学新词。新词 5 个一组：不问认不认识，直接出一道选义题——连着答对两次算认识，直接跳过；答错的就是生词，看单词卡片，然后当场用"看词选义"和"听音选词"各测一遍。</li>
+        <li>学过的词按 1、2、4、7、15、30、60 天的间隔复习，题型逐渐变难：看词选义 → 听音选义 → 听音拼写。答对升一级，答错降两级；通过 60 天那一关算已掌握。</li>
+        <li>进度按单词记录，换词书不会丢。开始背单词后，课程测验里答错的词也会进入这里的复习。</li>
+        <li>词书里的词大多没有预录音频，由浏览器内置的语音朗读。</li>
+      </ul>
+    </section>
+    <section class="block">
       <h2 class="block-title">学习数据</h2>
-      <p class="hint">学习进度、测验星级和错词本保存在当前浏览器的本地存储中，换设备或清除浏览器数据会丢失。</p>
+      <p class="hint">学习进度、测验星级、错词本、语法错题本和背单词记录保存在当前浏览器的本地存储中，换设备或清除浏览器数据会丢失。背单词记录可以在"单词"页导出成文件，再到另一台设备导入。</p>
       <button class="btn ghost" data-action="reset">重置全部学习进度</button>
     </section>`;
   }
@@ -836,7 +838,7 @@
     else if (name === 'lesson') { html = viewLesson(arg); active = 'phonics'; const l = lessonById(arg); if (l) title = `${l.title} · 第 ${l.id} 课 · ${SITE}`; }
     else if (name === 'sounds') { html = viewSounds(); active = 'phonics'; title = `音标总表 · ${SITE}`; }
     else if (name === 'review' || name === 'practice') { html = viewPractice(); active = 'review'; title = `复习 · ${SITE}`; }   // practice 是旧地址
-    else if (name === 'words') { html = viewWords(); active = 'words'; title = `单词 · ${SITE}`; }
+    else if (name === 'words') { html = Words.view(); active = 'words'; title = `单词 · ${SITE}`; }   // 背单词在 js/words.js
     else if (name === 'guide') { html = viewGuide(); title = `学习指南 · ${SITE}`; }
     else if (name === 'grammar') {
       const gl = arg && gLessonById(arg);
@@ -855,6 +857,7 @@
     window.scrollTo(0, 0);
     if (name === 'lesson') revealTarget(params);
     if (name === 'dict') initDict(dictWord);
+    if (name === 'words') Words.init(arg, params);
   }
 
   // 长单词：逐步缩小字号直到字母块完全放进卡片
@@ -1281,9 +1284,71 @@
     return q.c.replace(/___/g, () => parts[Math.min(k++, parts.length - 1)]).replace(/\s+/g, ' ').replace(/\s([.,?!])/g, '$1').trim();
   }
 
+  // 语法错题本：记"课程 id|题干"而不是题号，以后往课里加题、调顺序都不会对错题
+  const G_REDO_N = 10;   // 一次重做几道
+  const gKey = (l, q) => `${l.id}|${q.c ?? q.s}`;
+  const gPrepare = (l, q) => (q.c !== undefined ? { ...q, lesson: l, type: 'c', options: shuffle(q.o), answer: q.o[0] } : { ...q, lesson: l, type: 'o' });
+  // 答错记进错题本；之后不管在课程测验还是在"复习"里做对了，都移出去
+  function gRecord(q, ok) {
+    const k = gKey(q.lesson, q);
+    const had = App.gwrong.includes(k);
+    if (ok && had) App.gwrong = App.gwrong.filter((x) => x !== k);
+    else if (!ok && !had) App.gwrong = [...App.gwrong, k].slice(-300);
+    else return;
+    saveAll();
+  }
+  // 错题本里现在还能在课程里找到的题，按答错的先后排列
+  function gWrongList() {
+    const out = [];
+    for (const k of App.gwrong) {
+      const cut = k.indexOf('|');
+      const l = gLessonById(k.slice(0, cut));
+      const q = l?.quiz.find((x) => (x.c ?? x.s) === k.slice(cut + 1));
+      if (q) out.push({ l, q });
+    }
+    return out;
+  }
+
   function startGrammarQuiz(container) {
     const l = gLessonById(container.dataset.glesson);
-    const qs = l.quiz.map((q) => (q.c !== undefined ? { ...q, type: 'c', options: shuffle(q.o), answer: q.o[0] } : { ...q, type: 'o' }));
+    runGrammarQuiz(container, l.quiz.map((q) => gPrepare(l, q)), (score, total) => {
+      const passed = score >= gPassMark(l);
+      const s = quizStars(score, total);
+      if (passed) {
+        const old = gProgress()[l.id];
+        gProgress()[l.id] = { done: true, stars: Math.max(s, old?.stars || 0), at: Date.now() };
+        saveAll();
+      }
+      const next = G_LESSONS[G_LESSONS.indexOf(l) + 1];
+      container.innerHTML = `<div class="result ${passed ? 'pass' : ''}">
+        <div class="r-score">${score}<small>/${total}</small></div>
+        <div class="r-stars">${passed ? stars(s) : ''}</div>
+        <p>${passed ? (score === total ? '满分！太棒了 🎉' : '通过！本课已完成 👍') : '还差一点，再看看规则和例句，然后重试吧 💪'}</p>
+        ${score < total ? '<p class="hint">答错的题已加入"复习"里的语法错题本。</p>' : ''}
+        <div class="r-btns"><button class="btn ghost" data-action="gquiz">再测一次</button>${passed && next ? `<a class="btn primary" href="#/grammar/${next.id}">下一课：${esc(next.title)} ${ICON.arrow}</a>` : ''}</div>
+      </div>`;
+    });
+  }
+
+  // "复习"页：重做语法错题
+  function startGrammarRedo(container) {
+    const list = gWrongList();
+    if (!list.length) { container.innerHTML = '<p class="empty">错题本是空的。</p>'; return; }
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    runGrammarQuiz(container, list.slice(0, G_REDO_N).map(({ l, q }) => gPrepare(l, q)), (score, total) => {
+      const left = gWrongList().length;
+      container.innerHTML = `<div class="result pass">
+        <div class="r-score">${score}<small>/${total}</small></div>
+        <p>${score === total ? '全对！🎉' : '做错的题还留在错题本里，看看解析再来一次。'}</p>
+        <p class="hint">做对的 ${score} 道已移出错题本，还剩 ${left} 道。</p>
+        <div class="r-btns">${left ? `<button class="btn primary" data-action="gredo">再做一轮 ${ICON.arrow}</button>` : ''}</div>
+      </div>`;
+      const n = $('#gwrong-count'); if (n) n.textContent = left;
+    }, { showLesson: true });
+  }
+
+  // 依次出题：选择题和连词成句。qs 由 gPrepare 生成；做完调用 onFinish(得分, 题数)
+  function runGrammarQuiz(container, qs, onFinish, opts = {}) {
     let i = 0, score = 0;
     const render = () => {
       const q = qs[i];
@@ -1313,13 +1378,15 @@
     };
     const feedback = (ok, q, html, sayText) => {
       if (ok) score++;
+      gRecord(q, ok);
       const fb = $('.q-feedback', container);
       fb.innerHTML = `${ok ? '<b class="ok">✓ 正确！</b>' : `<b class="no">✗ ${html}</b>`}
         ${q.why ? `<span class="g-why">${esc(q.why)}</span>` : ''}
+        ${opts.showLesson ? `<a class="g-from" href="#/grammar/${q.lesson.id}">出自语法第 ${q.lesson.no} 课：${esc(q.lesson.title)}</a>` : ''}
         ${sayText ? `<button class="link-btn" data-say="${esc(sayText)}">${ICON.speaker} 听整句</button>` : ''}
         <button class="btn small primary" data-next>${i + 1 < qs.length ? '下一题' : '查看结果'} ${ICON.arrow}</button>`;
       if (sayText) Speech.say(sayText);
-      $('[data-next]', fb).addEventListener('click', () => { i++; if (i < qs.length) render(); else finish(); });
+      $('[data-next]', fb).addEventListener('click', () => { i++; if (i < qs.length) render(); else onFinish(score, qs.length); });
       $('[data-next]', fb).focus({ preventScroll: true });
     };
     const answerChoice = (btn, q) => {
@@ -1353,23 +1420,6 @@
         check.disabled = true; $('[data-greset]', container).disabled = true;
         feedback(ok, q, `正确的句子：${esc(q.s)}`, q.s);
       });
-    };
-    const finish = () => {
-      const total = qs.length;
-      const passed = score >= gPassMark(l);
-      const s = quizStars(score, total);
-      if (passed) {
-        const old = gProgress()[l.id];
-        gProgress()[l.id] = { done: true, stars: Math.max(s, old?.stars || 0), at: Date.now() };
-        saveAll();
-      }
-      const next = G_LESSONS[G_LESSONS.indexOf(l) + 1];
-      container.innerHTML = `<div class="result ${passed ? 'pass' : ''}">
-        <div class="r-score">${score}<small>/${total}</small></div>
-        <div class="r-stars">${passed ? stars(s) : ''}</div>
-        <p>${passed ? (score === total ? '满分！太棒了 🎉' : '通过！本课已完成 👍') : '还差一点，再看看规则和例句，然后重试吧 💪'}</p>
-        <div class="r-btns"><button class="btn ghost" data-action="gquiz">再测一次</button>${passed && next ? `<a class="btn primary" href="#/grammar/${next.id}">下一课：${esc(next.title)} ${ICON.arrow}</a>` : ''}</div>
-      </div>`;
     };
     render();
   }
@@ -1545,6 +1595,7 @@
         <div class="de-actions">
           <button class="btn primary" data-say="${esc(e.word)}">${ICON.speaker} 发音</button>
           ${a.segs ? `<button class="btn ghost" data-blend="${idx}">${ICON.blend} 拼读</button>` : ''}
+          ${Words.dictButton(base && !e.zh ? base.word : e.word)}
         </div>
         ${syl || tags || cur ? `<div class="de-meta">${syl ? `<span class="de-syl">音节 <b>${esc(syl)}</b></span>` : ''}${tags}${cur ? `<a class="de-lesson" href="#/lesson/${cur.l.id}?w=${encodeURIComponent(e.word)}">课程单词 · 第 ${cur.l.id} 课 ${esc(cur.l.title)}</a>` : ''}</div>` : ''}
       </div>
@@ -1710,9 +1761,11 @@
     else if (act === 'gfilter') { App.settings.gGrade = d.grade || ''; saveAll(); route(); }
     else if (act === 'clearwrong') { App.wrong = []; saveAll(); route(); }
     else if (act === 'gquiz') startGrammarQuiz($('#gquiz'));
+    else if (act === 'gredo') startGrammarRedo($('#gredo'));
+    else if (act === 'gclearwrong') { if (confirm('确定要清空语法错题本吗？')) { App.gwrong = []; saveAll(); route(); } }
     else if (act === 'gmarkdone') { const id = $('#gquiz').dataset.glesson; gProgress()[id] = { done: true, stars: gProgress()[id]?.stars || 1, at: Date.now() }; saveAll(); route(); }
     else if (act === 'dictclear') { save('dictRecent', []); route(); }
-    else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级和错词本吗？')) { App.progress = { lessons: {}, last: null, grammar: {} }; App.wrong = []; saveAll(); route(); } }
+    else if (act === 'reset') { if (confirm('确定要清空所有学习进度、星级、错词本、语法错题本和背单词记录吗？')) { App.progress = { lessons: {}, last: null, grammar: {} }; App.wrong = []; App.gwrong = []; saveAll(); Words.reset(); route(); } }
   });
 
   // 例句播放按钮：点一下开始，再点一下停止；播完、被其他声音打断时恢复成播放图标
@@ -1771,6 +1824,9 @@
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('#more-menu')?.classList.remove(':popover-open'); });
   }
+
+  // 给 js/words.js 用的通用工具
+  App.ui = { ICON, loadScript, registerWord, wordTiles, ipaSpansTokens, highlightSentence, dictLookup, dictAnalyze, fitDictWord, FORM_NAMES };
 
   window.addEventListener('hashchange', route);
   route();

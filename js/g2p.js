@@ -61,11 +61,12 @@
     æ: 'a_s', ɛ: 'e_s', ɪ: 'i_s', ɑ: 'o_s', ʌ: 'u_s', ə: 'schwa', eɪ: 'a_l', i: 'e_l', aɪ: 'i_l', oʊ: 'o_l', u: 'oo_l',
     ʊ: 'oo_s', ɔɪ: 'oi', aʊ: 'ow', ɔ: 'aw', ɝ: 'er',
   };
-  // 多个音素合成一个拼读单位（与课程里的组合音一致）
+  // 多个音素合成一个拼读单位（与课程里的组合音一致）。
+  // 组合音播放的音必须与音标一致：-ed 读 /ɪd/ 才用 ed_id；音标是 /əd/ 时按 ə + d 逐个读（不映射到 /ɪd/）
   const COMBO = {
     'k s': 'x', 'k w': 'qu', 'j u': 'u_l', 'ɑ r': 'ar', 'ɔ r': 'or', 'ɛ r': 'air', 'ɪ r': 'ear', 'ŋ k': 'nk',
     'ʃ ə n': 'tion', 'ʒ ə n': 'sion', 'tʃ ɝ': 'ture', 'ʒ ɝ': 'sure', 'ə l': 'le', 'aɪ r': 'ire', 'j ʊ r': 'ure',
-    'aʊ r': 'our', 'aɪ ɝ': 'ire', 'aʊ ɝ': 'our', 'ə d': 'ed_id', 'ʌ f': 'uf', 'ɔ f': 'awf', 'æ f': 'af', 'ɪ d': 'ed_id',
+    'aʊ r': 'our', 'aɪ ɝ': 'ire', 'aʊ ɝ': 'our', 'ʌ f': 'uf', 'ɔ f': 'awf', 'æ f': 'af', 'ɪ d': 'ed_id',
   };
   const LONG_SID = new Set(['a_l', 'e_l', 'i_l', 'o_l', 'u_l', 'oo_l']);
 
@@ -126,7 +127,8 @@
       s.silent = !s.ph.length;
       s.seq = s.ph.map((x) => PH2SID[ph[x]]).filter(Boolean);
       s.sid = s.silent ? 'silent' : COMBO[key] || (s.ph.length === 1 ? PH2SID[ph[s.ph[0]]] : null);
-      if (s.t === 'o' && key === 'ɔ') s.sid = 'o_s'; // 美式 dog / long 里的 o，按短元音 o 教（与课程一致）
+      // 注意：不能把音标 /ɔ/ 改成播放短 o /ɑ/——词典里 along、across 等词显示的是 /ɔ/，播放必须与显示一致。
+      // 课程单词（dog、long 等）在 scripts/lib/cmu.mjs 的 PICK 里已选 /ɑ/ 读法，显示与播放本来就一致
     });
     // 魔法 e：元音 + 辅音 + 不发音的 e，且元音读长音
     segs.forEach((s, k) => {

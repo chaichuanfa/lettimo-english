@@ -1,0 +1,314 @@
+[
+ {
+  "word": "wind",
+  "spoken": "wind",
+  "want": "wɪnd",
+  "got": "wɪnd",
+  "how": "对照合成：与 \"winned\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "tear",
+  "spoken": "tear",
+  "want": "tɪr",
+  "got": "tɪr",
+  "how": "对照合成：与 \"teer\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "route",
+  "spoken": "route",
+  "want": "ruːt",
+  "got": "ruːt",
+  "how": "对照合成：与 \"root\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "vase",
+  "spoken": "vase",
+  "want": "veɪs",
+  "got": "veɪs",
+  "how": "对照合成：与 \"vace\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "use",
+  "spoken": "use",
+  "want": "juːz",
+  "got": "juːz",
+  "how": "对照合成：与 \"yooz\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "to",
+  "spoken": "to",
+  "want": "tuː",
+  "got": "tuː",
+  "how": "对照合成：与 \"too\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "was",
+  "spoken": "was",
+  "want": "wɑz",
+  "got": "wɑz",
+  "how": "对照合成：与 \"wahz\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "are",
+  "spoken": "are",
+  "want": "ɑr",
+  "got": "ɑr",
+  "how": "对照合成：与 \"ar\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "our",
+  "spoken": "hour",
+  "want": "aʊɚ",
+  "got": "aʊɚ",
+  "how": "对照合成：与 \"hour\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "a",
+  "spoken": "uh",
+  "want": "ə",
+  "got": "ə",
+  "how": "对照合成：与 \"uh\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "the",
+  "spoken": "the",
+  "want": "ðə",
+  "got": "ðə",
+  "how": "强制对齐 {'ðə': 17.6, 'ðiː': 24.2}",
+  "ok": true
+ },
+ {
+  "word": "and",
+  "spoken": "and",
+  "want": "ænd",
+  "got": "ænd",
+  "how": "强制对齐 {'ænd': 20.4, 'ənd': 22.4}",
+  "ok": true
+ },
+ {
+  "word": "of",
+  "spoken": "of",
+  "want": "ʌv",
+  "got": "ʌv",
+  "how": "强制对齐 {'ʌv': 21.6, 'ɔf': 22.2}",
+  "ok": true
+ },
+ {
+  "word": "said",
+  "spoken": "said",
+  "want": "sɛd",
+  "got": "sɛd",
+  "how": "对照合成：与 \"sed\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "have",
+  "spoken": "have",
+  "want": "hæv",
+  "got": "hæv",
+  "how": "强制对齐 {'hæv': 17.4, 'həv': 23.9}",
+  "ok": true
+ },
+ {
+  "word": "do",
+  "spoken": "do",
+  "want": "duː",
+  "got": "duː",
+  "how": "对照合成：与 \"doo\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "you",
+  "spoken": "you",
+  "want": "juː",
+  "got": "juː",
+  "how": "强制对齐 {'juː': 16.8, 'jə': 24.5}",
+  "ok": true
+ },
+ {
+  "word": "often",
+  "spoken": "often",
+  "want": "ɔːfən",
+  "got": "ɔːfən",
+  "how": "对照合成：与 \"offen\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "calm",
+  "spoken": "calm",
+  "want": "kɑm",
+  "got": "kɑm",
+  "how": "强制对齐 {'kɑm': 23.5, 'kɑlm': 32.4}",
+  "ok": true
+ },
+ {
+  "word": "palm",
+  "spoken": "palm",
+  "want": "pɑm",
+  "got": "pɑm",
+  "how": "强制对齐 {'pɑm': 19.9, 'pɑlm': 24.2}",
+  "ok": true
+ },
+ {
+  "word": "tomato",
+  "spoken": "tomato",
+  "want": "təˈmeɪtoʊ",
+  "got": "təˈmeɪtoʊ",
+  "how": "对照合成：与 \"tomayto\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "again",
+  "spoken": "again",
+  "want": "əˈgɛn",
+  "got": "əˈgɛn",
+  "how": "强制对齐 {'əˈgɛn': 28.2, 'əˈgeɪn': 35.4}",
+  "ok": true
+ },
+ {
+  "word": "human",
+  "spoken": "human",
+  "want": "ˈhjuːmən",
+  "got": "ˈhjuːmən",
+  "how": "强制对齐 {'ˈhjuːmən': 20.1, 'ˈjuːmən': 24.7}",
+  "ok": true
+ },
+ {
+  "word": "huge",
+  "spoken": "huge",
+  "want": "hjuːdʒ",
+  "got": "hjuːdʒ",
+  "how": "强制对齐 {'hjuːdʒ': 33.4, 'juːdʒ': 39.9}",
+  "ok": true
+ },
+ {
+  "word": "tube",
+  "spoken": "tube",
+  "want": "tuːb",
+  "got": "tuːb",
+  "how": "对照合成：与 \"toob\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "new",
+  "spoken": "new",
+  "want": "nuː",
+  "got": "nuː",
+  "how": "对照合成：与 \"noo\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "coupon",
+  "spoken": "coupon",
+  "want": "ˈkuːpɑn",
+  "got": "ˈkuːpɑn",
+  "how": "强制对齐 {'ˈkuːpɑn': 35.7, 'ˈkjuːpɑn': 42.2}",
+  "ok": true
+ },
+ {
+  "word": "job",
+  "spoken": "job",
+  "want": "dʒɑb",
+  "got": "dʒɑb",
+  "how": "强制对齐 {'dʒɑb': 24.4, 'dʒoʊb': 31.5}",
+  "ok": true
+ },
+ {
+  "word": "with",
+  "spoken": "with",
+  "want": "wɪθ",
+  "got": "wɪθ",
+  "how": "强制对齐 {'wɪθ': 16.1, 'wɪð': 19.8}",
+  "ok": true
+ },
+ {
+  "word": "herb",
+  "spoken": "herb",
+  "want": "ɝb",
+  "got": "ɝb",
+  "how": "对照合成：与 \"erb\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "zero",
+  "spoken": "zero",
+  "want": "ˈziːroʊ",
+  "got": "ˈziːroʊ",
+  "how": "对照合成：与 \"zeero\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "engine",
+  "spoken": "engine",
+  "want": "ˈɛndʒɪn",
+  "got": "ˈɛndʒɪn",
+  "how": "对照合成：与 \"enjin\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "family",
+  "spoken": "family",
+  "want": "ˈfæməli",
+  "got": "ˈfæməli",
+  "how": "对照合成：与 \"fammily\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "camera",
+  "spoken": "cammera",
+  "want": "ˈkæmɚə",
+  "got": "ˈkæmɚə",
+  "how": "对照合成：与 \"cammera\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "sunday",
+  "spoken": "sunday",
+  "want": "ˈsʌndeɪ",
+  "got": "ˈsʌndeɪ",
+  "how": "对照合成：与 \"sundae\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "exit",
+  "spoken": "eksit",
+  "want": "ˈɛksɪt",
+  "got": "ˈɛksɪt",
+  "how": "对照合成：与 \"eksit\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "shin",
+  "spoken": "shinn",
+  "want": "ʃɪn",
+  "got": "ʃɪn",
+  "how": "对照合成：与 \"shinn\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "comfortable",
+  "spoken": "kumfurtabul",
+  "want": "ˈkʌmfɚtəbəl",
+  "got": "ˈkʌmfɚtəbəl",
+  "how": "对照合成：与 \"kumfurtabul\" 完全相同",
+  "ok": true
+ },
+ {
+  "word": "August",
+  "spoken": "August",
+  "want": "ˈɔːgəst",
+  "got": "ˈɔːgəst",
+  "how": "对照合成：与 \"Awgust\" 完全相同",
+  "ok": true
+ }
+]

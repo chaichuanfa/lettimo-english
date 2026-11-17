@@ -108,14 +108,26 @@ async function buildPhonemes() {
   return manifest;
 }
 
-// 朗读替换：页面文字不变，只改交给 TTS 的文字，纠正 Samantha 的多音词误读（由 scripts/verify_heteronyms.py 发现并核实）
+// 朗读替换：页面文字不变，只改交给 TTS 的文字，纠正 Samantha 的误读（由 scripts/verify_heteronyms.py 与对照合成发现并核实）
 // - "used to" 应读 /juːst/，Samantha 读成 /juːzd/（与 "yoozd to" 合成结果完全相同）
-// - "The dog that lives next door" 的 lives 被读成 /laɪvz/（life 的复数）
+// - "… lives next door" 的 lives 被读成 /laɪvz/（life 的复数），见 gs-14、g6-4 的测验句
 const SPEAK_AS = [
   [/\bused to\b/g, 'yoost to'], [/\bUsed to\b/g, 'Yoost to'],
-  [/^The dog that lives next door/, 'The dog that livs next door'],
+  [/\blives next door\b/g, 'livs next door'],
+  // Beijing 被读成 /beɪʒɪŋ/（"bay-zhing"，英语母语者常见的误读），应为 /beɪˈdʒɪŋ/
+  [/\bBeijing\b/g, 'Bayjing'],
 ];
-const speakAs = (t) => SPEAK_AS.reduce((s, [re, to]) => s.replace(re, to), t);
+// 单独朗读一个词时的替换（只在整段文字正好是这个词时生效，不影响句子）。
+// 都由"对照合成"核实（同一段文字 Samantha 每次合成的音频完全相同，所以录音与哪种写法的合成相同就是读成了哪种）：
+// - a：单独读成字母名 /eɪ/，课程标的是 /ə/；"uh" 读成重读的 /ə/（[ʌ]）
+// - our：与 "are" 的合成完全相同（/ɑr/），而第 7-6 课教的是 our 读 /aʊr/；hour 的 h 不发音，读 /aʊɚ/
+// - exit：与 "egzit" 完全相同（/ˈɛgzɪt/），而第 1-5 课教的是 x 读 /ks/
+// - camera：与 "camra" 完全相同（两个音节），课程按 cam·er·a 三个音节拼读、音标 /ˈkæmɚə/
+// - shin（小腿）：与 "sheen" 完全相同（/ʃiːn/），应读 /ʃɪn/
+// - comfortable：读成三个音节 /ˈkʌmftɚbəl/，课程按 com·fort·a·ble 四个音节拼读、音标 /ˈkʌmfɚtəbəl/
+// - mr（点读例句里的 "Mr." 时单独播放）：与 "em ar" 完全相同（读成字母 M、R），应读 mister
+const SPEAK_WORD = { a: 'uh', our: 'hour', exit: 'eksit', camera: 'cammera', shin: 'shinn', comfortable: 'kumfurtabul', mr: 'mister', beijing: 'Bayjing' };
+const speakAs = (t) => SPEAK_WORD[t.toLowerCase()] || SPEAK_AS.reduce((s, [re, to]) => s.replace(re, to), t);
 
 async function buildTexts() {
   fs.mkdirSync(path.join(AUDIO, 't'), { recursive: true });
@@ -126,7 +138,7 @@ async function buildTexts() {
     const rel = fileFor(spoken === t ? t : `${t} → ${spoken}`);   // 换了朗读文字就换文件名，旧录音不会被沿用
     const out = path.join(AUDIO, rel);
     // 单个字母（如代词 I）按小写合成，避免读成 "capital I"
-    const speak = t.length === 1 ? t.toLowerCase() : spoken;
+    const speak = spoken !== t ? spoken : t.length === 1 ? t.toLowerCase() : t;
     if (FORCE || !fs.existsSync(out)) await ttsToMp3(speak, out, t.includes(' ') ? 165 : 150);
     manifest[t] = rel;
   });
@@ -140,5 +152,8 @@ console.log(`texts (${texts.size})…`);
 const t = await buildTexts();
 const sorted = Object.fromEntries(Object.entries(t).sort(([a], [b]) => a.localeCompare(b)));
 fs.writeFileSync(path.join(AUDIO, 'manifest.js'), `/* 由 scripts/build-audio.mjs 生成，请勿手改 */\nwindow.AUDIO_MANIFEST = ${JSON.stringify({ p, t: sorted })};\n`);
+// 记录哪些文字是用替换后的写法合成的（复查脚本据此做对照合成）
+const spoken = Object.fromEntries([...texts].filter(Boolean).map((x) => [x, speakAs(x)]).filter(([a, b]) => a !== b).sort());
+fs.writeFileSync(path.join(AUDIO, 'speak-as.json'), JSON.stringify(spoken, null, 1) + '\n');
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(`done: ${Object.keys(p).length} phonemes, ${Object.keys(t).length} texts`);

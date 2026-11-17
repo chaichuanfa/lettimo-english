@@ -36,12 +36,16 @@ export const PICK = {
   village: 'V IH1 L IH0 JH', cabbage: 'K AE1 B IH0 JH', message: 'M EH1 S IH0 JH', package: 'P AE1 K IH0 JH',
   usual: 'Y UW1 ZH UW0 AH0 L', casual: 'K AE1 ZH UW0 AH0 L', visual: 'V IH1 ZH UW0 AH0 L',
   and: 'AE1 N D',          // 单独朗读用强读式 /ænd/
+  // with：Samantha 读 /wɪθ/（强制对齐明显偏向 θ，且没有能稳定读出 /wɪð/ 的写法），两种都是标准读法，按录音标 θ
+  with: 'W IH1 TH',
   giraffe: 'JH AH0 R AE1 F', garage: 'G AH0 R AA1 ZH',   // 词典首选把 r 并进 /ɚ/，与拼写 gi·raffe、ga·rage 对不上；用 Cambridge 美式 /dʒəˈræf/ /gəˈrɑʒ/
   gorilla: 'G AH0 R IH1 L AH0',  // 词典首选 /gɚˈɪlə/ 把 r 并进了元音，按 go·ril·la 分音节时选 /gəˈrɪlə/
 };
 // 词典里没有的词，直接给出 IPA
 // 以空格分隔音素
-export const MANUAL = { sprig: 's p r ɪ g', shush: 'ʃ ʌ ʃ', toucan: 'ˈt uː k æ n' };
+// zero：第 10-3 课讲开音节元音读长音（ze·ro），Samantha 也读 /ˈziːroʊ/（与 "zeero" 的合成完全相同）；
+// r 属于下一个音节，不能按 r 化元音写成 /ɪr/
+export const MANUAL = { sprig: 's p r ɪ g', shush: 'ʃ ʌ ʃ', toucan: 'ˈt uː k æ n', zero: 'ˈz iː r oʊ' };
 
 // 返回 Map：word → [ARPAbet 读音…]（按词典顺序）
 export function loadCMU() {
