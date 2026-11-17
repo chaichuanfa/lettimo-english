@@ -75,6 +75,11 @@
     sleep,
     get token() { return token; },
     async say(text) { stop(); const my = token; return textNow(text, my); },
+    async clip(url, text) {
+      stop(); const my = token;
+      if (url && !settings().tts && await playFile(url, my)) return true;
+      return my === token ? tts(text, my) : false;
+    },
     async phoneme(sid) { stop(); const my = token; return phonemeNow(sid, my); },
     /* 依次播放：items 为 {type:'p'|'t', v} 或回调 */
     async sequence(items) {

@@ -190,6 +190,15 @@
       <p class="lead">拼读、语法、单词——从小学的英语基础到四六级词汇，一步一步来。</p>
       <button class="hero-search" data-action="search">${ICON.search}<span>搜单词、语法点、字母组合或中文…</span><kbd>/</kbd></button>
     </section>
+    <section class="daily-quote" aria-labelledby="daily-quote-title" aria-busy="true">
+      <div class="dq-content">
+        <div class="dq-heading"><h2 id="daily-quote-title">每日一句</h2><time></time></div>
+        <p class="dq-english" lang="en">正在准备今天的一句话…</p>
+        <p class="dq-chinese" lang="zh-CN"></p>
+        <a class="dq-source" href="https://www.iciba.com/" target="_blank" rel="noopener noreferrer" hidden>来源：金山词霸</a>
+      </div>
+      <button type="button" class="dq-play" data-toggle aria-label="朗读整句" aria-pressed="false" title="朗读整句" hidden>${ICON.play}</button>
+    </section>
     <section class="dash-grid" aria-label="课程">
       ${course({ color: '#58CC02', icon: '🔤', title: '拼读', sub: `Phonics · ${STAGES.length} 个阶段`, done: pDone, total: LESSONS.length,
         cta: `<a class="btn primary" href="#/lesson/${nu.id}">${pDone ? '继续' : '开始'}：${esc(nu.title)} ${ICON.arrow}</a><a class="btn ghost" href="#/phonics">学习路径</a>` })}
@@ -858,6 +867,7 @@
     if (name === 'lesson') revealTarget(params);
     if (name === 'dict') initDict(dictWord);
     if (name === 'words') Words.init(arg, params);
+    if (!name) DailyQuote.mount($('.daily-quote'));
   }
 
   // 长单词：逐步缩小字号直到字母块完全放进卡片
@@ -1776,6 +1786,7 @@
       playingBtn.innerHTML = ICON.play;
       playingBtn.title = '朗读整句';
       playingBtn.setAttribute('aria-label', '朗读整句');
+      playingBtn.setAttribute('aria-pressed', 'false');
     }
     playingBtn = btn;
     if (btn) {
@@ -1783,12 +1794,14 @@
       btn.innerHTML = ICON.stop;
       btn.title = '停止朗读';
       btn.setAttribute('aria-label', '停止朗读');
+      btn.setAttribute('aria-pressed', 'true');
     }
   }
   function toggleSay(btn) {
     if (playingBtn === btn) { Speech.stop(); setPlaying(null); return; }
     setPlaying(btn);
-    Speech.say(btn.dataset.say).then(() => { if (playingBtn === btn) setPlaying(null); });
+    const done = btn.dataset.clip !== undefined ? Speech.clip(btn.dataset.clip, btn.dataset.say) : Speech.say(btn.dataset.say);
+    done.then(() => { if (playingBtn === btn) setPlaying(null); });
   }
 
   /* 浅色 / 深色主题：默认跟随系统；点击切换到与当前显示相反的主题，
@@ -1829,5 +1842,13 @@
   App.ui = { ICON, loadScript, registerWord, wordTiles, ipaSpansTokens, highlightSentence, dictLookup, dictAnalyze, fitDictWord, FORM_NAMES };
 
   window.addEventListener('hashchange', route);
+  // 跨过北京时间零点后，返回页面或继续停留在首页都可获取新一天的句子。
+  function refreshDailyQuote() {
+    if (document.hidden) return;
+    const section = $('.daily-quote');
+    if (section && section.querySelector('time').dateTime !== DailyQuote.day()) DailyQuote.mount(section);
+  }
+  document.addEventListener('visibilitychange', refreshDailyQuote);
+  setInterval(refreshDailyQuote, 60000);
   route();
 })();
