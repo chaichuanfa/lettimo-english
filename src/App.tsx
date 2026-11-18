@@ -29,36 +29,7 @@ import Words from "./pages/Words";
 import Guide from "./pages/Guide";
 import Dictionary from "./pages/Dictionary";
 import { useVocab, vocabCounts } from "./vocab-store";
-import { useOffline } from "./pwa";
 const SITE_NAME = "Lettimo 英语";
-/** "更多"菜单里的离线入口：网页、音素、词典首次打开后已离线可用；课程音频可一次下载 */
-function OfflineItem() {
-  const { status, progress, download } = useOffline();
-  if (!status) return null;
-  const busy = progress?.type === "progress";
-  const all = status.audioCached >= status.audioTotal;
-  const mb = Math.round(status.audioBytes / 1048576);
-  let label = `下载全部课程音频（约 ${mb}MB）`;
-  if (busy) label = `正在下载音频 ${Math.floor((progress.done / progress.total) * 100)}%`;
-  else if (all) label = "课程音频已可离线播放";
-  else if (progress?.type === "done" && progress.failed) label = `有 ${progress.failed} 个没下载成功，点击重试`;
-  return (
-    <button
-      type="button"
-      className="mm-item offline-btn"
-      aria-disabled={busy || all}
-      title="网页、音素和词典第一次打开后已可离线使用；课程单词和例句音频播放过的会自动保存，也可以在这里一次下载全部"
-      onClick={() => {
-        if (!busy && !all) download();
-      }}
-    >
-      <span>{label}</span>
-      <b className="rate-val" aria-live="polite">
-        {busy ? `${progress.done}/${progress.total}` : all ? "✓" : `${status.audioCached}/${status.audioTotal}`}
-      </b>
-    </button>
-  );
-}
 const NAV = [
   ["", "首页", "home"],
   ["phonics", "拼读", "blend"],
@@ -352,7 +323,6 @@ export default function AppView() {
               <span>朗读速度</span>
               <b className="rate-val">🐢 {app.settings.rate}×</b>
             </button>
-            <OfflineItem />
             <button
               type="button"
               className="mm-item theme-btn"

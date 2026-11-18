@@ -5,13 +5,12 @@
  *   页面（导航请求）        网络优先，3 秒没响应或离线时用缓存的 index.html（客户端路由都由它渲染）
  *   每日一句 data/*.json    网络优先，离线时用上次的缓存
  *   预缓存的静态资源        缓存优先（网页代码、45 个音素、词典分片、字体、图片；内容一变构建版本号就变，会整体更新）
- *   课程单词 / 例句音频     缓存优先，没有就从网络取完整文件存起来；菜单里可以一次下载全部
+ *   课程单词 / 例句音频     缓存优先，没有就从网络取完整文件存起来（播放过的离线也能听）
  * <audio> 播放时 Safari 会发 Range 请求，所以音频都按 Range 切片返回 206。
  */
 const VERSION = __VERSION__;
 const PRECACHE = __PRECACHE__;
 const AUDIO_VERSION = __AUDIO_VERSION__;
-const AUDIO_BYTES = __AUDIO_BYTES__;
 
 const CORE = `core-${VERSION}`;
 const AUDIO = `audio-${AUDIO_VERSION}`;
@@ -120,40 +119,3 @@ async function withRange(request, response) {
 }
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(() => resolve(null), ms));
-
-/* ---- 页面发来的消息：查询离线状态、下载全部课程音频 ---- */
-self.addEventListener('message', (event) => {
-  const { type, urls } = event.data || {};
-  const port = event.ports[0];
-  if (!port) return;
-  if (type === 'status') event.waitUntil(status(urls).then((s) => port.postMessage(s)));
-  if (type === 'download-audio') event.waitUntil(downloadAudio(urls, port));
-});
-
-async function status(urls = []) {
-  const cache = await caches.open(AUDIO);
-  const have = new Set((await cache.keys()).map((r) => r.url));
-  return { version: VERSION, audioTotal: urls.length, audioCached: urls.filter((u) => have.has(new URL(u, BASE).href)).length, audioBytes: AUDIO_BYTES };
-}
-
-async function downloadAudio(urls = [], port) {
-  const cache = await caches.open(AUDIO);
-  const have = new Set((await cache.keys()).map((r) => r.url));
-  const todo = urls.map((u) => new URL(u, BASE).href).filter((u) => !have.has(u));
-  const total = urls.length;
-  let done = total - todo.length, failed = 0, i = 0;
-  port.postMessage({ type: 'progress', done, total, failed });
-  async function worker() {
-    while (i < todo.length) {
-      const u = todo[i++];
-      try {
-        const r = await fetch(u, { cache: 'no-cache' });
-        if (r.ok && r.status === 200) await cache.put(u, r); else failed++;
-      } catch { failed++; }
-      done++;
-      if (done % 20 === 0 || done === total) port.postMessage({ type: 'progress', done, total, failed });
-    }
-  }
-  await Promise.all(Array.from({ length: 6 }, worker));
-  port.postMessage({ type: 'done', done, total, failed });
-}

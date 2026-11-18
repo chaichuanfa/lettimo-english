@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { cp, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { resolve, dirname, join, relative, sep } from "node:path";
 // Explicit publication list: source recordings, tools and credentials never enter dist.
@@ -33,8 +33,7 @@ const classicScripts = [
   "js/daily-quote.js",
 ];
 const SITE_NAME = "Lettimo 英语";
-// PWA：离线时首次打开就要用到的文件都预缓存；课程单词 / 例句音频（audio/t，约 40MB）按需缓存，
-// 菜单里可一次下载全部。404.html 与 index.html 内容相同，不重复缓存；fonts/ 与 css/fonts-cn.css 是原样发布的副本，
+// PWA：离线时首次打开就要用到的文件都预缓存；课程单词 / 例句音频（audio/t，约 36MB）按需缓存（播放过的才存）。404.html 与 index.html 内容相同，不重复缓存；fonts/ 与 css/fonts-cn.css 是原样发布的副本，
 // 页面实际用的是 Vite 打包进 assets/ 的带哈希字体，也不缓存。
 const notPrecached = (path: string) =>
   path.startsWith("audio/t/") ||
@@ -92,15 +91,13 @@ async function writePwa(base: string) {
   };
   await writeFile(resolve("dist/manifest.webmanifest"), JSON.stringify(manifest, null, 2));
   const precache = [...files.filter((p) => !notPrecached(p)), "manifest.webmanifest"];
-  const audioBytes = (await Promise.all(audio.map(async (p) => (await stat(resolve("dist", p))).size))).reduce((a, b) => a + b, 0);
   const template = await readFile(resolve("pwa/sw.js"), "utf8");
   // 版本号：缓存文件的内容 + service worker 自身的代码，任一改变都会换一个新的缓存
   const version = sha((await fingerprint(precache)) + sha(template)).slice(0, 12);
   const sw = template
     .replace("__VERSION__", JSON.stringify(version))
     .replace("__PRECACHE__", JSON.stringify(precache))
-    .replace("__AUDIO_VERSION__", JSON.stringify(await fingerprint(audio)))
-    .replace("__AUDIO_BYTES__", String(audioBytes));
+    .replace("__AUDIO_VERSION__", JSON.stringify(await fingerprint(audio)));
   await writeFile(resolve("dist/sw.js"), sw);
 }
 

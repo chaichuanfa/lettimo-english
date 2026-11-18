@@ -903,6 +903,9 @@ tr:last-child td { border-bottom: 0; }
 .more-menu {
   position: fixed; inset: auto; top: 4.25rem; top: anchor(--more-btn bottom); right: 1rem; right: anchor(--more-btn right);
   z-index: 30; margin: 8px 0 0; padding: 8px; inline-size: min(80dvw, 15rem); max-block-size: calc(100dvh - 6rem); overflow: auto;
+  /* 高度按内容：部分 iOS Safari 会把弹出层的 fit-content 高度 / 上下 inset 算成撑满屏幕，菜单项被拉得很高；
+     明确写成 max-content 后高度只由内容决定（bottom 不再参与），内容过多时仍按 max-block-size 滚动 */
+  bottom: auto; block-size: max-content; align-content: start;
   border: 2px solid var(--line); border-bottom-width: 4px; border-radius: 16px; background: var(--card); color: var(--ink);
 }
 .more-menu:not(:is(:popover-open, .\:popover-open)) { display: none; }
@@ -914,9 +917,6 @@ tr:last-child td { border-bottom: 0; }
 }
 .mm-item:hover { background: var(--paper-2); text-decoration: none; }
 .mm-item .rate-val { color: var(--accent-ink); font-weight: 900; }
-.mm-item.offline-btn > span { font-size: 14px; }
-.mm-item[aria-disabled="true"] { cursor: default; }
-.mm-item[aria-disabled="true"]:hover { background: none; }
 .more-menu .theme-btn > span { flex: 1; align-items: center; justify-content: space-between; gap: 12px; }
 .more-menu .theme-btn svg { width: 20px; height: 20px; }
 @media (prefers-reduced-motion: no-preference) {
