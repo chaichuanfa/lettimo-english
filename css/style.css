@@ -914,6 +914,9 @@ tr:last-child td { border-bottom: 0; }
 }
 .mm-item:hover { background: var(--paper-2); text-decoration: none; }
 .mm-item .rate-val { color: var(--accent-ink); font-weight: 900; }
+.mm-item.offline-btn > span { font-size: 14px; }
+.mm-item[aria-disabled="true"] { cursor: default; }
+.mm-item[aria-disabled="true"]:hover { background: none; }
 .more-menu .theme-btn > span { flex: 1; align-items: center; justify-content: space-between; gap: 12px; }
 .more-menu .theme-btn svg { width: 20px; height: 20px; }
 @media (prefers-reduced-motion: no-preference) {

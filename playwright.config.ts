@@ -10,6 +10,8 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:4173/",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    // 离线缓存会接管请求，page.route 的模拟就拦不到了；只有 pwa.spec.ts 打开它
+    serviceWorkers: "block",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
